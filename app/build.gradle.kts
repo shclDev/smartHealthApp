@@ -45,10 +45,17 @@ dependencies {
     implementation("com.naver.speech.clientapi:naverspeech-ncp-sdk-android:1.1.6")
     // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    // gson converter
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    // http-logging
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
+
+    // Coroutine Lifecycle Scopes
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -1,4 +1,4 @@
-package com.shcl.smarthealth
+package com.shcl.smarthealth.common
 
 
 enum class Host{
