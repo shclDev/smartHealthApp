@@ -41,6 +41,7 @@ import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.math.sqrt
+import jp.co.ohq.ble.OHQDeviceManager;
 
 class MainActivity : ComponentActivity() {
     

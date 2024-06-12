@@ -98,6 +98,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation(project(":android-core-bluetooth"))
+    implementation(project(":ohq-reference-code"))
+    implementation(project(":utility"))
 
 
 }

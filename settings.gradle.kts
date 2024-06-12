@@ -20,5 +20,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "smartHealth"
-include(":app")
+//include(":app")
+include(":app", ":ohq-reference-code", ":utility", ":android-core-bluetooth")
  
