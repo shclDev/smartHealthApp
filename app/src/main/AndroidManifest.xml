@@ -19,6 +19,12 @@
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="landscape">
+
+        </activity>
+        <activity
+            android:name=".presentation.view.intro.IntroActivity"
+            android:exported="true"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

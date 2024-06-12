@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">smartHealth</string>
-    <string name="title_activity_main2">MainActivity2</string>
+    <string name="show_less">show less</string>
+    <string name="show_more">show more</string>
+    <string name="intro_desc1">똑똑한 우리 가족의 건강지키미</string>
+    <string name="intro_desc2">스마트홈 헬스케어 서비스</string>
+
 </resources>
