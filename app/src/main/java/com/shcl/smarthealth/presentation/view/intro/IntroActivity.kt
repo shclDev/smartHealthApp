@@ -80,9 +80,13 @@ fun Greeting( modifier: Modifier = Modifier) {
             .gradientBackground(BackGroundColor, angle = 90f)
     ){
         Box(
-            modifier = Modifier.fillMaxWidth(1f).align(Alignment.Center)
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ){
-            Column() {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+                ) {
                 Text(
                     text = stringResource(id = R.string.intro_desc1),
                     color = Color.White,
