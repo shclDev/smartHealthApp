@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.shcl.smarthealth.presentation.navigation.NavGraph
 import com.shcl.smarthealth.ui.theme.SmartHealthTheme
 import dagger.hilt.android.AndroidEntryPoint
+import jp.co.ohq.ble.OHQDeviceManager
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -24,4 +25,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 }

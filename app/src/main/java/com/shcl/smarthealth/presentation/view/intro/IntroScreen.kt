@@ -5,8 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -43,9 +45,12 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
     ){
         Box(
             modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ){
             Column(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -53,7 +58,7 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
                 Text(
                     text = stringResource(id = R.string.intro_desc1),
                     color = Color.White,
-                    fontSize = 39.sp,
+                    fontSize = 32.sp,
                     textAlign = TextAlign.Center
                 )
                 Box {
@@ -66,9 +71,11 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
                 Text(
                     text = stringResource(id = R.string.intro_desc2),
                     color = Color.White,
-                    fontSize = 39.sp,
+                    fontSize = 25.sp,
                     textAlign = TextAlign.Center
                 )
+                Spacer(modifier = Modifier.height(16.dp) )
+
                 Button(
                     onClick = {
                         nav.navigate(route = Screen.dashboard.route)

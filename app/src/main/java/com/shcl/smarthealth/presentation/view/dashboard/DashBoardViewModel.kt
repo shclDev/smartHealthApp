@@ -24,7 +24,7 @@ class DashBoardViewModel @Inject constructor(
         viewModelScope.launch{
             dashBoardUseCase.getNutritionAdviceUseCase.invoke()
                 .onStart { _nutritionAdvice.value = "start"  }
-                .onCompletion { _nutritionAdvice.value = "completion" }
+                .onCompletion {  }
                 .catch { _nutritionAdvice.value = "error" }
                 .collect{
                 _nutritionAdvice.value = it
