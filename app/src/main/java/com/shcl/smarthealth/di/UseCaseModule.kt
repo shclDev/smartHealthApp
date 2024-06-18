@@ -1,0 +1,22 @@
+package com.shcl.smarthealth.di
+
+import com.shcl.smarthealth.domain.repository.DashBoardRepository
+import com.shcl.smarthealth.domain.usecase.dashboard.DashBoardUseCase
+import com.shcl.smarthealth.domain.usecase.dashboard.GetNutritionAdviceUseCase
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+
+
+@Module
+@InstallIn(SingletonComponent::class)
+object UseCaseModule {
+
+    @Provides
+    fun provideDashBoardUseCases(dashBoardRepository: DashBoardRepository) = DashBoardUseCase(
+        getNutritionAdviceUseCase = GetNutritionAdviceUseCase(repository = dashBoardRepository)
+
+    )
+}

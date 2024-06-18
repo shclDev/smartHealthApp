@@ -2,7 +2,7 @@ package com.shcl.smarthealth.domain.usecase.ble
 
 import android.os.Handler
 import com.shcl.smarthealth.common.Resource
-import com.shcl.smarthealth.data.ble.DeviceInfo
+import com.shcl.smarthealth.domain.model.omron.DeviceInfo
 import com.shcl.smarthealth.domain.repository.OmronRepository
 import jp.co.ohq.ble.OHQDeviceManager
 import kotlinx.coroutines.flow.Flow
