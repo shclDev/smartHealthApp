@@ -120,6 +120,9 @@ dependencies {
     implementation ("androidx.room:room-ktx:2.6.1")
     implementation ("androidx.room:room-paging:2.6.1")
 
+    // permission
+    implementation ("com.google.accompanist:accompanist-permissions:0.35.1-alpha")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

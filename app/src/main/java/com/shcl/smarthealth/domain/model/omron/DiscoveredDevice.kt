@@ -4,10 +4,10 @@ import com.neovisionaries.bluetooth.ble.advertising.ADStructure
 import jp.co.ohq.ble.enumerate.OHQDeviceCategory
 
 data class DiscoveredDevice(
-    val address : String,
-    val advertisementData : List<ADStructure>,
-    val deviceCategory : OHQDeviceCategory,
-    val rssi : Int,
-    val modelName : String,
-    val localName : String
+    var address : String,
+    var advertisementData : List<ADStructure>?= null,
+    var deviceCategory : OHQDeviceCategory? = null,
+    var rssi : Int? = null,
+    var modelName : String? = null,
+    var localName : String? = null
 )

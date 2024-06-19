@@ -1,8 +1,11 @@
 package com.shcl.smarthealth.di
 
 import com.shcl.smarthealth.data.repository.DashBoardRepositoryImpl
+import com.shcl.smarthealth.data.repository.OmronRepositoryImpl
 import com.shcl.smarthealth.data.repository.dataSource.DashBoardRemoteDataSource
+import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
 import com.shcl.smarthealth.domain.repository.DashBoardRepository
+import com.shcl.smarthealth.domain.repository.OmronRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,4 +22,9 @@ object RepositoryModule {
         dashBoardRemoteDataSource: DashBoardRemoteDataSource
     ): DashBoardRepository =
         DashBoardRepositoryImpl(dashBoardRemoteDataSource)
+
+    @Provides
+    fun provideOmronRepository(
+        omronDeviceDataSource: OmronDeviceDataSource
+    ) : OmronRepository = OmronRepositoryImpl(omronDeviceDataSource)
 }

@@ -8,9 +8,23 @@ class BluetoothPowerController constructor(_listener : Listener) {
 
     private val mHandler: Handler? = Handler()
     private val mListener = _listener
-    private var mState = _convertState(OHQDeviceManager.sharedInstance().state());
+    private var mState = false
 
 
+    init {
+        mState = _convertState(OHQDeviceManager.sharedInstance().state())
+
+        if(mState){
+            OHQDeviceManager.sharedInstance().setStateMonitor { state ->
+                mHandler?.post {
+                    _onStateChanged(
+                        state
+                    )
+                }
+            }
+        }
+
+    }
     fun state(): Boolean {
         return mState
     }

@@ -1,5 +1,7 @@
 package com.shcl.smarthealth.presentation.view.intro
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,28 +22,44 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role.Companion.Button
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.shouldShowRationale
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.presentation.navigation.Screen
+import com.shcl.smarthealth.presentation.ui.common.featureThatRequiresCameraPermission
+import com.shcl.smarthealth.ui.theme.BackGroundColor
+import jp.co.ohq.ble.OHQDeviceManager
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.min
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun IntroScreen(nav : NavHostController , modifier: Modifier?){
+
+    //requestPermission()
+
+    val context = LocalContext.current
 
     val logo = painterResource(id = R.drawable.intro_logo)
 
     Card(
       modifier = Modifier
           .fillMaxSize()
-          .background(Color.Blue)
-    //.gradientBackground(BackGroundColor, angle = 90f)
+          .gradientBackground(BackGroundColor, angle = 90f)
     ){
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -78,11 +96,14 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
 
                 Button(
                     onClick = {
-                        nav.navigate(route = Screen.dashboard.route)
+                        //FeatureThatRequiresCameraPermission()
+                        //nav.navigate(route = Screen.dashboard.route)
+                        nav.navigate(route = Screen.deviceScan.route)
                     }
                 ){
                     Text("go to dashboard")
                 }
+                featureThatRequiresCameraPermission()
 
             }
 
@@ -92,7 +113,9 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
 }
 
 
-/*
+
+
+
 fun Modifier.gradientBackground(colors : List<Color>, angle : Float ) = this.then(
     Modifier.drawBehind {
 
@@ -126,4 +149,3 @@ fun Modifier.gradientBackground(colors : List<Color>, angle : Float ) = this.the
         )
     }
 )
-*/
