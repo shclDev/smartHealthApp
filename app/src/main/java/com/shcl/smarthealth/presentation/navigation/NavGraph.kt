@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.shcl.smarthealth.presentation.view.dashboard.DashBoardScreen
 import com.shcl.smarthealth.presentation.view.device.ScanDeviceScreen
 import com.shcl.smarthealth.presentation.view.intro.IntroScreen
+import com.shcl.smarthealth.presentation.view.login.LoginScreen
 
 @Composable
 fun NavGraph(navCtrl : NavHostController) {
@@ -25,6 +26,10 @@ fun NavGraph(navCtrl : NavHostController) {
 
         composable(route = Screen.deviceScan.route){
             ScanDeviceScreen(nav = navCtrl)
+        }
+
+        composable(route = Screen.login.route){
+            LoginScreen(nav = navCtrl)
         }
 
     }

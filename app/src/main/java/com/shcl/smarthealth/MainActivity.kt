@@ -7,7 +7,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.shcl.smarthealth.common.GlobalVariables.context
 import com.shcl.smarthealth.presentation.navigation.NavGraph
-import com.shcl.smarthealth.presentation.ui.common.featureThatRequiresCameraPermission
 import com.shcl.smarthealth.ui.theme.SmartHealthTheme
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.ohq.ble.OHQDeviceManager
@@ -25,8 +24,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SmartHealthTheme {
-
-                //featureThatRequiresCameraPermission()
 
                 navController = rememberNavController()
                 NavGraph(navCtrl = navController)

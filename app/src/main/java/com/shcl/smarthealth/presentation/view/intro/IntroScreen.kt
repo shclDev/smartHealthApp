@@ -35,7 +35,8 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.presentation.navigation.Screen
-import com.shcl.smarthealth.presentation.ui.common.featureThatRequiresCameraPermission
+import com.shcl.smarthealth.presentation.ui.common.featureThatRequiresPermission
+import com.shcl.smarthealth.presentation.ui.common.requestPermission
 import com.shcl.smarthealth.ui.theme.BackGroundColor
 import jp.co.ohq.ble.OHQDeviceManager
 import kotlin.math.PI
@@ -54,31 +55,22 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
 
     val context = LocalContext.current
 
-    val logo = painterResource(id = R.drawable.intro_logo)
+    val logo = painterResource(id = R.drawable.logo_main)
 
-    Card(
+    Box(
       modifier = Modifier
           .fillMaxSize()
-          .gradientBackground(BackGroundColor, angle = 90f)
+          .background(brush = Brush.verticalGradient(BackGroundColor))
+          //.gradientBackground(BackGroundColor, angle = 90f)
     ){
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center,
-        ){
+
             Column(
                 modifier = Modifier
-                    .align(Alignment.Center)
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
 
-                Text(
-                    text = stringResource(id = R.string.intro_desc1),
-                    color = Color.White,
-                    fontSize = 32.sp,
-                    textAlign = TextAlign.Center
-                )
                 Box {
                     Image(
                         modifier = Modifier.size(375.dp, 131.dp),
@@ -86,30 +78,25 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
                         contentDescription = null
                     )
                 }
-                Text(
-                    text = stringResource(id = R.string.intro_desc2),
-                    color = Color.White,
-                    fontSize = 25.sp,
-                    textAlign = TextAlign.Center
-                )
                 Spacer(modifier = Modifier.height(16.dp) )
 
                 Button(
                     onClick = {
                         //FeatureThatRequiresCameraPermission()
                         //nav.navigate(route = Screen.dashboard.route)
-                        nav.navigate(route = Screen.deviceScan.route)
+                        //nav.navigate(route = Screen.Login.route)
+                        nav.navigate(route = Screen.login.route)
                     }
                 ){
                     Text("go to dashboard")
                 }
-                featureThatRequiresCameraPermission()
+                featureThatRequiresPermission()
+                //requestPermission()
+                //featureThatRequiresCameraPermission()
 
             }
 
         }
-    }
-
 }
 
 

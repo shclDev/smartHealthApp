@@ -8,7 +8,6 @@ import jp.co.ohq.ble.OHQDeviceManager
 import jp.co.ohq.ble.enumerate.OHQCompletionReason
 import jp.co.ohq.ble.enumerate.OHQDeviceCategory
 import jp.co.ohq.ble.enumerate.OHQDeviceInfoKey
-
 import jp.co.ohq.utility.Handler
 import jp.co.ohq.utility.Types
 import java.util.LinkedList
@@ -48,10 +47,12 @@ class ScanController(private val mListener: Listener) {
 
     private fun _setFilteringDeviceCategory(deviceCategory: OHQDeviceCategory?) {
         if (null != deviceCategory) {
-            Log.d("omron","${deviceCategory.name}")
+            Log.d("omron","device category : ${deviceCategory.name}")
         } else {
             Log.d("omron","null")
         }
+
+
         mFilteringDeviceCategory = deviceCategory
         if (mIsScanning) {
             mHasRestartRequest = true
@@ -73,14 +74,41 @@ class ScanController(private val mListener: Listener) {
             scanFilter.add(filteringDeviceCategory)
         }
 
+        mIsScanning = true
+
         mOHQDeviceManager.scanForDevicesWithCategories(
             scanFilter,
-            { deviceInfo -> mHandler.post { _onScan(deviceInfo) } },
-            { reason -> mHandler.post { _onScanCompletion(reason) } })
+            object : OHQDeviceManager.ScanObserverBlock {
+                override fun onDiscoveredDevice(deviceInfo: Map<OHQDeviceInfoKey, Any>) {
+                    mHandler.post {
+                        _onScan(deviceInfo)
+                    }
+                }
+            },
+            object : OHQDeviceManager.CompletionBlock {
+                override fun onSessionComplete(reason: OHQCompletionReason) {
+                    mHandler.post {
+                        _onScanCompletion(reason)
+                    }
+                }
+            }
+        )
 
-        mIsScanning = true
         mDiscoveredDevices.clear()
         mHandler.postDelayed(mBatchedScanRunnable, BATCHED_SCAN_INTERVAL)
+        /*
+        mOHQDeviceManager.scanForDevicesWithCategories(
+            scanFilter,
+            { deviceInfo -> mHandler.post {
+                Log.d("omron" , "${deviceInfo}")
+                _onScan(deviceInfo)
+            }
+            },
+            { reason -> mHandler.post { _onScanCompletion(reason) } })
+
+
+        mDiscoveredDevices.clear()
+        mHandler.postDelayed(mBatchedScanRunnable, BATCHED_SCAN_INTERVAL)*/
     }
 
     private fun _stopScan() {
@@ -97,6 +125,8 @@ class ScanController(private val mListener: Listener) {
             Log.d("omron","Scanning is stopped.")
             return
         }
+
+        Log.d("omron","Scanning in ScanController.")
 
         val address: String
         if (!deviceInfo.containsKey(OHQDeviceInfoKey.AddressKey)) {
@@ -163,7 +193,10 @@ class ScanController(private val mListener: Listener) {
             Log.d("omron","Scanning is stopped.")
             return
         }
-        Log.d("omron","${discoveredDevices}")
+
+        Log.d("omron" , "${discoveredDevices.size}")
+        Log.d("omron-discovered","discovered Devices : ${discoveredDevices}")
+
         mListener.onScan(discoveredDevices)
     }
 

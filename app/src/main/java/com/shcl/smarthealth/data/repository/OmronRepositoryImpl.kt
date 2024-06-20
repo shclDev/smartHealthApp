@@ -35,5 +35,9 @@ class OmronRepositoryImpl (
         TODO("Not yet implemented")
     }
 
+    override fun stopScan() {
+        omronDeviceDataSource.stopScan()
+    }
+
 
 }

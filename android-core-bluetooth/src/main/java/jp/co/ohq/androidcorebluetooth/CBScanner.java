@@ -23,6 +23,8 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.ParcelUuid;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -64,6 +66,9 @@ class CBScanner {
             @NonNull Context context,
             @NonNull ScanListener scanListener,
             @Nullable Looper looper) {
+
+        Log.d("omron" ,"CBScanner is created.");
+
         if (null == looper) {
             HandlerThread thread = new HandlerThread("ScannerThread");
             thread.start();
@@ -72,6 +77,7 @@ class CBScanner {
         mHandler = new Handler(looper) {
             @Override
             public void handleMessage(Message msg) {
+                //Log.d("omron" ,"$handleMessage in CBScanner");
                 Object[] objects = (Object[]) msg.obj;
                 _onLeScan((BluetoothDevice) objects[0], (int) objects[1], (byte[]) objects[2]);
             }

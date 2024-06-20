@@ -14,3 +14,5 @@ val BackGroundColor = listOf(
     Color(0xFF0575E6),
     Color(0xFF02298A),
     Color(0xFF021B79))
+
+val PrimaryButtonColor = Color(0xFF143F91)

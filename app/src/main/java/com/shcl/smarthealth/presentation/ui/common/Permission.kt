@@ -41,12 +41,13 @@ import jp.co.ohq.ble.OHQDeviceManager
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun featureThatRequiresCameraPermission() {
+fun featureThatRequiresPermission() {
 
     val permissions = listOf(
         android.Manifest.permission.BLUETOOTH_SCAN,
-        android.Manifest.permission.BLUETOOTH,
+        android.Manifest.permission.BLUETOOTH_ADVERTISE,
         android.Manifest.permission.BLUETOOTH_CONNECT,
+        android.Manifest.permission.ACCESS_FINE_LOCATION
     )
 
     var openAlertDialog by remember{ mutableStateOf(false) }
@@ -111,9 +112,9 @@ fun featureThatRequiresCameraPermission() {
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-private fun requestPermission() {
+fun requestPermission() {
     val blePermissionState = rememberPermissionState  (
-        android.Manifest.permission.BLUETOOTH
+        android.Manifest.permission.ACCESS_FINE_LOCATION
     )
 
     if (blePermissionState.status.isGranted) {
@@ -121,7 +122,7 @@ private fun requestPermission() {
     } else {
         Column {
             val textToShow = if (blePermissionState.status.shouldShowRationale) {
-                "블루투스 권한은 필수 입니다. 카메라 권한을 획득해 주세요"
+                "블루투스 권한은 필수 입니다. 블루투스 권한을 획득해 주세요"
             } else {
                 "블루투스 권한이 필요 합니다."
             }

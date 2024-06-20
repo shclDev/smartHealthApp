@@ -38,11 +38,20 @@ fun ScanDeviceScreen(
 
     Box(modifier = Modifier.fillMaxSize()){
 
-        Button(onClick = { viewModel.scanDevice() }) {
-            Text("scan device")
+        Column {
+
+            Button(onClick = { viewModel.scanDevice() }) {
+                Text("scan device")
+            }
+
+            Button(onClick = { viewModel.stopScan() }){
+                Text("stop device")
+            }
         }
 
-        /*
+
+
+
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             /*
             items(state.scannedDevices){ device->
@@ -53,7 +62,7 @@ fun ScanDeviceScreen(
             items(devices.scannedDevices) {device->
                 deviceItem(device)
             }
-        }*/
+        }
 
 
         /*

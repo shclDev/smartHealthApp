@@ -33,4 +33,8 @@ class ScanDeviceUseCase @Inject constructor(
 
     operator suspend fun invoke() = repository.searchDevice()
 
+    fun stopDevice(){
+        repository.stopScan()
+    }
+
 }

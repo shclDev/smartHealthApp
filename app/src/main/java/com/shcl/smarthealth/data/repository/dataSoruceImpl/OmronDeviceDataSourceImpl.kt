@@ -34,11 +34,15 @@ class OmronDeviceDataSourceImpl @Inject constructor() : OmronDeviceDataSource , 
 
     init {
 
-        OHQDeviceManager.init(context)
+        try{
+            OHQDeviceManager.init(context)
+            bluetoothPowerController = BluetoothPowerController(this)
+            scanController = ScanController(this)
 
+        }catch (e : Exception){
+            Log.e("omron" , "init ${e.message}")
+        }
 
-        bluetoothPowerController = BluetoothPowerController(this)
-        scanController = ScanController(this)
 
         isScanning = false
 
@@ -52,6 +56,8 @@ class OmronDeviceDataSourceImpl @Inject constructor() : OmronDeviceDataSource , 
             Log.d("omron" , "Already scanning.")
         }
 
+        Log.d("omron" , "omron ble scanning.")
+
         isScanning = true
         scanController.startScan()
 
@@ -63,6 +69,8 @@ class OmronDeviceDataSourceImpl @Inject constructor() : OmronDeviceDataSource , 
        if(!isScanning){
            return
        }
+
+        Log.d("omron" , "Ble scan is stop.")
 
         scanController.onPause()
         scanController.stopScan()
@@ -82,6 +90,8 @@ class OmronDeviceDataSourceImpl @Inject constructor() : OmronDeviceDataSource , 
     fun _onScan(discoveredDevices : List<DiscoveredDevice?>){
 
         //var deviceList : List<DiscoveredDevice> = LinkedList()
+
+        Log.d("omron" , "device found : ${discoveredDevices.size}")
 
         if(isOnlyPairingMode){
             discoveredDevices.forEach{ device-> discoveredDevices.plus(device) }

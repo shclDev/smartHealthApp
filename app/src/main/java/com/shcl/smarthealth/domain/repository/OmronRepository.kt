@@ -15,4 +15,6 @@ interface OmronRepository {
 
     suspend fun pairing()
 
+    fun stopScan()
+
 }

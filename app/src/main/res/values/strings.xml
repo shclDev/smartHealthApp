@@ -4,5 +4,12 @@
     <string name="show_more">show more</string>
     <string name="intro_desc1">똑똑한 우리 가족의 건강지키미</string>
     <string name="intro_desc2">스마트홈 헬스케어 서비스</string>
-
+    <string name="login_welcome">안녕하세요, 사용자님!</string>
+    <string name="login_desc">고객님의 휴대폰번호와 생년월일을 입력해주세요.</string>
+    <string name="handphone">휴대폰 번호</string>
+    <string name="handphone_hint">010-0000-000</string>
+    <string name="birthday">생년월일</string>
+    <string name="birthday_hint">주민번호 앞 여섯자리</string>
+    <string name="join">들어가기</string>
+    <string name="join_member">회원가입</string>
 </resources>

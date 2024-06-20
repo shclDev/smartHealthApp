@@ -28,8 +28,12 @@ class OmronDeviceViewModel @Inject constructor(
                     _state.value = ScanDeviceState( scannedDevices = it )
                 }
             }
-
     }
+
+    fun stopScan(){
+        omronDeviceUseCase.scanDeviceUseCase.stopDevice()
+    }
+
 
 
         /*
