@@ -1,8 +1,10 @@
 package com.shcl.smarthealth.data.repository.dataSoruceImpl
 
+import android.location.LocationManager
 import android.util.AndroidRuntimeException
 import android.util.Log
 import com.neovisionaries.bluetooth.ble.advertising.ADStructure
+import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.common.GlobalVariables.context
 import com.shcl.smarthealth.common.ble.controller.BluetoothPowerController
 import com.shcl.smarthealth.common.ble.controller.ScanController
@@ -16,28 +18,56 @@ import jp.co.ohq.ble.enumerate.OHQCompletionReason
 import jp.co.ohq.ble.enumerate.OHQDeviceCategory
 import jp.co.ohq.ble.enumerate.OHQDeviceInfoKey
 import jp.co.ohq.utility.Types
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.stateIn
 import okhttp3.EventListener
 import java.util.LinkedList
 import javax.inject.Inject
 
-class OmronDeviceDataSourceImpl @Inject constructor() : OmronDeviceDataSource , BluetoothPowerController.Listener , ScanController.Listener{
+class OmronDeviceDataSourceImpl @Inject constructor(
 
-    private var isOnlyPairingMode : Boolean = false
+) : OmronDeviceDataSource , BluetoothPowerController.Listener{
+
+    private var isOnlyPairingMode : Boolean = true
     private lateinit var bluetoothPowerController : BluetoothPowerController
     private lateinit var scanController: ScanController
     //private lateinit var listener : EventListener
 
     var isScanning : Boolean = false
-    var discoveredDevices : List<DiscoveredDevice>
+    //var mDiscoveredDevices : MutableList<DiscoveredDevice?>
+
+    lateinit var onScanListener : ScanController.Listener
 
     init {
+
+        /*
+        val onScanListener  = object : ScanController.Listener{
+            override fun onScan(discoveredDevices: List<DiscoveredDevice?>) {
+                Log.d("sdevice" , "onScan - ${discoveredDevices.size}")
+                //onScaned(discoveredDevices)
+
+            }
+
+            override fun onScanCompletion(reason: OHQCompletionReason) {
+                isScanning = false
+            }
+        }*/
+
 
         try{
             OHQDeviceManager.init(context)
             bluetoothPowerController = BluetoothPowerController(this)
-            scanController = ScanController(this)
+            //scanController = ScanController(onScanListener)
 
         }catch (e : Exception){
             Log.e("omron" , "init ${e.message}")
@@ -46,11 +76,11 @@ class OmronDeviceDataSourceImpl @Inject constructor() : OmronDeviceDataSource , 
 
         isScanning = false
 
-        discoveredDevices = LinkedList()
+        //mDiscoveredDevices = mutableListOf()
 
     }
 
-    override fun startScan(): List<DiscoveredDevice> {
+    override fun startScan() {
 
         if(isScanning){
             Log.d("omron" , "Already scanning.")
@@ -61,8 +91,6 @@ class OmronDeviceDataSourceImpl @Inject constructor() : OmronDeviceDataSource , 
         isScanning = true
         scanController.startScan()
 
-        return discoveredDevices
-
     }
 
     override fun stopScan() {
@@ -72,6 +100,8 @@ class OmronDeviceDataSourceImpl @Inject constructor() : OmronDeviceDataSource , 
 
         Log.d("omron" , "Ble scan is stop.")
 
+       // mDiscoveredDevices.clear()
+//        mDiscoveredDevices.
         scanController.onPause()
         scanController.stopScan()
 
@@ -87,18 +117,61 @@ class OmronDeviceDataSourceImpl @Inject constructor() : OmronDeviceDataSource , 
         TODO("Not yet implemented")
     }
 
-    fun _onScan(discoveredDevices : List<DiscoveredDevice?>){
 
-        //var deviceList : List<DiscoveredDevice> = LinkedList()
 
-        Log.d("omron" , "device found : ${discoveredDevices.size}")
 
-        if(isOnlyPairingMode){
-            discoveredDevices.forEach{ device-> discoveredDevices.plus(device) }
-        }else{
-            discoveredDevices.plus(discoveredDevices)
+    override fun onScaned(discoveredDevices : List<DiscoveredDevice?>): Flow<List<DiscoveredDevice?>>   {
+        return callbackFlow {
+
+            onScanListener  = object : ScanController.Listener{
+                override fun onScan(discoveredDevices: List<DiscoveredDevice?>) {
+                    Log.d("sdevice" , "onScan - ${discoveredDevices.size}")
+                    //onScaned(discoveredDevices)
+                    trySend(discoveredDevices)
+
+                }
+
+                override fun onScanCompletion(reason: OHQCompletionReason) {
+                    isScanning = false
+                }
+            }
+
+            scanController = ScanController(onScanListener)
+
+            awaitClose {
+                scanController.stopScan()
+            }
+
         }
     }
+
+
+    /*
+    override fun onScaned(discoveredDevices : List<DiscoveredDevice?>): Flow<List<DiscoveredDevice?>> {
+
+        //Log.d("sdevice" , "onScaned device found : ${discoveredDevices?.size}")
+
+        discoveredDevices?.let{
+
+            Log.d("sdevice" , "onScaned device found : ${discoveredDevices?.size}")
+
+            if(isOnlyPairingMode){
+                discoveredDevices?.forEach{ device-> mDiscoveredDevices.add(device) }
+            }else{
+                mDiscoveredDevices.addAll(discoveredDevices)
+            }
+
+            Log.d("sdevice" , "onScaned mDiscoveredDevices found : ${mDiscoveredDevices.size}")
+        }
+
+        return flow{
+            emit(mDiscoveredDevices)
+        }.stateIn(
+            scope = GlobalVariables.coroutineScope,
+            initialValue = listOf(),
+            started = SharingStarted.WhileSubscribed(1000)
+        )
+    }*/
 
     override fun onBluetoothStateChanged(enable: Boolean) {
          if(enable){
@@ -108,15 +181,20 @@ class OmronDeviceDataSourceImpl @Inject constructor() : OmronDeviceDataSource , 
          }
     }
 
-    override fun onScan(discoveredDevices: List<DiscoveredDevice?>) {
+    override fun testStateFlow(): Flow<Int> = flow{
+        for(i in 1..10000){
+            delay(1000)
+            emit(i)
+        }
+    }.stateIn(
+        scope = GlobalVariables.coroutineScope,
+        initialValue = 0,
+        started = SharingStarted.WhileSubscribed(1000)
+    )
 
-        _onScan(discoveredDevices)
+    override fun getBloodPressureData() {
+
 
     }
-
-    override fun onScanCompletion(reason: OHQCompletionReason) {
-        isScanning = false
-    }
-
 
 }

@@ -56,57 +56,54 @@ fun featureThatRequiresPermission() {
     val permissionStates = rememberMultiplePermissionsState(permissions)
 
     if(permissionStates.allPermissionsGranted){
-
-    }else if(permissionStates.shouldShowRationale){
-        openAlertDialog = true
+        Log.d("permission" , "모든 권한 획득")
     }else{
-        //permissionStates.launchMultiplePermissionRequest()
-    }
-
-
-    permissionStates.permissions.forEach{
-        if(it.status.isGranted){
-            Log.d("permission" ,"${it.permission} is granted")
-        }else{
-            //openAlertDialog = true;
-            when{
-                openAlertDialog->{
-                    AlertDialog(
-                        modifier = Modifier
-                            .size(450.dp, 400.dp)
-                            .padding(10.dp)
-                            .shadow(elevation = 20.dp),
-                        shape = RoundedCornerShape(24.dp),
-                        containerColor = Color.Gray,
-                        title = { Text(text = "권한 설정") },
-                        text = {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Text(text = "앱 사용을 위해 해당 권한(${it.permission}이 필요합니다.")
-                            }
-                        },
-                        dismissButton = {
-                            TextButton(onClick = { openAlertDialog = false }) {
-                                Text("Cancel" , style = TextStyle(color = Color.White))
-                            }
-                        },
-                        onDismissRequest = { openAlertDialog = false },
-                        confirmButton = {
-                            TextButton(onClick = {
-                                it.launchPermissionRequest()
-                                openAlertDialog = false
+        permissionStates.permissions.forEach{
+            if(it.status.isGranted){
+                Log.d("permission" ,"${it.permission} is granted")
+            }else{
+                openAlertDialog = true;
+                when{
+                    openAlertDialog->{
+                        AlertDialog(
+                            modifier = Modifier
+                                .size(450.dp, 300.dp)
+                                .padding(10.dp)
+                                .shadow(elevation = 20.dp),
+                            shape = RoundedCornerShape(24.dp),
+                            containerColor = Color.White,
+                            title = { Text(text = "권한 설정") },
+                            text = {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(text = "앱 사용을 위해 해당 권한(${it.permission}이 필요합니다.")
+                                }
+                            },
+                            dismissButton = {
+                                TextButton(onClick = { openAlertDialog = false }) {
+                                    Text("Cancel" , style = TextStyle(color = Color.Black))
+                                }
+                            },
+                            onDismissRequest = { openAlertDialog = false },
+                            confirmButton = {
+                                TextButton(onClick = {
+                                    it.launchPermissionRequest()
+                                    //openAlertDialog = false
                                 }) {
-                                Text("OK" , style = TextStyle(color = Color.White))
-                            }
-                        },
-                    )
+                                    Text("OK" , style = TextStyle(color = Color.Black))
+                                }
+                            },
+                        )
 
+                    }
                 }
-            }
 
+            }
         }
+
+
     }
 }
 
@@ -114,7 +111,7 @@ fun featureThatRequiresPermission() {
 @Composable
 fun requestPermission() {
     val blePermissionState = rememberPermissionState  (
-        android.Manifest.permission.ACCESS_FINE_LOCATION
+        android.Manifest.permission.BLUETOOTH_CONNECT
     )
 
     if (blePermissionState.status.isGranted) {

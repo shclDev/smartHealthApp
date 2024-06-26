@@ -7,7 +7,7 @@ interface OmronRepository {
 
     suspend fun connect()
 
-    suspend fun searchDevice() : Flow<List<DiscoveredDevice>>
+    fun searchDevice()
 
     suspend fun getBloodPressureData()
 
@@ -16,5 +16,9 @@ interface OmronRepository {
     suspend fun pairing()
 
     fun stopScan()
+
+     fun onScan() : Flow<List<DiscoveredDevice?>>
+
+     fun testStateFlow() : Flow<Int>
 
 }

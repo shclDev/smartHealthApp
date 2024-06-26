@@ -5,9 +5,9 @@ import jp.co.ohq.ble.enumerate.OHQDeviceCategory
 
 data class DiscoveredDevice(
     var address : String,
-    var advertisementData : List<ADStructure>?= null,
-    var deviceCategory : OHQDeviceCategory? = null,
-    var rssi : Int? = null,
-    var modelName : String? = null,
-    var localName : String? = null
+    var advertisementData : List<ADStructure>? = listOf(),
+    var deviceCategory : OHQDeviceCategory? = OHQDeviceCategory.Unknown,
+    var rssi : Int = Int.MIN_VALUE,
+    var modelName : String? = "",
+    var localName : String? = ""
 )

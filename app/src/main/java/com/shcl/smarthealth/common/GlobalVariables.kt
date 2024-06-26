@@ -2,6 +2,7 @@ package com.shcl.smarthealth.common
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 
 
 enum class Host{
@@ -22,5 +23,7 @@ object GlobalVariables {
             return naverDevBaseUrl;
         }
     }
+
+    lateinit var coroutineScope: CoroutineScope
 
 }

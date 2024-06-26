@@ -96,6 +96,7 @@ class ScanController(private val mListener: Listener) {
 
         mDiscoveredDevices.clear()
         mHandler.postDelayed(mBatchedScanRunnable, BATCHED_SCAN_INTERVAL)
+
         /*
         mOHQDeviceManager.scanForDevicesWithCategories(
             scanFilter,
@@ -126,7 +127,9 @@ class ScanController(private val mListener: Listener) {
             return
         }
 
-        Log.d("omron","Scanning in ScanController.")
+        Log.d("omron" , deviceInfo.toString())
+
+        //Log.d("omron","Scanning in ScanController.")
 
         val address: String
         if (!deviceInfo.containsKey(OHQDeviceInfoKey.AddressKey)) {
@@ -138,9 +141,9 @@ class ScanController(private val mListener: Listener) {
             throw AndroidRuntimeException("The address must be present.")
         }
 
-        val discoveredDevice: DiscoveredDevice?
+        var discoveredDevice: DiscoveredDevice?
         if (mDiscoveredDevices.containsKey(address)) {
-            Log.d("omron","\"Update discovered device. $address")
+            //Log.d("omron","\"Update discovered device. $address")
             discoveredDevice = mDiscoveredDevices[address]
         } else {
             Log.d("omron","New discovered device. $address")
@@ -194,8 +197,8 @@ class ScanController(private val mListener: Listener) {
             return
         }
 
-        Log.d("omron" , "${discoveredDevices.size}")
-        Log.d("omron-discovered","discovered Devices : ${discoveredDevices}")
+        //Log.d("omron" , "${discoveredDevices.size}")
+        Log.d("omron","scanController discovered Devices : ${discoveredDevices}")
 
         mListener.onScan(discoveredDevices)
     }

@@ -19,6 +19,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -52,7 +53,7 @@ fun LoginScreen(nav: NavHostController) {
         modifier = Modifier.fillMaxSize()
     ){
         leftSide()
-        rightSide()
+        rightSide(nav)
     }
     
     
@@ -79,7 +80,7 @@ fun leftSide(){
 }
 
 @Composable
-fun rightSide(){
+fun rightSide(nav : NavHostController){
 
     var handPhoneNum by remember { mutableStateOf(TextFieldValue("")) }
     var birthDay by remember { mutableStateOf(TextFieldValue("")) }
@@ -137,11 +138,11 @@ fun rightSide(){
             Spacer(modifier = Modifier.height(30.dp))
 
             Button(
-                modifier = Modifier.fillMaxWidth().padding(10.dp),
                 onClick = {
-
-                } ,
+                    nav.navigate(route = Screen.deviceScan.route)
+                },
                 shape = RoundedCornerShape(18.dp),
+                modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = PrimaryButtonColor)
             ) {
               Text(text= stringResource(id = R.string.join) ,
@@ -154,17 +155,18 @@ fun rightSide(){
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            Text(text= stringResource(id = R.string.join_member) ,
-                textAlign = TextAlign.Center,
-                style = TextStyle(
-                    fontFamily = FontFamily.SansSerif ,
-                    fontWeight = FontWeight.W700 ,
-                    fontSize = 32.sp ,
-                    color = Color(0xFF333333),
-                    textDecoration = TextDecoration.Underline))
-
+            TextButton(onClick = {  nav.navigate(route = Screen.dashboard.route) }){
+                Text(
+                    text= stringResource(id = R.string.join_member) ,
+                    textAlign = TextAlign.Center,
+                    style = TextStyle(
+                        fontFamily = FontFamily.SansSerif ,
+                        fontWeight = FontWeight.W700 ,
+                        fontSize = 32.sp ,
+                        color = Color.Black,
+                        textDecoration = TextDecoration.Underline))
+            }
         }
-
 
     }
 
