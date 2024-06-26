@@ -8,13 +8,16 @@ import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.common.GlobalVariables.context
 import com.shcl.smarthealth.common.ble.controller.BluetoothPowerController
 import com.shcl.smarthealth.common.ble.controller.ScanController
+import com.shcl.smarthealth.common.ble.controller.SessionController
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
+import com.shcl.smarthealth.domain.model.omron.SessionData
 import jp.co.ohq.ble.OHQDeviceManager
 import jp.co.ohq.ble.OHQDeviceManager.CompletionBlock
 import jp.co.ohq.ble.OHQDeviceManager.ScanObserverBlock
 import jp.co.ohq.ble.advertising.EachUserData
 import jp.co.ohq.ble.enumerate.OHQCompletionReason
+import jp.co.ohq.ble.enumerate.OHQConnectionState
 import jp.co.ohq.ble.enumerate.OHQDeviceCategory
 import jp.co.ohq.ble.enumerate.OHQDeviceInfoKey
 import jp.co.ohq.utility.Types
@@ -41,12 +44,14 @@ class OmronDeviceDataSourceImpl @Inject constructor(
     private var isOnlyPairingMode : Boolean = true
     private lateinit var bluetoothPowerController : BluetoothPowerController
     private lateinit var scanController: ScanController
+    private lateinit var sessionController: SessionController
     //private lateinit var listener : EventListener
 
     var isScanning : Boolean = false
     //var mDiscoveredDevices : MutableList<DiscoveredDevice?>
 
     lateinit var onScanListener : ScanController.Listener
+    lateinit var onSessionListener : SessionController.Listener
 
     init {
 
@@ -193,6 +198,17 @@ class OmronDeviceDataSourceImpl @Inject constructor(
     )
 
     override fun getBloodPressureData() {
+
+        onSessionListener = object : SessionController.Listener{
+            override fun onConnectionStateChanged(connectionState: OHQConnectionState) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSessionComplete(sessionData: SessionData) {
+                TODO("Not yet implemented")
+            }
+
+        }
 
 
     }

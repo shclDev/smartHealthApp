@@ -7,15 +7,15 @@ import jp.co.ohq.ble.enumerate.OHQSessionOptionKey
 import jp.co.ohq.ble.enumerate.OHQUserDataKey
 
 data class SessionData(
-    val option : Map<OHQSessionOptionKey, Any>,
-    val deviceCategory : OHQDeviceCategory,
-    val modelName : String,
-    val currentTime : String,
-    val batteryLevel : Int,
-    val userIndex : Int,
-    val userData : Map<OHQUserDataKey , Any>,
-    val databaseChangeIncrement : Long,
-    val sequenceNumberOfLatestRecord : Int,
-    val measurementRecord : List<Map<OHQMeasurementRecordKey , Any>>,
-    val completionReason : OHQCompletionReason
+    var option : Map<OHQSessionOptionKey, Any>? = mapOf(),
+    var deviceCategory : OHQDeviceCategory? = OHQDeviceCategory.Unknown,
+    var modelName : String? = "",
+    var currentTime : String? = "",
+    var batteryLevel : Int? = Int.MIN_VALUE,
+    var userIndex : Int? = Int.MIN_VALUE,
+    var userData : Map<OHQUserDataKey , Any>? = mapOf(),
+    var databaseChangeIncrement : Long? = Long.MIN_VALUE,
+    var sequenceNumberOfLatestRecord : Int? = Int.MIN_VALUE,
+    var measurementRecord : List<Map<OHQMeasurementRecordKey , Any>>? = listOf(),
+    var completionReason : OHQCompletionReason? = OHQCompletionReason.Canceled
 )

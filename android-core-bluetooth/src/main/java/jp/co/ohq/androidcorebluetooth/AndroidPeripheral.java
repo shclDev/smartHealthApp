@@ -35,7 +35,62 @@ import java.util.Locale;
 import jp.co.ohq.utility.Handler;
 import jp.co.ohq.utility.SynchronizeCallback;
 
-abstract class AndroidPeripheral {
+
+
+
+abstract public class AndroidPeripheral {
+    public enum BondState {
+        None(BluetoothDevice.BOND_NONE),
+        Bonding(BluetoothDevice.BOND_BONDING),
+        Bonded(BluetoothDevice.BOND_BONDED);
+        private int value;
+
+        BondState(int value) {
+            this.value = value;
+        }
+
+        static BondState valueOf(int value) {
+            for (BondState type : values()) {
+                if (type.value() == value) {
+                    return type;
+                }
+            }
+            return None;
+        }
+
+        int value() {
+            return value;
+        }
+    }
+
+    public enum AclConnectionState {
+        Disconnected,
+        Connected,
+        Unknown
+    }
+
+    public enum GattConnectionState {
+        Disconnected(BluetoothProfile.STATE_DISCONNECTED),
+        Connected(BluetoothProfile.STATE_CONNECTED);
+        private int value;
+
+        GattConnectionState(int value) {
+            this.value = value;
+        }
+
+        static GattConnectionState valueOf(int value) {
+            for (GattConnectionState type : values()) {
+                if (type.value() == value) {
+                    return type;
+                }
+            }
+            return Disconnected;
+        }
+
+        int value() {
+            return value;
+        }
+    }
 
     @NonNull
     private final Handler mHandler;
@@ -745,56 +800,5 @@ abstract class AndroidPeripheral {
 
     abstract void onMtuChanged(int mtu, int status);
 
-    public enum BondState {
-        None(BluetoothDevice.BOND_NONE),
-        Bonding(BluetoothDevice.BOND_BONDING),
-        Bonded(BluetoothDevice.BOND_BONDED);
-        private int value;
 
-        BondState(int value) {
-            this.value = value;
-        }
-
-        static BondState valueOf(int value) {
-            for (BondState type : values()) {
-                if (type.value() == value) {
-                    return type;
-                }
-            }
-            return None;
-        }
-
-        int value() {
-            return value;
-        }
-    }
-
-    public enum AclConnectionState {
-        Disconnected,
-        Connected,
-        Unknown
-    }
-
-    public enum GattConnectionState {
-        Disconnected(BluetoothProfile.STATE_DISCONNECTED),
-        Connected(BluetoothProfile.STATE_CONNECTED);
-        private int value;
-
-        GattConnectionState(int value) {
-            this.value = value;
-        }
-
-        static GattConnectionState valueOf(int value) {
-            for (GattConnectionState type : values()) {
-                if (type.value() == value) {
-                    return type;
-                }
-            }
-            return Disconnected;
-        }
-
-        int value() {
-            return value;
-        }
-    }
 }

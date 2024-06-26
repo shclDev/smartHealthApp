@@ -16,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -39,6 +40,7 @@ import com.shcl.smarthealth.presentation.ui.common.featureThatRequiresPermission
 import com.shcl.smarthealth.presentation.ui.common.requestPermission
 import com.shcl.smarthealth.ui.theme.BackGroundColor
 import jp.co.ohq.ble.OHQDeviceManager
+import kotlinx.coroutines.delay
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.min
@@ -57,6 +59,11 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
     val context = LocalContext.current
 
     val logo = painterResource(id = R.drawable.logo_main)
+
+    LaunchedEffect(key1 = true) {
+        delay(1500L)
+        nav.navigate(route = Screen.login.route)
+    }
 
     Box(
       modifier = Modifier
@@ -81,6 +88,7 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
                 }
                 Spacer(modifier = Modifier.height(16.dp) )
 
+                /*
                 Button(
                     onClick = {
                         //FeatureThatRequiresCameraPermission()
@@ -90,7 +98,7 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
                     }
                 ){
                     Text("go to dashboard")
-                }
+                }*/
                 featureThatRequiresPermission()
                 //requestPermission()
                 //featureThatRequiresCameraPermission()

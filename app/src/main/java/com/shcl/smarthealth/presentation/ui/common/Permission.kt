@@ -102,8 +102,6 @@ fun featureThatRequiresPermission() {
 
             }
         }
-
-
     }
 }
 
