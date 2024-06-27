@@ -1,6 +1,7 @@
 package com.shcl.smarthealth.domain.repository
 
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
+import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
 import kotlinx.coroutines.flow.Flow
 
 interface OmronRepository {
@@ -9,7 +10,7 @@ interface OmronRepository {
 
     fun searchDevice()
 
-    suspend fun getBloodPressureData()
+    suspend fun getBloodPressureData(discoveredDevice: DiscoveredDevice?) : Flow<MeasurementRecordState>
 
     suspend fun getBodyData()
 

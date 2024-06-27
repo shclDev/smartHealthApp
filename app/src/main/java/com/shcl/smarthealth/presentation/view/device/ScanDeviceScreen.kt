@@ -53,7 +53,7 @@ fun ScanDeviceScreen(
 ){
     val devicesStatFlow by viewModel.state.collectAsState()
     val testFlow by viewModel.testState.collectAsState()
-
+    val measurementStatus by viewModel.measurementState.collectAsState()
 
 
     //val deviceTestStateFlow by viewModel.deviceState.collectAsState()
@@ -85,11 +85,10 @@ fun ScanDeviceScreen(
                         device->
 
                         device?.let{
-                            deviceItem(it)
+                            deviceItem(viewModel , it)
                         }
                     }
                 }
-
             }
         }
     }
@@ -99,7 +98,7 @@ fun ScanDeviceScreen(
 
 
 @Composable
-fun deviceItem(device : DiscoveredDevice){
+fun deviceItem(viewModel:OmronDeviceViewModel,device : DiscoveredDevice){
 
     var showDialogState by remember { mutableStateOf(false) }
 
@@ -112,7 +111,7 @@ fun deviceItem(device : DiscoveredDevice){
             .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(18.dp))
             .padding(12.dp)
             .clickable {
-                if(!showDialogState){
+                if (!showDialogState) {
                     showDialogState = true
                 }
             }
@@ -125,8 +124,6 @@ fun deviceItem(device : DiscoveredDevice){
             device.localName?.let{
                 Text(text = "${device.localName}" , color = Color.White)
             }
-
-
         }
 
         Button(
@@ -145,7 +142,7 @@ fun deviceItem(device : DiscoveredDevice){
                 title = "디바이스 데이터 받기" ,
                 desc = "데이터를 받겠습니까?",
                 onDismiss = {showDialogState = false},
-                onConfirm = { }
+                onConfirm = { viewModel.getMeasurementRecord(device)  }
             )
         }
     }

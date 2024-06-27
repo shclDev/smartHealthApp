@@ -29,12 +29,14 @@ class OmronDeviceViewModel @Inject constructor(
     private val _state = MutableStateFlow(ScanDeviceState())
     val state = _state.asStateFlow()
 
+    private val _measurementState = MutableStateFlow(MeasurementRecordState(sessionData = null))
+    val measurementState = _measurementState.asStateFlow()
+
     private val _testState = MutableStateFlow(0)
     val testState = _testState.asStateFlow()
 
 
     init {
-
 
         GlobalVariables.coroutineScope = viewModelScope
         viewModelScope.launch {
@@ -43,15 +45,6 @@ class OmronDeviceViewModel @Inject constructor(
                 _testState.value = it
             }
         }
-
-        /*
-        viewModelScope.launch {
-            omronDeviceUseCase.scanDeviceUseCase.onScan().collect{
-                Log.d("sdevice" , "size : ${it?.size}")
-                _deviceState.value = it
-            }
-        }*/
-
 
 
         viewModelScope.launch {
@@ -70,49 +63,25 @@ class OmronDeviceViewModel @Inject constructor(
                     }
                 }
         }
-
     }
+
+    fun getMeasurementRecord(device : DiscoveredDevice){
+
+        viewModelScope.launch {
+            omronDeviceUseCase.getBloodPressureUseCase.getBloodPressureData(device).collect{
+                Log.d("sdevice" , it.toString())
+                _measurementState.value = it
+            }
+        }
+    }
+
     fun scanDevice(){
         omronDeviceUseCase.scanDeviceUseCase.searchDevices()
-
-        /*
-        viewModelScope.launch {
-            omronDeviceUseCase.scanDeviceUseCase.onScan().collect{
-
-
-                    Log.d("omron", "viewmodel :device - ${it}")
-                    var temp : List<DiscoveredDevice> = mutableListOf()
-                    temp.plus(DiscoveredDevice(address = "@DFASDF#@$@$"))
-                    _state.value = ScanDeviceState( scannedDevices = temp )
-                }
-        }*/
-
-
-
     }
 
     fun stopScan(){
         Log.d("omron", "viewModel - stopDevice")
         omronDeviceUseCase.scanDeviceUseCase.stopDevice()
     }
-
-
-
-        /*
-        scanDeviceUseCase().onEach{ result->
-            when(result){
-                is Resource.Success -> {
-                    _state.value = ScanDeviceState()
-                }
-                is Resource.Error -> {
-
-                }
-                is Resource.Loading->{
-
-                }
-        }
-
-        }.launchIn(viewModelScope)
-        */
 
 }

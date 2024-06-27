@@ -4,6 +4,7 @@ import android.util.Log
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.repository.OmronRepository
+import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
 import jp.co.ohq.ble.OHQDeviceManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -23,8 +24,8 @@ class OmronRepositoryImpl (
         omronDeviceDataSource.startScan()
     }
 
-    override suspend fun getBloodPressureData() {
-        TODO("Not yet implemented")
+    override suspend fun getBloodPressureData(discoveredDevice: DiscoveredDevice?) : Flow<MeasurementRecordState> {
+        return omronDeviceDataSource.getBloodPressureData(discoveredDevice)
     }
 
     override suspend fun getBodyData() {

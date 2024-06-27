@@ -1,45 +1,48 @@
 package com.shcl.smarthealth.data.repository.dataSoruceImpl
 
-import android.location.LocationManager
-import android.util.AndroidRuntimeException
 import android.util.Log
-import com.neovisionaries.bluetooth.ble.advertising.ADStructure
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.common.GlobalVariables.context
 import com.shcl.smarthealth.common.ble.controller.BluetoothPowerController
 import com.shcl.smarthealth.common.ble.controller.ScanController
 import com.shcl.smarthealth.common.ble.controller.SessionController
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
+import com.shcl.smarthealth.domain.model.omron.ComType
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
+import com.shcl.smarthealth.domain.model.omron.Protocol
+import com.shcl.smarthealth.domain.model.omron.ResultType
 import com.shcl.smarthealth.domain.model.omron.SessionData
+import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
+import com.shcl.smarthealth.presentation.view.device.MeasurementStatus
 import jp.co.ohq.ble.OHQDeviceManager
-import jp.co.ohq.ble.OHQDeviceManager.CompletionBlock
-import jp.co.ohq.ble.OHQDeviceManager.ScanObserverBlock
-import jp.co.ohq.ble.advertising.EachUserData
 import jp.co.ohq.ble.enumerate.OHQCompletionReason
 import jp.co.ohq.ble.enumerate.OHQConnectionState
-import jp.co.ohq.ble.enumerate.OHQDeviceCategory
-import jp.co.ohq.ble.enumerate.OHQDeviceInfoKey
-import jp.co.ohq.utility.Types
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import jp.co.ohq.ble.enumerate.OHQSessionOptionKey
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
-import okhttp3.EventListener
-import java.util.LinkedList
 import javax.inject.Inject
 
 class OmronDeviceDataSourceImpl @Inject constructor(
 
 ) : OmronDeviceDataSource , BluetoothPowerController.Listener{
+
+
+    private val CONSENT_CODE_OHQ = 0x020E
+    private val CONSENT_CODE_UNREGISTERED_USER = 0x0000
+
+    private val USER_INDEX_UNREGISTERED_USER = 0xFF
+
+    private val CONNECTION_WAIT_TIME: Long = 60000
+    private val ARG_MODE = "ARG_MODE"
+    private val ARG_ADDRESS = "ARG_ADDRESS"
+    private val ARG_OPTION = "ARG_OPTION"
+    private val ARG_PARTIAL_HISTORY_DATA = "ARG_PARTIAL_HISTORY_DATA"
+
 
     private var isOnlyPairingMode : Boolean = true
     private lateinit var bluetoothPowerController : BluetoothPowerController
@@ -48,6 +51,7 @@ class OmronDeviceDataSourceImpl @Inject constructor(
     //private lateinit var listener : EventListener
 
     var isScanning : Boolean = false
+    var isFirstSession : Boolean = false
     //var mDiscoveredDevices : MutableList<DiscoveredDevice?>
 
     lateinit var onScanListener : ScanController.Listener
@@ -125,7 +129,7 @@ class OmronDeviceDataSourceImpl @Inject constructor(
 
 
 
-    override fun onScaned(discoveredDevices : List<DiscoveredDevice?>): Flow<List<DiscoveredDevice?>>   {
+    override fun onScaned(discoveredDevices : List<DiscoveredDevice?>): Flow<List<DiscoveredDevice?>>{
         return callbackFlow {
 
             onScanListener  = object : ScanController.Listener{
@@ -197,20 +201,105 @@ class OmronDeviceDataSourceImpl @Inject constructor(
         started = SharingStarted.WhileSubscribed(1000)
     )
 
-    override fun getBloodPressureData() {
+    override fun getBloodPressureData(discoveredDevice: DiscoveredDevice?): Flow<MeasurementRecordState> {
+        return callbackFlow<MeasurementRecordState> {
 
-        onSessionListener = object : SessionController.Listener{
-            override fun onConnectionStateChanged(connectionState: OHQConnectionState) {
-                TODO("Not yet implemented")
+            onSessionListener = object : SessionController.Listener {
+                override fun onConnectionStateChanged(connectionState: OHQConnectionState) {
+                    when(connectionState){
+                        OHQConnectionState.Connecting->
+                            trySend(MeasurementRecordState(sessionData = null,status = MeasurementStatus.Connection))
+                        OHQConnectionState.Connected->
+                            trySend(MeasurementRecordState(sessionData = null,status = MeasurementStatus.Connected))
+                        OHQConnectionState.Disconnected->
+                            trySend(MeasurementRecordState(sessionData = null,status = MeasurementStatus.Disconnected))
+                        OHQConnectionState.Disconnecting->
+                            trySend(MeasurementRecordState(sessionData = null,status = MeasurementStatus.Disconnecting))
+                        else->
+                            trySend(MeasurementRecordState(sessionData = null,status = MeasurementStatus.Unknown, errorMsg = "OHQConnectionState Unknown"))
+                    }
+                }
+
+                override fun onSessionComplete(sessionData: SessionData) {
+                    if(OHQCompletionReason.Canceled == sessionData.completionReason){
+                        trySend(MeasurementRecordState(sessionData = null,status = MeasurementStatus.Cancel , errorMsg = "User Cancel"))
+                        return
+                    }
+
+                    val type : ResultType = _validateSessionWithData(Protocol.BluetoothStandard , sessionData , ComType.Transfer)
+
+                    when(type){
+                        ResultType.Success-> trySend(MeasurementRecordState(sessionData = null,status = MeasurementStatus.Success))
+                        ResultType.Failure-> trySend(MeasurementRecordState(sessionData = null,status = MeasurementStatus.Fail))
+                    }
+                }
             }
 
-            override fun onSessionComplete(sessionData: SessionData) {
-                TODO("Not yet implemented")
+            discoveredDevice?.let{
+                sessionController = SessionController(onSessionListener)
+                if(sessionController.isInSession || !isFirstSession ){
+                    Log.d("omron","Already started session.!")
+                }else{
+                    // Unregister user session
+                    var option: MutableMap<OHQSessionOptionKey, Any> = HashMap()
+                    option[OHQSessionOptionKey.UserIndexKey] = USER_INDEX_UNREGISTERED_USER
+                    option[OHQSessionOptionKey.ConsentCodeKey] = CONSENT_CODE_UNREGISTERED_USER
+                    //option[OHQSessionOptionKey.UserDataKey] = userData
+                    option[OHQSessionOptionKey.ReadMeasurementRecordsKey] = true
+                    option[OHQSessionOptionKey.AllowAccessToOmronExtendedMeasurementRecordsKey] = true
+
+                    isFirstSession = true
+
+                    Log.d("omron","Started session.!")
+                    sessionController.startSession(discoveredDevice.address , option = option)
+                }
+
+            }
+
+
+            awaitClose {
+                sessionController.onPause()
             }
 
         }
-
-
     }
+
+    fun _validateSessionWithData(
+        protocol: Protocol,
+        sessionData: SessionData,
+        type: ComType
+    ): ResultType {
+        if (OHQCompletionReason.Disconnected != sessionData.completionReason) {
+            Log.e("omron","OHQCompletionReason.Disconnected != sessionData.getCompletionReason()")
+            return ResultType.Failure
+        }
+        if (Protocol.OmronExtension === protocol && null == sessionData.userIndex) {
+            Log.e("omron","Protocol.OmronExtension == protocol && null == sessionData.getUserIndex()")
+            return ResultType.Failure
+        }
+        if (null == sessionData.batteryLevel && null == sessionData.currentTime && null == sessionData.measurementRecord) {
+            return ResultType.Failure
+        }
+        val option: Map<OHQSessionOptionKey, Any>? = sessionData.option
+        if (null == option) {
+            Log.e("omron","null == option")
+            return ResultType.Failure
+        }
+        if (option.containsKey(OHQSessionOptionKey.UserDataKey)
+            && option.containsKey(OHQSessionOptionKey.DatabaseChangeIncrementValueKey)
+        ) {
+            if (null != sessionData.userIndex && null == sessionData.databaseChangeIncrement) {
+                Log.e("omron","null != sessionData.getUserIndex() && null == sessionData.getDatabaseChangeIncrement()")
+                return ResultType.Failure
+            }
+        }
+        /*
+        if (OHQDeviceCategory.PulseOximeter == sessionData.deviceCategory && 0 >= sessionData.measurementRecord.size() && type === ComType.Transfer) {
+            return ResultType.Failure
+        }*/
+        return ResultType.Success
+    }
+
+
 
 }

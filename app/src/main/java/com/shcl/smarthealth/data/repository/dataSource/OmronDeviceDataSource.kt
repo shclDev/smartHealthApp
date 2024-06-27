@@ -1,6 +1,7 @@
 package com.shcl.smarthealth.data.repository.dataSource
 
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
+import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 
@@ -16,6 +17,6 @@ interface OmronDeviceDataSource {
 
     fun testStateFlow() : Flow<Int>
 
-    fun getBloodPressureData()
+    fun getBloodPressureData(discoveredDevice: DiscoveredDevice?) : Flow<MeasurementRecordState>
 
 }

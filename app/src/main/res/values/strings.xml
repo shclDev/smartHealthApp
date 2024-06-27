@@ -12,4 +12,6 @@
     <string name="birthday_hint">주민번호 앞 여섯자리</string>
     <string name="join">들어가기</string>
     <string name="join_member">회원가입</string>
+    <string name="success">Success</string>
+    <string name="failure">Failure</string>
 </resources>
