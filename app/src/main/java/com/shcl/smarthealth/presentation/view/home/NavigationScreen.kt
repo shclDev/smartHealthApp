@@ -95,7 +95,7 @@ fun DismissibleNavigationDrawer(){
                     Spacer(Modifier.height(24.dp))
                     menus.forEachIndexed { index, item ->
                         NavigationDrawerItem(
-                            icon = { Icon(item.image, contentDescription = null) },
+                            icon = { Icon(item.image, contentDescription = item.contentDesc) },
                             label = { Text(item.title.substringAfterLast(".")) },
                             selected = selectedIndex == index,
                             onClick = {
