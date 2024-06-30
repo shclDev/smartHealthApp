@@ -6,34 +6,28 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.shcl.smarthealth.presentation.view.dashboard.DashBoardScreen
 import com.shcl.smarthealth.presentation.view.device.ScanDeviceScreen
+import com.shcl.smarthealth.presentation.view.home.DismissibleNavigationDrawer
 import com.shcl.smarthealth.presentation.view.intro.IntroScreen
 import com.shcl.smarthealth.presentation.view.login.LoginScreen
 
 @Composable
-fun NavGraph(navCtrl : NavHostController) {
+fun OuterNavGraph(navCtrl : NavHostController) {
 
     NavHost(
         navController = navCtrl,
-        startDestination = Screen.intro.route
+        startDestination = OuterScreen.intro.route
     ){
-        composable(route = Screen.intro.route ){
+        composable(route = OuterScreen.intro.route ){
             IntroScreen(nav = navCtrl , modifier = null)
         }
 
-        composable(route = Screen.dashboard.route){
-            DashBoardScreen(nav = navCtrl)
-        }
-
-        composable(route = Screen.deviceScan.route){
-            ScanDeviceScreen(nav = navCtrl)
-        }
-
-        composable(route = Screen.login.route){
+        composable(route = OuterScreen.login.route){
             LoginScreen(nav = navCtrl)
         }
 
+        composable(route = OuterScreen.home.route){
+            DismissibleNavigationDrawer()
+        }
+
     }
-
-
-
 }

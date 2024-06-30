@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
-import com.shcl.smarthealth.presentation.navigation.Screen
+import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.ui.theme.BackGroundColor
 import com.shcl.smarthealth.ui.theme.PrimaryButtonColor
 
@@ -96,12 +96,12 @@ fun rightSide(nav : NavHostController){
         Column(
             modifier = Modifier.align(Alignment.TopStart).padding(40.dp)){
 
-            Text(text = stringResource(id = R.string.login_welcome) , style = TextStyle(fontFamily = FontFamily.SansSerif , fontSize = 60.sp , fontWeight = FontWeight.W700) )
+            Text(text = stringResource(id = R.string.login_welcome) , style = TextStyle(fontFamily = FontFamily.SansSerif , fontSize = 55.sp , fontWeight = FontWeight.W700) )
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = stringResource(id = R.string.login_desc) , style = TextStyle(fontFamily = FontFamily.SansSerif , fontSize = 28.sp , fontWeight = FontWeight.W500) )
+            Text(text = stringResource(id = R.string.login_desc) , style = TextStyle(fontFamily = FontFamily.SansSerif , fontSize = 25.sp , fontWeight = FontWeight.W500) )
             Spacer(modifier = Modifier.height(30.dp))
             Column {
-                Text(text = stringResource(id = R.string.handphone) , style = TextStyle(fontFamily = FontFamily.SansSerif , fontWeight = FontWeight.W500 , fontSize = 26.sp))
+                Text(text = stringResource(id = R.string.handphone) , style = TextStyle(fontFamily = FontFamily.SansSerif , fontWeight = FontWeight.W500 , fontSize = 24.sp))
 
                 OutlinedTextField(
                     value = handPhoneNum,
@@ -135,11 +135,12 @@ fun rightSide(nav : NavHostController){
                     } )
 
             }
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(80.dp))
 
             Button(
                 onClick = {
-                    nav.navigate(route = Screen.deviceScan.route)
+                    nav.navigate(route = OuterScreen.home.route)
+                    //nav.navigate(route = OuterScreen.deviceScan.route)
                 },
                 shape = RoundedCornerShape(18.dp),
                 modifier = Modifier.fillMaxWidth(),
@@ -155,7 +156,11 @@ fun rightSide(nav : NavHostController){
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            TextButton(onClick = {  nav.navigate(route = Screen.dashboard.route) }){
+            TextButton(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                onClick = {
+                nav.navigate(route = OuterScreen.home.route)
+            }){
                 Text(
                     text= stringResource(id = R.string.join_member) ,
                     textAlign = TextAlign.Center,
