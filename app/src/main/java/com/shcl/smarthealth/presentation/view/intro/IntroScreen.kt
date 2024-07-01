@@ -43,7 +43,7 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
 
     //requestPermission()
 
-    val context = LocalContext.current
+    //val context = LocalContext.current
 
     val logo = painterResource(id = R.drawable.logo_main)
 

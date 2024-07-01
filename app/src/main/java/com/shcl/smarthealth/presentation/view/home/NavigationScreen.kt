@@ -1,8 +1,11 @@
 package com.shcl.smarthealth.presentation.view.home
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -15,6 +18,7 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.material3.DismissibleNavigationDrawer
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalNavigationDrawer
@@ -30,17 +34,22 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.shcl.smarthealth.presentation.navigation.InnerScreen
-import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.presentation.view.dashboard.DashBoardScreen
 import com.shcl.smarthealth.presentation.view.device.ScanDeviceScreen
-import com.shcl.smarthealth.presentation.view.intro.IntroScreen
-import com.shcl.smarthealth.presentation.view.login.LoginScreen
+import com.shcl.smarthealth.ui.theme.Color143F91
+import com.shcl.smarthealth.ui.theme.Color757575
+import com.shcl.smarthealth.ui.theme.ColorD49E1
+import com.shcl.smarthealth.ui.theme.Typography
 
 @Composable
 fun DismissibleNavigationDrawer(){
@@ -92,17 +101,27 @@ fun DismissibleNavigationDrawer(){
             DismissibleDrawerSheet {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     DrawerHeader()
-                    Spacer(Modifier.height(24.dp))
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(color = ColorD49E1)
+                            .padding(horizontal = 40.dp)
+                    )
                     menus.forEachIndexed { index, item ->
                         NavigationDrawerItem(
                             icon = { Icon(item.image, contentDescription = item.contentDesc) },
-                            label = { Text(item.title.substringAfterLast(".")) },
+                            label = { Text(
+                                text = item.title.substringAfterLast("."),
+                                style = Typography.labelLarge,
+                                color = if(selectedIndex == index) Color143F91 else Color757575
+                                ) },
                             selected = selectedIndex == index,
                             onClick = {
                                 selectedIndex = index
                                 nav.navigate(route = item.route)
                             },
-                            modifier = Modifier.padding(horizontal = 24.dp)
+                            modifier = Modifier.padding(horizontal = 40.dp , vertical = 20.dp)
                         )
                     }
                 }

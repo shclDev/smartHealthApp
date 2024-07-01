@@ -34,7 +34,7 @@ fun DrawerHeader(){
 
     val logo = painterResource(id = R.drawable.dashbaord_logo)
     Box(
-        modifier = Modifier.fillMaxWidth().padding(55.dp),
+        modifier = Modifier.fillMaxWidth().padding(start = 84.dp, top = 84.dp, end = 84.dp, bottom = 40.dp ),
         contentAlignment = Alignment.Center
     ){
         Image(
