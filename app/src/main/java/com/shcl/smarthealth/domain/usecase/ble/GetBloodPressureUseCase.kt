@@ -11,7 +11,7 @@ class GetBloodPressureUseCase @Inject constructor(
     private val repository: OmronRepository
 ) {
 
-    suspend fun getBloodPressureData(discoveredDevice: DiscoveredDevice? ) :Flow<MeasurementRecordState> {
+     fun getBloodPressureData(discoveredDevice: DiscoveredDevice? ) :Flow<MeasurementRecordState> {
         return repository.getBloodPressureData(discoveredDevice)
     }
 

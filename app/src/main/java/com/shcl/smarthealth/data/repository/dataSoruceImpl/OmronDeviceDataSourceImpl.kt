@@ -14,10 +14,12 @@ import com.shcl.smarthealth.domain.model.omron.ResultType
 import com.shcl.smarthealth.domain.model.omron.SessionData
 import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
 import com.shcl.smarthealth.presentation.view.device.MeasurementStatus
+import jp.co.ohq.ble.OHQConfig
 import jp.co.ohq.ble.OHQDeviceManager
 import jp.co.ohq.ble.enumerate.OHQCompletionReason
 import jp.co.ohq.ble.enumerate.OHQConnectionState
 import jp.co.ohq.ble.enumerate.OHQSessionOptionKey
+import jp.co.ohq.utility.Bundler
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +27,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import jp.co.ohq.androidcorebluetooth.CBConfig
+import jp.co.ohq.ble.enumerate.OHQUserDataKey
 import javax.inject.Inject
 
 class OmronDeviceDataSourceImpl @Inject constructor(
@@ -111,8 +115,15 @@ class OmronDeviceDataSourceImpl @Inject constructor(
 
        // mDiscoveredDevices.clear()
 //        mDiscoveredDevices.
-        scanController.onPause()
-        scanController.stopScan()
+        scanController?.let {
+            scanController.onPause()
+            scanController.stopScan()
+        }
+
+        sessionController?.let{
+            sessionController.onPause()
+            sessionController.cancel()
+        }
 
         isScanning = false
 
@@ -206,6 +217,7 @@ class OmronDeviceDataSourceImpl @Inject constructor(
 
             onSessionListener = object : SessionController.Listener {
                 override fun onConnectionStateChanged(connectionState: OHQConnectionState) {
+                    Log.d("omron-s","session connect state :  ${connectionState.toString()}")
                     when(connectionState){
                         OHQConnectionState.Connecting->
                             trySend(MeasurementRecordState(sessionData = null,status = MeasurementStatus.Connection))
@@ -221,6 +233,8 @@ class OmronDeviceDataSourceImpl @Inject constructor(
                 }
 
                 override fun onSessionComplete(sessionData: SessionData) {
+                    Log.d("omron-s","session sessiong data :  ${sessionData}")
+
                     if(OHQCompletionReason.Canceled == sessionData.completionReason){
                         trySend(MeasurementRecordState(sessionData = null,status = MeasurementStatus.Cancel , errorMsg = "User Cancel"))
                         return
@@ -229,17 +243,46 @@ class OmronDeviceDataSourceImpl @Inject constructor(
                     val type : ResultType = _validateSessionWithData(Protocol.BluetoothStandard , sessionData , ComType.Transfer)
 
                     when(type){
-                        ResultType.Success-> trySend(MeasurementRecordState(sessionData = null,status = MeasurementStatus.Success))
-                        ResultType.Failure-> trySend(MeasurementRecordState(sessionData = null,status = MeasurementStatus.Fail))
+                        ResultType.Success-> {
+                            trySend(MeasurementRecordState(sessionData = sessionData,status = MeasurementStatus.Success))
+                        }
+                        ResultType.Failure-> trySend(MeasurementRecordState(sessionData = sessionData,status = MeasurementStatus.Fail))
                     }
                 }
             }
 
+            try{
+                if(!isFirstSession)
+                    sessionController = SessionController(onSessionListener)
+
+            }catch (e : Exception){
+                Log.e("omron-s", "${e.message}")
+            }
+
+
             discoveredDevice?.let{
-                sessionController = SessionController(onSessionListener)
+
+                isFirstSession = true
+                // Unregister user session
+                var option: MutableMap<OHQSessionOptionKey, Any> = HashMap()
+                //option.put(OHQSessionOptionKey.UserIndexKey ,USER_INDEX_UNREGISTERED_USER)
+                //option.put(OHQSessionOptionKey.ConsentCodeKey , CONSENT_CODE_UNREGISTERED_USER)
+                //option.put(OHQSessionOptionKey.UserDataKey , HashMap<>(userData))
+                option.put(OHQSessionOptionKey.ReadMeasurementRecordsKey,true)
+                option.put(OHQSessionOptionKey.ConnectionWaitTimeKey , CONNECTION_WAIT_TIME)
+                option.put(OHQSessionOptionKey.AllowAccessToOmronExtendedMeasurementRecordsKey, true)
+
+                var userData = emptyMap<OHQUserDataKey, Object>()
+                option.put(OHQSessionOptionKey.UserDataKey ,userData )
+
+                Log.d("omron-s","Started session.! : ${discoveredDevice.address}")
+                sessionController.startSession(discoveredDevice.address , option = option)
+
+                /*
                 if(sessionController.isInSession || !isFirstSession ){
                     Log.d("omron","Already started session.!")
                 }else{
+                    isFirstSession = true
                     // Unregister user session
                     var option: MutableMap<OHQSessionOptionKey, Any> = HashMap()
                     option[OHQSessionOptionKey.UserIndexKey] = USER_INDEX_UNREGISTERED_USER
@@ -248,11 +291,11 @@ class OmronDeviceDataSourceImpl @Inject constructor(
                     option[OHQSessionOptionKey.ReadMeasurementRecordsKey] = true
                     option[OHQSessionOptionKey.AllowAccessToOmronExtendedMeasurementRecordsKey] = true
 
-                    isFirstSession = true
+
 
                     Log.d("omron","Started session.!")
                     sessionController.startSession(discoveredDevice.address , option = option)
-                }
+                }*/
 
             }
 

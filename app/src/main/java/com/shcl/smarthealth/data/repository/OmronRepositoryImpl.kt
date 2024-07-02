@@ -24,7 +24,7 @@ class OmronRepositoryImpl (
         omronDeviceDataSource.startScan()
     }
 
-    override suspend fun getBloodPressureData(discoveredDevice: DiscoveredDevice?) : Flow<MeasurementRecordState> {
+    override fun getBloodPressureData(discoveredDevice: DiscoveredDevice?) : Flow<MeasurementRecordState> {
         return omronDeviceDataSource.getBloodPressureData(discoveredDevice)
     }
 
@@ -42,37 +42,12 @@ class OmronRepositoryImpl (
 
     override fun onScan(): Flow<List<DiscoveredDevice?>> {
         return omronDeviceDataSource.onScaned(mutableListOf())
-
-
-        /*
-        return flow {
-            omronDeviceDataSource.onScaned(null).collect{
-                emit(it)
-            }
-        }*/
-
-
-        /*
-        return omronDeviceDataSource.onScaned(null).map {
-            it.map{
-                discoveredDevice ->
-
-                DiscoveredDevice(
-                    address = discoveredDevice.address,
-                    advertisementData = discoveredDevice.advertisementData,
-                    localName = discoveredDevice.localName,
-                    modelName = discoveredDevice.modelName
-                )
-
-            }
-
-        }*/
     }
 
     override fun testStateFlow(): Flow<Int> {
         return omronDeviceDataSource.testStateFlow()
     }
-    //return omronDeviceDataSource.onScaned(null)
+
 
 
 }

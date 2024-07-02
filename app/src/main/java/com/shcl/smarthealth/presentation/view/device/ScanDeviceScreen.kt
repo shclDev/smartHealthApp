@@ -2,6 +2,7 @@ package com.shcl.smarthealth.presentation.view.device
 
 import android.Manifest
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -55,9 +56,9 @@ fun ScanDeviceScreen(
     val testFlow by viewModel.testState.collectAsState()
     val measurementStatus by viewModel.measurementState.collectAsState()
 
+    var sessionStatus = ""
 
     //val deviceTestStateFlow by viewModel.deviceState.collectAsState()
-
     Box(modifier = Modifier.fillMaxSize()){
 
         Column {
@@ -71,18 +72,12 @@ fun ScanDeviceScreen(
                 Text("stop device")
             }
 
-            Text(text = "${testFlow}", color = Color.White)
+            Text(text = "${testFlow}", color = Color.Black)
+            Text(text= measurementStatus.toString() , color = Color.Black)
 
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                /*
-                items(state.scannedDevices){ device->
-
-
-                }*/
-
                 devicesStatFlow.scannedDevices.let{devices->
-                    items(devices) {
-                        device->
+                    items(devices) { device->
 
                         device?.let{
                             deviceItem(viewModel , it)
@@ -106,9 +101,8 @@ fun deviceItem(viewModel:OmronDeviceViewModel,device : DiscoveredDevice){
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxWidth()
-            .height(120.dp)
-            .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(18.dp))
+            .size(500.dp , 120.dp)
+            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(18.dp))
             .padding(12.dp)
             .clickable {
                 if (!showDialogState) {
@@ -117,12 +111,16 @@ fun deviceItem(viewModel:OmronDeviceViewModel,device : DiscoveredDevice){
             }
     ){
         Column(){
-            Text(text = "${device.address}" , color = Color.White)
+            Text(text = "${device.address}" )
 
             Spacer(modifier = Modifier.height(10.dp))
 
             device.localName?.let{
-                Text(text = "${device.localName}" , color = Color.White)
+                Text(text = "${device.localName}")
+            }
+
+            device.modelName?.let{
+                Text(text="${device.modelName}")
             }
         }
 
@@ -131,7 +129,7 @@ fun deviceItem(viewModel:OmronDeviceViewModel,device : DiscoveredDevice){
 
 
             }) {
-            Text("register" , color = Color.White)
+            Text("register")
         }
     }
 
@@ -142,7 +140,11 @@ fun deviceItem(viewModel:OmronDeviceViewModel,device : DiscoveredDevice){
                 title = "디바이스 데이터 받기" ,
                 desc = "데이터를 받겠습니까?",
                 onDismiss = {showDialogState = false},
-                onConfirm = { viewModel.getMeasurementRecord(device)  }
+                onConfirm = {
+                    Log.d("sdevice","transfer data request!!")
+                    viewModel.getMeasurementRecord(device)
+                    showDialogState = false
+                },
             )
         }
     }

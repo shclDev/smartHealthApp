@@ -10,7 +10,7 @@ interface OmronRepository {
 
     fun searchDevice()
 
-    suspend fun getBloodPressureData(discoveredDevice: DiscoveredDevice?) : Flow<MeasurementRecordState>
+    fun getBloodPressureData(discoveredDevice: DiscoveredDevice?) : Flow<MeasurementRecordState>
 
     suspend fun getBodyData()
 

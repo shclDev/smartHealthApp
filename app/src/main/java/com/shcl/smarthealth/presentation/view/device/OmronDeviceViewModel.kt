@@ -6,9 +6,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shcl.smarthealth.common.GlobalVariables
+import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.usecase.ble.OmronDeviceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import jp.co.ohq.ble.enumerate.OHQMeasurementRecordKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -69,7 +71,27 @@ class OmronDeviceViewModel @Inject constructor(
 
         viewModelScope.launch {
             omronDeviceUseCase.getBloodPressureUseCase.getBloodPressureData(device).collect{
-                Log.d("sdevice" , it.toString())
+                Log.d("omron-s" , it.toString())
+
+                if((it.status == MeasurementStatus.Success)){
+                    try{
+                        val measurementRecord : Map<OHQMeasurementRecordKey , Any>? = it.sessionData?.measurementRecord?.get(0)
+                        measurementRecord?.let {
+                            val bloodPressure = BloodPressure(
+                                diastolic = measurementRecord.get(OHQMeasurementRecordKey.DiastolicKey).toString().toFloat(),
+                                diastolicUnit = measurementRecord.get(OHQMeasurementRecordKey.BloodPressureUnitKey).toString(),
+                                systolic = measurementRecord.get(OHQMeasurementRecordKey.SystolicKey).toString().toFloat(),
+                                systolicUnit = measurementRecord.get(OHQMeasurementRecordKey.BloodPressureUnitKey).toString(),
+                                pulseRate = measurementRecord.get(OHQMeasurementRecordKey.PulseRateKey).toString().toFloat(),
+                                timeStamp = measurementRecord.get(OHQMeasurementRecordKey.TimeStampKey).toString()
+                            )
+                            Log.d("omron-s","${bloodPressure.toString()}")
+                        }
+
+                    }catch(e : Exception){
+                        Log.e("omron-s","${e.message}")
+                    }
+                }
                 _measurementState.value = it
             }
         }
