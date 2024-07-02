@@ -22,10 +22,24 @@ val notoSanskr = FontFamily(
 // Set of Material typography styles to start with
 val Typography = Typography(
 
+    headlineLarge = TextStyle(
+        fontFamily = notoSanskr,
+        fontWeight = FontWeight.W700,
+        fontSize = 44.sp,
+        lineHeight = 44.sp,
+        letterSpacing = 0.5.sp
+    ),
     bodyLarge = TextStyle(
         fontFamily = notoSanskr,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = notoSanskr,
+        fontWeight = FontWeight.W500,
+        fontSize = 24.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
