@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.shcl.smarthealth.presentation.view.dashboard.component.UserInfo
 
 @Composable
 fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hiltViewModel()){
@@ -27,12 +28,15 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
     Card(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Blue)
+            .background(Color.White)
     ){
 
         Column(
-           horizontalAlignment = Alignment.CenterHorizontally
+           horizontalAlignment = Alignment.Start
         ) {
+
+            UserInfo()
+
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 fontWeight = FontWeight.Bold,

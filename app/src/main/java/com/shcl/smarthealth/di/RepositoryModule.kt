@@ -3,6 +3,7 @@ package com.shcl.smarthealth.di
 import com.shcl.smarthealth.data.repository.DashBoardRepositoryImpl
 import com.shcl.smarthealth.data.repository.OmronRepositoryImpl
 import com.shcl.smarthealth.data.repository.dataSource.DashBoardRemoteDataSource
+import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
 import com.shcl.smarthealth.domain.repository.DashBoardRepository
 import com.shcl.smarthealth.domain.repository.OmronRepository
@@ -25,6 +26,7 @@ object RepositoryModule {
 
     @Provides
     fun provideOmronRepository(
-        omronDeviceDataSource: OmronDeviceDataSource
-    ) : OmronRepository = OmronRepositoryImpl(omronDeviceDataSource)
+        omronDeviceDataSource: OmronDeviceDataSource,
+        measureRecordDataSource: MeasureRecordDataSource
+    ) : OmronRepository = OmronRepositoryImpl(omronDeviceDataSource , measureRecordDataSource)
 }

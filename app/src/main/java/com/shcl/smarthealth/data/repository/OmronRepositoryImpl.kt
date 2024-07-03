@@ -1,7 +1,10 @@
 package com.shcl.smarthealth.data.repository
 
 import android.util.Log
+import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
+import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
+import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.repository.OmronRepository
 import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
@@ -12,7 +15,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class OmronRepositoryImpl (
-    private val omronDeviceDataSource : OmronDeviceDataSource
+    private val omronDeviceDataSource : OmronDeviceDataSource,
+    private val measureRecordDataSource: MeasureRecordDataSource
 ) : OmronRepository {
 
 
@@ -48,6 +52,13 @@ class OmronRepositoryImpl (
         return omronDeviceDataSource.testStateFlow()
     }
 
+    override suspend fun updateBloodPressureDataToDB(bloodPressureRoom: BloodPressureRoom) {
+        measureRecordDataSource.updateBloodPressureToDB(bloodPressureRoom = bloodPressureRoom)
+    }
+
+    override fun getBloodPressureDataFromDB(userID: Int) {
+        TODO("Not yet implemented")
+    }
 
 
 }

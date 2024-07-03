@@ -6,12 +6,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shcl.smarthealth.common.GlobalVariables
+import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.usecase.ble.OmronDeviceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jp.co.ohq.ble.enumerate.OHQMeasurementRecordKey
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -85,6 +87,10 @@ class OmronDeviceViewModel @Inject constructor(
                                 pulseRate = measurementRecord.get(OHQMeasurementRecordKey.PulseRateKey).toString().toFloat(),
                                 timeStamp = measurementRecord.get(OHQMeasurementRecordKey.TimeStampKey).toString()
                             )
+
+                            //ROOM DB - update
+                            updateBloodPressure(bloodPressure)
+
                             Log.d("omron-s","${bloodPressure.toString()}")
                         }
 
@@ -104,6 +110,29 @@ class OmronDeviceViewModel @Inject constructor(
     fun stopScan(){
         Log.d("omron", "viewModel - stopDevice")
         omronDeviceUseCase.scanDeviceUseCase.stopDevice()
+    }
+
+    fun updateBloodPressure(bloodPressure: BloodPressure){
+        Log.d("omron" , "update BloodPressure")
+        try{
+
+            GlobalScope.launch(Dispatchers.IO){
+                omronDeviceUseCase.bloodPressureUseCase.updateBloodPressureToDB(
+                    BloodPressureRoom(
+                        userId = 1,
+                        diastolic = bloodPressure.diastolic,
+                        diastolicUnit = bloodPressure.diastolicUnit,
+                        systolic = bloodPressure.systolic,
+                        systolicUnit = bloodPressure.systolicUnit,
+                        pulseRate = bloodPressure.pulseRate,
+                        timeStamp = bloodPressure.timeStamp
+                    ))
+            }
+
+        }catch(e : Exception){
+
+        }
+
     }
 
 }
