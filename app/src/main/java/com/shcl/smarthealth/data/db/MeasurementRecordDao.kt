@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.shcl.smarthealth.domain.model.db.BloodPressureListRoom
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import kotlinx.coroutines.flow.Flow
 

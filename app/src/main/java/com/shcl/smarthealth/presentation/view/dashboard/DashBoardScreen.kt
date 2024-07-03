@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.shcl.smarthealth.presentation.view.dashboard.component.BloodPressureComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.UserInfo
 
 @Composable
@@ -36,6 +37,8 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
         ) {
 
             UserInfo()
+
+            BloodPressureComponent()
 
             Text(
                 modifier = Modifier.fillMaxWidth(),

@@ -20,9 +20,10 @@ object RepositoryModule {
 
     @Provides
     fun provideDashBoardRepository(
-        dashBoardRemoteDataSource: DashBoardRemoteDataSource
+        dashBoardRemoteDataSource: DashBoardRemoteDataSource,
+        measureRecordDataSource: MeasureRecordDataSource
     ): DashBoardRepository =
-        DashBoardRepositoryImpl(dashBoardRemoteDataSource)
+        DashBoardRepositoryImpl(dashBoardRemoteDataSource , measureRecordDataSource)
 
     @Provides
     fun provideOmronRepository(

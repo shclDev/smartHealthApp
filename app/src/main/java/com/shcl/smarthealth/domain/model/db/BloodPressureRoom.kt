@@ -9,7 +9,7 @@ import java.io.Serializable
 data class BloodPressureRoom (
     @PrimaryKey(autoGenerate = true)
     var pk : Long = 0,
-    @SerializedName("user_id")
+    @SerializedName("userId")
     val userId : Int,
     @SerializedName("diastolic")
     val diastolic : Float,

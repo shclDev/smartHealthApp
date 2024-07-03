@@ -7,7 +7,9 @@ import com.shcl.smarthealth.domain.usecase.ble.GetBloodPressureUseCase
 import com.shcl.smarthealth.domain.usecase.ble.OmronDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.ble.ScanDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.DashBoardUseCase
+import com.shcl.smarthealth.domain.usecase.dashboard.GetBloodPressureDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetNutritionAdviceUseCase
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,8 +23,8 @@ object UseCaseModule {
 
     @Provides
     fun provideDashBoardUseCases(dashBoardRepository: DashBoardRepository) = DashBoardUseCase(
-        getNutritionAdviceUseCase = GetNutritionAdviceUseCase(repository = dashBoardRepository)
-
+        getNutritionAdviceUseCase = GetNutritionAdviceUseCase(repository = dashBoardRepository),
+        getBloodPressureDBUseCase = GetBloodPressureDBUseCase(repository = dashBoardRepository)
     )
 
     @Provides
