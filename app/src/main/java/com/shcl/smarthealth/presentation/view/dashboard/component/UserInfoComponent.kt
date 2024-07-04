@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,8 +24,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.shcl.smarthealth.R
+import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.view.dashboard.DashBoardViewModel
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
 import com.shcl.smarthealth.ui.theme.ColorD49E1
@@ -34,7 +37,9 @@ import com.shcl.smarthealth.ui.theme.Typography
 fun UserInfo(viewModel: DashBoardViewModel = hiltViewModel()) {
 
     Box(
-        modifier = Modifier.size(700.dp , 180.dp).background(Color.White),
+        modifier = Modifier
+            .defaultMinSize(minWidth = 700f.pxToDp(), minHeight = 180f.pxToDp())
+            .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
         Row(verticalAlignment = Alignment.CenterVertically){
@@ -42,23 +47,28 @@ fun UserInfo(viewModel: DashBoardViewModel = hiltViewModel()) {
                 painter = painterResource(id = R.drawable.ic_launcher_background),
                 contentScale = ContentScale.Crop,
                 contentDescription = "User",
-                modifier = Modifier.size(120.dp).clip(CircleShape).border(2.dp , Color.LightGray)
+                modifier = Modifier
+                    .size(120f.pxToDp())
+                    .clip(CircleShape)
             )
-            Spacer(modifier = Modifier.width(40.dp))
+            Spacer(modifier = Modifier.width(40f.pxToDp()))
             Column {
                 Row{
-                    Text("혜정님, 안녕하세요" , style = Typography.headlineLarge , color = Color1E1E1E)
+                    Text("혜정님, 안녕하세요" , style = Typography.headlineMedium , color = Color1E1E1E)
                     Image(
-                        modifier = Modifier.size(63.dp , 63.dp),
+                        modifier = Modifier.size(63f.pxToDp() , 63f.pxToDp()),
                         painter = painterResource(id = R.drawable.ani_hand),
                         contentDescription = null
                     )
                 }
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(20f.pxToDp()))
                 Row(
-                    modifier = Modifier.fillMaxWidth().align(Alignment.Start)
-                        .padding(horizontal = 40.dp , vertical = 28.dp)
-                        .border(width = 1.dp , color = ColorD49E1 , shape = RoundedCornerShape(18)
+                    modifier = Modifier
+                        .defaultMinSize(minWidth = 530f.pxToDp(), minHeight = 80f.pxToDp())
+                        .align(Alignment.Start)
+                        .padding(horizontal = 40f.pxToDp(), vertical = 28f.pxToDp())
+                        .border(
+                            width = 1.dp, color = ColorD49E1, shape = RoundedCornerShape(18)
                         )){
                     Text("성별 " , style = Typography.bodySmall)
                     Text("여 " , style = Typography.bodySmall)

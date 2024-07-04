@@ -15,7 +15,7 @@ interface MeasurementRecordDao {
     @Query("SELECT * FROM bloodPressure")
     fun getAllBloodPressure() : List<BloodPressureRoom>
 
-    @Query("SELECT * FROM bloodPressure WHERE userId = :userId")
+    @Query("SELECT * FROM bloodPressure WHERE userId = :userId ORDER BY timeStamp DESC LIMIT 1")
     fun getBloodPressureByUserID(userId : Int) : Flow<BloodPressureRoom>
 
     @Query("DELETE FROM bloodPressure")

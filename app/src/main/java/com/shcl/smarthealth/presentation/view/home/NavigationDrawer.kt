@@ -27,6 +27,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shcl.smarthealth.R
+import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.navigation.OuterScreen
 
 @Composable
@@ -34,11 +35,18 @@ fun DrawerHeader(){
 
     val logo = painterResource(id = R.drawable.dashbaord_logo)
     Box(
-        modifier = Modifier.fillMaxWidth().padding(start = 84.dp, top = 84.dp, end = 84.dp, bottom = 40.dp ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = 84f.pxToDp(),
+                top = 84f.pxToDp(),
+                end = 84f.pxToDp(),
+                bottom = 100f.pxToDp()
+            ),
         contentAlignment = Alignment.Center
     ){
         Image(
-            modifier = Modifier.size(170.dp , 61.dp),
+            modifier = Modifier.size(170f.pxToDp() , 61f.pxToDp()),
             painter = logo,
             contentDescription = null
         )
@@ -56,7 +64,10 @@ fun DrawerBody(
     LazyColumn(modifier) {
         items(menus){ menu->
             Row(
-                modifier = Modifier.fillMaxWidth().clickable { onItemClick(menu) }.padding(16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onItemClick(menu) }
+                    .padding(16.dp)
             ){
                 Icon(imageVector = menu.image, contentDescription = menu.contentDesc)
                 Spacer(modifier = Modifier.width(16.dp))

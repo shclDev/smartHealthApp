@@ -1,10 +1,13 @@
 package com.shcl.smarthealth.presentation.view.dashboard
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.view.dashboard.component.BloodPressureComponent
+import com.shcl.smarthealth.presentation.view.dashboard.component.PursePressureComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.UserInfo
 
 @Composable
@@ -26,10 +31,15 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
     viewModel.getNutrionAdvice()
     val nutritionAdvice by viewModel.nutritionAdvice.collectAsState()
 
-    Card(
+    viewModel.getLastedBloodPressure()
+    val bloodPressure by viewModel.bloodPressure.collectAsState()
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
+            .padding(80f.pxToDp())
             .background(Color.White)
+
     ){
 
         Column(
@@ -38,7 +48,12 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
 
             UserInfo()
 
-            BloodPressureComponent()
+            Row(
+               horizontalArrangement = Arrangement.spacedBy(30f.pxToDp())
+            ) {
+                BloodPressureComponent(bloodPressure)
+                PursePressureComponent(bloodPressure)
+            }
 
             Text(
                 modifier = Modifier.fillMaxWidth(),

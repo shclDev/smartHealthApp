@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.shcl.smarthealth.R
-
+import com.shcl.smarthealth.domain.utils.pxToSp
 
 
 val notoSanskr = FontFamily(

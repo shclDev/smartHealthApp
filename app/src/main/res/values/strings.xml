@@ -5,6 +5,12 @@
     <string name="dashboard_screen">dashboard</string>
     <string name="login_screen">login</string>
     <string name="home_screen">home</string>
+
+    <string name="analysis_screen">analysis</string>
+    <string name="challenge_screen">challenge</string>
+    <string name="setting_screen">setting</string>
+    <string name="reservation_screen">reservation</string>
+
     <string name="device_scan">device</string>
 
     <string name="show_less">show less</string>

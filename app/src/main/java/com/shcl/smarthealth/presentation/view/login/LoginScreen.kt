@@ -41,9 +41,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
+import com.shcl.smarthealth.domain.utils.dpToSp
 import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.ui.theme.BackGroundColor
 import com.shcl.smarthealth.ui.theme.PrimaryButtonColor
+import com.shcl.smarthealth.ui.theme.Color757575
+import com.shcl.smarthealth.domain.utils.pxToDp
+import com.shcl.smarthealth.domain.utils.pxToSp
+import com.shcl.smarthealth.domain.utils.spToDp
+import com.shcl.smarthealth.ui.theme.Typography
 
 
 @Composable
@@ -65,14 +71,16 @@ fun leftSide(){
     val logo = painterResource(id = R.drawable.logo_main)
 
     Column(
-        modifier = Modifier.fillMaxHeight().fillMaxWidth(0.5f)
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth(0.5f)
             .background(brush = Brush.verticalGradient(BackGroundColor)),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
 
         Image(
-            modifier = Modifier.size(300.dp , 176.dp),
+            modifier = Modifier.size(497f.pxToDp() , 278f.pxToDp()),
             painter = logo,
             contentDescription = null
         )
@@ -94,15 +102,18 @@ fun rightSide(nav : NavHostController){
 
     ){
         Column(
-            modifier = Modifier.align(Alignment.TopStart).padding(40.dp)){
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(start = 123f.pxToDp(), top = 202f.pxToDp(), end = 123f.pxToDp())
+        ){
 
-            Text(text = stringResource(id = R.string.login_welcome) , style = TextStyle(fontFamily = FontFamily.SansSerif , fontSize = 55.sp , fontWeight = FontWeight.W700) )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(text = stringResource(id = R.string.login_desc) , style = TextStyle(fontFamily = FontFamily.SansSerif , fontSize = 25.sp , fontWeight = FontWeight.W500) )
-            Spacer(modifier = Modifier.height(30.dp))
+            Text(text = stringResource(id = R.string.login_welcome) , style = TextStyle(fontFamily = FontFamily.Default , fontSize = 50f.pxToSp() , fontWeight = FontWeight.W700) )
+            Spacer(modifier = Modifier.height(30f.pxToDp()))
+            Text(text = stringResource(id = R.string.login_desc) , style = TextStyle(fontFamily = FontFamily.Default , fontSize = 20f.sp , fontWeight = FontWeight.W500) )
+            Spacer(modifier = Modifier.height(30f.pxToDp()))
             Column {
-                Text(text = stringResource(id = R.string.handphone) , style = TextStyle(fontFamily = FontFamily.SansSerif , fontWeight = FontWeight.W500 , fontSize = 24.sp))
-
+                Text(text = stringResource(id = R.string.handphone) , style = TextStyle(fontFamily = FontFamily.Default , fontWeight = FontWeight.W500 , fontSize = 26f.pxToSp()))
+                Spacer(modifier = Modifier.height(20f.pxToDp()))
                 OutlinedTextField(
                     value = handPhoneNum,
                     onValueChange = { handPhoneNum = it } ,
@@ -111,17 +122,17 @@ fun rightSide(nav : NavHostController){
                                         style = TextStyle(
                                             fontFamily = FontFamily.SansSerif ,
                                             fontWeight = FontWeight.W500 ,
-                                            fontSize = 26.sp ,
-                                            color =  Color(0xFF757575) ) )
+                                            fontSize = 20f.sp ,
+                                            color =  Color757575 ) )
 
                 } )
 
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(20f.pxToDp()))
             Column {
                 Text(text = stringResource(id = R.string.birthday) , style = TextStyle(fontFamily = FontFamily.SansSerif , fontWeight = FontWeight.W500 , fontSize = 26.sp))
-
+                Spacer(modifier = Modifier.height(25f.pxToDp()))
                 OutlinedTextField(value = birthDay,
                     onValueChange = { birthDay = it },
                     singleLine = true,
@@ -129,20 +140,20 @@ fun rightSide(nav : NavHostController){
                         style = TextStyle(
                             fontFamily = FontFamily.SansSerif ,
                             fontWeight = FontWeight.W500 ,
-                            fontSize = 26.sp ,
-                            color =  Color(0xFF757575) ) )
+                            fontSize = 20f.pxToSp() ,
+                            color =  Color757575 ) )
 
                     } )
 
             }
-            Spacer(modifier = Modifier.height(80.dp))
+            Spacer(modifier = Modifier.height(125f.pxToDp()))
 
             Button(
                 onClick = {
                     nav.navigate(route = OuterScreen.home.route)
                     //nav.navigate(route = OuterScreen.deviceScan.route)
                 },
-                shape = RoundedCornerShape(18.dp),
+                shape = RoundedCornerShape(18f.pxToDp()),
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = PrimaryButtonColor)
             ) {
@@ -150,11 +161,11 @@ fun rightSide(nav : NavHostController){
                   style = TextStyle(
                       fontFamily = FontFamily.SansSerif ,
                       fontWeight = FontWeight.W700 ,
-                      fontSize = 32.sp ,
+                      fontSize = 32f.pxToSp() ,
                       color = Color.White))
             }
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(40f.pxToDp()))
 
             TextButton(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -167,7 +178,7 @@ fun rightSide(nav : NavHostController){
                     style = TextStyle(
                         fontFamily = FontFamily.SansSerif ,
                         fontWeight = FontWeight.W700 ,
-                        fontSize = 32.sp ,
+                        fontSize = 32f.pxToSp() ,
                         color = Color.Black,
                         textDecoration = TextDecoration.Underline))
             }

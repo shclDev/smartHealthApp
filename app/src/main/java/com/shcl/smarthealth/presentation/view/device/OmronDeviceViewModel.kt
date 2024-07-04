@@ -89,9 +89,9 @@ class OmronDeviceViewModel @Inject constructor(
                             )
 
                             //ROOM DB - update
-                            updateBloodPressure(bloodPressure)
+                            _updateBloodPressure(bloodPressure)
 
-                            Log.d("omron-s","${bloodPressure.toString()}")
+                            Log.d("omron-s","${bloodPressure}")
                         }
 
                     }catch(e : Exception){
@@ -112,7 +112,7 @@ class OmronDeviceViewModel @Inject constructor(
         omronDeviceUseCase.scanDeviceUseCase.stopDevice()
     }
 
-    fun updateBloodPressure(bloodPressure: BloodPressure){
+    fun _updateBloodPressure(bloodPressure: BloodPressure){
         Log.d("omron" , "update BloodPressure")
         try{
 
@@ -130,9 +130,8 @@ class OmronDeviceViewModel @Inject constructor(
             }
 
         }catch(e : Exception){
-
+            Log.d("omron-s" , "${e.message}")
         }
-
     }
 
 }
