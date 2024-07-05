@@ -55,7 +55,8 @@ class OmronDeviceDataSourceImpl @Inject constructor(
     //private lateinit var listener : EventListener
 
     var isScanning : Boolean = false
-    var isFirstSession : Boolean = false
+    var isFirstSession : Boolean = true
+    var isFirstScan : Boolean = true
     //var mDiscoveredDevices : MutableList<DiscoveredDevice?>
 
     lateinit var onScanListener : ScanController.Listener
@@ -88,7 +89,8 @@ class OmronDeviceDataSourceImpl @Inject constructor(
 
 
         isScanning = false
-
+        isFirstSession = true
+        isFirstScan = true
         //mDiscoveredDevices = mutableListOf()
 
     }
@@ -120,10 +122,11 @@ class OmronDeviceDataSourceImpl @Inject constructor(
             scanController.stopScan()
         }
 
-        sessionController?.let{
+        /*
+        if(sessionController != null){
             sessionController.onPause()
             sessionController.cancel()
-        }
+        }*/
 
         isScanning = false
 
@@ -156,7 +159,10 @@ class OmronDeviceDataSourceImpl @Inject constructor(
                 }
             }
 
-            scanController = ScanController(onScanListener)
+            if(isFirstScan){
+                scanController = ScanController(onScanListener)
+                isFirstScan = false
+            }
 
             awaitClose {
                 scanController.stopScan()
@@ -252,9 +258,10 @@ class OmronDeviceDataSourceImpl @Inject constructor(
             }
 
             try{
-                if(!isFirstSession)
+                if(isFirstSession){
                     sessionController = SessionController(onSessionListener)
-
+                    isFirstSession = false
+                }
             }catch (e : Exception){
                 Log.e("omron-s", "${e.message}")
             }
@@ -262,7 +269,9 @@ class OmronDeviceDataSourceImpl @Inject constructor(
 
             discoveredDevice?.let{
 
-                isFirstSession = true
+                if(discoveredDevice?.address != null){
+
+                }
                 // Unregister user session
                 var option: MutableMap<OHQSessionOptionKey, Any> = HashMap()
                 //option.put(OHQSessionOptionKey.UserIndexKey ,USER_INDEX_UNREGISTERED_USER)

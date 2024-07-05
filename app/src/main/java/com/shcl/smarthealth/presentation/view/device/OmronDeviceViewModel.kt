@@ -43,12 +43,14 @@ class OmronDeviceViewModel @Inject constructor(
     init {
 
         GlobalVariables.coroutineScope = viewModelScope
+
+        /*
         viewModelScope.launch {
             omronDeviceUseCase.scanDeviceUseCase.testStateFlow(viewModelScope).collect{
                 Log.d("test" , "${it}")
                 _testState.value = it
             }
-        }
+        }*/
 
 
         viewModelScope.launch {

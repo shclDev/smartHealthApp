@@ -3,6 +3,7 @@ package com.shcl.smarthealth.presentation.view.dashboard.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,7 +41,7 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
     //viewModel.getLastedBloodPressure()
     //val bloodPressure by viewModel.bloodPressure.collectAsState()
 
-    Card(
+    Box(
         modifier = Modifier
             .background(color = Color.White)
             .border(width = 1.dp, color = ColorD49E1, shape = RoundedCornerShape(18.dp))
@@ -58,7 +59,7 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
                 Spacer(modifier = Modifier.width(30f.pxToDp()))
 
                 bloodPressure?.systolic?.let {
-                    Column {
+                    Column(modifier = Modifier.background(Color.White)) {
                         Text("수축기 혈압" , style = Typography.headlineMedium )
 
                         Row {
@@ -68,7 +69,7 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
 
                         Text("그래프 영역")
                     }
-                } ?: Column {
+                } ?: Column(modifier = Modifier.background(Color.White)) {
                     Text("수축기 혈압",style = Typography.headlineMedium)
                     Text("- mmHg" , style = Typography.bodyMedium, color = Color757575)
                     Text("그래프 영역")
@@ -88,7 +89,7 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
                 Spacer(modifier = Modifier.width(30f.pxToDp()))
 
                 bloodPressure?.diastolic?.let{
-                    Column {
+                    Column(modifier = Modifier.background(Color.White)) {
                         Text("이완기 혈압" , style = Typography.headlineMedium )
                         Row {
                             Text("${bloodPressure?.diastolic?.roundToInt()}" ,  style = Typography.labelSmall)
@@ -96,7 +97,7 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
                         }
                         Text("그래프 영역")
                     }
-                }?: Column {
+                }?: Column(modifier = Modifier.background(Color.White)) {
                     Text("이완기 혈압",style = Typography.headlineLarge)
                     Text("- mmHg" , style = Typography.bodyMedium, color = Color757575)
                     Text("그래프 영역")

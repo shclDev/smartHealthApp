@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,17 +34,23 @@ import kotlin.math.roundToInt
 @Composable
 fun PursePressureComponent(bloodPressure : BloodPressureRoom?){
 
-    Card(
+    Box(
         modifier = Modifier
             .background(color = Color.White)
-            .defaultMinSize(minWidth = 288f.pxToDp(), minHeight = 360f.pxToDp())
+            .size(width = 288f.pxToDp(), height = 600f.pxToDp())
+            //.defaultMinSize(minWidth = 288f.pxToDp(), minHeight = 360f.pxToDp())
             .border(width = 1.dp, color = ColorD49E1, shape = RoundedCornerShape(18.dp))
             .padding(30.dp)
     ){
-        Column(modifier = Modifier.background(Color.White).align(Alignment.CenterHorizontally), verticalArrangement = Arrangement.SpaceAround) {
+        Column(modifier = Modifier
+            .background(Color.White)
+            .align(Alignment.Center)
+           , verticalArrangement = Arrangement.SpaceAround
+        ) {
 
             Image(
-                modifier = Modifier.size(120f.pxToDp(), 120f.pxToDp()),
+                modifier =
+                Modifier.size(72f.pxToDp(), 39f.pxToDp()).align(Alignment.CenterHorizontally),
                 painter = painterResource(id = R.drawable.purse_icon),
                 contentDescription = null
             )
