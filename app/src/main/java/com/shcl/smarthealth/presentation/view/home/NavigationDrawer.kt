@@ -33,7 +33,6 @@ import com.shcl.smarthealth.presentation.navigation.OuterScreen
 @Composable
 fun DrawerHeader(){
 
-    val logo = painterResource(id = R.drawable.dashbaord_logo)
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,13 +40,13 @@ fun DrawerHeader(){
                 start = 84f.pxToDp(),
                 top = 84f.pxToDp(),
                 end = 84f.pxToDp(),
-                bottom = 100f.pxToDp()
+                bottom = 40f.pxToDp()
             ),
         contentAlignment = Alignment.Center
     ){
         Image(
-            modifier = Modifier.size(170f.pxToDp() , 61f.pxToDp()),
-            painter = logo,
+            modifier = Modifier.size(160f.pxToDp(), 61f.pxToDp()),
+            painter = painterResource(id = R.drawable.dashbaord_logo),
             contentDescription = null
         )
     }

@@ -43,13 +43,13 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
 
     Box(
         modifier = Modifier
-            .background(color = Color.White)
+            .background(color = ColorF1F4F9)
             .border(width = 1.dp, color = ColorD49E1, shape = RoundedCornerShape(18.dp))
             .padding(30.dp)
             .defaultMinSize(minWidth = 496f.pxToDp(), minHeight = 360f.pxToDp())
     ){
-        Column(modifier = Modifier.background(Color.White)) {
-            Row (modifier = Modifier.background(Color.White)){
+        Column() {
+            Row (){
                 Image(
                     modifier = Modifier.size(70f.pxToDp(), 70f.pxToDp()).align(Alignment.CenterVertically),
                     painter = painterResource(id = R.drawable.systolic_icon),
@@ -69,7 +69,7 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
 
                         Text("그래프 영역")
                     }
-                } ?: Column(modifier = Modifier.background(Color.White)) {
+                } ?: Column() {
                     Text("수축기 혈압",style = Typography.headlineMedium)
                     Text("- mmHg" , style = Typography.bodyMedium, color = Color757575)
                     Text("그래프 영역")
@@ -79,7 +79,7 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
 
             Spacer(modifier = Modifier.height(40f.pxToDp()))
 
-            Row (modifier = Modifier.background(Color.White)) {
+            Row () {
                 Image(
                     modifier = Modifier.size(70f.pxToDp(), 70f.pxToDp()).align(Alignment.CenterVertically),
                     painter = painterResource(id = R.drawable.diastolic_icon),
@@ -89,7 +89,7 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
                 Spacer(modifier = Modifier.width(30f.pxToDp()))
 
                 bloodPressure?.diastolic?.let{
-                    Column(modifier = Modifier.background(Color.White)) {
+                    Column() {
                         Text("이완기 혈압" , style = Typography.headlineMedium )
                         Row {
                             Text("${bloodPressure?.diastolic?.roundToInt()}" ,  style = Typography.labelSmall)
@@ -97,8 +97,8 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
                         }
                         Text("그래프 영역")
                     }
-                }?: Column(modifier = Modifier.background(Color.White)) {
-                    Text("이완기 혈압",style = Typography.headlineLarge)
+                }?: Column() {
+                    Text("이완기 혈압",style = Typography.headlineMedium)
                     Text("- mmHg" , style = Typography.bodyMedium, color = Color757575)
                     Text("그래프 영역")
                 }

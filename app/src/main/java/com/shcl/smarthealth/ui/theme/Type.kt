@@ -68,7 +68,7 @@ val Typography = Typography(
     titleMedium = TextStyle(
         fontFamily = notoSanskr,
         fontWeight = FontWeight.Medium,
-        fontSize = 28.sp,
-        lineHeight = 28.sp,
+        fontSize = 24.sp,
+        lineHeight = 24.sp,
     )
 )

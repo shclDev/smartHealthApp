@@ -48,28 +48,27 @@ fun UserInfo(viewModel: DashBoardViewModel = hiltViewModel()) {
                 contentScale = ContentScale.Crop,
                 contentDescription = "User",
                 modifier = Modifier
-                    .size(120f.pxToDp())
+                    .size(120.dp)
                     .clip(CircleShape)
             )
-            Spacer(modifier = Modifier.width(40f.pxToDp()))
+            Spacer(modifier = Modifier.width(40.dp))
             Column {
                 Row{
-                    Text("혜정님, 안녕하세요" , style = Typography.headlineMedium , color = Color1E1E1E)
+                    Text("혜정님, 안녕하세요" , style = Typography.headlineLarge , color = Color1E1E1E)
                     Image(
-                        modifier = Modifier.size(63f.pxToDp() , 63f.pxToDp()),
+                        modifier = Modifier.size(63.dp , 63.dp),
                         painter = painterResource(id = R.drawable.ani_hand),
                         contentDescription = null
                     )
                 }
-                Spacer(modifier = Modifier.height(20f.pxToDp()))
+                Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     modifier = Modifier
                         .defaultMinSize(minWidth = 530f.pxToDp(), minHeight = 80f.pxToDp())
                         .align(Alignment.Start)
-                        .padding(horizontal = 40f.pxToDp(), vertical = 28f.pxToDp())
                         .border(
                             width = 1.dp, color = ColorD49E1, shape = RoundedCornerShape(18)
-                        )){
+                        ).padding(horizontal = 40f.pxToDp(), vertical = 28f.pxToDp())){
                     Text("성별 " , style = Typography.bodySmall)
                     Text("여 " , style = Typography.bodySmall)
                     Text("나이 " , style = Typography.bodySmall)

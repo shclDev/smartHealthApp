@@ -41,15 +41,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
-import com.shcl.smarthealth.domain.utils.dpToSp
 import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.ui.theme.BackGroundColor
 import com.shcl.smarthealth.ui.theme.PrimaryButtonColor
 import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
-import com.shcl.smarthealth.domain.utils.spToDp
-import com.shcl.smarthealth.ui.theme.Typography
 
 
 @Composable
@@ -80,7 +77,7 @@ fun leftSide(){
         ){
 
         Image(
-            modifier = Modifier.size(497f.pxToDp() , 278f.pxToDp()),
+            modifier = Modifier.size(497.pxToDp() , 278.pxToDp()),
             painter = logo,
             contentDescription = null
         )
@@ -97,14 +94,14 @@ fun rightSide(nav : NavHostController){
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(Color.White),
-        contentAlignment = Alignment.Center
-
+            .background(Color.White)
+            .padding(start = 123.pxToDp(), top = 123.pxToDp() , end = 123.pxToDp()),
+            contentAlignment = Alignment.TopStart
     ){
         Column(
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(start = 123f.pxToDp(), top = 202f.pxToDp(), end = 123f.pxToDp())
+
         ){
 
             Text(text = stringResource(id = R.string.login_welcome) , style = TextStyle(fontFamily = FontFamily.Default , fontSize = 50f.pxToSp() , fontWeight = FontWeight.W700) )
@@ -113,8 +110,9 @@ fun rightSide(nav : NavHostController){
             Spacer(modifier = Modifier.height(30f.pxToDp()))
             Column {
                 Text(text = stringResource(id = R.string.handphone) , style = TextStyle(fontFamily = FontFamily.Default , fontWeight = FontWeight.W500 , fontSize = 26f.pxToSp()))
-                Spacer(modifier = Modifier.height(20f.pxToDp()))
+                Spacer(modifier = Modifier.height(25f.pxToDp()))
                 OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
                     value = handPhoneNum,
                     onValueChange = { handPhoneNum = it } ,
                     singleLine = true,
@@ -129,11 +127,13 @@ fun rightSide(nav : NavHostController){
 
             }
 
-            Spacer(modifier = Modifier.height(20f.pxToDp()))
+            Spacer(modifier = Modifier.height(20.pxToDp()))
             Column {
                 Text(text = stringResource(id = R.string.birthday) , style = TextStyle(fontFamily = FontFamily.SansSerif , fontWeight = FontWeight.W500 , fontSize = 26.sp))
-                Spacer(modifier = Modifier.height(25f.pxToDp()))
-                OutlinedTextField(value = birthDay,
+                Spacer(modifier = Modifier.height(25.pxToDp()))
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = birthDay,
                     onValueChange = { birthDay = it },
                     singleLine = true,
                     placeholder = { Text(text = stringResource(id = R.string.birthday_hint) ,
@@ -146,14 +146,14 @@ fun rightSide(nav : NavHostController){
                     } )
 
             }
-            Spacer(modifier = Modifier.height(125f.pxToDp()))
+            Spacer(modifier = Modifier.height(125.pxToDp()))
 
             Button(
                 onClick = {
                     nav.navigate(route = OuterScreen.home.route)
                     //nav.navigate(route = OuterScreen.deviceScan.route)
                 },
-                shape = RoundedCornerShape(18f.pxToDp()),
+                shape = RoundedCornerShape(18.pxToDp()),
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = PrimaryButtonColor)
             ) {
@@ -165,7 +165,7 @@ fun rightSide(nav : NavHostController){
                       color = Color.White))
             }
 
-            Spacer(modifier = Modifier.height(40f.pxToDp()))
+            Spacer(modifier = Modifier.height(40.pxToDp()))
 
             TextButton(
                 modifier = Modifier.align(Alignment.CenterHorizontally),

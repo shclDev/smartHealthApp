@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -37,7 +39,7 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(80f.pxToDp())
+            .padding(80.dp)
             .background(Color.White)
 
     ){
@@ -47,7 +49,7 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
         ) {
 
             UserInfo()
-
+            Spacer(modifier = Modifier.height(53.dp))
             Row(
                horizontalArrangement = Arrangement.spacedBy(30f.pxToDp())
             ) {

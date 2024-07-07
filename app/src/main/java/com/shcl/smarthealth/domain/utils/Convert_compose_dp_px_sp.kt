@@ -25,6 +25,9 @@ internal fun Float.pxToDp(): Dp {
     return (this / LocalDensity.current.density).dp
 }
 
+@Composable
+internal fun Int.pxToDp() : Dp = with(LocalDensity.current) { this@pxToDp.toDp() }
+
 // px(Float) → sp(TextUnit)
 @Composable
 internal fun Float.pxToSp(): TextUnit {

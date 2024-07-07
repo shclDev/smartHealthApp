@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
+import com.shcl.smarthealth.domain.utils.Utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.presentation.ui.common.featureThatRequiresPermission
@@ -68,12 +69,12 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
 
                 Box {
                     Image(
-                        modifier = Modifier.size(497f.pxToDp(), 278f.pxToDp()),
+                        modifier = Modifier.size(497.pxToDp(), 278.pxToDp()),
                         painter = logo,
                         contentDescription = null
                     )
                 }
-                Spacer(modifier = Modifier.height(16.dp) )
+                Spacer(modifier = Modifier.height(16.pxToDp()) )
 
                 /*
                 Button(

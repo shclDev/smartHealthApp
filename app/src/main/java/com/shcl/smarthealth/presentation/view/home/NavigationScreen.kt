@@ -45,6 +45,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.shcl.smarthealth.domain.utils.Utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.navigation.InnerScreen
 import com.shcl.smarthealth.presentation.view.analysis.AnalysisScreen
@@ -107,16 +108,17 @@ fun DismissibleNavigationDrawer(){
             .background(color = Color.White),
         drawerState = drawerState,
         drawerContent = {
-            DismissibleDrawerSheet(modifier = Modifier.width(340.dp).background(Color.White).fillMaxHeight()) {
+            DismissibleDrawerSheet(modifier = Modifier.fillMaxWidth(fraction = 0.17f).background(Color.White).fillMaxHeight()) {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     DrawerHeader()
+                    /*
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(1.dp)
-                            .background(color = ColorD49E1)
-                            .padding(vertical = 40.dp)
-                    )
+                            .background(color = Color.White)
+                            .padding(vertical = 40.dp , horizontal = 80.dp)
+                    )*/
                     menus.forEachIndexed { index, item ->
                         NavigationDrawerItem(
                             icon = { Icon(item.image, contentDescription = item.contentDesc) },
