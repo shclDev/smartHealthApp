@@ -48,27 +48,28 @@ fun UserInfo(viewModel: DashBoardViewModel = hiltViewModel()) {
                 contentScale = ContentScale.Crop,
                 contentDescription = "User",
                 modifier = Modifier
-                    .size(120.dp)
+                    .size(120.pxToDp())
                     .clip(CircleShape)
             )
-            Spacer(modifier = Modifier.width(40.dp))
+            Spacer(modifier = Modifier.width(40.pxToDp()))
             Column {
-                Row{
+                Row(verticalAlignment = Alignment.CenterVertically){
                     Text("혜정님, 안녕하세요" , style = Typography.headlineLarge , color = Color1E1E1E)
                     Image(
-                        modifier = Modifier.size(63.dp , 63.dp),
+                        modifier = Modifier.size(63.pxToDp() , 63.pxToDp()),
                         painter = painterResource(id = R.drawable.ani_hand),
                         contentDescription = null
                     )
                 }
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(20.pxToDp()))
                 Row(
                     modifier = Modifier
-                        .defaultMinSize(minWidth = 530f.pxToDp(), minHeight = 80f.pxToDp())
+                        .defaultMinSize(minWidth = 530.pxToDp(), minHeight = 80.pxToDp())
                         .align(Alignment.Start)
                         .border(
-                            width = 1.dp, color = ColorD49E1, shape = RoundedCornerShape(18)
-                        ).padding(horizontal = 40f.pxToDp(), vertical = 28f.pxToDp())){
+                            width = 1.dp, color = ColorD49E1, shape = RoundedCornerShape(18.pxToDp())
+                        )
+                        .padding(horizontal = 40.pxToDp(), vertical = 28.pxToDp())){
                     Text("성별 " , style = Typography.bodySmall)
                     Text("여 " , style = Typography.bodySmall)
                     Text("나이 " , style = Typography.bodySmall)

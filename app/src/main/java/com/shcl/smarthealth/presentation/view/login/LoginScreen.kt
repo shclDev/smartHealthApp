@@ -101,7 +101,6 @@ fun rightSide(nav : NavHostController){
         Column(
             modifier = Modifier
                 .align(Alignment.TopStart)
-
         ){
 
             Text(text = stringResource(id = R.string.login_welcome) , style = TextStyle(fontFamily = FontFamily.Default , fontSize = 50f.pxToSp() , fontWeight = FontWeight.W700) )
