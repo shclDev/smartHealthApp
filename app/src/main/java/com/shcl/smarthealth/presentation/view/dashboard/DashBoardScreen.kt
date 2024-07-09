@@ -57,20 +57,14 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
                 PursePressureComponent(bloodPressure)
             }
 
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                fontWeight = FontWeight.Bold,
-                text = "test"
-            )
-
-
+            /*
             nutritionAdvice?.let{
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     fontWeight = FontWeight.Bold,
                     text = it
                 )
-            }
+            }*/
         }
 
     }

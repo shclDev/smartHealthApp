@@ -1,5 +1,6 @@
 package com.shcl.smarthealth.data.repository.dataSoruceImpl
 
+import android.service.autofill.UserData
 import android.util.Log
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.common.GlobalVariables.context
@@ -148,7 +149,7 @@ class OmronDeviceDataSourceImpl @Inject constructor(
 
             onScanListener  = object : ScanController.Listener{
                 override fun onScan(discoveredDevices: List<DiscoveredDevice?>) {
-                    Log.d("sdevice" , "onScan - ${discoveredDevices.size}")
+                    Log.d("sdevice" , "onScan - ${discoveredDevices}")
                     //onScaned(discoveredDevices)
                     trySend(discoveredDevices)
 
@@ -250,9 +251,9 @@ class OmronDeviceDataSourceImpl @Inject constructor(
 
                     when(type){
                         ResultType.Success-> {
-                            trySend(MeasurementRecordState(sessionData = sessionData,status = MeasurementStatus.Success))
+                            trySend(MeasurementRecordState(sessionData = sessionData,status = MeasurementStatus.Success , category = sessionData.deviceCategory ))
                         }
-                        ResultType.Failure-> trySend(MeasurementRecordState(sessionData = sessionData,status = MeasurementStatus.Fail))
+                        ResultType.Failure-> trySend(MeasurementRecordState(sessionData = sessionData,status = MeasurementStatus.Fail , category = sessionData.deviceCategory))
                     }
                 }
             }
@@ -269,14 +270,14 @@ class OmronDeviceDataSourceImpl @Inject constructor(
 
             discoveredDevice?.let{
 
-                if(discoveredDevice?.address != null){
+                if(discoveredDevice.address.isNullOrEmpty()){
 
                 }
                 // Unregister user session
                 var option: MutableMap<OHQSessionOptionKey, Any> = HashMap()
-                //option.put(OHQSessionOptionKey.UserIndexKey ,USER_INDEX_UNREGISTERED_USER)
+                //option.put(OHQSessionOptionKey.UserIndexKey ,1)
                 //option.put(OHQSessionOptionKey.ConsentCodeKey , CONSENT_CODE_UNREGISTERED_USER)
-                //option.put(OHQSessionOptionKey.UserDataKey , HashMap<>(userData))
+                //option.put(OHQSessionOptionKey.UserDataKey , HashMap<UserData>())
                 option.put(OHQSessionOptionKey.ReadMeasurementRecordsKey,true)
                 option.put(OHQSessionOptionKey.ConnectionWaitTimeKey , CONNECTION_WAIT_TIME)
                 option.put(OHQSessionOptionKey.AllowAccessToOmronExtendedMeasurementRecordsKey, true)

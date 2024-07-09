@@ -53,7 +53,7 @@ fun ScanDeviceScreen(
     viewModel : OmronDeviceViewModel = hiltViewModel()
 ){
     val devicesStatFlow by viewModel.state.collectAsState()
-    val testFlow by viewModel.testState.collectAsState()
+    //val testFlow by viewModel.testState.collectAsState()
     val measurementStatus by viewModel.measurementState.collectAsState()
 
     var sessionStatus = ""
@@ -72,7 +72,7 @@ fun ScanDeviceScreen(
                 Text("stop device")
             }
 
-            Text(text = "${testFlow}", color = Color.Black)
+            //Text(text = "${testFlow}", color = Color.Black)
             Text(text= measurementStatus.toString() , color = Color.Black)
 
             LazyColumn(modifier = Modifier.fillMaxSize()) {

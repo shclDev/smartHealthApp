@@ -39,7 +39,7 @@ fun PursePressureComponent(bloodPressure : BloodPressureRoom?){
     Box(
         modifier = Modifier
             .background(color = ColorF1F4F9)
-            .size(width = 288f.pxToDp(), height = 360f.pxToDp())
+            .size(width = 320f.pxToDp(), height = 600f.pxToDp())
             //.defaultMinSize(minWidth = 288f.pxToDp(), minHeight = 360f.pxToDp())
             .border(width = 1.dp, color = ColorD49E1, shape = RoundedCornerShape(18.dp))
             .padding(30.dp)
@@ -47,7 +47,7 @@ fun PursePressureComponent(bloodPressure : BloodPressureRoom?){
         Column(modifier = Modifier
             .align(Alignment.Center)
            , verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.Start
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Image(
@@ -59,7 +59,7 @@ fun PursePressureComponent(bloodPressure : BloodPressureRoom?){
 
             Spacer(modifier = Modifier.width(20f.pxToDp()))
 
-            Text("맥박" , style = Typography.headlineMedium , color = Color1E1E1E)
+            Text("맥박" , style = Typography.headlineMedium , color = Color1E1E1E , textAlign = TextAlign.Center)
 
             Spacer(modifier = Modifier.width(20.dp))
 
@@ -72,6 +72,8 @@ fun PursePressureComponent(bloodPressure : BloodPressureRoom?){
                 Text("-" , style = Typography.labelSmall , color = Color1E1E1E, textAlign = TextAlign.Center)
                 Text("mmHg", style = Typography.labelSmall , color = Color1E1E1E, textAlign = TextAlign.Center)
             }
+
+            Text("그래프 영역")
 
         }
     }

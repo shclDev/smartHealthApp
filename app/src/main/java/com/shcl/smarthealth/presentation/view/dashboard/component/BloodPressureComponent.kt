@@ -59,7 +59,7 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
                 Spacer(modifier = Modifier.width(30f.pxToDp()))
 
                 bloodPressure?.systolic?.let {
-                    Column(modifier = Modifier.background(Color.White)) {
+                    Column() {
                         Text("수축기 혈압" , style = Typography.headlineMedium )
 
                         Row {
