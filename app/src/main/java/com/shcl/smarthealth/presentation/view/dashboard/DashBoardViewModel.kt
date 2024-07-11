@@ -3,6 +3,7 @@ package com.shcl.smarthealth.presentation.view.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
+import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.usecase.dashboard.DashBoardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +24,9 @@ class DashBoardViewModel @Inject constructor(
 
     private val _bloodPressure : MutableStateFlow<BloodPressureRoom?> = MutableStateFlow(null)
     val bloodPressure: StateFlow<BloodPressureRoom?> = _bloodPressure
+
+    private val _bodyComposition : MutableStateFlow<BodyCompositionRoom?> = MutableStateFlow(null)
+    val bodyComposition: StateFlow<BodyCompositionRoom?> = _bodyComposition
 
     fun getNutrionAdvice(){
         viewModelScope.launch{
@@ -46,6 +50,19 @@ class DashBoardViewModel @Inject constructor(
                     _bloodPressure.value = it
                 }
         }
+    }
+
+    fun getLastedWeight(){
+        viewModelScope.launch {
+            dashBoardUseCase.getWeightDBUseCase.invoke()
+                .onStart { }
+                .onCompletion { }
+                .catch { }
+                .collect{
+                    _bodyComposition.value = it
+                }
+        }
+
     }
 
 

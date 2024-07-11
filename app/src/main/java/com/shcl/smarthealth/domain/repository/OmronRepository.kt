@@ -1,6 +1,7 @@
 package com.shcl.smarthealth.domain.repository
 
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
+import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
@@ -29,6 +30,12 @@ interface OmronRepository {
      suspend fun updateBloodPressureDataToDB(measureRecordRoom: BloodPressureRoom)
      //get from db
      fun getBloodPressureDataFromDB(userID : Int)
+
+    //update to db
+    suspend fun updateBodyCompositionDataToDB(bodyCompositionRoom: BodyCompositionRoom)
+
+    //get from db
+    fun getBodyCompositionDataFromDB(userID : Int)
 
      //update to db
     suspend fun registerDeviceDataToDB(discoveredDevice: DiscoveredDevice)

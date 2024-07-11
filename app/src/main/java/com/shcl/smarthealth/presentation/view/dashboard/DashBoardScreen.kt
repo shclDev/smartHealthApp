@@ -26,6 +26,7 @@ import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.view.dashboard.component.BloodPressureComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.PursePressureComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.UserInfo
+import com.shcl.smarthealth.presentation.view.dashboard.component.WeightComponent
 
 @Composable
 fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hiltViewModel()){
@@ -35,6 +36,10 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
 
     viewModel.getLastedBloodPressure()
     val bloodPressure by viewModel.bloodPressure.collectAsState()
+    
+    viewModel.getLastedWeight()
+    val weight by viewModel.bodyComposition.collectAsState()
+    
 
     Box(
         modifier = Modifier
@@ -55,6 +60,7 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
             ) {
                 BloodPressureComponent(bloodPressure)
                 PursePressureComponent(bloodPressure)
+                WeightComponent(bodyCompositionRoom = weight)
             }
 
             /*

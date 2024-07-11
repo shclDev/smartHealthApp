@@ -8,33 +8,28 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.shcl.smarthealth.R
-import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
+import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
-import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.ColorD49E1
 import com.shcl.smarthealth.ui.theme.ColorF1F4F9
 import com.shcl.smarthealth.ui.theme.Typography
 import kotlin.math.roundToInt
 
 @Composable
-fun PursePressureComponent(bloodPressure : BloodPressureRoom?){
+fun WeightComponent(bodyCompositionRoom: BodyCompositionRoom?){
 
     Box(
         modifier = Modifier
@@ -46,37 +41,38 @@ fun PursePressureComponent(bloodPressure : BloodPressureRoom?){
     ){
         Column(modifier = Modifier
             .align(Alignment.Center)
-           , verticalArrangement = Arrangement.SpaceBetween,
+            , verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Image(
                 modifier =
                 Modifier.size(120.dp, 120.dp).align(Alignment.CenterHorizontally),
-                painter = painterResource(id = R.drawable.purse_icon),
+                painter = painterResource(id = R.drawable.weight_icon),
                 contentDescription = null
             )
 
             Spacer(modifier = Modifier.width(20f.pxToDp()))
 
-            Text("맥박" , style = Typography.headlineMedium , color = Color1E1E1E , textAlign = TextAlign.Center)
+            Text("몸무게" , style = Typography.headlineMedium , color = Color1E1E1E , textAlign = TextAlign.Center)
 
             Spacer(modifier = Modifier.width(20.dp))
 
-            bloodPressure?.let{
+            bodyCompositionRoom?.let{
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("${it.pulseRate.roundToInt()}" , style = Typography.labelSmall , color = Color1E1E1E , textAlign = TextAlign.Center)
-                    Text("${it.systolicUnit}", style = Typography.labelSmall , color = Color1E1E1E , textAlign = TextAlign.Center)
+                    Text("${it.weight}" , style = Typography.labelSmall , color = Color1E1E1E , textAlign = TextAlign.Center)
+                    Text("${it.weightUnit}", style = Typography.labelSmall , color = Color1E1E1E , textAlign = TextAlign.Center)
                 }
-            } ?:Row(verticalAlignment = Alignment.CenterVertically) {
+            } ?: Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("-" , style = Typography.labelSmall , color = Color1E1E1E, textAlign = TextAlign.Center)
-                Text("mmHg", style = Typography.labelSmall , color = Color1E1E1E, textAlign = TextAlign.Center)
+                Text("kg", style = Typography.labelSmall , color = Color1E1E1E, textAlign = TextAlign.Center)
             }
 
             Text("그래프 영역")
 
         }
     }
+
 
 
 }

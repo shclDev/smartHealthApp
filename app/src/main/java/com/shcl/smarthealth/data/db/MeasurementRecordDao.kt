@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
+import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import kotlinx.coroutines.flow.Flow
 
@@ -34,5 +35,14 @@ interface MeasurementRecordDao {
 
     @Query("DELETE FROM found_device_tb")
     suspend fun deleteAllDevice()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addBodyComposition(bodyCompositionRoom: BodyCompositionRoom)
+
+    @Query("SELECT * FROM body_composition_tb")
+    fun getAllBodyComposition() : List<BodyCompositionRoom>
+
+    @Query("SELECT * FROM body_composition_tb WHERE userId = :userId ORDER BY timeStamp DESC LIMIT 1")
+    fun getBodyCompositionByUserID(userId : Int) : Flow<BodyCompositionRoom>
 
 }

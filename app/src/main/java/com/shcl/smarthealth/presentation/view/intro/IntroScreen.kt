@@ -44,14 +44,16 @@ import kotlin.math.sqrt
 fun IntroScreen(nav : NavHostController , modifier: Modifier?){
 
     //requestPermission()
-
     //val context = LocalContext.current
 
-    val logo = painterResource(id = R.drawable.logo_main)
+
+    var allPermissionGranted : Boolean = featureThatRequiresPermission()
 
     LaunchedEffect(key1 = true) {
-        delay(1500L)
-        nav.navigate(route = OuterScreen.login.route)
+        if(allPermissionGranted){
+            delay(1500L)
+            nav.navigate(route = OuterScreen.login.route)
+        }
     }
 
     Box(
@@ -70,7 +72,7 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
                 Box {
                     Image(
                         modifier = Modifier.size(497.pxToDp(), 278.pxToDp()),
-                        painter = logo,
+                        painter = painterResource(id = R.drawable.logo_main),
                         contentDescription = null
                     )
                 }
@@ -87,7 +89,6 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
                 ){
                     Text("go to dashboard")
                 }*/
-                featureThatRequiresPermission()
                 //requestPermission()
                 //featureThatRequiresCameraPermission()
 

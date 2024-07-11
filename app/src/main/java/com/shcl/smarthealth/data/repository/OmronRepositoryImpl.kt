@@ -4,6 +4,7 @@ import android.util.Log
 import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
+import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
@@ -60,6 +61,19 @@ class OmronRepositoryImpl (
 
     override fun getBloodPressureDataFromDB(userID: Int) {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun updateBodyCompositionDataToDB(bodyCompositionRoom: BodyCompositionRoom) {
+
+        try{
+            measureRecordDataSource.updateBodyCompositionToDB(bodyCompositionRoom)
+        }catch(e : Exception){
+            Log.e("error" , "${e.message}")
+        }
+    }
+
+    override fun getBodyCompositionDataFromDB(userID: Int) {
+
     }
 
     override suspend fun registerDeviceDataToDB(discoveredDevice: DiscoveredDevice) {

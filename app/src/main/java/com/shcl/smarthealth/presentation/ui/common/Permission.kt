@@ -41,7 +41,7 @@ import jp.co.ohq.ble.OHQDeviceManager
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun featureThatRequiresPermission() {
+fun featureThatRequiresPermission() : Boolean{
 
     val permissions = listOf(
         android.Manifest.permission.BLUETOOTH_SCAN,
@@ -56,7 +56,7 @@ fun featureThatRequiresPermission() {
     val permissionStates = rememberMultiplePermissionsState(permissions)
 
     if(permissionStates.allPermissionsGranted){
-        Log.d("permission" , "모든 권한 획득")
+        return true
     }else{
         permissionStates.permissions.forEach{
             if(it.status.isGranted){
@@ -101,6 +101,12 @@ fun featureThatRequiresPermission() {
                 }
 
             }
+        }
+
+        if(permissionStates.allPermissionsGranted){
+            return true
+        }else{
+            return false
         }
     }
 }

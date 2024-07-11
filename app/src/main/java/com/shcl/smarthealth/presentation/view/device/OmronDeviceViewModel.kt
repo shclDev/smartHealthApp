@@ -2,11 +2,13 @@ package com.shcl.smarthealth.presentation.view.device
 
 
 import android.util.Log
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
+import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.BodyComposition
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
@@ -81,12 +83,12 @@ class OmronDeviceViewModel @Inject constructor(
 
                 if((it.status == MeasurementStatus.Success)){
 
-                    val deviceCategory = it.sessionData?.deviceCategory
+                    val deviceCategory = it.category
 
                     try{
                         val measurementRecord : Map<OHQMeasurementRecordKey , Any>? = it.sessionData?.measurementRecord?.get(0)
 
-
+                        /*
                         measurementRecord?.let {
                             val bloodPressure = BloodPressure(
                                 diastolic = measurementRecord.get(OHQMeasurementRecordKey.DiastolicKey).toString().toFloat(),
@@ -100,7 +102,7 @@ class OmronDeviceViewModel @Inject constructor(
                             //ROOM DB - update
                             _updateBloodPressure(bloodPressure)
                             Log.d("omron-s","${bloodPressure}")
-                        }
+                        }*/
 
                         when(deviceCategory){
                             OHQDeviceCategory.BloodPressureMonitor->{
@@ -122,6 +124,8 @@ class OmronDeviceViewModel @Inject constructor(
                             }
                             OHQDeviceCategory.WeightScale->{
 
+                                Log.d("omron-s","session WeightScale")
+
                             }
                             OHQDeviceCategory.PulseOximeter->{}
                             OHQDeviceCategory.HealthThermometer->{}
@@ -129,29 +133,40 @@ class OmronDeviceViewModel @Inject constructor(
                             OHQDeviceCategory.BodyCompositionMonitor->{
                                 Log.d("omron-s","session BodyCompositionMonitor")
 
-                                measurementRecord?.let{
-                                    val userIndexKey = measurementRecord.get(OHQMeasurementRecordKey.UserIndexKey).toString().toInt()
-                                    val sequenceNumber = measurementRecord.get(OHQMeasurementRecordKey.SequenceNumberKey).toString().toInt()
-                                    val weight = measurementRecord.get(OHQMeasurementRecordKey.WeightKey).toString().toLong()
-                                    val weightUnit = measurementRecord.get(OHQMeasurementRecordKey.WeightUnitKey).toString()
-                                    val bodyFat = measurementRecord.get(OHQMeasurementRecordKey.BodyFatPercentageKey).toString().toFloat()
-                                    val timeStamp = measurementRecord.get(OHQMeasurementRecordKey.TimeStampKey).toString()
+                                try{
+                                    measurementRecord?.let{
+                                        val userIndexKey = measurementRecord.get(OHQMeasurementRecordKey.UserIndexKey).toString().toInt()
+                                        val sequenceNumber = measurementRecord.get(OHQMeasurementRecordKey.SequenceNumberKey).toString().toInt()
+                                        val weight = measurementRecord.get(OHQMeasurementRecordKey.WeightKey).toString().toFloat()
+                                        val weightUnit = measurementRecord.get(OHQMeasurementRecordKey.WeightUnitKey).toString()
+                                        val bodyAge = measurementRecord.get(OHQMeasurementRecordKey.BodyAgeKey).toString().toInt()
+                                        val bmi = measurementRecord.get(OHQMeasurementRecordKey.BMIKey).toString().toFloat()
+                                        //val musclePercentage = measurementRecord.get(OHQMeasurementRecordKey.MusclePercentageKey).toString().toFloat()
+                                        val bodyFatPercentage = measurementRecord.get(OHQMeasurementRecordKey.BodyFatPercentageKey).toString().toFloat()
+                                        val skeletalMusclePercentage = measurementRecord.get(OHQMeasurementRecordKey.SkeletalMusclePercentageKey).toString().toFloat()
+                                        val timeStamp = measurementRecord.get(OHQMeasurementRecordKey.TimeStampKey).toString()
 
-                                    val bodyComposition = BodyComposition(
-                                        userIndex = userIndexKey,
-                                        sequenceNumber = sequenceNumber,
-                                        weight = weight,
-                                        weightUnit = weightUnit,
-                                        fatPercentage = bodyFat,
-                                        timeStamp = timeStamp
-                                    )
-
-                                    Log.d("omron-s","${bodyComposition}")
+                                        val bodyComposition = BodyComposition(
+                                            userIndex = userIndexKey,
+                                            sequenceNumber = sequenceNumber,
+                                            weight = weight,
+                                            weightUnit = weightUnit,
+                                            bodyAge = bodyAge,
+                                            bmi = bmi,
+                                            musclePercentage =0.0f,
+                                            bodyFatPercentage = bodyFatPercentage,
+                                            skeletalMusclePercentage = skeletalMusclePercentage,
+                                            timeStamp = timeStamp
+                                        )
+                                        _updateBodyComposition(bodyComposition)
+                                    }
+                                }catch(e : Exception){
+                                    Log.e("omron-s" , "${e.message}")
                                 }
 
                             }
                             else->{
-                                Log.d("omron-s","session error")
+                                Log.d("omron-s","OHQDeviceCategory error")
                             }
                         }
 
@@ -197,6 +212,33 @@ class OmronDeviceViewModel @Inject constructor(
                     ))
             }
 
+        }catch(e : Exception){
+            Log.d("omron-s" , "${e.message}")
+        }
+    }
+
+    fun _updateBodyComposition(bodyComposition: BodyComposition){
+        Log.d("omron", "update bodyComposition")
+
+        try{
+            GlobalScope.launch(Dispatchers.IO){
+                omronDeviceUseCase.bodyCompositionUseCase.updateBodyCompositionToDB(
+                    BodyCompositionRoom(
+                        userId = 1,
+                        userIndex = bodyComposition.userIndex,
+                        sequenceNumber = bodyComposition.sequenceNumber,
+                        weight = bodyComposition.weight,
+                        weightUnit = bodyComposition.weightUnit,
+                        fatPercentage = bodyComposition.bodyFatPercentage,
+                        bodyAge = bodyComposition.bodyAge,
+                        bmi = bodyComposition.bmi,
+                        musclePercentage = bodyComposition.musclePercentage,
+                        bodyFatPercentage = bodyComposition.bodyFatPercentage,
+                        skeletalMusclePercentage = bodyComposition.skeletalMusclePercentage,
+                        timeStamp = bodyComposition.timeStamp
+                    )
+                )
+            }
         }catch(e : Exception){
             Log.d("omron-s" , "${e.message}")
         }
