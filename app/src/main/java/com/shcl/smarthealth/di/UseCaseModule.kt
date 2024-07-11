@@ -2,9 +2,10 @@ package com.shcl.smarthealth.di
 
 import com.shcl.smarthealth.domain.repository.DashBoardRepository
 import com.shcl.smarthealth.domain.repository.OmronRepository
-import com.shcl.smarthealth.domain.usecase.ble.BloodPressureUseCase
+import com.shcl.smarthealth.domain.usecase.ble.SetBloodPressureUseCase
 import com.shcl.smarthealth.domain.usecase.ble.GetBloodPressureUseCase
 import com.shcl.smarthealth.domain.usecase.ble.OmronDeviceUseCase
+import com.shcl.smarthealth.domain.usecase.ble.RegisterDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.ble.ScanDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.DashBoardUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetBloodPressureDBUseCase
@@ -31,6 +32,7 @@ object UseCaseModule {
     fun provideOmronDeviceUseCase(omronRepository: OmronRepository) = OmronDeviceUseCase(
         scanDeviceUseCase = ScanDeviceUseCase(repository = omronRepository),
         getBloodPressureUseCase = GetBloodPressureUseCase(repository = omronRepository),
-        bloodPressureUseCase = BloodPressureUseCase(repository = omronRepository)
+        setBloodPressureUseCase = SetBloodPressureUseCase(repository = omronRepository),
+        registerDeviceUseCase = RegisterDeviceUseCase(repository = omronRepository)
     )
 }

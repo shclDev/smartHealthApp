@@ -5,6 +5,8 @@ import android.util.DisplayMetrics
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import java.text.SimpleDateFormat
+import java.util.Date
 
 object Utils {
 
@@ -15,4 +17,10 @@ object Utils {
 
     @Composable
     fun Int.dp() = with(LocalDensity.current) {  Dp(this@dp.toFloat()).toSp()  }
+
+    fun getTimeStamp() : String {
+        val dateformat : SimpleDateFormat = SimpleDateFormat("yyyyMMddhhmmss")
+        return dateformat.format(Date())
+    }
+
 }

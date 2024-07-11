@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-@Entity(tableName = "bloodPressure")
+@Entity(tableName = "blood_pressure_tb")
 data class BloodPressureRoom (
     @PrimaryKey(autoGenerate = true)
     var pk : Long = 0,

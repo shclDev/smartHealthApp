@@ -5,5 +5,6 @@ import com.shcl.smarthealth.domain.usecase.dashboard.GetNutritionAdviceUseCase
 data class OmronDeviceUseCase (
     val getBloodPressureUseCase : GetBloodPressureUseCase,
     val scanDeviceUseCase: ScanDeviceUseCase,
-    val bloodPressureUseCase: BloodPressureUseCase
+    val setBloodPressureUseCase: SetBloodPressureUseCase,
+    val registerDeviceUseCase: RegisterDeviceUseCase
 )

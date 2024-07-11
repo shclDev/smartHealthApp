@@ -7,12 +7,17 @@ import com.shcl.smarthealth.common.GlobalVariables.context
 import com.shcl.smarthealth.common.ble.controller.BluetoothPowerController
 import com.shcl.smarthealth.common.ble.controller.ScanController
 import com.shcl.smarthealth.common.ble.controller.SessionController
+
+import com.shcl.smarthealth.data.db.MeasurementRecordDao
+import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
+import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.omron.ComType
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.model.omron.Protocol
 import com.shcl.smarthealth.domain.model.omron.ResultType
 import com.shcl.smarthealth.domain.model.omron.SessionData
+import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
 import com.shcl.smarthealth.presentation.view.device.MeasurementStatus
 import jp.co.ohq.ble.OHQConfig
@@ -136,13 +141,6 @@ class OmronDeviceDataSourceImpl @Inject constructor(
     override fun pairing(): Boolean {
         TODO("Not yet implemented")
     }
-
-    override fun registerDevice(): DiscoveredDevice {
-        TODO("Not yet implemented")
-    }
-
-
-
 
     override fun onScaned(discoveredDevices : List<DiscoveredDevice?>): Flow<List<DiscoveredDevice?>>{
         return callbackFlow {

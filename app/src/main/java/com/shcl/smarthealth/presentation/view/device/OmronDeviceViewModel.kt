@@ -80,6 +80,9 @@ class OmronDeviceViewModel @Inject constructor(
                 Log.d("omron-s" , it.toString())
 
                 if((it.status == MeasurementStatus.Success)){
+
+                    val deviceCategory = it.sessionData?.deviceCategory
+
                     try{
                         val measurementRecord : Map<OHQMeasurementRecordKey , Any>? = it.sessionData?.measurementRecord?.get(0)
 
@@ -99,7 +102,7 @@ class OmronDeviceViewModel @Inject constructor(
                             Log.d("omron-s","${bloodPressure}")
                         }
 
-                        when(it.category){
+                        when(deviceCategory){
                             OHQDeviceCategory.BloodPressureMonitor->{
 
                                 measurementRecord?.let {
@@ -170,12 +173,19 @@ class OmronDeviceViewModel @Inject constructor(
         omronDeviceUseCase.scanDeviceUseCase.stopDevice()
     }
 
+    fun registerDevice(discoveredDevice: DiscoveredDevice){
+
+        GlobalScope.launch(Dispatchers.IO){
+            omronDeviceUseCase.registerDeviceUseCase.registerDeviceToDB(discoveredDevice)
+        }
+    }
+
     fun _updateBloodPressure(bloodPressure: BloodPressure){
         Log.d("omron" , "update BloodPressure")
         try{
 
             GlobalScope.launch(Dispatchers.IO){
-                omronDeviceUseCase.bloodPressureUseCase.updateBloodPressureToDB(
+                omronDeviceUseCase.setBloodPressureUseCase.updateBloodPressureToDB(
                     BloodPressureRoom(
                         userId = 1,
                         diastolic = bloodPressure.diastolic,

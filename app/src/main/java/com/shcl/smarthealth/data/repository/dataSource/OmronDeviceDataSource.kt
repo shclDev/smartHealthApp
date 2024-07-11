@@ -11,8 +11,6 @@ interface OmronDeviceDataSource {
 
     fun pairing() :Boolean
 
-    fun registerDevice() : DiscoveredDevice
-
     fun onScaned(discoveredDevices: List<DiscoveredDevice?>) : Flow<List<DiscoveredDevice?>>
 
     fun testStateFlow() : Flow<Int>

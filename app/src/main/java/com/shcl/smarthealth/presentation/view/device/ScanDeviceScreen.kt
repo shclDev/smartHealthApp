@@ -91,17 +91,18 @@ fun ScanDeviceScreen(
 
 }
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun deviceItem(viewModel:OmronDeviceViewModel,device : DiscoveredDevice){
 
     var showDialogState by remember { mutableStateOf(false) }
+    var showRegisterDialogState by remember { mutableStateOf(false) }
 
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .size(500.dp , 120.dp)
+            .size(500.dp, 120.dp)
             .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(18.dp))
             .padding(12.dp)
             .clickable {
@@ -127,6 +128,9 @@ fun deviceItem(viewModel:OmronDeviceViewModel,device : DiscoveredDevice){
         Button(
             onClick = {
 
+                if (!showRegisterDialogState) {
+                    showRegisterDialogState = true
+                }
 
             }) {
             Text("register")
@@ -135,7 +139,7 @@ fun deviceItem(viewModel:OmronDeviceViewModel,device : DiscoveredDevice){
 
     when{
         showDialogState ->{
-            transferDataConfirmDialog(
+            ConfirmDialog(
                 show = showDialogState,
                 title = "디바이스 데이터 받기" ,
                 desc = "데이터를 받겠습니까?",
@@ -149,12 +153,30 @@ fun deviceItem(viewModel:OmronDeviceViewModel,device : DiscoveredDevice){
         }
     }
 
+    when{
+        showRegisterDialogState->{
+            ConfirmDialog(
+                show = showRegisterDialogState,
+                title = "디바이스 등록" ,
+                desc = "해당 디바이스를 등록 하시겠습니까?",
+                onDismiss = {showRegisterDialogState = false},
+                onConfirm = {
+                    Log.d("sdevice","register device")
+                    viewModel.registerDevice(device)
+                    showRegisterDialogState = false
+                },
+            )
+
+        }
+
+    }
+
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
-fun transferDataConfirmDialog(
+fun ConfirmDialog(
     show : Boolean,
     title : String,
     desc : String,
