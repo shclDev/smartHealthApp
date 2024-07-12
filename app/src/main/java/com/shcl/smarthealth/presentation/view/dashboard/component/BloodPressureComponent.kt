@@ -29,7 +29,7 @@ import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.view.dashboard.DashBoardViewModel
 import com.shcl.smarthealth.ui.theme.Color757575
-import com.shcl.smarthealth.ui.theme.ColorD49E1
+import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.ColorF1F4F9
 import com.shcl.smarthealth.ui.theme.Typography
 import kotlin.math.roundToInt
@@ -44,7 +44,7 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
     Box(
         modifier = Modifier
             .background(color = ColorF1F4F9)
-            .border(width = 1.dp, color = ColorD49E1, shape = RoundedCornerShape(18.dp))
+            .border(width = 1.dp, color = ColorD4D9E1, shape = RoundedCornerShape(18.dp))
             .padding(30.dp)
             .defaultMinSize(minWidth = 496f.pxToDp(), minHeight = 360f.pxToDp())
     ){

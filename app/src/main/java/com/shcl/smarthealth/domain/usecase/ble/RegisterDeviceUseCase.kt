@@ -13,5 +13,6 @@ class RegisterDeviceUseCase @Inject constructor(
 
     suspend fun registerDeviceToDB(discoveredDevice: DiscoveredDevice) = repository.registerDeviceDataToDB(discoveredDevice)
 
+    //fun paringDevice(discoveredDevice: DiscoveredDevice) = repository.pairing(discoveredDevice)
 
 }

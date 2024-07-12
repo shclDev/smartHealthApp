@@ -8,6 +8,7 @@ import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
+import com.shcl.smarthealth.domain.model.omron.RequestType
 import com.shcl.smarthealth.domain.repository.OmronRepository
 import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
@@ -31,17 +32,18 @@ class OmronRepositoryImpl (
         omronDeviceDataSource.startScan()
     }
 
-    override fun getBloodPressureData(discoveredDevice: DiscoveredDevice?) : Flow<MeasurementRecordState> {
-        return omronDeviceDataSource.getBloodPressureData(discoveredDevice)
+    override fun getDataTransfer(discoveredDevice: DiscoveredDevice? , type : RequestType) : Flow<MeasurementRecordState> {
+        return omronDeviceDataSource.getDataTransfer(discoveredDevice , type)
     }
 
     override suspend fun getBodyData() {
         TODO("Not yet implemented")
     }
 
-    override suspend fun pairing() {
-        TODO("Not yet implemented")
-    }
+    /*
+    override fun pairing(discoveredDevice: DiscoveredDevice) : Flow<MeasurementRecordState> {
+        return omronDeviceDataSource.pairing(discoveredDevice)
+    }*/
 
     override fun stopScan() {
         omronDeviceDataSource.stopScan()
@@ -59,7 +61,7 @@ class OmronRepositoryImpl (
         measureRecordDataSource.updateBloodPressureToDB(bloodPressureRoom = bloodPressureRoom)
     }
 
-    override fun getBloodPressureDataFromDB(userID: Int) {
+    override fun getDataTransferFromDB(userID: Int) {
         TODO("Not yet implemented")
     }
 

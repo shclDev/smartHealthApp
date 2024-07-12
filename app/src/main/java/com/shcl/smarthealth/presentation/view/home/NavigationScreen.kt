@@ -56,7 +56,7 @@ import com.shcl.smarthealth.presentation.view.reservation.ReservationScreen
 import com.shcl.smarthealth.presentation.view.setting.SettingScreen
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.Color757575
-import com.shcl.smarthealth.ui.theme.ColorD49E1
+import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.Typography
 
 @Composable

@@ -45,6 +45,8 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
+import com.shcl.smarthealth.domain.model.omron.RequestType
+import com.shcl.smarthealth.domain.utils.pxToSp
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
@@ -73,7 +75,7 @@ fun ScanDeviceScreen(
             }
 
             //Text(text = "${testFlow}", color = Color.Black)
-            Text(text= measurementStatus.toString() , color = Color.Black)
+            Text(text= measurementStatus.toString() , color = Color.Black , fontSize = 20f.pxToSp())
 
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 devicesStatFlow.scannedDevices.let{devices->
@@ -146,7 +148,7 @@ fun deviceItem(viewModel:OmronDeviceViewModel,device : DiscoveredDevice){
                 onDismiss = {showDialogState = false},
                 onConfirm = {
                     Log.d("sdevice","transfer data request!!")
-                    viewModel.getMeasurementRecord(device)
+                    viewModel.getMeasurementRecord(device , RequestType.DataTransfer)
                     showDialogState = false
                 },
             )
@@ -162,7 +164,7 @@ fun deviceItem(viewModel:OmronDeviceViewModel,device : DiscoveredDevice){
                 onDismiss = {showRegisterDialogState = false},
                 onConfirm = {
                     Log.d("sdevice","register device")
-                    viewModel.registerDevice(device)
+                    viewModel.getMeasurementRecord(device , RequestType.Paring)
                     showRegisterDialogState = false
                 },
             )

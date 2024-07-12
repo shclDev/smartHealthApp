@@ -2,6 +2,7 @@ package com.shcl.smarthealth.domain.usecase.ble
 
 
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
+import com.shcl.smarthealth.domain.model.omron.RequestType
 import com.shcl.smarthealth.domain.repository.OmronRepository
 import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
 import kotlinx.coroutines.flow.Flow
@@ -11,8 +12,8 @@ class GetBloodPressureUseCase @Inject constructor(
     private val repository: OmronRepository
 ) {
 
-     fun getBloodPressureData(discoveredDevice: DiscoveredDevice? ) :Flow<MeasurementRecordState> {
-        return repository.getBloodPressureData(discoveredDevice)
+     fun getDataTransfer(discoveredDevice: DiscoveredDevice?, type : RequestType ) :Flow<MeasurementRecordState> {
+        return repository.getDataTransfer(discoveredDevice , type)
     }
 
 }

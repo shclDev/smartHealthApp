@@ -5,6 +5,8 @@ import android.util.DisplayMetrics
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -21,6 +23,11 @@ object Utils {
     fun getTimeStamp() : String {
         val dateformat : SimpleDateFormat = SimpleDateFormat("yyyyMMddhhmmss")
         return dateformat.format(Date())
+    }
+
+    @Composable
+    fun pxTsp(size : Float) : TextUnit {
+        return (size / LocalDensity.current.fontScale).sp
     }
 
 }

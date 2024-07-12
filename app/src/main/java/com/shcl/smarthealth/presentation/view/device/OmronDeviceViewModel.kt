@@ -12,6 +12,7 @@ import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.BodyComposition
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
+import com.shcl.smarthealth.domain.model.omron.RequestType
 import com.shcl.smarthealth.domain.usecase.ble.OmronDeviceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jp.co.ohq.ble.enumerate.OHQDeviceCategory
@@ -75,11 +76,17 @@ class OmronDeviceViewModel @Inject constructor(
         }
     }
 
-    fun getMeasurementRecord(device : DiscoveredDevice){
+    fun getMeasurementRecord(device : DiscoveredDevice , type : RequestType){
 
         viewModelScope.launch {
-            omronDeviceUseCase.getBloodPressureUseCase.getBloodPressureData(device).collect{
+            omronDeviceUseCase.getBloodPressureUseCase.getDataTransfer(device , type).collect{
                 Log.d("omron-s" , it.toString())
+
+                if(it.status == MeasurementStatus.ParingSuccess){
+                    _registerToDBDevice(device)
+                }else if(it.status == MeasurementStatus.ParingFail){
+                    Log.e("omron-s","paring error")
+                }
 
                 if((it.status == MeasurementStatus.Success)){
 
@@ -87,23 +94,6 @@ class OmronDeviceViewModel @Inject constructor(
 
                     try{
                         val measurementRecord : Map<OHQMeasurementRecordKey , Any>? = it.sessionData?.measurementRecord?.get(0)
-
-                        /*
-                        measurementRecord?.let {
-                            val bloodPressure = BloodPressure(
-                                diastolic = measurementRecord.get(OHQMeasurementRecordKey.DiastolicKey).toString().toFloat(),
-                                diastolicUnit = measurementRecord.get(OHQMeasurementRecordKey.BloodPressureUnitKey).toString(),
-                                systolic = measurementRecord.get(OHQMeasurementRecordKey.SystolicKey).toString().toFloat(),
-                                systolicUnit = measurementRecord.get(OHQMeasurementRecordKey.BloodPressureUnitKey).toString(),
-                                pulseRate = measurementRecord.get(OHQMeasurementRecordKey.PulseRateKey).toString().toFloat(),
-                                timeStamp = measurementRecord.get(OHQMeasurementRecordKey.TimeStampKey).toString()
-                            )
-
-                            //ROOM DB - update
-                            _updateBloodPressure(bloodPressure)
-                            Log.d("omron-s","${bloodPressure}")
-                        }*/
-
                         when(deviceCategory){
                             OHQDeviceCategory.BloodPressureMonitor->{
 
@@ -188,7 +178,21 @@ class OmronDeviceViewModel @Inject constructor(
         omronDeviceUseCase.scanDeviceUseCase.stopDevice()
     }
 
-    fun registerDevice(discoveredDevice: DiscoveredDevice){
+    /*
+    fun paring(discoveredDevice: DiscoveredDevice){
+        viewModelScope.launch {
+            omronDeviceUseCase.registerDeviceUseCase.(discoveredDevice).collect{
+                //paring
+                if(it.status == MeasurementStatus.ParingSuccess){
+                    _registerToDBDevice(discoveredDevice)
+                }else if(it.status == MeasurementStatus.ParingFail){
+                    Log.e("omron-s","paring error")
+                }
+            }
+        }
+    }*/
+
+    fun _registerToDBDevice(discoveredDevice: DiscoveredDevice){
 
         GlobalScope.launch(Dispatchers.IO){
             omronDeviceUseCase.registerDeviceUseCase.registerDeviceToDB(discoveredDevice)

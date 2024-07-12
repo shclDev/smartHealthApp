@@ -4,6 +4,7 @@ import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
+import com.shcl.smarthealth.domain.model.omron.RequestType
 import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
 import kotlinx.coroutines.flow.Flow
 
@@ -14,11 +15,11 @@ interface OmronRepository {
     fun searchDevice()
 
     //get from device
-    fun getBloodPressureData(discoveredDevice: DiscoveredDevice?) : Flow<MeasurementRecordState>
+    fun getDataTransfer(discoveredDevice: DiscoveredDevice? , type : RequestType) : Flow<MeasurementRecordState>
 
     suspend fun getBodyData()
 
-    suspend fun pairing()
+    //fun pairing(discoveredDevice: DiscoveredDevice) : Flow<MeasurementRecordState>
 
     fun stopScan()
 
@@ -29,7 +30,7 @@ interface OmronRepository {
      //update to db
      suspend fun updateBloodPressureDataToDB(measureRecordRoom: BloodPressureRoom)
      //get from db
-     fun getBloodPressureDataFromDB(userID : Int)
+     fun getDataTransferFromDB(userID : Int)
 
     //update to db
     suspend fun updateBodyCompositionDataToDB(bodyCompositionRoom: BodyCompositionRoom)

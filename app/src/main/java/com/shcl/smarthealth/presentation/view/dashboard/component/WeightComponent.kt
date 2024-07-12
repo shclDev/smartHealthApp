@@ -23,7 +23,7 @@ import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
-import com.shcl.smarthealth.ui.theme.ColorD49E1
+import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.ColorF1F4F9
 import com.shcl.smarthealth.ui.theme.Typography
 import kotlin.math.roundToInt
@@ -36,7 +36,7 @@ fun WeightComponent(bodyCompositionRoom: BodyCompositionRoom?){
             .background(color = ColorF1F4F9)
             .size(width = 320f.pxToDp(), height = 600f.pxToDp())
             //.defaultMinSize(minWidth = 288f.pxToDp(), minHeight = 360f.pxToDp())
-            .border(width = 1.dp, color = ColorD49E1, shape = RoundedCornerShape(18.dp))
+            .border(width = 1.dp, color = ColorD4D9E1, shape = RoundedCornerShape(18.dp))
             .padding(30.dp)
     ){
         Column(modifier = Modifier
@@ -68,7 +68,7 @@ fun WeightComponent(bodyCompositionRoom: BodyCompositionRoom?){
                 Text("kg", style = Typography.labelSmall , color = Color1E1E1E, textAlign = TextAlign.Center)
             }
 
-            Text("그래프 영역")
+            Text("어제 대비")
 
         }
     }

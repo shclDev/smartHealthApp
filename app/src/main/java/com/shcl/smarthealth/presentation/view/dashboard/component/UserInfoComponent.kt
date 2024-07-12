@@ -30,7 +30,7 @@ import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.view.dashboard.DashBoardViewModel
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
-import com.shcl.smarthealth.ui.theme.ColorD49E1
+import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.Typography
 
 @Composable
@@ -67,7 +67,7 @@ fun UserInfo(viewModel: DashBoardViewModel = hiltViewModel()) {
                         .defaultMinSize(minWidth = 530.pxToDp(), minHeight = 80.pxToDp())
                         .align(Alignment.Start)
                         .border(
-                            width = 1.dp, color = ColorD49E1, shape = RoundedCornerShape(18.pxToDp())
+                            width = 1.dp, color = ColorD4D9E1, shape = RoundedCornerShape(18.pxToDp())
                         )
                         .padding(horizontal = 40.pxToDp(), vertical = 28.pxToDp())){
                     Text("성별 " , style = Typography.bodySmall)

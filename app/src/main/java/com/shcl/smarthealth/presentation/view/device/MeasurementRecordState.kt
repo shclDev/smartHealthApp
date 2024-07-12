@@ -20,5 +20,7 @@ enum class MeasurementStatus {
     Connected ,
     Disconnecting ,
     Cancel,
+    ParingSuccess,
+    ParingFail,
     Error
 }
