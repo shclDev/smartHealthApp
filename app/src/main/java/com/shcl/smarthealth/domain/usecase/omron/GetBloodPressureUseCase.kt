@@ -1,4 +1,4 @@
-package com.shcl.smarthealth.domain.usecase.ble
+package com.shcl.smarthealth.domain.usecase.omron
 
 
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice

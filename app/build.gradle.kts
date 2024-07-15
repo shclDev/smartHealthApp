@@ -138,5 +138,7 @@ dependencies {
     implementation(project(":ohq-reference-code"))
     implementation(project(":utility"))
 
+    //i-sens lib
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
 }

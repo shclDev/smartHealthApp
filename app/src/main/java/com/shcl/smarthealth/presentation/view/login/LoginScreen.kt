@@ -103,7 +103,7 @@ fun rightSide(nav : NavHostController){
             .fillMaxHeight()
             .fillMaxWidth()
             .background(Color.White)
-            .padding(start = 123.dp, top = 123.dp, end = 123.dp),
+            .padding(start = 123.pxToDp(), top = 123.pxToDp(), end = 123.pxToDp()),
             contentAlignment = Alignment.TopStart
     ){
         Column(
@@ -112,15 +112,16 @@ fun rightSide(nav : NavHostController){
         ){
 
             Text(text = stringResource(id = R.string.login_welcome) , style = Typography.headlineLarge)
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(30.pxToDp()))
             Text(text = stringResource(id = R.string.login_desc) , style = Typography.bodySmall )
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(30.pxToDp()))
             Column {
                 Text(text = stringResource(id = R.string.handphone) , style = Typography.labelMedium , color = Color333333)
                 //Spacer(modifier = Modifier.height(25.dp))
                 OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 86f.dp),
-                    //modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp,30.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 40.pxToDp() , vertical = 30.pxToDp()),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color333333,
                         unfocusedBorderColor = ColorD4D9E1),
@@ -140,7 +141,7 @@ fun rightSide(nav : NavHostController){
                 Text(text = stringResource(id = R.string.birthday) , style = Typography.labelMedium , color = Color333333)
                 //Spacer(modifier = Modifier.height(25.pxToDp()))
                 OutlinedTextField(
-                    //modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp,30.dp),
+                    modifier = Modifier.padding(horizontal = 40.pxToDp(), vertical = 30.pxToDp()).fillMaxWidth(),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color333333,
                         unfocusedBorderColor = ColorD4D9E1),
@@ -154,14 +155,14 @@ fun rightSide(nav : NavHostController){
                             color = Color757575)
                     })
             }
-            Spacer(modifier = Modifier.height(80.dp))
+            Spacer(modifier = Modifier.height(80.pxToDp()))
 
             Button(
                 onClick = {
                     nav.navigate(route = OuterScreen.home.route)
                     //nav.navigate(route = OuterScreen.deviceScan.route)
                 },
-                shape = RoundedCornerShape(18.dp),
+                shape = RoundedCornerShape(18.pxToDp()),
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = PrimaryButtonColor)
             ) {
@@ -169,7 +170,7 @@ fun rightSide(nav : NavHostController){
                   style = Typography.labelMedium , color = Color.White)
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(40.pxToDp()))
 
             TextButton(
                 modifier = Modifier.align(Alignment.CenterHorizontally),

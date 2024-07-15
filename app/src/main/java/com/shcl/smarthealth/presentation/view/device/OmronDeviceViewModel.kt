@@ -2,7 +2,6 @@ package com.shcl.smarthealth.presentation.view.device
 
 
 import android.util.Log
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,17 +12,15 @@ import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.BodyComposition
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.model.omron.RequestType
-import com.shcl.smarthealth.domain.usecase.ble.OmronDeviceUseCase
+import com.shcl.smarthealth.domain.usecase.omron.OmronDeviceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jp.co.ohq.ble.enumerate.OHQDeviceCategory
 import jp.co.ohq.ble.enumerate.OHQMeasurementRecordKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch

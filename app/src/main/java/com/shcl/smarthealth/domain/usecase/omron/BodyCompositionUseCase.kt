@@ -1,8 +1,6 @@
-package com.shcl.smarthealth.domain.usecase.ble
+package com.shcl.smarthealth.domain.usecase.omron
 
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
-import com.shcl.smarthealth.domain.model.omron.BodyComposition
-import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.repository.OmronRepository
 import javax.inject.Inject
 

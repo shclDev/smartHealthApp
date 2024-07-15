@@ -1,6 +1,4 @@
-package com.shcl.smarthealth.domain.usecase.ble
-
-import com.shcl.smarthealth.domain.usecase.dashboard.GetNutritionAdviceUseCase
+package com.shcl.smarthealth.domain.usecase.omron
 
 data class OmronDeviceUseCase (
     val getBloodPressureUseCase : GetBloodPressureUseCase,

@@ -2,12 +2,12 @@ package com.shcl.smarthealth.di
 
 import com.shcl.smarthealth.domain.repository.DashBoardRepository
 import com.shcl.smarthealth.domain.repository.OmronRepository
-import com.shcl.smarthealth.domain.usecase.ble.BodyCompositionUseCase
-import com.shcl.smarthealth.domain.usecase.ble.SetBloodPressureUseCase
-import com.shcl.smarthealth.domain.usecase.ble.GetBloodPressureUseCase
-import com.shcl.smarthealth.domain.usecase.ble.OmronDeviceUseCase
-import com.shcl.smarthealth.domain.usecase.ble.RegisterDeviceUseCase
-import com.shcl.smarthealth.domain.usecase.ble.ScanDeviceUseCase
+import com.shcl.smarthealth.domain.usecase.omron.BodyCompositionUseCase
+import com.shcl.smarthealth.domain.usecase.omron.SetBloodPressureUseCase
+import com.shcl.smarthealth.domain.usecase.omron.GetBloodPressureUseCase
+import com.shcl.smarthealth.domain.usecase.omron.OmronDeviceUseCase
+import com.shcl.smarthealth.domain.usecase.omron.RegisterDeviceUseCase
+import com.shcl.smarthealth.domain.usecase.omron.ScanDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.DashBoardUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetBloodPressureDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetBodyCompositionDBUseCase

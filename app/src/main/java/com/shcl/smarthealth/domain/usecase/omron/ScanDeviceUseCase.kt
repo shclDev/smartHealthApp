@@ -1,20 +1,9 @@
-package com.shcl.smarthealth.domain.usecase.ble
+package com.shcl.smarthealth.domain.usecase.omron
 
-import android.os.Handler
-import com.shcl.smarthealth.common.GlobalVariables
-import com.shcl.smarthealth.common.Resource
-import com.shcl.smarthealth.domain.model.omron.DeviceInfo
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.repository.OmronRepository
-import jp.co.ohq.ble.OHQDeviceManager
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 
 class ScanDeviceUseCase @Inject constructor(
