@@ -2,14 +2,11 @@ package com.shcl.smarthealth.presentation.view.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,24 +32,18 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
+import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.ui.theme.BackGroundColor
-import com.shcl.smarthealth.ui.theme.PrimaryButtonColor
-import com.shcl.smarthealth.ui.theme.Color757575
-import com.shcl.smarthealth.domain.utils.pxToDp
-import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.ui.theme.Color333333
+import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
+import com.shcl.smarthealth.ui.theme.PrimaryButtonColor
 import com.shcl.smarthealth.ui.theme.Typography
 
 

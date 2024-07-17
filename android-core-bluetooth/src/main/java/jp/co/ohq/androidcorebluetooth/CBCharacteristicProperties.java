@@ -7,6 +7,7 @@
 package jp.co.ohq.androidcorebluetooth;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+
 import androidx.annotation.NonNull;
 
 import java.util.EnumSet;

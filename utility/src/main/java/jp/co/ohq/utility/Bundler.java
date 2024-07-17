@@ -2,6 +2,7 @@ package jp.co.ohq.utility;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 

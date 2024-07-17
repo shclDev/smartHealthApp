@@ -20,9 +20,10 @@ import android.content.Context;
 import android.os.Build;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.util.AndroidRuntimeException;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.util.AndroidRuntimeException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

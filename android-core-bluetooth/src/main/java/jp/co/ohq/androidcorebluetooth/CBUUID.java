@@ -1,7 +1,8 @@
 package jp.co.ohq.androidcorebluetooth;
 
-import androidx.annotation.NonNull;
 import android.util.AndroidRuntimeException;
+
+import androidx.annotation.NonNull;
 
 import java.util.UUID;
 import java.util.regex.Pattern;

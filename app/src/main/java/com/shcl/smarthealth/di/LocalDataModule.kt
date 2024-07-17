@@ -2,8 +2,10 @@ package com.shcl.smarthealth.di
 
 import android.content.Context
 import com.shcl.smarthealth.data.db.MeasurementRecordDao
+import com.shcl.smarthealth.data.repository.dataSoruceImpl.IsensDeviceDataSourceImpl
 import com.shcl.smarthealth.data.repository.dataSoruceImpl.MeasureRecordDataSourceImpl
 import com.shcl.smarthealth.data.repository.dataSoruceImpl.OmronDeviceDataSourceImpl
+import com.shcl.smarthealth.data.repository.dataSource.IsensDeviceDataSource
 import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
 import dagger.Module
@@ -19,8 +21,12 @@ import jp.co.ohq.ble.OHQDeviceManager
 class LocalDataModule {
 
     @Provides
-    fun provideLocalDataSource() : OmronDeviceDataSource =
+    fun provideOmronDataSource() : OmronDeviceDataSource =
         OmronDeviceDataSourceImpl()
+
+    @Provides
+    fun provideIsensDataSource() : IsensDeviceDataSource =
+        IsensDeviceDataSourceImpl()
 
     @Provides
     fun provideOHQDeviceManager(@ApplicationContext context : Context) : OHQDeviceManager = OHQDeviceManager.init(context)

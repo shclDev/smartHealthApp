@@ -6,17 +6,12 @@ import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
-import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.model.omron.RequestType
 import com.shcl.smarthealth.domain.repository.OmronRepository
 import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
-import jp.co.ohq.ble.OHQDeviceManager
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 
 class OmronRepositoryImpl (
     private val omronDeviceDataSource : OmronDeviceDataSource,

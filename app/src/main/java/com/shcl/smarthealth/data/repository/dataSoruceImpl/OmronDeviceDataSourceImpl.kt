@@ -134,7 +134,7 @@ class OmronDeviceDataSourceImpl @Inject constructor(
     override fun onScaned(discoveredDevices : List<DiscoveredDevice?>): Flow<List<DiscoveredDevice?>>{
         return callbackFlow {
 
-            onScanListener  = object : ScanController.Listener{
+            val onScanListener  = object : ScanController.Listener{
                 override fun onScan(discoveredDevices: List<DiscoveredDevice?>) {
                     Log.d("sdevice" , "onScan - ${discoveredDevices}")
                     //onScaned(discoveredDevices)
@@ -153,6 +153,7 @@ class OmronDeviceDataSourceImpl @Inject constructor(
             }
 
             awaitClose {
+                scanController.onPause()
                 scanController.stopScan()
             }
 
@@ -284,6 +285,7 @@ class OmronDeviceDataSourceImpl @Inject constructor(
 
             awaitClose {
                 sessionController.onPause()
+                sessionController.cancel()
             }
 
         }

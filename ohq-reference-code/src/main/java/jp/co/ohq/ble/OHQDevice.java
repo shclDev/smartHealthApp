@@ -1,7 +1,14 @@
 package jp.co.ohq.ble;
 
+import static java.lang.String.format;
+import static jp.co.ohq.ble.enumerate.OHQSessionOptionKey.AllowControlOfReadingPositionToMeasurementRecordsKey;
+import static jp.co.ohq.ble.enumerate.OHQSessionOptionKey.DatabaseChangeIncrementValueKey;
+import static jp.co.ohq.ble.enumerate.OHQSessionOptionKey.ReadMeasurementRecordsKey;
+import static jp.co.ohq.ble.enumerate.OHQSessionOptionKey.RegisterNewUserKey;
+
 import android.os.Looper;
 import android.os.Message;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -33,13 +40,13 @@ import jp.co.ohq.ble.entity.internal.BodyCompositionFeature;
 import jp.co.ohq.ble.entity.internal.BodyCompositionMeasurement;
 import jp.co.ohq.ble.entity.internal.CharacteristicPresentationFormat;
 import jp.co.ohq.ble.entity.internal.OmronMeasurementWS;
-import jp.co.ohq.ble.entity.internal.RecordAccessControlPoint;
 import jp.co.ohq.ble.entity.internal.PulseOximeterFeatures;
 import jp.co.ohq.ble.entity.internal.PulseOximeterSpotCheckMeasurement;
+import jp.co.ohq.ble.entity.internal.RecordAccessControlPoint;
+import jp.co.ohq.ble.entity.internal.TemperatureMeasurement;
 import jp.co.ohq.ble.entity.internal.UserControlPoint;
 import jp.co.ohq.ble.entity.internal.WeightMeasurement;
 import jp.co.ohq.ble.entity.internal.WeightScaleFeature;
-import jp.co.ohq.ble.entity.internal.TemperatureMeasurement;
 import jp.co.ohq.ble.enumerate.OHQCompletionReason;
 import jp.co.ohq.ble.enumerate.OHQDataType;
 import jp.co.ohq.ble.enumerate.OHQDetailedState;
@@ -53,12 +60,6 @@ import jp.co.ohq.utility.SynchronizeCallback;
 import jp.co.ohq.utility.Types;
 import jp.co.ohq.utility.sm.State;
 import jp.co.ohq.utility.sm.StateMachine;
-
-import static java.lang.String.format;
-import static jp.co.ohq.ble.enumerate.OHQSessionOptionKey.AllowControlOfReadingPositionToMeasurementRecordsKey;
-import static jp.co.ohq.ble.enumerate.OHQSessionOptionKey.DatabaseChangeIncrementValueKey;
-import static jp.co.ohq.ble.enumerate.OHQSessionOptionKey.ReadMeasurementRecordsKey;
-import static jp.co.ohq.ble.enumerate.OHQSessionOptionKey.RegisterNewUserKey;
 
 final class OHQDevice extends StateMachine implements CBPeripheralDelegate {
 

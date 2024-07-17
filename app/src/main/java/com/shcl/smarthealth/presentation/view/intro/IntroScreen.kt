@@ -19,12 +19,9 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
-import com.shcl.smarthealth.domain.utils.Utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.presentation.ui.common.featureThatRequiresPermission
@@ -36,7 +33,6 @@ import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.math.sqrt
-
 
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)

@@ -7,6 +7,7 @@
 package jp.co.ohq.utility.sm;
 
 import android.os.Message;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 

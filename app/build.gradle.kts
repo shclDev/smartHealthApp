@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.fir.declarations.builder.buildScript
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -83,6 +81,13 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
+    //i-sens lib
+    implementation(fileTree(mapOf(
+        "dir" to "libs",
+        "include" to listOf("*.aar", "*.jar"),
+    )))
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -137,8 +142,5 @@ dependencies {
     implementation(project(":android-core-bluetooth"))
     implementation(project(":ohq-reference-code"))
     implementation(project(":utility"))
-
-    //i-sens lib
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
 }

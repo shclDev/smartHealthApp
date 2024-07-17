@@ -1,6 +1,7 @@
 package jp.co.ohq.androidcorebluetooth;
 
 import android.bluetooth.BluetoothGattDescriptor;
+
 import androidx.annotation.NonNull;
 
 public class CBDescriptor extends CBAttribute {

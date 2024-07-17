@@ -3,7 +3,6 @@ package com.shcl.smarthealth.data.remote
 import okhttp3.Interceptor
 import okhttp3.Response
 import okio.IOException
-import kotlin.jvm.Throws
 
 class NaverInterceptor : Interceptor {
     @Throws(IOException::class)

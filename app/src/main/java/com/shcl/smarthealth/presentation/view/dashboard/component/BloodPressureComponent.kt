@@ -13,21 +13,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.unit.sp
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.utils.pxToDp
-import com.shcl.smarthealth.presentation.view.dashboard.DashBoardViewModel
+import com.shcl.smarthealth.domain.utils.pxToSp
+import com.shcl.smarthealth.ui.theme.Color1E1E1E
 import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.ColorF1F4F9
@@ -43,15 +40,18 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
 
     Box(
         modifier = Modifier
-            .background(color = ColorF1F4F9)
-            .border(width = 1.dp, color = ColorD4D9E1, shape = RoundedCornerShape(18.dp))
-            .padding(30.dp)
             .defaultMinSize(minWidth = 496f.pxToDp(), minHeight = 360f.pxToDp())
+            .border(width = 1.dp, color = ColorD4D9E1, shape = RoundedCornerShape(18.dp))
+            .background(color = ColorF1F4F9)
+            .padding(30.dp)
+
     ){
         Column() {
             Row (){
                 Image(
-                    modifier = Modifier.size(70f.pxToDp(), 70f.pxToDp()).align(Alignment.CenterVertically),
+                    modifier = Modifier
+                        .size(70f.pxToDp(), 70f.pxToDp())
+                        .align(Alignment.CenterVertically),
                     painter = painterResource(id = R.drawable.systolic_icon),
                     contentDescription = null
                 )
@@ -60,19 +60,19 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
 
                 bloodPressure?.systolic?.let {
                     Column() {
-                        Text("수축기 혈압" , style = Typography.headlineMedium )
+                        Text("수축기 혈압" , style = Typography.bodyLarge , fontSize = 20.sp , color = Color1E1E1E )
 
                         Row {
-                            Text("${bloodPressure?.systolic?.roundToInt()}" , style = Typography.labelSmall)
-                            Text("${bloodPressure?.systolicUnit}", style = Typography.labelSmall , color = Color757575)
+                            Text("${bloodPressure.systolic.roundToInt()}" , style = Typography.bodyLarge , color = Color1E1E1E , fontSize = 20.sp)
+                            Text("${bloodPressure.systolicUnit}", style = Typography.bodyLarge , color = Color1E1E1E , fontSize = 20.sp)
                         }
 
-                        Text("그래프 영역")
+                        Text("그래프 영역" , style = Typography.bodyLarge)
                     }
                 } ?: Column() {
-                    Text("수축기 혈압",style = Typography.headlineMedium)
-                    Text("- mmHg" , style = Typography.bodyMedium, color = Color757575)
-                    Text("그래프 영역")
+                    Text("수축기 혈압",style = Typography.bodyLarge , color = Color1E1E1E , fontSize = 20.sp)
+                    Text("- mmHg" , style = Typography.bodyLarge, color = Color1E1E1E , fontSize = 20.sp)
+                    Text("그래프 영역" , style = Typography.bodyLarge , fontSize = 20.sp)
                 }
 
             }
@@ -81,7 +81,9 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
 
             Row () {
                 Image(
-                    modifier = Modifier.size(70f.pxToDp(), 70f.pxToDp()).align(Alignment.CenterVertically),
+                    modifier = Modifier
+                        .size(70f.pxToDp(), 70f.pxToDp())
+                        .align(Alignment.CenterVertically),
                     painter = painterResource(id = R.drawable.diastolic_icon),
                     contentDescription = null
                 )
@@ -90,17 +92,17 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
 
                 bloodPressure?.diastolic?.let{
                     Column() {
-                        Text("이완기 혈압" , style = Typography.headlineMedium )
+                        Text("이완기 혈압" , style = Typography.bodyLarge , fontSize = 20.sp)
                         Row {
-                            Text("${bloodPressure?.diastolic?.roundToInt()}" ,  style = Typography.labelSmall)
-                            Text("${bloodPressure?.diastolicUnit}", style = Typography.labelSmall , color = Color757575)
+                            Text("${bloodPressure?.diastolic?.roundToInt()}" ,  style = Typography.bodyLarge , fontSize = 20.sp)
+                            Text("${bloodPressure?.diastolicUnit}", style = Typography.bodyLarge , color = Color1E1E1E , fontSize = 20.sp)
                         }
                         Text("그래프 영역")
                     }
                 }?: Column() {
-                    Text("이완기 혈압",style = Typography.headlineMedium)
-                    Text("- mmHg" , style = Typography.bodyMedium, color = Color757575)
-                    Text("그래프 영역")
+                    Text("이완기 혈압",style = Typography.bodyLarge , fontSize = 20.sp)
+                    Text("- mmHg" , style = Typography.bodyLarge, color = Color1E1E1E , fontSize = 20.sp)
+                    Text("그래프 영역", style = Typography.bodyLarge, fontSize = 20.sp)
                 }
             }
         }

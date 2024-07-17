@@ -1,5 +1,7 @@
 package jp.co.ohq.androidcorebluetooth;
 
+import static android.bluetooth.BluetoothDevice.ACTION_BOND_STATE_CHANGED;
+
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -10,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -20,8 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 import jp.co.ohq.utility.SynchronizeCallback;
-
-import static android.bluetooth.BluetoothDevice.ACTION_BOND_STATE_CHANGED;
 
 public class CBCentralManager extends CBManager {
 

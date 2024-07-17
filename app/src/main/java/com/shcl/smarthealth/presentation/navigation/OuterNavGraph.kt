@@ -4,8 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.shcl.smarthealth.presentation.view.dashboard.DashBoardScreen
-import com.shcl.smarthealth.presentation.view.device.ScanDeviceScreen
 import com.shcl.smarthealth.presentation.view.home.DismissibleNavigationDrawer
 import com.shcl.smarthealth.presentation.view.intro.IntroScreen
 import com.shcl.smarthealth.presentation.view.login.LoginScreen

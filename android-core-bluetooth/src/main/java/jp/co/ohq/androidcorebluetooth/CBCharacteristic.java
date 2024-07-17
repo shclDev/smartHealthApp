@@ -2,6 +2,7 @@ package jp.co.ohq.androidcorebluetooth;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 

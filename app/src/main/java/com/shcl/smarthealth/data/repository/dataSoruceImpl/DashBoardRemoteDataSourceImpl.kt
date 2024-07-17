@@ -4,7 +4,6 @@ import com.shcl.smarthealth.data.api.DashBoardApi
 import com.shcl.smarthealth.data.repository.dataSource.DashBoardRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 class DashBoardRemoteDataSourceImpl(private val dashBoardApi : DashBoardApi) : DashBoardRemoteDataSource{
     override fun getNutrtionAdvice(): Flow<String> {

@@ -1,6 +1,7 @@
 package com.shcl.smarthealth.presentation.view.device
 
 
+import android.bluetooth.BluetoothDevice
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.BodyComposition
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.model.omron.RequestType
+import com.shcl.smarthealth.domain.usecase.isens.IsensDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.OmronDeviceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jp.co.ohq.ble.enumerate.OHQDeviceCategory
@@ -27,16 +29,25 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class OmronDeviceViewModel @Inject constructor(
+class DeviceViewModel @Inject constructor(
     private val omronDeviceUseCase: OmronDeviceUseCase,
+    private val isensDeviceUseCase: IsensDeviceUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel(){
 
-    private val _state = MutableStateFlow(ScanDeviceState())
-    val state = _state.asStateFlow()
+    private val _omronDeviceState = MutableStateFlow(ScanDeviceState())
+    val omronDeviceState = _omronDeviceState.asStateFlow()
 
-    private val _measurementState = MutableStateFlow(MeasurementRecordState(sessionData = null))
-    val measurementState = _measurementState.asStateFlow()
+    private val _isensDeviceState = MutableStateFlow(IsensScanDeviceState())
+    val isensDeviceState = _isensDeviceState.asStateFlow()
+
+    private val _omronMeasurementState = MutableStateFlow(MeasurementRecordState(sessionData = null))
+    val omronMeasurementState = _omronMeasurementState.asStateFlow()
+
+    private val _iSensMeasurementState = MutableStateFlow(IsensGlucoseRecordState(status = MeasurementStatus.Unknown, records = mutableListOf()))
+    val isensMeasurementState = _iSensMeasurementState.asStateFlow()
+
+
 
     //private val _testState = MutableStateFlow(0)
     //val testState = _testState.asStateFlow()
@@ -55,34 +66,72 @@ class OmronDeviceViewModel @Inject constructor(
         }*/
 
 
+        //omron - scan
         viewModelScope.launch {
             omronDeviceUseCase.scanDeviceUseCase.onScan()
-                .onStart { Log.d("sdevice","scan on start") }
-                .onCompletion { Log.d("sdevice","scan on completion") }
-                .catch { Log.d("sdevice" , "error!!") }
+                .onStart { Log.d("omron","scan on start") }
+                .onCompletion { Log.d("omron","scan on completion") }
+                .catch { Log.d("omron" , "error!!") }
                 .collect{finedDevices->
                     finedDevices.let{
                         if(it.isEmpty()){
-                            Log.d("sdevice","scan device is empty")
+                            Log.d("omron","scan device is empty")
                         }else{
-                            Log.d("sdevice","scan device size ${it.size}")
-                            _state.value = ScanDeviceState(scannedDevices = it.toMutableList())
+                            Log.d("omron","scan device size ${it.size}")
+                            _omronDeviceState.value = ScanDeviceState(scannedDevices = it.toMutableList())
                         }
                     }
                 }
         }
+
+        //isens - scan
+        viewModelScope.launch {
+            isensDeviceUseCase.isensScanDeviceUseCase.onScan()
+                .onStart { Log.d("isens","scan on start") }
+                .onCompletion { Log.d("isens","scan on completion") }
+                .catch {  Log.d("isens" , "error!!")}
+                .collect{ devices->
+                    devices.let{
+                        if(devices.isEmpty()){
+                            Log.d("isens" , "scan devices is empty")
+                        }else{
+                            _isensDeviceState.value = IsensScanDeviceState(scannedDevices = devices)
+                            Log.d("isens","scan device size : ${devices.size}")
+
+                        }
+                    }
+                }
+        }
+
+        //isens - data
+        viewModelScope.launch {
+            isensDeviceUseCase.getGlucoseRecordUseCase.getDataTransfer().collect{
+                if(it.status == MeasurementStatus.Success){
+                    _iSensMeasurementState.value = it
+                    Log.d("isens", it.records.toString())
+                }else{
+
+                }
+            }
+        }
     }
 
-    fun getMeasurementRecord(device : DiscoveredDevice , type : RequestType){
+    // isens - data transfer
+    fun getISensGlucoseRecord(){
+
+    }
+
+    // omron - data transfer
+    fun getOmronMeasurementRecord(device : DiscoveredDevice , type : RequestType){
 
         viewModelScope.launch {
             omronDeviceUseCase.getBloodPressureUseCase.getDataTransfer(device , type).collect{
-                Log.d("omron-s" , it.toString())
+                Log.d("omron" , it.toString())
 
                 if(it.status == MeasurementStatus.ParingSuccess){
                     _registerToDBDevice(device)
                 }else if(it.status == MeasurementStatus.ParingFail){
-                    Log.e("omron-s","paring error")
+                    Log.e("omron","paring error")
                 }
 
                 if((it.status == MeasurementStatus.Success)){
@@ -111,14 +160,14 @@ class OmronDeviceViewModel @Inject constructor(
                             }
                             OHQDeviceCategory.WeightScale->{
 
-                                Log.d("omron-s","session WeightScale")
+                                Log.d("omron","session WeightScale")
 
                             }
                             OHQDeviceCategory.PulseOximeter->{}
                             OHQDeviceCategory.HealthThermometer->{}
                             OHQDeviceCategory.Unknown->{}
                             OHQDeviceCategory.BodyCompositionMonitor->{
-                                Log.d("omron-s","session BodyCompositionMonitor")
+                                Log.d("omron","session BodyCompositionMonitor")
 
                                 try{
                                     measurementRecord?.let{
@@ -148,31 +197,53 @@ class OmronDeviceViewModel @Inject constructor(
                                         _updateBodyComposition(bodyComposition)
                                     }
                                 }catch(e : Exception){
-                                    Log.e("omron-s" , "${e.message}")
+                                    Log.e("omron" , "${e.message}")
                                 }
 
                             }
                             else->{
-                                Log.d("omron-s","OHQDeviceCategory error")
+                                Log.d("omron","OHQDeviceCategory error")
                             }
                         }
 
                     }catch(e : Exception){
-                        Log.e("omron-s","${e.message}")
+                        Log.e("omron","${e.message}")
                     }
                 }
-                _measurementState.value = it
+                _omronMeasurementState.value = it
             }
         }
     }
 
-    fun scanDevice(){
+    fun omronScanDevice(){
+        _omronDeviceState.value = ScanDeviceState()
         omronDeviceUseCase.scanDeviceUseCase.searchDevices()
     }
 
-    fun stopScan(){
+    fun omronStopScan(){
         Log.d("omron", "viewModel - stopDevice")
         omronDeviceUseCase.scanDeviceUseCase.stopDevice()
+    }
+
+    fun isensScanDevice(){
+        _isensDeviceState.value = IsensScanDeviceState()
+        isensDeviceUseCase.isensScanDeviceUseCase.startScan()
+    }
+
+    fun isensStopScan(){
+        //var ll : MutableList<BluetoothDevice?> = mutableListOf()
+        //ll.add(BluetoothDevice("asdfasdf"))
+        //ll.add(0 , BluetoothDevice())
+       // _isensDeviceState.value = IsensScanDeviceState(scannedDevices = ll )
+        isensDeviceUseCase.isensScanDeviceUseCase.stopScan()
+    }
+
+    fun isensConnect(address : String){
+        isensDeviceUseCase.isensScanDeviceUseCase.connect(address)
+    }
+
+    fun isensAllRecords(){
+        isensDeviceUseCase.getGlucoseRecordUseCase.requestAllRecords()
     }
 
     /*
@@ -214,7 +285,7 @@ class OmronDeviceViewModel @Inject constructor(
             }
 
         }catch(e : Exception){
-            Log.d("omron-s" , "${e.message}")
+            Log.d("omron" , "${e.message}")
         }
     }
 
@@ -241,7 +312,7 @@ class OmronDeviceViewModel @Inject constructor(
                 )
             }
         }catch(e : Exception){
-            Log.d("omron-s" , "${e.message}")
+            Log.d("omron" , "${e.message}")
         }
     }
 

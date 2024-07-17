@@ -2,8 +2,6 @@ package jp.co.ohq.ble.entity.internal;
 
 import androidx.annotation.NonNull;
 
-import java.util.EnumSet;
-
 import jp.co.ohq.utility.Bytes;
 
 public class PulseOximeterFeatures {

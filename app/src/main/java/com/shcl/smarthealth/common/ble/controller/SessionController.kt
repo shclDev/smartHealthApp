@@ -2,10 +2,6 @@ package com.shcl.smarthealth.common.ble.controller
 
 import android.os.Bundle
 import android.util.Log
-import com.neovisionaries.bluetooth.ble.GattStatusCode
-
-import jp.co.ohq.androidcorebluetooth.CBPeripheral
-
 import com.shcl.smarthealth.domain.model.omron.SessionData
 import jp.co.ohq.androidcorebluetooth.AndroidPeripheral
 import jp.co.ohq.ble.OHQDeviceManager
@@ -25,8 +21,6 @@ import jp.co.ohq.utility.Handler
 import jp.co.ohq.utility.SynchronizeCallback
 import jp.co.ohq.utility.Types
 import java.util.LinkedList
-
-
 
 
 class SessionController @JvmOverloads constructor(

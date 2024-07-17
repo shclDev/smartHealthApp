@@ -7,7 +7,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.shcl.smarthealth.common.GlobalVariables.context
 import com.shcl.smarthealth.presentation.navigation.OuterNavGraph
-import com.shcl.smarthealth.presentation.view.home.DismissibleNavigationDrawer
 import com.shcl.smarthealth.ui.theme.SmartHealthTheme
 import dagger.hilt.android.AndroidEntryPoint
 

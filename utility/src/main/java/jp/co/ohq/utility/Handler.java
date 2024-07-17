@@ -2,6 +2,7 @@ package jp.co.ohq.utility;
 
 import android.os.Looper;
 import android.os.Message;
+
 import androidx.annotation.Nullable;
 
 public class Handler extends android.os.Handler {

@@ -1,11 +1,9 @@
 package jp.co.ohq.utility.view;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import androidx.preference.EditTextPreference;
 import android.util.AttributeSet;
 
-import jp.co.ohq.utility.view.*;
+import androidx.preference.EditTextPreference;
 
 abstract class BaseEditPreference extends EditTextPreference {
 

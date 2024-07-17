@@ -1,7 +1,8 @@
 package jp.co.ohq.utility;
 
-import androidx.annotation.NonNull;
 import android.text.format.DateFormat;
+
+import androidx.annotation.NonNull;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;

@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.EnumSet;
 
 import jp.co.ohq.utility.Bytes;
 

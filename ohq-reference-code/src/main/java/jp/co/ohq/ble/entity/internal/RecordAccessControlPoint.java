@@ -1,7 +1,8 @@
 package jp.co.ohq.ble.entity.internal;
 
-import androidx.annotation.NonNull;
 import android.util.AndroidRuntimeException;
+
+import androidx.annotation.NonNull;
 
 import jp.co.ohq.utility.Bytes;
 
