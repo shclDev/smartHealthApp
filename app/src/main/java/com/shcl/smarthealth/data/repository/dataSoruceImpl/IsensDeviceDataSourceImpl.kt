@@ -13,12 +13,15 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Build
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.util.SparseArray
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.util.forEach
 import com.isens.standard.ble.IBLE_Callback
+import com.isens.standard.ble.IBLE_Const
 import com.isens.standard.ble.IBLE_Device
 import com.isens.standard.ble.IBLE_Error
 import com.isens.standard.ble.IBLE_GlucoseRecord
@@ -31,6 +34,8 @@ import com.shcl.smarthealth.presentation.view.device.MeasurementStatus
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import java.text.SimpleDateFormat
+import java.util.Date
 import javax.inject.Inject
 
 class IsensDeviceDataSourceImpl  @Inject constructor(
@@ -46,6 +51,7 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
     private lateinit var mLocationManager : LocationManager
     private lateinit var mScanCallback : ScanCallback
     private lateinit var mIBLECallback : IBLE_Callback
+    private var isConnected = false
 
     val filters: List<ScanFilter> = listOf()
     val settings: ScanSettings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).setReportDelay(0).build()
@@ -119,9 +125,6 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
              if(mBleAdapter?.state == BluetoothAdapter.STATE_ON){
 
                  if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-
-
                      if (ContextCompat.checkSelfPermission(
                              GlobalVariables.context,
                              Manifest.permission.ACCESS_COARSE_LOCATION
@@ -177,11 +180,6 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
 
 
     override fun onScaned(device: BluetoothDevice?): Flow<MutableList<BluetoothDevice?>> {
-
-        device?.let{
-            Log.d("isens" , "isens device : ${device.address}")
-        }
-
         return callbackFlow{
 
             mScanCallback = object : ScanCallback() {
@@ -197,13 +195,6 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
 
                                 list.add(result.device)
                                 trySend(list)
-                                //onScaned(device = result.device)
-                                /*
-                                if (result.device.bondState == BluetoothDevice.BOND_BONDED) {
-                                    addScannedDevice(result.device, result.rssi, true)
-                                } else {
-                                    addScannedDevice(result.device, result.rssi, false)
-                                }*/
                             } else {
 
                             }
@@ -224,7 +215,113 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
     }
 
     override fun onDataTransfer(records: SparseArray<IBLE_GlucoseRecord>?): Flow<IsensGlucoseRecordState> {
+
+        /*
+        var glucoseRecords: MutableList<IBLE_GlucoseRecord?> = mutableListOf()
+
+        records?.let {
+            records.forEach { key, value ->
+                glucoseRecords.add(key, value)
+            }
+        }*/
+
         return callbackFlow {
+
+            mIBLECallback = object : IBLE_Callback {
+                override fun CallbackInitSDK(version: Int) {
+                    Log.d("", "CallbackInitSDK Version : $version")
+                    trySend(
+                        IsensGlucoseRecordState(
+                            status = MeasurementStatus.InitComplete,
+                            records = null)
+                    )
+                }
+
+                override fun CallbackConnectedDevice() {
+                    Log.d("", "CallbackConnectedDevice")
+                    trySend(
+                        IsensGlucoseRecordState(
+                            status = MeasurementStatus.Connected,
+                            records = null)
+                    )
+                }
+
+                override fun CallbackDisconnectedDevice() {
+                    Log.d("", "CallbackDisconnectedDevice")
+                    trySend(
+                        IsensGlucoseRecordState(
+                            status = MeasurementStatus.Disconnected,
+                            records = null)
+                    )
+
+                }
+
+                override fun CallbackRequestTimeSync() {
+                    Log.d("", "CallbackRequestTimeSync")
+                }
+
+                override fun CallbackRequestRecordsComplete(sparseArray: SparseArray<IBLE_GlucoseRecord>) {
+                    Log.d("", "CallbackRequestRecordsComplete")
+                        val mRecords = sparseArray
+                        if (mRecords == null || mRecords.size() <= 0) {
+                            trySend(
+                                IsensGlucoseRecordState(
+                                status = MeasurementStatus.NoData,
+                                 records = mRecords)
+                            )
+                        }else{
+                            trySend(
+                                IsensGlucoseRecordState(
+                                    status = MeasurementStatus.Success,
+                                    records = mRecords)
+                            )
+                        }
+                }
+
+
+                override fun CallbackReadDeviceInfo(ible_device: IBLE_Device) {
+                    Log.d("", "CallbackReadDeviceInfo")
+                    val device = ible_device
+                }
+
+                override fun CallbackError(ible_error: IBLE_Error) {
+                    Log.d("", "CallbackError")
+                    trySend(
+                        IsensGlucoseRecordState(
+                            status = MeasurementStatus.Error,
+                            records = null,
+                            errorMsg = ible_error.toString()
+                            )
+                    )
+                }
+            }
+
+            IBLE_Manager.getInstance().SetCallback(mIBLECallback)
+
+            records?.let{
+                trySend(
+                    IsensGlucoseRecordState(
+                        status = MeasurementStatus.Success,
+                        records = records
+                    )
+                )
+            } ?: run{
+                trySend(
+                    IsensGlucoseRecordState(
+                        status = MeasurementStatus.Unknown,
+                        records = records
+                    )
+                )
+            }
+
+            awaitClose {
+                IBLE_Manager.getInstance().DestroySDK()
+            }
+
+
+        }
+        /*
+        return callbackFlow{
             records?.let{
                 var glucoseRecords : MutableList<IBLE_GlucoseRecord?> = mutableListOf()
 
@@ -238,15 +335,16 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
             awaitClose {
                 IBLE_Manager.getInstance().DestroySDK()
             }
-        }
+        }*/
     }
 
-    override fun requestRecordsComplete(records: SparseArray<IBLE_GlucoseRecord>): Flow<IBLE_GlucoseRecord> {
-        TODO("Not yet implemented")
-    }
+
+
 
     override fun connectDevice(address: String) {
-       IBLE_Manager.getInstance().ConnectDevice(address)
+        if(address.isNotEmpty()){
+            IBLE_Manager.getInstance().ConnectDevice(address)
+        }
     }
 
     override fun requestAllRecord() {
@@ -259,10 +357,12 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
 
     override fun CallbackConnectedDevice() {
         Log.d("isens" ,"CallbackConnectedDevice")
+        isConnected = true
     }
 
     override fun CallbackDisconnectedDevice() {
        Log.d("isens","CallbackDisconnectedDevice")
+        isConnected = false
     }
 
     override fun CallbackRequestTimeSync() {

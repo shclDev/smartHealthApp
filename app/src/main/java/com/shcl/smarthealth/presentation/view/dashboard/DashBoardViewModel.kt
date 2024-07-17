@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
+import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.usecase.dashboard.DashBoardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,6 +29,9 @@ class DashBoardViewModel @Inject constructor(
     private val _bodyComposition : MutableStateFlow<BodyCompositionRoom?> = MutableStateFlow(null)
     val bodyComposition: StateFlow<BodyCompositionRoom?> = _bodyComposition
 
+    private val _glucose : MutableStateFlow<GlucoseRecordRoom?> = MutableStateFlow(null)
+    val glucose : StateFlow<GlucoseRecordRoom?> = _glucose
+
     fun getNutrionAdvice(){
         viewModelScope.launch{
             dashBoardUseCase.getNutritionAdviceUseCase.invoke()
@@ -37,6 +41,18 @@ class DashBoardViewModel @Inject constructor(
                 .collect{
                 _nutritionAdvice.value = it
             }
+        }
+    }
+
+    fun getLastedGlucose(){
+        viewModelScope.launch {
+            dashBoardUseCase.getGlucoseDBUseCase.invoke()
+                .onStart { }
+                .onCompletion { }
+                .catch { }
+                .collect{
+                    _glucose.value = it
+                }
         }
     }
 

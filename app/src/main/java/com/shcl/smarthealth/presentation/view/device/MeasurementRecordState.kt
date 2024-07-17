@@ -14,6 +14,8 @@ data class MeasurementRecordState (
 enum class MeasurementStatus {
     Success,
     Fail,
+    InitComplete,
+    NoData,
     Unknown,
     Disconnected ,
     Connection ,

@@ -1,15 +1,15 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\user_dev\AndroidStudioProjects\smartHealth\ohq-reference-code\src\main\AndroidManifest.xml:2:1-4:12
-INJECTED from C:\Users\user_dev\AndroidStudioProjects\smartHealth\ohq-reference-code\src\main\AndroidManifest.xml:2:1-4:12
+ADDED from /Users/datadrivencares/android_prj/smartHealthApp/ohq-reference-code/src/main/AndroidManifest.xml:2:1-4:12
+INJECTED from /Users/datadrivencares/android_prj/smartHealthApp/ohq-reference-code/src/main/AndroidManifest.xml:2:1-4:12
 	package
-		ADDED from C:\Users\user_dev\AndroidStudioProjects\smartHealth\ohq-reference-code\src\main\AndroidManifest.xml:2:11-49
-		INJECTED from C:\Users\user_dev\AndroidStudioProjects\smartHealth\ohq-reference-code\src\main\AndroidManifest.xml
+		ADDED from /Users/datadrivencares/android_prj/smartHealthApp/ohq-reference-code/src/main/AndroidManifest.xml:2:11-49
+		INJECTED from /Users/datadrivencares/android_prj/smartHealthApp/ohq-reference-code/src/main/AndroidManifest.xml
 uses-sdk
-INJECTED from C:\Users\user_dev\AndroidStudioProjects\smartHealth\ohq-reference-code\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\user_dev\AndroidStudioProjects\smartHealth\ohq-reference-code\src\main\AndroidManifest.xml
-INJECTED from C:\Users\user_dev\AndroidStudioProjects\smartHealth\ohq-reference-code\src\main\AndroidManifest.xml
+INJECTED from /Users/datadrivencares/android_prj/smartHealthApp/ohq-reference-code/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/datadrivencares/android_prj/smartHealthApp/ohq-reference-code/src/main/AndroidManifest.xml
+INJECTED from /Users/datadrivencares/android_prj/smartHealthApp/ohq-reference-code/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\user_dev\AndroidStudioProjects\smartHealth\ohq-reference-code\src\main\AndroidManifest.xml
+		INJECTED from /Users/datadrivencares/android_prj/smartHealthApp/ohq-reference-code/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\user_dev\AndroidStudioProjects\smartHealth\ohq-reference-code\src\main\AndroidManifest.xml
+		INJECTED from /Users/datadrivencares/android_prj/smartHealthApp/ohq-reference-code/src/main/AndroidManifest.xml

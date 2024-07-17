@@ -16,8 +16,6 @@ interface IsensDeviceDataSource {
     fun onScaned(device: BluetoothDevice?) : Flow<MutableList<BluetoothDevice?>>
 
     fun onDataTransfer(records: SparseArray<IBLE_GlucoseRecord>?) : Flow<IsensGlucoseRecordState>
-    fun requestRecordsComplete(records : SparseArray<IBLE_GlucoseRecord>) : Flow<IBLE_GlucoseRecord>
-
     fun connectDevice(address : String)
 
     fun requestAllRecord()

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.utils.pxToDp
@@ -55,23 +57,23 @@ fun GlucoseComponent(glucoseRecordRoom: GlucoseRecordRoom?) {
                 contentDescription = null
             )
 
-            Spacer(modifier = Modifier.width(20f.pxToDp()))
+            Spacer(modifier = Modifier.height(20f.pxToDp()))
 
-            Text("혈당" , style = Typography.headlineMedium , color = Color1E1E1E , textAlign = TextAlign.Center)
+            Text("혈당" , style = Typography.headlineMedium , color = Color1E1E1E , textAlign = TextAlign.Center , fontSize = 20f.sp)
 
-            Spacer(modifier = Modifier.width(20.pxToDp()))
+            Spacer(modifier = Modifier.height(20.pxToDp()))
 
             glucoseRecordRoom?.let{
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("${it.glucoseData.roundToInt()}" , style = Typography.labelSmall , color = Color1E1E1E , textAlign = TextAlign.Center)
-                    Text("mg/dl", style = Typography.labelSmall , color = Color1E1E1E , textAlign = TextAlign.Center)
+                    Text("${it.glucoseData.roundToInt()}" , style = Typography.labelSmall , color = Color1E1E1E , textAlign = TextAlign.Center,fontSize = 20f.sp)
+                    Text("mg/dl", style = Typography.labelSmall , color = Color1E1E1E , textAlign = TextAlign.Center,fontSize = 15f.sp)
                 }
             } ?: Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(" - " , style = Typography.labelSmall , color = Color1E1E1E, textAlign = TextAlign.Center)
-                Text("mg/dl", style = Typography.labelSmall , color = Color1E1E1E, textAlign = TextAlign.Center)
+                Text(" - " , style = Typography.labelSmall , color = Color1E1E1E, textAlign = TextAlign.Center,fontSize = 20f.sp)
+                Text("mg/dl", style = Typography.labelSmall , color = Color1E1E1E, textAlign = TextAlign.Center,fontSize = 15f.sp)
             }
 
-            Text("그래프 영역")
+            Text("그래프 영역",fontSize = 12f.sp)
 
         }
     }

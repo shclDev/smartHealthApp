@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,10 +23,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
+import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.view.dashboard.DashBoardViewModel
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
@@ -36,13 +39,12 @@ fun UserInfo(viewModel: DashBoardViewModel = hiltViewModel()) {
 
     Box(
         modifier = Modifier
-            .defaultMinSize(minWidth = 700f.pxToDp(), minHeight = 180f.pxToDp())
             .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
         Row(verticalAlignment = Alignment.CenterVertically){
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
+                painter = painterResource(id = R.drawable.top_profile_img),
                 contentScale = ContentScale.Crop,
                 contentDescription = "User",
                 modifier = Modifier
@@ -52,7 +54,7 @@ fun UserInfo(viewModel: DashBoardViewModel = hiltViewModel()) {
             Spacer(modifier = Modifier.width(40.pxToDp()))
             Column {
                 Row(verticalAlignment = Alignment.CenterVertically){
-                    Text("혜정님, 안녕하세요" , style = Typography.headlineLarge , color = Color1E1E1E)
+                    Text("혜정님, 안녕하세요" , style = Typography.headlineLarge , color = Color1E1E1E , fontSize = 25f.pxToSp())
                     Image(
                         modifier = Modifier.size(63.pxToDp() , 63.pxToDp()),
                         painter = painterResource(id = R.drawable.ani_hand),
@@ -65,13 +67,15 @@ fun UserInfo(viewModel: DashBoardViewModel = hiltViewModel()) {
                         .defaultMinSize(minWidth = 530.pxToDp(), minHeight = 80.pxToDp())
                         .align(Alignment.Start)
                         .border(
-                            width = 1.dp, color = ColorD4D9E1, shape = RoundedCornerShape(18.pxToDp())
+                            width = 1.dp,
+                            color = ColorD4D9E1,
+                            shape = RoundedCornerShape(18.pxToDp())
                         )
                         .padding(horizontal = 40.pxToDp(), vertical = 28.pxToDp())){
                     Text("성별 " , style = Typography.bodySmall)
-                    Text("여 " , style = Typography.bodySmall)
+                    Text("여 " , style = Typography.bodySmall , fontWeight = FontWeight.W700)
                     Text("나이 " , style = Typography.bodySmall)
-                    Text("65세 " , style = Typography.bodySmall)
+                    Text("65세 " , style = Typography.bodySmall, fontWeight = FontWeight.W700)
                 }
             }
 

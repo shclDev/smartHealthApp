@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -91,7 +92,10 @@ fun DismissibleNavigationDrawer(){
             .background(color = Color.White),
         drawerState = drawerState,
         drawerContent = {
-            DismissibleDrawerSheet(modifier = Modifier.fillMaxWidth(fraction = 0.17f).background(Color.White).fillMaxHeight()) {
+            DismissibleDrawerSheet(modifier = Modifier
+                .background(Color.White)
+                .width(340f.pxToDp())
+                .fillMaxHeight()) {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     DrawerHeader()
                     /*

@@ -37,5 +37,6 @@ object RepositoryModule {
     @Provides
     fun provideIsensRepository(
         isensDeviceDataSource: IsensDeviceDataSource,
-    ) : IsensRepository = IsensRepositoryImpl(isensDeviceDataSource )
+        measureRecordDataSource: MeasureRecordDataSource
+    ) : IsensRepository = IsensRepositoryImpl(isensDeviceDataSource , measureRecordDataSource )
 }

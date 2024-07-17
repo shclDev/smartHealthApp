@@ -44,7 +44,6 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
             .border(width = 1.dp, color = ColorD4D9E1, shape = RoundedCornerShape(18.dp))
             .background(color = ColorF1F4F9)
             .padding(30.dp)
-
     ){
         Column() {
             Row (){
@@ -60,19 +59,20 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
 
                 bloodPressure?.systolic?.let {
                     Column() {
-                        Text("수축기 혈압" , style = Typography.bodyLarge , fontSize = 20.sp , color = Color1E1E1E )
+                        Text("수축기 혈압" , style = Typography.bodyLarge , fontSize = 20f.sp , color = Color1E1E1E )
 
                         Row {
-                            Text("${bloodPressure.systolic.roundToInt()}" , style = Typography.bodyLarge , color = Color1E1E1E , fontSize = 20.sp)
-                            Text("${bloodPressure.systolicUnit}", style = Typography.bodyLarge , color = Color1E1E1E , fontSize = 20.sp)
+                            Text("${bloodPressure.systolic.roundToInt()}" , style = Typography.bodyLarge , color = Color1E1E1E , fontSize = 20f.sp)
+                            Text("${bloodPressure.systolicUnit}", style = Typography.bodyLarge , color = Color1E1E1E , fontSize = 15f.sp)
                         }
-
-                        Text("그래프 영역" , style = Typography.bodyLarge)
+                        Spacer(modifier = Modifier.height(16f.pxToDp()))
+                        Text("그래프 영역" , style = Typography.bodyLarge , fontSize = 12f.sp)
                     }
                 } ?: Column() {
-                    Text("수축기 혈압",style = Typography.bodyLarge , color = Color1E1E1E , fontSize = 20.sp)
-                    Text("- mmHg" , style = Typography.bodyLarge, color = Color1E1E1E , fontSize = 20.sp)
-                    Text("그래프 영역" , style = Typography.bodyLarge , fontSize = 20.sp)
+                    Text("수축기 혈압",style = Typography.bodyLarge , color = Color1E1E1E , fontSize = 20f.sp)
+                    Text("- mmHg" , style = Typography.bodyLarge, color = Color1E1E1E , fontSize = 15.sp)
+                    Spacer(modifier = Modifier.height(16f.pxToDp()))
+                    Text("그래프 영역" , style = Typography.bodyLarge , fontSize = 12f.sp)
                 }
 
             }
@@ -95,14 +95,17 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
                         Text("이완기 혈압" , style = Typography.bodyLarge , fontSize = 20.sp)
                         Row {
                             Text("${bloodPressure?.diastolic?.roundToInt()}" ,  style = Typography.bodyLarge , fontSize = 20.sp)
-                            Text("${bloodPressure?.diastolicUnit}", style = Typography.bodyLarge , color = Color1E1E1E , fontSize = 20.sp)
+                            Text("${bloodPressure?.diastolicUnit}", style = Typography.bodyLarge , color = Color1E1E1E , fontSize = 15.sp)
                         }
-                        Text("그래프 영역")
+                        Spacer(modifier = Modifier.height(16f.pxToDp()))
+                        Text("그래프 영역" , fontSize = 12f.sp)
                     }
                 }?: Column() {
                     Text("이완기 혈압",style = Typography.bodyLarge , fontSize = 20.sp)
-                    Text("- mmHg" , style = Typography.bodyLarge, color = Color1E1E1E , fontSize = 20.sp)
-                    Text("그래프 영역", style = Typography.bodyLarge, fontSize = 20.sp)
+                    Text("- mmHg" , style = Typography.bodyLarge, color = Color1E1E1E , fontSize = 15.sp)
+                    Spacer(modifier = Modifier.height(16f.pxToDp()))
+                    Text("그래프 영역", style = Typography.bodyLarge, fontSize = 12f.sp)
+
                 }
             }
         }

@@ -37,12 +37,14 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
     
     viewModel.getLastedWeight()
     val weight by viewModel.bodyComposition.collectAsState()
-    
+
+    viewModel.getLastedGlucose()
+    val glucose by viewModel.glucose.collectAsState()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(80.dp)
+            .padding(80f.pxToDp())
             .background(Color.White)
 
     ){
@@ -52,13 +54,13 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
         ) {
 
             UserInfo()
-            Spacer(modifier = Modifier.height(53.dp))
+            Spacer(modifier = Modifier.height(53f.pxToDp()))
             Row(
                horizontalArrangement = Arrangement.spacedBy(30f.pxToDp())
             ) {
                 BloodPressureComponent(bloodPressure)
                 PursePressureComponent(bloodPressure)
-                GlucoseComponent(null )
+                GlucoseComponent(glucose)
                 WeightComponent(bodyCompositionRoom = weight)
             }
 

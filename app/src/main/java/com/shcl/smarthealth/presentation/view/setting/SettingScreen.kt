@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.domain.utils.pxToDp
 
@@ -27,7 +28,8 @@ fun SettingScreen(nav : NavHostController){
         Text(
             modifier = Modifier.fillMaxWidth().align(Alignment.Center),
             fontWeight = FontWeight.Bold,
-            text = "설정 화면"
+            text = "설정 화면",
+            textAlign = TextAlign.Start
         )
     }
 

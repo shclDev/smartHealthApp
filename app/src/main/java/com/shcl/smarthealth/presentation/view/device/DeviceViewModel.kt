@@ -6,9 +6,11 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.isens.standard.ble.IBLE_GlucoseRecord
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
+import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.BodyComposition
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
@@ -44,7 +46,7 @@ class DeviceViewModel @Inject constructor(
     private val _omronMeasurementState = MutableStateFlow(MeasurementRecordState(sessionData = null))
     val omronMeasurementState = _omronMeasurementState.asStateFlow()
 
-    private val _iSensMeasurementState = MutableStateFlow(IsensGlucoseRecordState(status = MeasurementStatus.Unknown, records = mutableListOf()))
+    private val _iSensMeasurementState = MutableStateFlow(IsensGlucoseRecordState(status = MeasurementStatus.Unknown, records = null))
     val isensMeasurementState = _iSensMeasurementState.asStateFlow()
 
 
@@ -108,18 +110,19 @@ class DeviceViewModel @Inject constructor(
             isensDeviceUseCase.getGlucoseRecordUseCase.getDataTransfer().collect{
                 if(it.status == MeasurementStatus.Success){
                     _iSensMeasurementState.value = it
-                    Log.d("isens", it.records.toString())
-                }else{
 
+                    it.records?.let {
+                        val lastRecord = it[it.size() - 1]
+                        Log.d("isens", "glucose : ${lastRecord.glucoseData}")
+                        _updateGlucose(lastRecord)
+                    }
+                }else{
+                    _iSensMeasurementState.value = it
                 }
             }
         }
     }
 
-    // isens - data transfer
-    fun getISensGlucoseRecord(){
-
-    }
 
     // omron - data transfer
     fun getOmronMeasurementRecord(device : DiscoveredDevice , type : RequestType){
@@ -265,6 +268,32 @@ class DeviceViewModel @Inject constructor(
         GlobalScope.launch(Dispatchers.IO){
             omronDeviceUseCase.registerDeviceUseCase.registerDeviceToDB(discoveredDevice)
         }
+    }
+
+    fun _updateGlucose(glucoseRecord: IBLE_GlucoseRecord){
+
+        try{
+            GlobalScope.launch(Dispatchers.IO){
+                isensDeviceUseCase.setGlucoseRecordUserCase.updateGlucoseRecordToDB(
+                    GlucoseRecordRoom(
+                        userId = 1,
+                        glucoseData = glucoseRecord.glucoseData,
+                        flagCs =  glucoseRecord.flag_cs,
+                        flagHilow = glucoseRecord.flag_hilow,
+                        flagContext = glucoseRecord.flag_context,
+                        flagMeal = glucoseRecord.flag_meal,
+                        flagFasting = glucoseRecord.flag_fasting,
+                        flagKetone = glucoseRecord.flag_ketone,
+                        flagNomark = glucoseRecord.flag_nomark,
+                        timeOffset = glucoseRecord.timeoffset,
+                        time = glucoseRecord.time
+                    ))
+            }
+
+        }catch(e : Exception){
+            Log.e("isens" , e.toString())
+        }
+
     }
 
     fun _updateBloodPressure(bloodPressure: BloodPressure){

@@ -108,11 +108,12 @@ fun rightSide(nav : NavHostController){
             Spacer(modifier = Modifier.height(30.pxToDp()))
             Column {
                 Text(text = stringResource(id = R.string.handphone) , style = Typography.labelMedium , color = Color333333)
-                //Spacer(modifier = Modifier.height(25.dp))
+                Spacer(modifier = Modifier.height(25f.pxToDp()))
                 OutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 40.pxToDp() , vertical = 30.pxToDp()),
+                        .height(86f.pxToDp()),
+                        //.padding(horizontal = 40.pxToDp() , vertical = 30.pxToDp()),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color333333,
                         unfocusedBorderColor = ColorD4D9E1),
@@ -130,9 +131,11 @@ fun rightSide(nav : NavHostController){
             Spacer(modifier = Modifier.height(20.pxToDp()))
             Column {
                 Text(text = stringResource(id = R.string.birthday) , style = Typography.labelMedium , color = Color333333)
-                //Spacer(modifier = Modifier.height(25.pxToDp()))
+                Spacer(modifier = Modifier.height(25f.pxToDp()))
                 OutlinedTextField(
-                    modifier = Modifier.padding(horizontal = 40.pxToDp(), vertical = 30.pxToDp()).fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(86f.pxToDp()),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color333333,
                         unfocusedBorderColor = ColorD4D9E1),

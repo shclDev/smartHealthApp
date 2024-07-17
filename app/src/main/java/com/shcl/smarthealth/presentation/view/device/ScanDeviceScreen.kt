@@ -1,4 +1,4 @@
-package com.shcl.smarthealth.presentation.view.device
+ package com.shcl.smarthealth.presentation.view.device
 
 import android.bluetooth.BluetoothDevice
 import android.util.Log
@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,12 +32,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.model.omron.RequestType
+import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 
 @Composable
@@ -53,25 +56,27 @@ fun ScanDeviceScreen(
 
     //val deviceTestStateFlow by viewModel.deviceState.collectAsState()
     Box(modifier = Modifier.fillMaxSize()){
-
         Row {
-
             Box{
-                Row(modifier = Modifier.fillMaxWidth(0.5f)) {
+                Row(modifier = Modifier.fillMaxWidth(0.4f)) {
                     Column {
                         Text("혈압/체중계 디바이스")
                         Spacer(modifier = Modifier.height(20.dp))
-                        Button(onClick = {
+                        Button(
+                            modifier = Modifier.width(200f.pxToDp()),
+                            onClick = {
                             viewModel.omronScanDevice()
                         }) {
-                            Text("scan device")
+                            Text("디바이스 검색",fontSize = 12f.sp , textAlign = TextAlign.Center)
                         }
                         Spacer(modifier = Modifier.height(10.dp))
 
-                        Button(onClick = { viewModel.omronStopScan() }) {
-                            Text("stop device")
+                        Button(
+                            modifier = Modifier.width(200f.pxToDp()),
+                            onClick = { viewModel.omronStopScan() }) {
+                            Text("멈춤",fontSize = 12f.sp, textAlign = TextAlign.Center)
                         }
-
+                        Spacer(modifier = Modifier.height(10f.pxToDp()))
                         LazyColumn() {
                             omronDevicesStatFlow.scannedDevices.let{devices->
                                 items(devices) { device->
@@ -82,32 +87,36 @@ fun ScanDeviceScreen(
                                 }
                             }
                         }
+                        Spacer(modifier = Modifier.width(10f.pxToDp()))
+                        Text(text= omronMeasurementStatus.toString() , color = Color.Black , fontSize = 15f.pxToSp())
                     }
 
-                    Spacer(modifier = Modifier.width(50.dp))
-                    Text(text= omronMeasurementStatus.toString() , color = Color.Black , fontSize = 15f.pxToSp())
                 }
             }
 
             Spacer(modifier = Modifier.width(50.dp))
 
             Box{
-                Row(modifier = Modifier.fillMaxWidth(0.5f)) {
+                Row(modifier = Modifier.fillMaxWidth(0.4f)) {
                     Column {
                         Text("혈당 디바이스")
                         Spacer(modifier = Modifier.height(20.dp))
-                        Button(onClick = {
+                        Button(
+                            modifier = Modifier.width(200f.pxToDp()),
+                            onClick = {
                             viewModel.isensScanDevice()
                         }) {
-                            Text("scan device")
+                            Text("디바이스 검색", fontSize = 12f.sp, textAlign = TextAlign.Center)
                         }
 
                         Spacer(modifier = Modifier.height(10.dp))
 
-                        Button(onClick = { viewModel.isensStopScan() }) {
-                            Text("stop device")
+                        Button(
+                            modifier = Modifier.width(200f.pxToDp()),
+                            onClick = { viewModel.isensStopScan() }) {
+                            Text("멈춤" , fontSize = 12f.sp, textAlign = TextAlign.Center)
                         }
-
+                        Spacer(modifier = Modifier.height(10f.pxToDp()))
                         LazyColumn() {
                             isensDeviceStateFlow.scannedDevices.let{devices->
                                 items(devices) { device->
@@ -117,11 +126,10 @@ fun ScanDeviceScreen(
                                 }
                             }
                         }
+                        Spacer(modifier = Modifier.width(10f.pxToDp()))
+                        Text(text= isensMeausurementStatus.toString() , color = Color.Black , fontSize = 15f.pxToSp())
                     }
 
-                    Spacer(modifier = Modifier.width(100.dp))
-
-                    Text(text= isensMeausurementStatus.toString() , color = Color.Black , fontSize = 20f.pxToSp())
                 }
             }
 
@@ -139,7 +147,7 @@ fun iSensDeviceItem(viewModel:DeviceViewModel, device : BluetoothDevice){
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxWidth(0.7f)
+            .defaultMinSize(minWidth = 400f.pxToDp())
             .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(18.dp))
             .padding(12.dp)
             .clickable {
@@ -149,7 +157,7 @@ fun iSensDeviceItem(viewModel:DeviceViewModel, device : BluetoothDevice){
             }
     ){
         Column(){
-            Text(text = "${device.address}" , fontSize = 10f.sp )
+            Text(text = "${device.address}" , fontSize = 15f.sp )
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -171,7 +179,7 @@ fun iSensDeviceItem(viewModel:DeviceViewModel, device : BluetoothDevice){
                 }
 
             }) {
-            Text("register" , fontSize = 9f.sp)
+            Text("등록" , fontSize = 12f.sp)
         }
     }
 
@@ -227,7 +235,7 @@ fun deviceItem(viewModel:DeviceViewModel, device : DiscoveredDevice){
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxWidth(0.7f)
+            .defaultMinSize(minWidth = 400f.pxToDp())
             .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(18.dp))
             .padding(12.dp)
             .clickable {
@@ -237,7 +245,7 @@ fun deviceItem(viewModel:DeviceViewModel, device : DiscoveredDevice){
             }
     ){
         Column(){
-            Text(text = "${device.address}" )
+            Text(text = "${device.address}", fontSize = 15.sp )
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -258,7 +266,7 @@ fun deviceItem(viewModel:DeviceViewModel, device : DiscoveredDevice){
                 }
 
             }) {
-            Text("register" , fontSize = 9f.sp)
+            Text("등록" , fontSize = 12f.sp)
         }
     }
 
