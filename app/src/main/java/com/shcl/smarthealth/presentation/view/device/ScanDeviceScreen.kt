@@ -1,6 +1,8 @@
  package com.shcl.smarthealth.presentation.view.device
 
+import android.Manifest
 import android.bluetooth.BluetoothDevice
+import android.content.pm.PackageManager
 import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -35,14 +37,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.model.omron.RequestType
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
+import jp.co.ohq.ble.enumerate.OHQDeviceCategory
 
-@Composable
+ @Composable
 fun ScanDeviceScreen(
     nav : NavHostController,
     viewModel : DeviceViewModel = hiltViewModel(),
@@ -210,6 +215,20 @@ fun iSensDeviceItem(viewModel:DeviceViewModel, device : BluetoothDevice){
                 onConfirm = {
                     Log.d("isens","register device")
                     viewModel.isensConnect(device.address)
+                    if (ActivityCompat.checkSelfPermission(
+                            GlobalVariables.context,
+                            Manifest.permission.BLUETOOTH_CONNECT
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                    }
+                    viewModel._registerToDBDevice(DiscoveredDevice(address = device.address , localName = device.name , deviceCategory = OHQDeviceCategory.Glucose))
                     //viewModel.getOmronMeasurementRecord(device , RequestType.Paring)
                     showRegisterDialogState = false
                 },

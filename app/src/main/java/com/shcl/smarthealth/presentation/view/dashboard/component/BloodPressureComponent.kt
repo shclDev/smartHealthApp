@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,18 +23,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
+import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
+import com.shcl.smarthealth.domain.model.omron.RequestType
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
+import com.shcl.smarthealth.presentation.view.device.DeviceViewModel
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
 import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.ColorF1F4F9
 import com.shcl.smarthealth.ui.theme.Typography
+import jp.co.ohq.ble.enumerate.OHQDeviceCategory
 import kotlin.math.roundToInt
 
 
 @Composable
-fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
+fun BloodPressureComponent(bloodPressure : BloodPressureRoom? , deviceViewModel: DeviceViewModel){
 
     //viewModel.getLastedBloodPressure()
     //val bloodPressure by viewModel.bloodPressure.collectAsState()

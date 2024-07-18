@@ -1,7 +1,5 @@
 package com.shcl.smarthealth.di
 
-
-
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.data.api.DashBoardApi
 import dagger.Module
@@ -13,9 +11,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-
-
-
 
 @Module
 @InstallIn(SingletonComponent::class)

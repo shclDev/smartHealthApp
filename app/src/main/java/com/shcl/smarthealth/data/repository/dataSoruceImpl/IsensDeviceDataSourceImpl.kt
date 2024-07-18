@@ -189,17 +189,14 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
                     result.let {
                         try {
                             if (IBLE_ScannerServiceParser.decodeDeviceAdvData(result.scanRecord!!.bytes)) {
-
                                 Log.d("isens" , "found isens device : ${result.device.address}")
-
-
                                 list.add(result.device)
                                 trySend(list)
                             } else {
 
                             }
                         } catch (e: Exception) {
-                            Log.e("isense", "${e.message}")
+                            Log.e("isens", "${e.message}")
                         }
                     }
                 }
@@ -215,16 +212,6 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
     }
 
     override fun onDataTransfer(records: SparseArray<IBLE_GlucoseRecord>?): Flow<IsensGlucoseRecordState> {
-
-        /*
-        var glucoseRecords: MutableList<IBLE_GlucoseRecord?> = mutableListOf()
-
-        records?.let {
-            records.forEach { key, value ->
-                glucoseRecords.add(key, value)
-            }
-        }*/
-
         return callbackFlow {
 
             mIBLECallback = object : IBLE_Callback {
@@ -254,7 +241,6 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
                             status = MeasurementStatus.Disconnected,
                             records = null)
                     )*/
-
                 }
 
                 override fun CallbackRequestTimeSync() {

@@ -107,16 +107,18 @@ class DeviceViewModel @Inject constructor(
 
         //isens - data
         viewModelScope.launch {
-            isensDeviceUseCase.getGlucoseRecordUseCase.getDataTransfer().collect{
+            isensDeviceUseCase.getGlucoseRecordUseCase.getDataTransfer().collect{ it ->
                 if(it.status == MeasurementStatus.Success){
                     _iSensMeasurementState.value = it
 
                     it.records?.let {
-                        val lastRecord = it[it.size() - 1]
+                        val lastRecord = it[it.size()]
                         Log.d("isens", "glucose : ${lastRecord.glucoseData}")
                         _updateGlucose(lastRecord)
                     }
-                }else{
+                }else if(it.status == MeasurementStatus.Connected)
+
+                else{
                     _iSensMeasurementState.value = it
                 }
             }
