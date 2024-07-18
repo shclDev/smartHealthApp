@@ -21,7 +21,9 @@ import androidx.navigation.NavHostController
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.view.dashboard.component.BloodPressureComponent
+import com.shcl.smarthealth.presentation.view.dashboard.component.ExerciseComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.GlucoseComponent
+import com.shcl.smarthealth.presentation.view.dashboard.component.NutritionComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.PursePressureComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.UserInfo
 import com.shcl.smarthealth.presentation.view.dashboard.component.WeightComponent
@@ -44,7 +46,7 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(80f.pxToDp())
+            .padding(horizontal = 63f.pxToDp(), vertical = 63f.pxToDp())
             .background(Color.White)
 
     ){
@@ -54,9 +56,16 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
         ) {
 
             UserInfo()
-            Spacer(modifier = Modifier.height(53f.pxToDp()))
+            Spacer(modifier = Modifier.height(23f.pxToDp()))
             Row(
-               horizontalArrangement = Arrangement.spacedBy(30f.pxToDp())
+                horizontalArrangement = Arrangement.spacedBy(40f.pxToDp())
+            ) {
+                NutritionComponent()
+                ExerciseComponent()
+            }
+            Spacer(modifier = Modifier.height(40f.pxToDp()))
+            Row(
+               horizontalArrangement = Arrangement.spacedBy(20f.pxToDp())
             ) {
                 BloodPressureComponent(bloodPressure)
                 PursePressureComponent(bloodPressure)

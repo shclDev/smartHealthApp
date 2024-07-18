@@ -41,6 +41,7 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom?){
     Box(
         modifier = Modifier
             .defaultMinSize(minWidth = 496f.pxToDp(), minHeight = 360f.pxToDp())
+            .height(415f.pxToDp())
             .border(width = 1.dp, color = ColorD4D9E1, shape = RoundedCornerShape(18.dp))
             .background(color = ColorF1F4F9)
             .padding(30.dp)

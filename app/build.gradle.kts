@@ -127,6 +127,8 @@ dependencies {
     implementation ("androidx.room:room-ktx:2.6.1")
     implementation ("androidx.room:room-paging:2.6.1")
 
+    implementation("com.airbnb.android:lottie-compose:6.4.1")
+
     // permission
     implementation ("com.google.accompanist:accompanist-permissions:0.35.1-alpha")
 

@@ -248,11 +248,12 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
 
                 override fun CallbackDisconnectedDevice() {
                     Log.d("", "CallbackDisconnectedDevice")
+                    /*
                     trySend(
                         IsensGlucoseRecordState(
                             status = MeasurementStatus.Disconnected,
                             records = null)
-                    )
+                    )*/
 
                 }
 
@@ -298,44 +299,12 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
 
             IBLE_Manager.getInstance().SetCallback(mIBLECallback)
 
-            records?.let{
-                trySend(
-                    IsensGlucoseRecordState(
-                        status = MeasurementStatus.Success,
-                        records = records
-                    )
-                )
-            } ?: run{
-                trySend(
-                    IsensGlucoseRecordState(
-                        status = MeasurementStatus.Unknown,
-                        records = records
-                    )
-                )
-            }
-
             awaitClose {
                 IBLE_Manager.getInstance().DestroySDK()
             }
 
 
         }
-        /*
-        return callbackFlow{
-            records?.let{
-                var glucoseRecords : MutableList<IBLE_GlucoseRecord?> = mutableListOf()
-
-                records.forEach { key, value ->
-                    glucoseRecords.add(key , value)
-                }
-
-                trySend(IsensGlucoseRecordState(status = MeasurementStatus.Success , records = glucoseRecords))
-            }
-
-            awaitClose {
-                IBLE_Manager.getInstance().DestroySDK()
-            }
-        }*/
     }
 
 

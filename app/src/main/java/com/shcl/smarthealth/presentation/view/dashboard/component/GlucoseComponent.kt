@@ -38,7 +38,8 @@ fun GlucoseComponent(glucoseRecordRoom: GlucoseRecordRoom?) {
     Box(
         modifier = Modifier
             .background(color = ColorF1F4F9)
-            .defaultMinSize(minWidth = 288f.pxToDp(), minHeight = 360f.pxToDp())
+            .defaultMinSize(minWidth = 288f.pxToDp(), minHeight = 375f.pxToDp())
+            .height(415f.pxToDp())
             .border(width = 1.dp, color = ColorD4D9E1, shape = RoundedCornerShape(18.dp))
             .padding(30.dp)
     ){
@@ -57,13 +58,14 @@ fun GlucoseComponent(glucoseRecordRoom: GlucoseRecordRoom?) {
                 contentDescription = null
             )
 
-            Spacer(modifier = Modifier.height(20f.pxToDp()))
+            Spacer(modifier = Modifier.height(15f.pxToDp()))
 
             Text("혈당" , style = Typography.headlineMedium , color = Color1E1E1E , textAlign = TextAlign.Center , fontSize = 20f.sp)
 
-            Spacer(modifier = Modifier.height(20.pxToDp()))
+            Spacer(modifier = Modifier.height(15f.pxToDp()))
 
             glucoseRecordRoom?.let{
+
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text("${it.glucoseData.roundToInt()}" , style = Typography.labelSmall , color = Color1E1E1E , textAlign = TextAlign.Center,fontSize = 20f.sp)
                     Text("mg/dl", style = Typography.labelSmall , color = Color1E1E1E , textAlign = TextAlign.Center,fontSize = 15f.sp)

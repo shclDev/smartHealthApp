@@ -38,6 +38,7 @@ fun PursePressureComponent(bloodPressure : BloodPressureRoom?){
         modifier = Modifier
             .background(color = ColorF1F4F9)
             .defaultMinSize(minWidth = 288f.pxToDp(), minHeight = 360f.pxToDp())
+            .height(415f.pxToDp())
             .border(width = 1.dp, color = ColorD4D9E1, shape = RoundedCornerShape(18.dp))
             .padding(30.dp)
     ){
@@ -56,11 +57,11 @@ fun PursePressureComponent(bloodPressure : BloodPressureRoom?){
                 contentDescription = null
             )
 
-            Spacer(modifier = Modifier.height(20f.pxToDp()))
+            Spacer(modifier = Modifier.height(15f.pxToDp()))
 
             Text("맥박" , style = Typography.headlineMedium , color = Color1E1E1E , textAlign = TextAlign.Center,fontSize = 20f.sp)
 
-            Spacer(modifier = Modifier.height(20f.pxToDp()))
+            Spacer(modifier = Modifier.height(15f.pxToDp()))
 
             bloodPressure?.let{
                 Row(verticalAlignment = Alignment.CenterVertically) {
