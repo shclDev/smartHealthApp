@@ -36,6 +36,7 @@ fun GlucoseComponent(glucoseRecordRoom: GlucoseRecordRoom?) {
 
 
     Box(
+
         modifier = Modifier
             .background(color = ColorF1F4F9)
             .defaultMinSize(minWidth = 288f.pxToDp(), minHeight = 375f.pxToDp())
