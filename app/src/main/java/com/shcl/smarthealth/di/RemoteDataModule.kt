@@ -2,6 +2,7 @@ package com.shcl.smarthealth.di
 
 
 import com.shcl.smarthealth.data.api.DashBoardApi
+import com.shcl.smarthealth.data.api.WeatherApi
 import com.shcl.smarthealth.data.repository.dataSoruceImpl.DashBoardRemoteDataSourceImpl
 import com.shcl.smarthealth.data.repository.dataSource.DashBoardRemoteDataSource
 import dagger.Module
@@ -14,6 +15,7 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object RemoteDataModule {
     @Provides
-    fun provideDashBoardRemoteDataSource(dashBoardApi: DashBoardApi) : DashBoardRemoteDataSource =
-        DashBoardRemoteDataSourceImpl(dashBoardApi)
+    fun provideDashBoardRemoteDataSource(dashBoardApi: DashBoardApi , weatherApi: WeatherApi) : DashBoardRemoteDataSource =
+        DashBoardRemoteDataSourceImpl(dashBoardApi , weatherApi)
+
 }

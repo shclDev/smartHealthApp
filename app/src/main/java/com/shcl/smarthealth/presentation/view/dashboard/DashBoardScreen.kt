@@ -99,6 +99,8 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
     viewModel.getLastedGlucose()
     val glucose by viewModel.glucose.collectAsState()
 
+    viewModel.getCurrentWeather()
+
     Box(
         modifier = Modifier
             .fillMaxSize()

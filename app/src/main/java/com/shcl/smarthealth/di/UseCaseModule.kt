@@ -8,6 +8,7 @@ import com.shcl.smarthealth.domain.usecase.dashboard.GetBloodPressureDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetBodyCompositionDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetGlucoseDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetNutritionAdviceUseCase
+import com.shcl.smarthealth.domain.usecase.dashboard.GetWeatherUseCase
 import com.shcl.smarthealth.domain.usecase.isens.GetGlucoseRecordUseCase
 import com.shcl.smarthealth.domain.usecase.isens.IsensDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.IsensScanDeviceUseCase
@@ -34,7 +35,8 @@ object UseCaseModule {
         getNutritionAdviceUseCase = GetNutritionAdviceUseCase(repository = dashBoardRepository),
         getBloodPressureDBUseCase = GetBloodPressureDBUseCase(repository = dashBoardRepository),
         getWeightDBUseCase = GetBodyCompositionDBUseCase(repository = dashBoardRepository),
-        getGlucoseDBUseCase = GetGlucoseDBUseCase(repository = dashBoardRepository)
+        getGlucoseDBUseCase = GetGlucoseDBUseCase(repository = dashBoardRepository),
+        getWeatherUseCase = GetWeatherUseCase(repository = dashBoardRepository)
     )
 
     @Provides

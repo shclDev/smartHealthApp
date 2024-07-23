@@ -5,8 +5,10 @@ import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
+import com.shcl.smarthealth.domain.model.remote.weather.WeatherResponse
 import com.shcl.smarthealth.domain.repository.DashBoardRepository
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 class DashBoardRepositoryImpl(
     private val dashBoardRemoteDataSource: DashBoardRemoteDataSource,
@@ -27,6 +29,10 @@ class DashBoardRepositoryImpl(
 
     override fun getLastedGlucose(): Flow<GlucoseRecordRoom> {
        return measureRecordDataSource.getGlucoseFromDB(userId = 1)
+    }
+
+    override suspend fun getCurrentWeather(): Flow<Response<WeatherResponse>> {
+        return dashBoardRemoteDataSource.getWeather()
     }
 
 }

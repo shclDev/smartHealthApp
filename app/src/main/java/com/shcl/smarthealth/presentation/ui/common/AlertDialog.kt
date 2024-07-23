@@ -87,6 +87,4 @@ fun AlertDialog(
             }
 
         }
-    )
-
 }

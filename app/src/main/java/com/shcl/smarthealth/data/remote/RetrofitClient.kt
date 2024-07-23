@@ -2,6 +2,7 @@ package com.shcl.smarthealth.data.remote
 
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.data.api.NaverApi
+import com.shcl.smarthealth.data.api.WeatherApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,6 +21,19 @@ class RetrofitClient {
             .client(clientBuilder.build())
             .build()
         retrofit.create(NaverApi::class.java)
+    }
+
+    val weatherApiInstance : WeatherApi by lazy{
+        val client = OkHttpClient()
+        val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        val clientBuilder : OkHttpClient.Builder = client.newBuilder()
+            .addInterceptor(interceptor as HttpLoggingInterceptor)
+        val retrofit = Retrofit.Builder().baseUrl(GlobalVariables.weatherBaseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(clientBuilder.build())
+            .build()
+
+        retrofit.create(WeatherApi::class.java)
     }
 
 }

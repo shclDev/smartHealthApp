@@ -2,6 +2,7 @@ package com.shcl.smarthealth.di
 
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.data.api.DashBoardApi
+import com.shcl.smarthealth.data.api.WeatherApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,11 +26,22 @@ object NetworkModule {
             .build()
     }
 
+    /*
     @Provides
     @Singleton
-    fun provideRetrofitInstance(okHttpClient: OkHttpClient): Retrofit {
+    fun provideNaverRetrofitInstance(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(GlobalVariables.naverProdBaseUrl)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }*/
+
+    @Provides
+    @Singleton
+    fun provideWeatherRetrofitInstance(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(GlobalVariables.weatherBaseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -40,6 +52,12 @@ object NetworkModule {
     @Singleton
     fun provideDashBoardApi(retrofit: Retrofit): DashBoardApi {
         return retrofit.create(DashBoardApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherApi(retrofit: Retrofit): WeatherApi {
+        return retrofit.create(WeatherApi::class.java)
     }
 
 

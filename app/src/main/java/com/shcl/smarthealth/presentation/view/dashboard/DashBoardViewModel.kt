@@ -1,10 +1,12 @@
 package com.shcl.smarthealth.presentation.view.dashboard
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
+import com.shcl.smarthealth.domain.model.remote.weather.WeatherResponse
 import com.shcl.smarthealth.domain.usecase.dashboard.DashBoardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +15,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +34,9 @@ class DashBoardViewModel @Inject constructor(
 
     private val _glucose : MutableStateFlow<GlucoseRecordRoom?> = MutableStateFlow(null)
     val glucose : StateFlow<GlucoseRecordRoom?> = _glucose
+
+    //private val _weather : MutableStateFlow<Response<WeatherResponse>> = MutableStateFlow(Response(null)
+    //val glucose : StateFlow<GlucoseRecordRoom?> = _glucose
 
     fun getNutrionAdvice(){
         viewModelScope.launch{
@@ -79,6 +85,19 @@ class DashBoardViewModel @Inject constructor(
                 }
         }
 
+    }
+
+    fun getCurrentWeather(){
+        viewModelScope.launch {
+            dashBoardUseCase.getWeatherUseCase.invoke()
+                .onStart {  }
+                .onCompletion {  }
+                .catch {  }
+                .collect{
+                   // Log.d("weather" , ${_})
+
+                }
+        }
     }
 
 

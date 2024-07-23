@@ -4,5 +4,6 @@ data class DashBoardUseCase (
     val getNutritionAdviceUseCase : GetNutritionAdviceUseCase,
     val getBloodPressureDBUseCase: GetBloodPressureDBUseCase,
     val getWeightDBUseCase: GetBodyCompositionDBUseCase,
-    val getGlucoseDBUseCase: GetGlucoseDBUseCase
+    val getGlucoseDBUseCase: GetGlucoseDBUseCase,
+    val getWeatherUseCase: GetWeatherUseCase
 )
