@@ -31,7 +31,7 @@ class DashBoardRepositoryImpl(
        return measureRecordDataSource.getGlucoseFromDB(userId = 1)
     }
 
-    override suspend fun getCurrentWeather(): Flow<Response<WeatherResponse>> {
+    override suspend fun getCurrentWeather(): Flow<Response<WeatherResponse>?> {
         return dashBoardRemoteDataSource.getWeather()
     }
 

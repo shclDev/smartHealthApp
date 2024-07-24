@@ -35,8 +35,9 @@ class DashBoardViewModel @Inject constructor(
     private val _glucose : MutableStateFlow<GlucoseRecordRoom?> = MutableStateFlow(null)
     val glucose : StateFlow<GlucoseRecordRoom?> = _glucose
 
-    //private val _weather : MutableStateFlow<Response<WeatherResponse>> = MutableStateFlow(Response(null)
-    //val glucose : StateFlow<GlucoseRecordRoom?> = _glucose
+    private val _weatherResponse : MutableStateFlow<Response<WeatherResponse>?> = MutableStateFlow(null)
+    val weatherResponse : StateFlow<Response<WeatherResponse>?> = _weatherResponse
+
 
     fun getNutrionAdvice(){
         viewModelScope.launch{
@@ -95,7 +96,10 @@ class DashBoardViewModel @Inject constructor(
                 .catch {  }
                 .collect{
                    // Log.d("weather" , ${_})
-
+                    it?.let {
+                        _weatherResponse.value = it
+                        Log.d("weather" , it.body()?.main.toString() )
+                    }
                 }
         }
     }

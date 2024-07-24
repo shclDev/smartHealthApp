@@ -7,5 +7,5 @@ import retrofit2.Response
 interface DashBoardRemoteDataSource {
     fun getNutrtionAdvice() : Flow<String>
     fun getExerciseAdvice() : Flow<String>
-    suspend fun getWeather() : Flow<Response<WeatherResponse>>
+    suspend fun getWeather() : Flow<Response<WeatherResponse>?>
 }

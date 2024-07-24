@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -48,6 +50,7 @@ import com.shcl.smarthealth.presentation.view.dashboard.component.GlucoseCompone
 import com.shcl.smarthealth.presentation.view.dashboard.component.NutritionComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.PursePressureComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.UserInfo
+import com.shcl.smarthealth.presentation.view.dashboard.component.WeatherComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.WeightComponent
 import com.shcl.smarthealth.presentation.view.device.DeviceViewModel
 import jp.co.ohq.ble.enumerate.OHQDeviceCategory
@@ -115,6 +118,7 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
     val glucose by viewModel.glucose.collectAsState()
 
     viewModel.getCurrentWeather()
+    val weather by viewModel.weatherResponse.collectAsState()
 
     Box(
         modifier = Modifier
@@ -124,12 +128,18 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
 
     ) {
 
-        Column(
-            horizontalAlignment = Alignment.Start
-        ) {
+        Column{
 
-            Row {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween) {
                 UserInfo()
+                Spacer(modifier = Modifier.width(100f.pxToDp()))
+                WeatherComponent(
+                    weatherResponse = weather?.body(),
+                    refreshClick = { viewModel.getCurrentWeather() })
+            }
+
+                /*
                 Button(
                     onClick = {
                         deviceViewModel.getOmronMeasurementRecord(
@@ -198,7 +208,7 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
                     }
                 }
 
-            }
+            }*/
             Spacer(modifier = Modifier.height(23f.pxToDp()))
             Row(
                 horizontalArrangement = Arrangement.spacedBy(40f.pxToDp())

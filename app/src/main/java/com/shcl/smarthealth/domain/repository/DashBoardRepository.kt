@@ -12,5 +12,5 @@ interface DashBoardRepository{
     fun getLastedBloodPressure()  : Flow<BloodPressureRoom>
     fun getLastedBodyComposition() : Flow<BodyCompositionRoom>
     fun getLastedGlucose() : Flow<GlucoseRecordRoom>
-    suspend fun getCurrentWeather() : Flow<Response<WeatherResponse>>
+    suspend fun getCurrentWeather() : Flow<Response<WeatherResponse>?>
 }
