@@ -60,6 +60,7 @@ import jp.co.ohq.ble.enumerate.OHQDeviceCategory
 @Composable
 fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hiltViewModel() , deviceViewModel: DeviceViewModel = hiltViewModel()){
 
+    /*
     var timer1Progress by remember{ mutableStateOf(false) }
     var timer2Progress by remember{ mutableStateOf(false) }
     var timer3Progress by remember { mutableStateOf(false) }
@@ -101,8 +102,7 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
             Log.d("timer" , "timer3 finish")
             viewModel.getLastedBloodPressure()
         }
-    }
-
+    }*/
 
 
     viewModel.getNutrionAdvice()

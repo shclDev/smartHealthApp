@@ -1,6 +1,8 @@
 package com.shcl.smarthealth.presentation.view.dashboard
 
 import android.util.Log
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
@@ -35,7 +37,7 @@ class DashBoardViewModel @Inject constructor(
     private val _glucose : MutableStateFlow<GlucoseRecordRoom?> = MutableStateFlow(null)
     val glucose : StateFlow<GlucoseRecordRoom?> = _glucose
 
-    private val _weatherResponse : MutableStateFlow<Response<WeatherResponse>?> = MutableStateFlow(null)
+    private val _weatherResponse = MutableStateFlow<Response<WeatherResponse>?>(null)
     val weatherResponse : StateFlow<Response<WeatherResponse>?> = _weatherResponse
 
 
@@ -54,7 +56,7 @@ class DashBoardViewModel @Inject constructor(
     fun getLastedGlucose(){
         viewModelScope.launch {
             dashBoardUseCase.getGlucoseDBUseCase.invoke()
-                .onStart { }
+                .onStart { Log.d("smartHealth" , "glucose!!")}
                 .onCompletion { }
                 .catch { }
                 .collect{
@@ -90,17 +92,19 @@ class DashBoardViewModel @Inject constructor(
 
     fun getCurrentWeather(){
         viewModelScope.launch {
-            dashBoardUseCase.getWeatherUseCase.invoke()
-                .onStart {  }
-                .onCompletion {  }
-                .catch {  }
-                .collect{
-                   // Log.d("weather" , ${_})
-                    it?.let {
-                        _weatherResponse.value = it
-                        Log.d("weather" , it.body()?.main.toString() )
+            launch {
+                dashBoardUseCase.getWeatherUseCase.invoke()
+                    .onStart {  }
+                    .onCompletion {  }
+                    .catch {  }
+                    .collect{
+                        // Log.d("weather" , ${_})
+                        it?.let {
+                            _weatherResponse.value = it
+                            Log.d("weather" , it.body()?.main.toString() )
+                        }
                     }
-                }
+            }
         }
     }
 

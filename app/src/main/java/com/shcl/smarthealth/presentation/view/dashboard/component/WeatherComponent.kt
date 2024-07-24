@@ -86,7 +86,7 @@ fun WeatherComponent(
 
                     Row {
                         Text(
-                            "${weatherResponse.weather.first().main}",
+                            "${weatherResponse.weather.first().description}",
                             style = Typography.titleMedium,
                             fontSize = 14f.pxToSp(),
                             color = Color.White

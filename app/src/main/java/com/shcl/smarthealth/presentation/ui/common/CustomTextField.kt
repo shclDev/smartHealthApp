@@ -13,7 +13,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import com.shcl.smarthealth.R
@@ -36,8 +38,14 @@ fun CustomTextField(
 
     var inputText by remember{ mutableStateOf("") }
 
+    val focusManager = LocalFocusManager.current
+
     OutlinedTextField(
-        modifier = modifier,
+        modifier = modifier.onFocusChanged {
+            if(!it.isFocused){
+                focusManager.clearFocus()
+            }
+        },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = focusedBoardColor,
             unfocusedBorderColor = unfocusedBoardColor

@@ -1,5 +1,6 @@
 package com.shcl.smarthealth.data.repository.dataSoruceImpl
 
+import android.util.Log
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.data.api.DashBoardApi
 import com.shcl.smarthealth.data.api.WeatherApi
@@ -36,6 +37,7 @@ class DashBoardRemoteDataSourceImpl(
         try{
             val response = weatherApi.currentWeather("Seoul" , GlobalVariables.weatherApiKey , "kr" )
 
+            Log.d("weather" , "계속 호출...")
             return flow{
                 emit(response)
             }

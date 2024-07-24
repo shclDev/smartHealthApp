@@ -26,8 +26,8 @@ import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 @Composable
 fun UserPictureNickName() {
     var nickname by remember { mutableStateOf("") }
-
     Column {
+        Spacer(modifier = Modifier.height(80f.pxToDp()))
         Image(
             modifier = Modifier
                 .size(200.pxToDp(), 200.pxToDp())
