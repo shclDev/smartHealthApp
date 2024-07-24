@@ -8,4 +8,6 @@ sealed  class OuterScreen(val route : String) {
     object login : OuterScreen((R.string.login_screen).toString())
     object home : OuterScreen((R.string.home_screen).toString())
 
+    object registser : OuterScreen(("register").toString())
+
 }

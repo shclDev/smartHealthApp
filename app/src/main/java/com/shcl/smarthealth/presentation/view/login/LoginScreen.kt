@@ -169,7 +169,7 @@ fun rightSide(nav : NavHostController){
             TextButton(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 onClick = {
-                nav.navigate(route = OuterScreen.home.route)
+                nav.navigate(route = OuterScreen.registser.route)
             }){
                 Text(
                     text= stringResource(id = R.string.join_member) ,

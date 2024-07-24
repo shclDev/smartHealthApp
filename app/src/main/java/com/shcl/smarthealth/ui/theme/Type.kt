@@ -57,6 +57,14 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     ),
 
+    titleSmall = TextStyle(
+        fontFamily = notoSanskr,
+        fontWeight = FontWeight.W500,
+        fontSize = 15.sp,
+        //lineHeight = 150.sp,
+        letterSpacing = 0.5.sp
+    ),
+
     labelLarge = TextStyle(
         fontFamily = notoSanskr,
         fontWeight = FontWeight.W700,

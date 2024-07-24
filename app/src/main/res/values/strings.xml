@@ -30,8 +30,18 @@
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+
+    <string name="register_desc">함께하실 사용자를 등록하시려면 아래 정보를 입력해 프로필을 생성해주세요.\n추후 로그인 시에는 휴대폰번호와 생년월일만 입력하시면 됩니다.</string>
+    <string name="register_phone_num">휴대폰번호</string>
+    <string anme="register_birthday" name="reg">생년월일</string>
+    <string name="register_name">이름</string>
+    <string name="register_gender">성별</string>
+    <string name="register_men">남성</string>
+    <string name="register_women">여성</string>
+
+    <!-- Common -->
+    <string name="next">다음</string>
+    <string name="previous">이전</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

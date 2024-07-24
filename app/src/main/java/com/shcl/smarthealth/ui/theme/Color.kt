@@ -11,9 +11,10 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val BackGroundColor = listOf(
-    Color(0xFF0575E6),
-    Color(0xFF02298A),
-    Color(0xFF021B79))
+    Color(0xFF1A56AF),
+    Color(0xFF003380),
+    Color(0xFF002764),
+    Color(0xFF001336))
 
 val PrimaryButtonColor = Color(0xFF143F91)
 
@@ -24,5 +25,6 @@ val Color1E1E1E = Color(0xFF1E1E1E)
 val ColorF3F4F6 = Color(0xFFF3F4F6)
 val ColorF1F4F9 = Color(0xFFF1F4F9)
 val Color333333 = Color(0xFF333333)
+val ColorECF098 = Color(0xFFECF098)
 
 

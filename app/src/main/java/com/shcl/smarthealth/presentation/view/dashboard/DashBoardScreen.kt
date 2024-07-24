@@ -1,7 +1,10 @@
 package com.shcl.smarthealth.presentation.view.dashboard
 
+import android.content.res.loader.ResourcesProvider
+import android.os.Build
 import android.os.CountDownTimer
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,8 +14,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,15 +28,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.model.omron.RequestType
 import com.shcl.smarthealth.domain.utils.pxToDp
+import com.shcl.smarthealth.presentation.ui.common.CustomAlertDialog
 import com.shcl.smarthealth.presentation.view.dashboard.component.BloodPressureComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.ExerciseComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.GlucoseComponent
@@ -41,12 +53,15 @@ import com.shcl.smarthealth.presentation.view.device.DeviceViewModel
 import jp.co.ohq.ble.enumerate.OHQDeviceCategory
 
 
+@RequiresApi(Build.VERSION_CODES.R)
 @Composable
 fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hiltViewModel() , deviceViewModel: DeviceViewModel = hiltViewModel()){
 
     var timer1Progress by remember{ mutableStateOf(false) }
     var timer2Progress by remember{ mutableStateOf(false) }
     var timer3Progress by remember { mutableStateOf(false) }
+
+    var openAlertDialog by remember{ mutableStateOf(false) }
 
     val timer1 = object: CountDownTimer(10000, 1000) {
         override fun onTick(millisUntilFinished: Long) {
@@ -158,9 +173,23 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
 
                 Button(
                     onClick = {
-                        deviceViewModel.isensConnect("74:46:B3:4E:30:F7")
+                        openAlertDialog = true
+                        when{
+                            openAlertDialog->{
+                                /*
+                                CustomAlertDialog(
+                                    title = "건강정보 입력을 마치시겠습니까?",
+                                    desc = "아직 수정할 내용이 이썩나, 답하지 못한 질문은 없는지 확인해주세요.",
+                                    onClickConfirm = {},
+                                    onClickCancel = { openAlertDialog = false},
+                                    icon =  R.drawable.icon_spoon
+                            )*/
+                        }
+                    }
 
-                        timer3.start()
+
+                        //deviceViewModel.isensConnect("74:46:B3:4E:30:F7")
+                        //timer3.start()
                     }) {
                     if (timer3Progress) {
                         Text("데이터 가져오는 중..", fontSize = 12f.sp)
