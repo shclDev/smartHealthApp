@@ -29,7 +29,7 @@ class DashBoardRemoteDataSourceImpl(
         }
     }
 
-    override suspend fun getWeather(): Flow<Response<WeatherResponse>?> {
+    override suspend fun getWeather(): Flow<WeatherResponse?> {
 
         /**
          *  https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=6a52ad393f34aad788d110071d4cd7ac&lang=kr
@@ -38,10 +38,15 @@ class DashBoardRemoteDataSourceImpl(
             val response = weatherApi.currentWeather("Seoul" , GlobalVariables.weatherApiKey , "kr" )
 
             Log.d("weather" , "계속 호출...")
-            return flow{
-                emit(response)
+            if(response.isSuccessful){
+                return flow{
+                    emit(response.body())
+                }
+            }else{
+                return flow{
+                    emit(null)
+                }
             }
-
         }catch (e : Exception){
             return flow{
                 emit(null)

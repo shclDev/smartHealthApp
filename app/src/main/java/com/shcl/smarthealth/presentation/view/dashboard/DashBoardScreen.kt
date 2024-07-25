@@ -37,6 +37,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
@@ -54,6 +55,7 @@ import com.shcl.smarthealth.presentation.view.dashboard.component.WeatherCompone
 import com.shcl.smarthealth.presentation.view.dashboard.component.WeightComponent
 import com.shcl.smarthealth.presentation.view.device.DeviceViewModel
 import jp.co.ohq.ble.enumerate.OHQDeviceCategory
+import kotlinx.coroutines.flow.collect
 
 
 @RequiresApi(Build.VERSION_CODES.R)
@@ -106,19 +108,19 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
 
 
     viewModel.getNutrionAdvice()
-    val nutritionAdvice by viewModel.nutritionAdvice.collectAsState()
+    val nutritionAdvice by viewModel.nutritionAdvice.collectAsStateWithLifecycle()
 
     viewModel.getLastedBloodPressure()
-    val bloodPressure by viewModel.bloodPressure.collectAsState()
+    val bloodPressure by viewModel.bloodPressure.collectAsStateWithLifecycle()
     
     viewModel.getLastedWeight()
-    val weight by viewModel.bodyComposition.collectAsState()
+    val weight by viewModel.bodyComposition.collectAsStateWithLifecycle()
 
     viewModel.getLastedGlucose()
-    val glucose by viewModel.glucose.collectAsState()
+    val glucose by viewModel.glucose.collectAsStateWithLifecycle()
 
     viewModel.getCurrentWeather()
-    val weather by viewModel.weatherResponse.collectAsState()
+    val weather by viewModel.weatherResponse.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier
@@ -135,8 +137,10 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
                 UserInfo()
                 Spacer(modifier = Modifier.width(100f.pxToDp()))
                 WeatherComponent(
-                    weatherResponse = weather?.body(),
-                    refreshClick = { viewModel.getCurrentWeather() })
+                    weatherResponse = weather,
+                    refreshClick = {
+                        Log.d("weather" , "call weather")
+                        viewModel.getCurrentWeather() })
             }
 
                 /*
