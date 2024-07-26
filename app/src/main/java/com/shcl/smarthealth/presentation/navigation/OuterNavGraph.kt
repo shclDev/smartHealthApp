@@ -7,7 +7,9 @@ import androidx.navigation.compose.composable
 import com.shcl.smarthealth.presentation.view.home.DismissibleNavigationDrawer
 import com.shcl.smarthealth.presentation.view.intro.IntroScreen
 import com.shcl.smarthealth.presentation.view.login.LoginScreen
+import com.shcl.smarthealth.presentation.view.register.RegisterCompleteScreen
 import com.shcl.smarthealth.presentation.view.register.RegisterScreen
+import com.shcl.smarthealth.presentation.view.register.TermsOfUseScreen
 
 @Composable
 fun OuterNavGraph(navCtrl : NavHostController) {
@@ -29,9 +31,17 @@ fun OuterNavGraph(navCtrl : NavHostController) {
         }
 
         composable(route = OuterScreen.registser.route){
-            RegisterScreen()
+            RegisterScreen(nav = navCtrl)
         }
 
+        composable(route = OuterScreen.terms.route){
+            TermsOfUseScreen(nav = navCtrl)
+        }
+
+        composable(route = OuterScreen.registerComplete.route){
+            RegisterCompleteScreen(nav = navCtrl)
+        }
 
     }
 }
+

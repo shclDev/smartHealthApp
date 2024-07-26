@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
@@ -52,10 +53,10 @@ fun ScanDeviceScreen(
     nav : NavHostController,
     viewModel : DeviceViewModel = hiltViewModel(),
 ){
-    val omronDevicesStatFlow by viewModel.omronDeviceState.collectAsState()
-    val omronMeasurementStatus by viewModel.omronMeasurementState.collectAsState()
-    val isensDeviceStateFlow by viewModel.isensDeviceState.collectAsState()
-    val isensMeausurementStatus by viewModel.isensMeasurementState.collectAsState()
+    val omronDevicesStatFlow by viewModel.omronDeviceState.collectAsStateWithLifecycle()
+    val omronMeasurementStatus by viewModel.omronMeasurementState.collectAsStateWithLifecycle()
+    val isensDeviceStateFlow by viewModel.isensDeviceState.collectAsStateWithLifecycle()
+    val isensMeausurementStatus by viewModel.isensMeasurementState.collectAsStateWithLifecycle()
 
     var sessionStatus = ""
 

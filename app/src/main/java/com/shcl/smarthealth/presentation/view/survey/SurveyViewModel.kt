@@ -15,9 +15,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SurveyViewModel @Inject constructor(
-
-
-
 ) : ViewModel() {
 
     private val _levelState = MutableStateFlow(1)
@@ -44,9 +41,7 @@ class SurveyViewModel @Inject constructor(
     }
 
     fun next(){
-
         _levelState.value = _levelState.value + 1;
-
     }
 
     fun prev(){

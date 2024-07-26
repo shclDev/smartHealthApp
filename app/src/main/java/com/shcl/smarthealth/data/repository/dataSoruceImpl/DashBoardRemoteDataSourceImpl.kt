@@ -37,7 +37,7 @@ class DashBoardRemoteDataSourceImpl(
         try{
             val response = weatherApi.currentWeather("Seoul" , GlobalVariables.weatherApiKey , "kr" )
 
-            Log.d("weather" , "계속 호출...")
+            Log.d("weather" , "weather call...")
             if(response.isSuccessful){
                 return flow{
                     emit(response.body())

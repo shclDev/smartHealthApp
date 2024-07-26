@@ -84,12 +84,13 @@ fun WeatherComponent(
                         Text("해남군,", style = Typography.titleMedium, fontSize = 25f.pxToSp() , color = Color.White)
                     }
 
-                    Row {
+                    Row(modifier = Modifier.align(Alignment.CenterVertically)) {
                         Text(
-                            "${weatherResponse.weather.first().description}",
+                            textAlign = TextAlign.End,
+                            text = "${weatherResponse.weather.first().description}",
                             style = Typography.titleMedium,
                             fontSize = 14f.pxToSp(),
-                            color = Color.White
+                            color = Color.White,
                         )
                         Spacer(modifier = Modifier.width(10f.pxToDp()))
                         Text(
@@ -111,7 +112,7 @@ fun WeatherComponent(
                     )
 
                     Text(
-                        modifier = Modifier.clickable { refreshClick  },
+                        modifier = Modifier.clickable { refreshClick()  },
                         text = "${Utils.getCurrentTime()}",
                         style = Typography.titleMedium,
                         fontSize = 14f.pxToSp(),

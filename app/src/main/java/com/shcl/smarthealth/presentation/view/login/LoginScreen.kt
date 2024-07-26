@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,12 +33,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
+import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.ui.theme.BackGroundColor
 import com.shcl.smarthealth.ui.theme.Color333333
@@ -118,10 +121,13 @@ fun rightSide(nav : NavHostController){
                         focusedBorderColor = Color333333,
                         unfocusedBorderColor = ColorD4D9E1),
                     value = phoneNum,
-                    onValueChange = { phoneNum = it } ,
+                    onValueChange = { phoneNum = it },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
-                    placeholder = { Text(text = stringResource(id = R.string.handphone_hint) ,
+                    placeholder = {
+                        Text(text = stringResource(id = R.string.handphone_hint) ,
                                         style = Typography.titleMedium,
+                                        fontSize = 15f.pxToSp(),
                                         color = Color757575
                     )
                 } )
@@ -142,10 +148,12 @@ fun rightSide(nav : NavHostController){
                     value = birthDay,
                     onValueChange = { birthDay = it },
                     singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     placeholder = {
                         Text(
                             text = stringResource(id = R.string.birthday_hint) ,
                             style = Typography.titleMedium,
+                            fontSize = 15f.pxToSp(),
                             color = Color757575)
                     })
             }

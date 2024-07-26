@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -26,18 +27,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
+import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
 import com.shcl.smarthealth.presentation.ui.common.CustomTextField
 import com.shcl.smarthealth.presentation.ui.common.LinearVerticalLine
@@ -51,7 +52,7 @@ import com.shcl.smarthealth.ui.theme.PrimaryButtonColor
 import com.shcl.smarthealth.ui.theme.Typography
 
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(nav: NavHostController) {
 
     var phoneNumber by remember { mutableStateOf("") }
     var birthDay by remember { mutableStateOf("") }
@@ -106,6 +107,7 @@ fun RegisterScreen() {
                                 )
                                 Spacer(modifier = Modifier.height(25f.pxToDp()))
                                 CustomTextField(
+                                    keyOption = KeyboardOptions(keyboardType = KeyboardType.Number),
                                     modifier = Modifier.defaultMinSize(
                                         minWidth = 620f.pxToDp(),
                                         minHeight = 86f.pxToDp()
@@ -125,6 +127,7 @@ fun RegisterScreen() {
                                 Text(stringResource(id = R.string.birthday) , style = Typography.titleSmall , fontSize = 20f.pxToSp() , color = Color333333)
                                 Spacer(modifier = Modifier.height(25f.pxToDp()))
                                 CustomTextField(
+                                    keyOption = KeyboardOptions(keyboardType = KeyboardType.Number),
                                     modifier = Modifier.defaultMinSize(minWidth = 620f.pxToDp(), minHeight = 86f.pxToDp()),
                                     focusedBoardColor = Color143F91,
                                     unfocusedBoardColor = ColorD4D9E1,
@@ -159,9 +162,6 @@ fun RegisterScreen() {
                                     })
 
                                 Spacer(modifier = Modifier.height(80f.pxToDp()))
-
-
-
                             }
 
                             Column {
@@ -178,8 +178,8 @@ fun RegisterScreen() {
                                     options = genderGroup ,
                                     unSelectedColor = ColorD4D9E1 ,
                                     selectedColor = Color143F91,
-                                    selectionChanged = {
-
+                                    selectionChanged = { it->
+                                        Log.d("register" , it)
                                     }
                                 )
 
@@ -187,7 +187,7 @@ fun RegisterScreen() {
 
                                     Button(
                                         onClick = {
-                                            //nav.navigate(route = OuterScreen.home.route)
+                                            nav.navigate(route = OuterScreen.terms.route)
                                             //nav.navigate(route = OuterScreen.deviceScan.route)
                                         },
                                         shape = RoundedCornerShape(18.pxToDp()),
