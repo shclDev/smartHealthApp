@@ -88,6 +88,7 @@ dependencies {
         "include" to listOf("*.aar", "*.jar"),
     )))
     implementation(libs.androidx.lifecycle.runtime.compose.android)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

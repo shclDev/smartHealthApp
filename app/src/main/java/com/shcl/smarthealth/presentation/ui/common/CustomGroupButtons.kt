@@ -2,10 +2,12 @@ package com.shcl.smarthealth.presentation.ui.common
 
 import android.graphics.Paint.Align
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -53,49 +56,30 @@ fun CustomGroupButtons(
     ) {
         options.forEach { option ->
             Row(modifier = Modifier.padding(all = 8.pxToDp())) {
-                Text(
-                    text = option.key,
-                    textAlign = TextAlign.Center,
-                    style = Typography.titleSmall,
-                    color = Color333333,
-                /* {
-
-                    if(selectedOption.compareTo(option.key)== 0){
+                OutlinedButton(
+                    border = BorderStroke(width = 6f.pxToDp() , color = if (selectedOption == option.key) {
                         selectedColor
-                    }else{
-                        Color333333
-                    }
-                    },*/
+                    } else {
+                        unSelectedColor
+                    }),
+                    shape = RoundedCornerShape(18f),
+
                     modifier = Modifier
-                        .clip(shape = RoundedCornerShape(18f.pxToDp()))
                         .background(ColorD4D9E1)
                         .defaultMinSize(minWidth = 300f.pxToDp(), 86f.pxToDp())
-                        .align(Alignment.CenterVertically)
-                        .clickable {
-                            selectedOption = option.key
-                            selectionChanged(selectedOption)
-
-
-                            if (selectedOption.compareTo(option.key) == 0) {
-                                buttonBoardColor = selectedColor
-                            } else {
-                                buttonBoardColor = unSelectedColor
-                            }
-                            //selectedOption = option.key
-                            /*
-                            onSelectionChange(option.key)
-                            if (option.key == selectedOption) {
-                                buttonBackColor = selectedColor
-                            }else{
-                                buttonBackColor = unSelectedColor
-                            }
-                            selectionChanged(option.key)*/
-                        }
-                        .border(
-                            width = 6f.pxToDp(),
-                            color = buttonBoardColor
-                        )
-                )
+                        .align(Alignment.CenterVertically),
+                    onClick = {
+                    selectedOption = option.key
+                    selectionChanged(selectedOption)
+                }) {
+                    Text(
+                        modifier = Modifier.clip(RoundedCornerShape(18f.pxToDp())),
+                        text = option.key,
+                        textAlign = TextAlign.Center,
+                        style = Typography.titleSmall,
+                        color = Color333333,
+                    )
+                }
             }
         }
     }

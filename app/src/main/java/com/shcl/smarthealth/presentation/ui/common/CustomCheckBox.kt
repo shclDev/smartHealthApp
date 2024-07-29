@@ -40,7 +40,7 @@ import com.shcl.smarthealth.ui.theme.Typography
 
 @Composable
 fun CustomCheckBox(options : HashMap<String , Any>,
-                   checboxSize : Float = 12f,
+                   checkboxSize : Float = 12f,
                    unSelectedColor : Color,
                    selectedColor : Color,
                    selectionChanged : (String)-> Unit
@@ -52,17 +52,34 @@ fun CustomCheckBox(options : HashMap<String , Any>,
         Log.d("smartHealth" , selectedOption)
     }}
 
-    var buttonColor by remember { mutableStateOf(unSelectedColor) }
-
     Row(
         horizontalArrangement = Arrangement.spacedBy(20f.pxToDp()),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
         options.forEach { option ->
-            Row(modifier = Modifier.padding(all = 8.pxToDp())) {
+            Row(modifier = Modifier.padding(all = 8.pxToDp()).clickable { selectedOption = option.key }) {
+                Canvas(
+                    modifier = Modifier
+                        .size(37f.pxToDp())
+                        .clip(CircleShape)
+                        .background(
+                            if(selectedOption == option.key){
+                                selectedColor
+                            }else{
+                                unSelectedColor
+                            }),
+                    onDraw = {
+                        //val strokeWidth = (size / 2)
 
-                DrawCircle(color = buttonColor, size = checboxSize)
+                        drawCircle(
+                            color = Color.White,
+                            radius = 12f,
+                            style = Stroke(width = 8f),
+                            center = this.center
+                        )
+                    }
+                )
                 Spacer(modifier = Modifier.width(10f.pxToDp()))
                 Text(
                     text = option.key,
@@ -71,25 +88,7 @@ fun CustomCheckBox(options : HashMap<String , Any>,
                     color = Color333333,
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
-                        .clickable {
-                            selectedOption = option.key
-                            selectionChanged(selectedOption)
 
-                            if (selectedOption.compareTo(option.key) == 0) {
-                                buttonColor = selectedColor
-                            } else {
-                                buttonColor = unSelectedColor
-                            }
-                            //selectedOption = option.key
-                            /*
-                            onSelectionChange(option.key)
-                            if (option.key == selectedOption) {
-                                buttonBackColor = selectedColor
-                            }else{
-                                buttonBackColor = unSelectedColor
-                            }
-                            selectionChanged(option.key)*/
-                        }
 
                 )
             }

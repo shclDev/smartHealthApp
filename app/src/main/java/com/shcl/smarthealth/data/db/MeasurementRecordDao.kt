@@ -8,6 +8,7 @@ import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
+import com.shcl.smarthealth.domain.model.db.UserRoom
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -54,5 +55,11 @@ interface MeasurementRecordDao {
 
     @Query("SELECT * FROM glucose_record_tb WHERE userId = :userId ORDER BY time DESC LIMIT 1")
     fun getGlucoseRecordByUserID(userId : Int) : Flow<GlucoseRecordRoom>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addUser(userRoom: UserRoom)
+
+    @Query("SELECT * FROM user_tb WHERE userId = :userId ")
+    fun getUserByUserID(userId : Int) : Flow<UserRoom>
 
 }

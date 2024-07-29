@@ -12,6 +12,7 @@ object GlobalVariables {
     lateinit var context : Context
     var mHost : Host = Host.PROD;
 
+    const val shclProdBaseUrl = "https://127.0.0.1:8000"
     const val naverProdBaseUrl = "https://naveropenapi.apigw.ntruss.com/";
     const val naverDevBaseUrl = "https://naveropenapi.apigw.ntruss.com/";
     const val weatherBaseUrl = "https://api.openweathermap.org/"

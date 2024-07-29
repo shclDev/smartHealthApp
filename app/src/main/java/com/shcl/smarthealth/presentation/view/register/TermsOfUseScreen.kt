@@ -48,7 +48,6 @@ fun TermsOfUseScreen(nav: NavHostController) {
 
     val termsCheckGroup : HashMap<String , Any> = hashMapOf(stringResource(id = R.string.terms_agree_chk_yes) to "Y" , stringResource(id = R.string.terms_agree_chk_no) to "N")
 
-
     Box(
 
     ){
@@ -102,7 +101,7 @@ fun TermsOfUseScreen(nav: NavHostController) {
                 ){
                     Text(text = stringResource(id = R.string.terms_agree) , style = Typography.bodyLarge , fontSize = 25f.pxToSp() , color = Color333333)
                     Spacer(modifier = Modifier.width(230f.pxToDp()))
-                    CustomCheckBox(options = termsCheckGroup , unSelectedColor = ColorD4D9E1  , selectedColor = Color193889 , checboxSize = 37f , selectionChanged = {it -> })
+                    CustomCheckBox(options = termsCheckGroup , unSelectedColor = ColorD4D9E1  , selectedColor = Color193889 , checkboxSize = 37f , selectionChanged = {it -> })
                 }
 
                 Spacer(modifier = Modifier.height(80f.pxToDp()))
