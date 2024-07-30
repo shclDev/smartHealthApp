@@ -3,13 +3,16 @@ package com.shcl.smarthealth.di
 import com.shcl.smarthealth.data.repository.DashBoardRepositoryImpl
 import com.shcl.smarthealth.data.repository.IsensRepositoryImpl
 import com.shcl.smarthealth.data.repository.OmronRepositoryImpl
+import com.shcl.smarthealth.data.repository.UserRepositoryImpl
 import com.shcl.smarthealth.data.repository.dataSource.DashBoardRemoteDataSource
 import com.shcl.smarthealth.data.repository.dataSource.IsensDeviceDataSource
 import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
+import com.shcl.smarthealth.data.repository.dataSource.UserRemoteDataSource
 import com.shcl.smarthealth.domain.repository.DashBoardRepository
 import com.shcl.smarthealth.domain.repository.IsensRepository
 import com.shcl.smarthealth.domain.repository.OmronRepository
+import com.shcl.smarthealth.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,4 +43,11 @@ object RepositoryModule {
         isensDeviceDataSource: IsensDeviceDataSource,
         measureRecordDataSource: MeasureRecordDataSource
     ) : IsensRepository = IsensRepositoryImpl(isensDeviceDataSource , measureRecordDataSource )
+
+    @Provides
+    fun provideUserRepository(
+        userRemoteDataSource: UserRemoteDataSource,
+        measureRecordDataSource: MeasureRecordDataSource
+    ) : UserRepository = UserRepositoryImpl(  userRemoteDataSource , measureRecordDataSource )
+
 }

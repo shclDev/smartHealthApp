@@ -22,6 +22,12 @@ data class UserRoom(
     val mobile : String,
     @SerializedName("token")
     val token : String,
+    @SerializedName("type")
+    val type : String,
+    @SerializedName("authCode")
+    val authCode : String,
+    @SerializedName("isFirst")
+    val isFirst : Boolean = false,
     @SerializedName("registerTime")
     val registerTime : String
 )

@@ -6,6 +6,7 @@ import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
+import com.shcl.smarthealth.domain.model.db.UserRoom
 import kotlinx.coroutines.flow.Flow
 
 class MeasureRecordDataSourceImpl(private val measurementRecordDao: MeasurementRecordDao) : MeasureRecordDataSource{
@@ -18,5 +19,7 @@ class MeasureRecordDataSourceImpl(private val measurementRecordDao: MeasurementR
     override fun getBodyCompositionFromDB(userId: Int): Flow<BodyCompositionRoom> = measurementRecordDao.getBodyCompositionByUserID(userId)
     override suspend fun updateGlucoseToDB(glucoseRecordRoom: GlucoseRecordRoom) = measurementRecordDao.addGlucoseRecord(glucoseRecordRoom)
     override fun getGlucoseFromDB(userId: Int) : Flow<GlucoseRecordRoom> = measurementRecordDao.getGlucoseRecordByUserID(userId)
+    override suspend fun updateUser(userRoom: UserRoom) = measurementRecordDao.addUser(userRoom)
+    override fun getUserFromDB(userId: Int) = measurementRecordDao.getUserByUserID(userId)
 
 }

@@ -1,7 +1,9 @@
 package com.shcl.smarthealth.data.repository
 
+import android.util.Log
 import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
 import com.shcl.smarthealth.data.repository.dataSource.UserRemoteDataSource
+import com.shcl.smarthealth.domain.model.db.UserRoom
 import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
 import com.shcl.smarthealth.domain.model.remote.user.SignUpResponse
 import com.shcl.smarthealth.domain.model.remote.common.ApiResponse
@@ -56,6 +58,16 @@ class UserRepositoryImpl(
                     }
                 }
             }*/
+    }
+
+    override suspend fun userRoomUpdate(userRoom: UserRoom) {
+
+        try{
+            measureRecordDataSource.updateUser(userRoom)
+
+        }catch (e : Exception){
+            Log.e("register" , e.message.toString())
+        }
     }
 
 }

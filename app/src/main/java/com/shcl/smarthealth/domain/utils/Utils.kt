@@ -45,6 +45,12 @@ object Utils {
         return current.format(formatter)
     }
 
+    fun getCurrentDateTime() : String{
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd.hh.mm")
+        return current.format(formatter)
+    }
+
     fun getCurrentTime() : String{
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("a hh:mm")

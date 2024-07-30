@@ -7,19 +7,25 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,11 +39,13 @@ import com.shcl.smarthealth.domain.utils.Utils.dp
 import com.shcl.smarthealth.domain.utils.pxToDp
 import java.io.File
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyImageArea(
     uri: Uri? = null, //target url to preview
     directory: File? = null, // stored directory
-    onSetUri : (Uri) -> Unit = {}, // selected / taken uri
+    onSetUri : (Uri) -> Unit, // selected / taken uri
 ) {
     val context = LocalContext.current
     val tempUri = remember { mutableStateOf<Uri?>(null) }
@@ -73,7 +81,7 @@ fun MyImageArea(
 
     val takePhotoLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture(),
-        onResult = {isSaved ->
+        onResult = { isSaved ->
             tempUri.value?.let {
                 onSetUri.invoke(it)
             }
@@ -97,71 +105,102 @@ fun MyImageArea(
     }
 
     var showBottomSheet by remember { mutableStateOf(false) }
-    if (showBottomSheet){
-        ModalBottomSheetDefaults(
-            onDismiss = {
-                showBottomSheet = false
-            },
-            onTakePhotoClick = {
-                showBottomSheet = false
+    val sheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
 
-                val permission = Manifest.permission.CAMERA
-                if (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    // Permission is already granted, proceed to step 2
-                    val tmpUri = getTempUri()
-                    tempUri.value = tmpUri
-                    tempUri.value?.let{
-                        takePhotoLauncher.launch(it)
+    Image(
+        modifier = Modifier
+            .size(200.pxToDp(), 200.pxToDp())
+            .clickable {
+                showBottomSheet = true
+                /*
+                MyImageAreaSelect(
+                    show = true,
+                    uri = null,
+                    directory = null,
+                    onSetUri = {
+                        uriSelected(it)
                     }
-                } else {
-                    // Permission is not granted, request it
-                    cameraPermissionLauncher.launch(permission)
-                }
-            },
-            onPhotoGalleryClick = {
-                showBottomSheet = false
-                imagePicker.launch(
-                    PickVisualMediaRequest(
-                        ActivityResultContracts.PickVisualMedia.ImageOnly
-                    )
-                )
-            },
-        )
-    }
+                )*/
+            }
+        ,
+        painter = painterResource(id = R.drawable.reg_picture),
+        contentDescription = null
+    )
 
-    Column (
-        modifier = Modifier.fillMaxWidth()
-    ) {
-
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
+    if (showBottomSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showBottomSheet = false },
+            sheetState = sheetState
         ) {
-            Button(
-                onClick = {
-                    showBottomSheet = true
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .defaultMinSize(minHeight = 350f.pxToDp())
+            ) {
+                Button(
+                    onClick = {
+                        //showBottomSheet = true
+                    }
+                ) {
+                    Text(modifier = Modifier.clickable {
+                        showBottomSheet = false
+                        imagePicker.launch(
+                            PickVisualMediaRequest(
+                                ActivityResultContracts.PickVisualMedia.ImageOnly
+                            )
+                        )
+                    }, text = "사진 선택")
+
                 }
-            ) {
-                Text(text = "Select / Take")
-            }
-        }
 
-        //preview selfie
-        uri?.let {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
+                Spacer(modifier = Modifier.height(50f.pxToDp()))
 
-                Image(
-                    modifier = Modifier
-                        .size(200.pxToDp(), 200.pxToDp()),
-                    painter = painterResource(id = R.drawable.reg_picture),
-                    contentDescription = null
-                )
+                Button(
+                    onClick = {
+                        //showBottomSheet = true
+                    }
+                ) {
+                    Text(modifier = Modifier.clickable {
+                        showBottomSheet = false
+                        val permission = Manifest.permission.CAMERA
+                        if (ContextCompat.checkSelfPermission(
+                                context,
+                                permission
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            // Permission is already granted, proceed to step 2
+                            val tmpUri = getTempUri()
+                            tempUri.value = tmpUri
+                            tempUri.value?.let {
+                                takePhotoLauncher.launch(it)
+                            }
+                        } else {
+                            // Permission is not granted, request it
+                            cameraPermissionLauncher.launch(permission)
+                        }
+                    }, text = "사진 찍기")
+                }
+
+                //preview selfie
+                uri?.let {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            modifier = Modifier
+                                .size(200.pxToDp(), 200.pxToDp()),
+                            painter = painterResource(id = R.drawable.reg_picture),
+                            contentDescription = null
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16f.pxToDp()))
+                }
+
             }
-            Spacer(modifier = Modifier.height(16f.pxToDp()))
+
         }
 
     }

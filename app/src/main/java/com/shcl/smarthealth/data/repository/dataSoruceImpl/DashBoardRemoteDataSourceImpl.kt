@@ -5,14 +5,15 @@ import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.data.api.DashBoardApi
 import com.shcl.smarthealth.data.api.WeatherApi
 import com.shcl.smarthealth.data.repository.dataSource.DashBoardRemoteDataSource
+import com.shcl.smarthealth.di.NetworkModule
 import com.shcl.smarthealth.domain.model.remote.weather.WeatherResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 
 class DashBoardRemoteDataSourceImpl(
-    private val dashBoardApi : DashBoardApi,
-    private val weatherApi: WeatherApi
+    @NetworkModule.shcl private val dashBoardApi : DashBoardApi,
+    @NetworkModule.weather private val weatherApi: WeatherApi
 ) : DashBoardRemoteDataSource{
     override fun getNutrtionAdvice(): Flow<String> {
 

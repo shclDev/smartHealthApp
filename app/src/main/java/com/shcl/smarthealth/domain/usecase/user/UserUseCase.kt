@@ -1,5 +1,6 @@
 package com.shcl.smarthealth.domain.usecase.user
 
-data class UserUseCas(
-    val userSignUpUseCase: UserSignUpUseCase
+data class UserUseCase(
+    val userSignUpUseCase: UserSignUpUseCase,
+    val userRoomUpdateUseCase: UserRoomUpdateUseCase
 )

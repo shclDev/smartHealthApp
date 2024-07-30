@@ -1,19 +1,17 @@
 package com.shcl.smarthealth.presentation.view.login
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
-import com.shcl.smarthealth.domain.usecase.user.UserUseCas
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
+import com.shcl.smarthealth.domain.usecase.user.UserUseCase
 import javax.inject.Inject
 
+
+/*
 class LoginViewModel @Inject constructor(
-    private val userUseCase: UserUseCas
+    private val userUseCase: UserUseCase
 ) : ViewModel(){
 
+
+    /*
     fun requestSignUp(){
         viewModelScope.launch {
             userUseCase.userSignUpUseCase(
@@ -36,6 +34,6 @@ class LoginViewModel @Inject constructor(
                     }
                 }
         }
-    }
+    }*/
 
-}
+}*/

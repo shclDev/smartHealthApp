@@ -1,6 +1,7 @@
 package com.shcl.smarthealth.presentation.view.register
 
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -34,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
@@ -42,7 +45,7 @@ import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
 import com.shcl.smarthealth.presentation.ui.common.CustomTextField
 import com.shcl.smarthealth.presentation.ui.common.LinearVerticalLine
-import com.shcl.smarthealth.presentation.view.register.component.UserPictureNickName
+import com.shcl.smarthealth.presentation.view.register.component.MyImageArea
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
 import com.shcl.smarthealth.ui.theme.Color333333
@@ -52,12 +55,14 @@ import com.shcl.smarthealth.ui.theme.PrimaryButtonColor
 import com.shcl.smarthealth.ui.theme.Typography
 
 @Composable
-fun RegisterScreen(nav: NavHostController) {
+fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hiltViewModel()) {
 
-    var phoneNumber by remember { mutableStateOf("") }
-    var birthDay by remember { mutableStateOf("") }
+    var mobile by remember { mutableStateOf("") }
+    var birthDate by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("M") }
+    var nickName by remember { mutableStateOf("") }
+    var uri by remember { mutableStateOf<Uri?>(null) }
 
     val genderGroup : HashMap<String , Any> = hashMapOf("남성" to "man" , "여성" to "women")
 
@@ -95,7 +100,30 @@ fun RegisterScreen(nav: NavHostController) {
                     Spacer(modifier = Modifier.height(50f.pxToDp()))
 
                     Row(horizontalArrangement = Arrangement.spacedBy(80f.pxToDp())){
-                        UserPictureNickName()
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            MyImageArea(onSetUri = {
+                                Log.d("register" , it.toString())
+                            })
+                            Spacer(modifier = Modifier.height(25f.pxToDp()))
+
+                            CustomTextField(
+                                modifier = Modifier.defaultMinSize(minWidth = 300f.pxToDp(), minHeight = 86f.pxToDp()),
+                                focusedBoardColor = Color143F91,
+                                unfocusedBoardColor = ColorD4D9E1,
+                                placeHolder = "별명(선택)",
+                                valueChanged = {
+                                    nickName = it
+                                    Log.d("register" , "nickname : ${nickName}")
+                                }
+                            )
+                        }
+
+
+                        /*
+                        UserPictureNickName(
+                            nickNameChanged = { nickName = it },
+                            uriSelected = { uri.value = it }
+                        )*/
 
                         Column(verticalArrangement = Arrangement.SpaceBetween){
                             Column {
@@ -116,8 +144,8 @@ fun RegisterScreen(nav: NavHostController) {
                                     unfocusedBoardColor = ColorD4D9E1,
                                     placeHolder = "예 : 01012345678",
                                     valueChanged = {
-                                        phoneNumber = it
-                                        Log.d("register", "phoneNumber : ${phoneNumber}")
+                                        mobile = it
+                                        Log.d("register", "phoneNumber : ${mobile}")
                                     })
                             }
 
@@ -133,8 +161,8 @@ fun RegisterScreen(nav: NavHostController) {
                                     unfocusedBoardColor = ColorD4D9E1,
                                     placeHolder = "주민번호 앞 여섯자리",
                                     valueChanged = {
-                                        birthDay = it
-                                        Log.d("register" , "birthDay : ${birthDay}")
+                                        birthDate = it
+                                        Log.d("register" , "birthDate : ${birthDate}")
                                     })
                             }
                         }
@@ -157,7 +185,7 @@ fun RegisterScreen(nav: NavHostController) {
                                     unfocusedBoardColor = ColorD4D9E1,
                                     placeHolder = "홍길동",
                                     valueChanged = {
-                                        phoneNumber = it
+                                        name = it
                                         Log.d("register", "name : $name")
                                     })
 
@@ -179,6 +207,7 @@ fun RegisterScreen(nav: NavHostController) {
                                     unSelectedColor = ColorD4D9E1 ,
                                     selectedColor = Color143F91,
                                     selectionChanged = { it->
+                                        gender = it
                                         Log.d("register" , it)
                                     }
                                 )
@@ -187,6 +216,18 @@ fun RegisterScreen(nav: NavHostController) {
 
                                     Button(
                                         onClick = {
+
+                                            (uri?.let { uri } ?: run { null })?.let {
+                                                viewModel.signUpUser(
+                                                    name = name,
+                                                    nickName = nickName,
+                                                    birthDate = birthDate,
+                                                    gender = gender,
+                                                    mobile = mobile,
+                                                    picture = it
+                                                )
+                                            }
+
                                             nav.navigate(route = OuterScreen.terms.route)
                                             //nav.navigate(route = OuterScreen.deviceScan.route)
                                         },

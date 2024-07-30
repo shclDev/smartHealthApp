@@ -3,6 +3,7 @@ package com.shcl.smarthealth.di
 import com.shcl.smarthealth.domain.repository.DashBoardRepository
 import com.shcl.smarthealth.domain.repository.IsensRepository
 import com.shcl.smarthealth.domain.repository.OmronRepository
+import com.shcl.smarthealth.domain.repository.UserRepository
 import com.shcl.smarthealth.domain.usecase.dashboard.DashBoardUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetBloodPressureDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetBodyCompositionDBUseCase
@@ -19,6 +20,9 @@ import com.shcl.smarthealth.domain.usecase.omron.OmronDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.RegisterDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.ScanDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.SetBloodPressureUseCase
+import com.shcl.smarthealth.domain.usecase.user.UserRoomUpdateUseCase
+import com.shcl.smarthealth.domain.usecase.user.UserSignUpUseCase
+import com.shcl.smarthealth.domain.usecase.user.UserUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,5 +58,13 @@ object UseCaseModule {
         getGlucoseRecordUseCase = GetGlucoseRecordUseCase(repository = isensRepository),
         setGlucoseRecordUserCase = SetGlucoseRecordUserCase(repository = isensRepository)
     )
+
+    @Provides
+    fun provideUserUseCase(userRepository: UserRepository) = UserUseCase(
+        userSignUpUseCase = UserSignUpUseCase(repository = userRepository),
+        userRoomUpdateUseCase = UserRoomUpdateUseCase(repository = userRepository)
+    )
+
+
     
 }
