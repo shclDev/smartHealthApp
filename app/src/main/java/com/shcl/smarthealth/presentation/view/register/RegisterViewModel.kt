@@ -22,6 +22,22 @@ class RegisterViewModel @Inject constructor(
     private val userUseCase: UserUseCase
 ) : ViewModel() {
 
+
+    fun validationUserInfo(name : String,
+                            nickName: String,
+                            birthDate : String,
+                            gender : String,
+                            mobile : String,
+                            picture : Uri) : Boolean{
+        // 이름 , 휴대폰 번호 , 생년월일, 성별 비었는지 검사
+        if(name.isNullOrEmpty() || birthDate.isNullOrEmpty() || gender.isNullOrEmpty() || mobile.isNullOrEmpty() || picture.toString().isNullOrEmpty()){
+            return false
+        }
+
+        return true
+    }
+
+
     fun signUpUser(
         name : String,
         nickName: String,
@@ -29,12 +45,7 @@ class RegisterViewModel @Inject constructor(
         gender : String,
         mobile : String,
         picture : Uri
-    ) : Boolean{
-
-        // 이름 , 휴대폰 번호 , 생년월일, 성별 비었는지 검사
-        if(name.isNullOrEmpty() || birthDate.isNullOrEmpty() || gender.isNullOrEmpty() || mobile.isNullOrEmpty() || picture.toString().isNullOrEmpty()){
-            return false
-        }
+    ) {
 
         viewModelScope.launch{
             userUseCase.userSignUpUseCase.invoke(SignUpRequest(
@@ -67,8 +78,6 @@ class RegisterViewModel @Inject constructor(
                     }
                 }
         }
-
-        return true
     }
 
 

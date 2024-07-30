@@ -3,6 +3,7 @@ package com.shcl.smarthealth.presentation.view.register.component
 import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import coil.compose.AsyncImage
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.Utils.dp
 import com.shcl.smarthealth.domain.utils.pxToDp
@@ -48,7 +50,7 @@ fun MyImageArea(
     onSetUri : (Uri) -> Unit, // selected / taken uri
 ) {
     val context = LocalContext.current
-    val tempUri = remember { mutableStateOf<Uri?>(null) }
+    var tempUri by remember { mutableStateOf<Uri?>(null) }
     val authority = stringResource(id = R.string.fileprovider)
 
     // for takePhotoLauncher used
@@ -72,9 +74,12 @@ fun MyImageArea(
 
     val imagePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = {
-            it?.let {
-                onSetUri.invoke(it)
+        onResult = { uri->
+
+            uri?.let{
+                tempUri = uri
+                Log.d("register" , "${tempUri}")
+                onSetUri.invoke(uri)
             }
         }
     )
@@ -82,7 +87,9 @@ fun MyImageArea(
     val takePhotoLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture(),
         onResult = { isSaved ->
-            tempUri.value?.let {
+            tempUri?.let {
+                tempUri = it
+                Log.d("register" , "${tempUri}")
                 onSetUri.invoke(it)
             }
         }
@@ -94,9 +101,9 @@ fun MyImageArea(
         if (isGranted) {
             // Permission is granted, launch takePhotoLauncher
             val tmpUri = getTempUri()
-            tempUri.value = tmpUri
+            tempUri = tmpUri
 
-            tempUri.value?.let {
+            tempUri?.let {
                 takePhotoLauncher.launch(it)
             }
         } else {
@@ -108,7 +115,8 @@ fun MyImageArea(
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
 
-    Image(
+    AsyncImage(
+        model = tempUri ?: R.drawable.reg_picture,
         modifier = Modifier
             .size(200.pxToDp(), 200.pxToDp())
             .clickable {
@@ -124,7 +132,6 @@ fun MyImageArea(
                 )*/
             }
         ,
-        painter = painterResource(id = R.drawable.reg_picture),
         contentDescription = null
     )
 
@@ -172,8 +179,8 @@ fun MyImageArea(
                         ) {
                             // Permission is already granted, proceed to step 2
                             val tmpUri = getTempUri()
-                            tempUri.value = tmpUri
-                            tempUri.value?.let {
+                            tempUri = tmpUri
+                            tempUri?.let {
                                 takePhotoLauncher.launch(it)
                             }
                         } else {
@@ -184,6 +191,7 @@ fun MyImageArea(
                 }
 
                 //preview selfie
+                /*
                 uri?.let {
                     Box(
                         modifier = Modifier.fillMaxWidth(),
@@ -197,7 +205,7 @@ fun MyImageArea(
                         )
                     }
                     Spacer(modifier = Modifier.height(16f.pxToDp()))
-                }
+                }*/
 
             }
 

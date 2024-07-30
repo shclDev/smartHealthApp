@@ -42,12 +42,7 @@ fun CustomGroupButtons(
     ) {
 
     var selectedOption by remember { mutableStateOf("") }
-    val onSelectionChange = { text : String->{
-        selectedOption  = text
-        Log.d("smartHealth" , selectedOption)
-    }}
-
-    var buttonBoardColor by remember { mutableStateOf(unSelectedColor) }
+    //var buttonBoardColor by remember { mutableStateOf(unSelectedColor) }
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(20f.pxToDp()),
@@ -57,7 +52,7 @@ fun CustomGroupButtons(
         options.forEach { option ->
             Row(modifier = Modifier.padding(all = 8.pxToDp())) {
                 OutlinedButton(
-                    border = BorderStroke(width = 6f.pxToDp() , color = if (selectedOption == option.key) {
+                    border = BorderStroke(width = 6f.pxToDp() , color = if (selectedOption == option.value) {
                         selectedColor
                     } else {
                         unSelectedColor
@@ -69,7 +64,7 @@ fun CustomGroupButtons(
                         .defaultMinSize(minWidth = 300f.pxToDp(), 86f.pxToDp())
                         .align(Alignment.CenterVertically),
                     onClick = {
-                    selectedOption = option.key
+                    selectedOption = option.value.toString()
                     selectionChanged(selectedOption)
                 }) {
                     Text(

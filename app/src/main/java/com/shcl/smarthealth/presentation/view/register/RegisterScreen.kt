@@ -64,7 +64,7 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
     var nickName by remember { mutableStateOf("") }
     var uri by remember { mutableStateOf<Uri?>(null) }
 
-    val genderGroup : HashMap<String , Any> = hashMapOf("남성" to "man" , "여성" to "women")
+    val genderGroup : HashMap<String , Any> = hashMapOf("남성" to "M" , "여성" to "F")
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -101,8 +101,10 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
 
                     Row(horizontalArrangement = Arrangement.spacedBy(80f.pxToDp())){
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            MyImageArea(onSetUri = {
-                                Log.d("register" , it.toString())
+                            MyImageArea(
+                                onSetUri = {
+                                    uri = it
+                                    Log.d("register" , it.toString())
                             })
                             Spacer(modifier = Modifier.height(25f.pxToDp()))
 
@@ -213,22 +215,40 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                 )
 
                                 Spacer(modifier = Modifier.height(80f.pxToDp()))
-
                                     Button(
                                         onClick = {
 
-                                            (uri?.let { uri } ?: run { null })?.let {
-                                                viewModel.signUpUser(
+                                            uri?.let {
+                                                val validation =  viewModel.validationUserInfo(
                                                     name = name,
                                                     nickName = nickName,
                                                     birthDate = birthDate,
                                                     gender = gender,
                                                     mobile = mobile,
-                                                    picture = it
-                                                )
+                                                    picture = it)
+
+                                                if(validation){
+                                                    (uri?.let { uri } ?: run { null })?.let {
+                                                        viewModel.signUpUser(
+                                                            name = name,
+                                                            nickName = nickName,
+                                                            birthDate = birthDate,
+                                                            gender = gender,
+                                                            mobile = mobile,
+                                                            picture = it
+                                                        )
+                                                    }
+
+                                                    nav.navigate(route = OuterScreen.terms.route)
+                                                }
                                             }
 
-                                            nav.navigate(route = OuterScreen.terms.route)
+
+
+
+
+
+
                                             //nav.navigate(route = OuterScreen.deviceScan.route)
                                         },
                                         shape = RoundedCornerShape(18.pxToDp()),

@@ -11,19 +11,27 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 
 interface UserApi {
-    @GET("signCheck")
+    @GET("/signCheck")
     suspend fun signCheck(
     ) : Response<ApiResponse<String>>
 
+    /*
     @Multipart
-    @POST("signUp")
+    @POST("/signUp")
     suspend fun signUp(
        @Part("name") name : RequestBody,
        @Part("nickName") nickName : RequestBody?,
        @Part("birthDate") birthDate : RequestBody,
        @Part("gender") gender : RequestBody,
        @Part("mobile") mobile : RequestBody,
-       @Part("picture") picture : MultipartBody.Part
+       @Part picture : MultipartBody.Part
+    ) : Response<ApiResponse<SignUpResponse>>*/
+
+    @Multipart
+    @POST("/signUp")
+    suspend fun signUp(
+        @Part("data") data: RequestBody,
+        @Part picture: MultipartBody.Part
     ) : Response<ApiResponse<SignUpResponse>>
 
 }

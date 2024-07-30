@@ -134,6 +134,9 @@ dependencies {
     // permission
     implementation ("com.google.accompanist:accompanist-permissions:0.35.1-alpha")
 
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation ("commons-io:commons-io:2.7")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
