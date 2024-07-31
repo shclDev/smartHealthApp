@@ -22,6 +22,7 @@ import com.shcl.smarthealth.domain.usecase.omron.RegisterDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.ScanDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.SetBloodPressureUseCase
 import com.shcl.smarthealth.domain.usecase.user.LastedLoginUserRoomUpdateUseCase
+import com.shcl.smarthealth.domain.usecase.user.LoggedUserUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserRoomUpdateUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserSignCheckUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserSignUpUseCase
@@ -68,9 +69,8 @@ object UseCaseModule {
         userSignUpUseCase = UserSignUpUseCase(repository = userRepository),
         userRoomUpdateUseCase = UserRoomUpdateUseCase(repository = userRepository),
         lastedLoginUserRoomUpdateUseCase = LastedLoginUserRoomUpdateUseCase(repository = userRepository),
-        userSignCheckUseCase = UserSignCheckUseCase(repository = userRepository)
+        userSignCheckUseCase = UserSignCheckUseCase(repository = userRepository),
+        loggedUserUseCase = LoggedUserUseCase(repository = userRepository)
     )
 
-
-    
 }

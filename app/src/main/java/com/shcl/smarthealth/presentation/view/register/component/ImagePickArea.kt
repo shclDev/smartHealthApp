@@ -39,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.Utils.dp
 import com.shcl.smarthealth.domain.utils.pxToDp
@@ -126,7 +127,7 @@ fun MyImageArea(
             .clip(CircleShape)
             .clickable { showBottomSheet = true }
         ,
-        model = tempUri ?: R.drawable.reg_picture,
+        model = ImageRequest.Builder(LocalContext.current).data(tempUri).placeholder(R.drawable.reg_picture).build()
     )
 
     if (showBottomSheet) {

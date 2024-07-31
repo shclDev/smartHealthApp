@@ -63,6 +63,9 @@ interface MeasurementRecordDao {
     @Query("SELECT * FROM user_tb WHERE userId = :userId ")
     fun getUserByUserID(userId : Int) : Flow<UserRoom>
 
+    @Query("SELECT * FROM user_tb")
+    fun getAllUser() : Flow<List<UserRoom>?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addLastedLoginUser(lastedLoginUserRoom: LastedLoginUserRoom)
 

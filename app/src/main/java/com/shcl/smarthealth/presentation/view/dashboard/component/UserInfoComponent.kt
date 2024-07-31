@@ -1,5 +1,6 @@
 package com.shcl.smarthealth.presentation.view.dashboard.component
 
+import android.net.Uri
 import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,12 +25,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
 import com.shcl.smarthealth.domain.utils.Utils
@@ -52,7 +55,7 @@ fun UserInfo(user : LastedLoginUserRoom?) {
         user?.let {
             Row(verticalAlignment = Alignment.CenterVertically){
                 AsyncImage(
-                    model = user.profileUri.toUri() ?: R.drawable.reg_picture,
+                    model =ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).placeholder(R.drawable.reg_picture).build(),
                     //painter = painterResource(id = R.drawable.top_profile_img),
                     contentScale = ContentScale.Crop,
                     contentDescription = "User",

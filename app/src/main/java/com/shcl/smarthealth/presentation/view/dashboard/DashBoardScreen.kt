@@ -136,9 +136,9 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
         Column{
 
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween) {
+                horizontalArrangement = Arrangement.Start) {
                 UserInfo(user)
-                Spacer(modifier = Modifier.width(100f.pxToDp()))
+                Spacer(modifier = Modifier.width(283f.pxToDp()))
                 WeatherComponent(
                     weatherResponse = weather,
                     refreshClick = {

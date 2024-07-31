@@ -21,4 +21,5 @@ interface MeasureRecordDataSource {
     fun getUserFromDB(userId : Int) : Flow<UserRoom>
     suspend fun updateLastedLoginUser(lastedLoginUserRoom: LastedLoginUserRoom)
     fun getLastedLoginUser() : Flow<LastedLoginUserRoom>
+    fun getAllUser() : Flow<List<UserRoom>?>
 }

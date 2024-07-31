@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -76,12 +78,12 @@ fun WeatherComponent(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
                             modifier = Modifier
-                                .size(99.pxToDp(), 99.pxToDp()),
+                                .size(79.pxToDp(), 79.pxToDp()),
                             painter = painterResource(id = R.drawable.sunny),
                             contentDescription = null
                         )
                         Spacer(modifier = Modifier.width(10f.pxToDp()))
-                        Text("해남군,", style = Typography.titleMedium, fontSize = 25f.pxToSp() , color = Color.White)
+                        Text("서울시", style = Typography.titleMedium, fontSize = 20f.pxToSp() , color = Color.White)
                     }
 
                     Row(modifier = Modifier.align(Alignment.CenterVertically)) {
@@ -119,10 +121,23 @@ fun WeatherComponent(
                         color = Color.White,
                         textAlign = TextAlign.End
                     )
+                    Spacer(modifier = Modifier.width(10f.pxToDp()))
+                    Image(
+                        modifier = Modifier
+                            .size(15.pxToDp(), 15.pxToDp())
+                            .align(Alignment.CenterVertically),
+                        painter = painterResource(id = R.drawable.icon_refresh),
+                        contentDescription = null
+                    )
                 }
             }
         } ?: run{
-            Text("데이터를 불러오지 못하였습니다" , style = Typography.bodyLarge , fontSize = 25f.pxToSp() , textAlign = TextAlign.Center)
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
         }
 
     }

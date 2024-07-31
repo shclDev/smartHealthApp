@@ -14,5 +14,6 @@ interface UserRepository {
     suspend fun userRoomUpdate(userRoom : UserRoom)
     suspend fun lastedLoginUserRoomUpdate(lastedLoginUserRoom: LastedLoginUserRoom)
     suspend fun getLastedLoginUserFromRoom() : Flow<LastedLoginUserRoom>
+    suspend fun getAllUser() : Flow<List<UserRoom>?>
 
 }
