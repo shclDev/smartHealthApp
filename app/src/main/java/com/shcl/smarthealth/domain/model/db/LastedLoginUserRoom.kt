@@ -4,8 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "user_tb")
-data class UserRoom(
+
+@Entity(tableName = "lasted_login_user_tb")
+data class LastedLoginUserRoom (
     @PrimaryKey(autoGenerate = true)
     var pk : Long = 0,
     @SerializedName("userId")
@@ -30,8 +31,7 @@ data class UserRoom(
     val profileUri : String,
     @SerializedName("authCode")
     val authCode : String,
-    @SerializedName("isFirst")
-    val isFirst : Boolean = false,
-    @SerializedName("registerTime")
-    val registerTime : String
+    @SerializedName("loginTime")
+    val loginTime : Long
+
 )

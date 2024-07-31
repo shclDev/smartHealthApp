@@ -35,7 +35,8 @@ import com.shcl.smarthealth.ui.theme.Typography
 fun CustomAlertDialog(
     title : String,
     desc : String,
-    icon : ImageVector,
+    onShowDialog : (Boolean) -> Unit,
+    icon : ImageVector? = null,
     onClickCancel : ()-> Unit,
     onClickConfirm : () -> Unit
     ) {

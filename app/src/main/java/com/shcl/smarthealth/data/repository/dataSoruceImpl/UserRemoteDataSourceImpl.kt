@@ -20,7 +20,7 @@ import java.io.File
 class UserRemoteDataSourceImpl (
     @NetworkModule.shcl private val userApi : UserApi
 ) : UserRemoteDataSource{
-    override suspend fun signCheck(): Flow<ApiResponse<String>?>{
+    override suspend fun signCheck(): Flow<ApiResponse<String>>{
         try{
             val response = userApi.signCheck()
 
@@ -63,37 +63,25 @@ class UserRemoteDataSourceImpl (
 
             Log.d("register", "userRemoteDataSourceImpl signUp")
 
-            //val file = Utils.createTempFileFromUri(context , signUpRequest.picture , signUpRequest.picture.path.toString() )
-            //val fileBody = RequestBody.create("image/jpeg".toMediaTypeOrNull(), signUpRequest.picture.toFile().absolutePath)
-            //val filePart : MultipartBody.Part = MultipartBody.Part.createFormData("picture" , "picture.jpeg" , fileBody)
-//            val imageFile : File = signUpRequest.picture.toFile()
-            //val imagePart = file?.asRequestBody("image/*".toMediaTypeOrNull())
-
             val file = File(Utils.uriFromFilePath(signUpRequest.picture))
             val imageRequestBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imagePart = MultipartBody.Part.createFormData("picture", file.name, imageRequestBody)
 
-            /*
-            val response = userApi.signUp(
-                data = RequestBody.create("application/json".toMediaTypeOrNull(), signUpRequest.toString()),
-               name = RequestBody.create("text/plain".toMediaTypeOrNull(), signUpRequest.name.orEmpty()),
-               nickName = RequestBody.create("text/plain".toMediaTypeOrNull(), signUpRequest.nickName.orEmpty()),
-               birthDate = RequestBody.create("text/plain".toMediaTypeOrNull(), signUpRequest.birthDate),
-               gender = RequestBody.create("text/plain".toMediaTypeOrNull(), signUpRequest.gender),
-               mobile = RequestBody.create("text/plain".toMediaTypeOrNull(), signUpRequest.mobile),
-               picture = imagePart
-            )*/
+            signUpRequest.birthDate = Utils.birthDateToServer(signUpRequest.birthDate)
+            signUpRequest.mobile = Utils.mobileToServer(signUpRequest.mobile)
 
             var gson = Gson()
-            signUpRequest.birthDate="1983-12-04"
-            signUpRequest.mobile="010-4333-5746"
             var jsonStr = gson.toJson(signUpRequest)
+
             val response = userApi.signUp(
                 data = RequestBody.create("application/json".toMediaTypeOrNull(), jsonStr),
                 picture = imagePart
             )
 
             if(response.isSuccessful){
+
+                Log.d("register" , "${response.body()}")
+
                 response.body()?.let{
                     return flow{
                         emit(it)

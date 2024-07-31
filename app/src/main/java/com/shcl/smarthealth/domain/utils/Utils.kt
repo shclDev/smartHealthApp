@@ -1,7 +1,9 @@
 package com.shcl.smarthealth.domain.utils
 
 import android.content.Context
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.Log
@@ -10,12 +12,15 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.decodeBitmap
+import androidx.core.net.toUri
 import com.shcl.smarthealth.common.GlobalVariables
 import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
+import java.util.concurrent.TimeUnit
 
 object Utils {
 
@@ -43,18 +48,6 @@ object Utils {
         }
     }
 
-    fun createTempFileFromUri(context : Context, uri : Uri, fileName : String) : File?{
-        return try {
-            val stream = context.contentResolver.openInputStream(uri)
-            val file = File.createTempFile(fileName, "", context.cacheDir)
-            org.apache.commons.io.FileUtils.copyInputStreamToFile(stream,file)
-            file
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
-
     fun uriFromFilePath(uri : Uri) : String?{
         val projection = arrayOf(MediaStore.Images.Media.DATA)
         val cursor = GlobalVariables.context.contentResolver.query(uri, projection, null, null, null)
@@ -75,8 +68,12 @@ object Utils {
 
     fun getCurrentDateTime() : String{
         val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd.hh.mm")
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd hh:mm")
         return current.format(formatter)
+    }
+
+    fun getCurrentTimeStamp() : Long{
+        return TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
     }
 
     fun getCurrentTime() : String{
@@ -85,9 +82,40 @@ object Utils {
         return current.format(formatter)
     }
 
+    fun birthDateToServer(birthdate : String) : String{
+        return "19"+birthdate.substring(0,2) + "-" + birthdate.substring(2,4) +"-" + birthdate.substring(4,6)
+    }
+
+    fun mobileToServer(mobile : String) : String{
+        return mobile.substring(0,3) + "-" + mobile.substring(3,6) +"-" + mobile.substring(6,mobile.length)
+    }
+
     @Composable
     fun pxTsp(size : Float) : TextUnit {
         return (size / LocalDensity.current.fontScale).sp
     }
 
+    fun convertGender(gender : String) : String{
+        return when(gender){
+            "F"->"여성"
+            "M"->"남성"
+            else->"성별 없음"
+        }
+    }
+
+    fun calcAge(birthdate: String) : Int{
+        val current = LocalDateTime.now()
+        val formatterYear  = DateTimeFormatter.ofPattern("YYYY")
+
+        try{
+            val birthYear = ("19"+birthdate.substring(0,2)).toInt()
+            val currentYear =  current.format(formatterYear).toInt()
+
+            return currentYear - birthYear
+        }catch(e : Exception){
+            Log.e("smarthealth" , e.message.toString())
+        }
+
+        return 0
+    }
 }

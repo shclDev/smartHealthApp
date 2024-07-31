@@ -6,9 +6,11 @@ import android.provider.ContactsContract.CommonDataKinds.Nickname
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
 import com.shcl.smarthealth.domain.model.db.UserRoom
 import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
 import com.shcl.smarthealth.domain.usecase.user.UserUseCase
+import com.shcl.smarthealth.domain.utils.PreferencesManager
 import com.shcl.smarthealth.domain.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -60,6 +62,9 @@ class RegisterViewModel @Inject constructor(
                 ?.catch {  }
                 ?.collect {
                     if(!it.token.isNullOrEmpty()){
+                        //save access Token
+                        PreferencesManager.saveData("accessToken" , it.token)
+
                         userUseCase.userRoomUpdateUseCase.invoke(
                             UserRoom(
                                 userId = it.id,
@@ -70,11 +75,29 @@ class RegisterViewModel @Inject constructor(
                                 mobile = mobile,
                                 token = it.token,
                                 type = it.type,
+                                age = Utils.calcAge(birthDate),
                                 authCode = it.authCode,
-                                isFirst = false,
+                                isFirst = true,
+                                profileUri = picture.toString(),
                                 registerTime = Utils.getCurrentDateTime()
                             )
                         )
+
+                        userUseCase.lastedLoginUserRoomUpdateUseCase.invoke(
+                            LastedLoginUserRoom(
+                                userId = it.id,
+                                name = it.name,
+                                nickName = nickName,
+                                birthDate = birthDate,
+                                gender = gender,
+                                mobile = mobile,
+                                age = Utils.calcAge(birthDate),
+                                type = it.type,
+                                token = it.token,
+                                profileUri = picture.toString(),
+                                loginTime = Utils.getCurrentTimeStamp(),
+                                authCode = it.authCode
+                        ))
                     }
                 }
         }

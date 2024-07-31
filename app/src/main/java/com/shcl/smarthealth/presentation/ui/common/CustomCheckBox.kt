@@ -43,6 +43,7 @@ fun CustomCheckBox(options : HashMap<String , Any>,
                    checkboxSize : Float = 12f,
                    unSelectedColor : Color,
                    selectedColor : Color,
+                   initSelect : String? =  null,
                    selectionChanged : (String)-> Unit
 ) {
 
@@ -52,13 +53,19 @@ fun CustomCheckBox(options : HashMap<String , Any>,
         Log.d("smartHealth" , selectedOption)
     }}
 
+    if(!initSelect.isNullOrEmpty()){
+        //selectedOption = initSelect
+    }
+
     Row(
         horizontalArrangement = Arrangement.spacedBy(20f.pxToDp()),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
         options.forEach { option ->
-            Row(modifier = Modifier.padding(all = 8.pxToDp()).clickable { selectedOption = option.key }) {
+            Row(modifier = Modifier.padding(all = 8.pxToDp()).clickable { selectedOption = option.key
+                selectionChanged(option.value as String)
+            }) {
                 Canvas(
                     modifier = Modifier
                         .size(37f.pxToDp())

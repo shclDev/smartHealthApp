@@ -3,6 +3,7 @@ package com.shcl.smarthealth.data.repository
 import android.util.Log
 import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
 import com.shcl.smarthealth.data.repository.dataSource.UserRemoteDataSource
+import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
 import com.shcl.smarthealth.domain.model.db.UserRoom
 import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
 import com.shcl.smarthealth.domain.model.remote.user.SignUpResponse
@@ -16,7 +17,7 @@ class UserRepositoryImpl(
     private val measureRecordDataSource: MeasureRecordDataSource
 ) : UserRepository{
 
-    override suspend fun signCheck(): Flow<ApiResponse<String>?> {
+    override suspend fun signCheck(): Flow<ApiResponse<String>> {
        return userRemoteDataSource.signCheck()
     }
 
@@ -67,6 +68,22 @@ class UserRepositoryImpl(
 
         }catch (e : Exception){
             Log.e("register" , e.message.toString())
+        }
+    }
+
+    override suspend fun lastedLoginUserRoomUpdate(lastedLoginUserRoom: LastedLoginUserRoom) {
+        try{
+
+            measureRecordDataSource.updateLastedLoginUser(lastedLoginUserRoom)
+
+        }catch(e : Exception){
+            Log.e("register" , e.message.toString())
+        }
+    }
+
+    override suspend fun getLastedLoginUserFromRoom(): Flow<LastedLoginUserRoom> {
+        return flow{
+            measureRecordDataSource.getLastedLoginUser()
         }
     }
 

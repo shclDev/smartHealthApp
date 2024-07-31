@@ -1,11 +1,20 @@
 package com.shcl.smarthealth.presentation.ui.common
 
+import android.graphics.drawable.Icon
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -28,6 +37,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
+import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.Color333333
 import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
@@ -41,7 +51,8 @@ fun CustomTextField(
     unfocusedBoardColor : Color,
     placeHolder : String,
     keyOption : KeyboardOptions? = KeyboardOptions(keyboardType = KeyboardType.Text),
-    valueChanged : (String)-> Unit
+    valueChanged : (String)-> Unit,
+    withCertificationIcon : Boolean = false
     ){
 
     var inputText by remember{ mutableStateOf("") }
@@ -53,7 +64,9 @@ fun CustomTextField(
     }
 
     OutlinedTextField(
-        modifier = modifier.addFocusCleaner(focusManager),
+        modifier = modifier
+            .addFocusCleaner(focusManager)
+            .padding( 17f.pxToDp()),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = focusedBoardColor,
             unfocusedBorderColor = unfocusedBoardColor
@@ -64,6 +77,23 @@ fun CustomTextField(
         value = inputText,
         onValueChange = { inputText = it
             valueChanged(inputText)
+        },
+        trailingIcon = {
+            if(withCertificationIcon){
+                OutlinedButton(
+                    modifier = Modifier
+                        .background(Color.White)
+                        .border(
+                            width = 2f.pxToDp(),
+                            color = Color143F91,
+                            shape = RoundedCornerShape(16f.pxToDp())
+                        ) ,
+                    onClick = {
+
+                    }){
+                    Text("인증" , fontSize = 15f.pxToSp() , color = Color143F91)
+                }
+            }
         },
         singleLine = true,
         placeholder = {

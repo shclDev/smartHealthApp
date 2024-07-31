@@ -4,6 +4,7 @@ import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
+import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
 import com.shcl.smarthealth.domain.model.db.UserRoom
 import kotlinx.coroutines.flow.Flow
 
@@ -18,4 +19,6 @@ interface MeasureRecordDataSource {
     fun getGlucoseFromDB(userId : Int) : Flow<GlucoseRecordRoom>
     suspend fun updateUser(userRoom: UserRoom)
     fun getUserFromDB(userId : Int) : Flow<UserRoom>
+    suspend fun updateLastedLoginUser(lastedLoginUserRoom: LastedLoginUserRoom)
+    fun getLastedLoginUser() : Flow<LastedLoginUserRoom>
 }

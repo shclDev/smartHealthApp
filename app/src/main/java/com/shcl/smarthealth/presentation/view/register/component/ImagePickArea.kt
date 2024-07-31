@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -30,6 +31,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -116,23 +119,14 @@ fun MyImageArea(
     val scope = rememberCoroutineScope()
 
     AsyncImage(
-        model = tempUri ?: R.drawable.reg_picture,
+        contentScale = ContentScale.Crop,
+        contentDescription = "User",
         modifier = Modifier
-            .size(200.pxToDp(), 200.pxToDp())
-            .clickable {
-                showBottomSheet = true
-                /*
-                MyImageAreaSelect(
-                    show = true,
-                    uri = null,
-                    directory = null,
-                    onSetUri = {
-                        uriSelected(it)
-                    }
-                )*/
-            }
+            .size(200.pxToDp())
+            .clip(CircleShape)
+            .clickable { showBottomSheet = true }
         ,
-        contentDescription = null
+        model = tempUri ?: R.drawable.reg_picture,
     )
 
     if (showBottomSheet) {

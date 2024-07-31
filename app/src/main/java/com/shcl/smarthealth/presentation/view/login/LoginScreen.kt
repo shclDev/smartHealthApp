@@ -1,5 +1,6 @@
 package com.shcl.smarthealth.presentation.view.login
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +39,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
@@ -51,16 +55,29 @@ import com.shcl.smarthealth.ui.theme.Typography
 
 
 @Composable
-fun LoginScreen(nav: NavHostController) {
+fun LoginScreen(nav: NavHostController , viewModel: LoginViewModel = hiltViewModel()) {
 
-    Row (
-        modifier = Modifier.fillMaxSize()
-    ){
-        leftSide()
-        rightSide(nav)
+    val loginStatus by viewModel.loginState.collectAsStateWithLifecycle()
+
+    val number by remember { mutableStateOf("") }
+    val birthDate by remember { mutableStateOf("") }
+
+
+    Box {
+        if (loginStatus == LoginStatus.LOGIN_SUCCESS) {
+            nav.navigate(route = OuterScreen.home.route)
+        } else if(loginStatus == LoginStatus.LOGIN_FAILED) {
+            Log.d("login" , "login failed" )
+        }
+
+        Row(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            leftSide()
+            rightSide(nav , viewModel)
+        }
     }
-    
-    
+
 }
 
 @Composable
@@ -87,7 +104,7 @@ fun leftSide(){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun rightSide(nav : NavHostController){
+fun rightSide(nav: NavHostController , viewModel : LoginViewModel){
 
     var phoneNum by remember { mutableStateOf(TextFieldValue("")) }
     var birthDay by remember { mutableStateOf(TextFieldValue("")) }
@@ -131,7 +148,6 @@ fun rightSide(nav : NavHostController){
                                         color = Color757575
                     )
                 } )
-
             }
 
             Spacer(modifier = Modifier.height(20.pxToDp()))
@@ -161,7 +177,9 @@ fun rightSide(nav : NavHostController){
 
             Button(
                 onClick = {
-                    nav.navigate(route = OuterScreen.home.route)
+                    //login check
+                    viewModel.signCheck()
+                    //nav.navigate(route = OuterScreen.home.route)
                     //nav.navigate(route = OuterScreen.deviceScan.route)
                 },
                 shape = RoundedCornerShape(18.pxToDp()),
@@ -177,7 +195,7 @@ fun rightSide(nav : NavHostController){
             TextButton(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 onClick = {
-                nav.navigate(route = OuterScreen.registser.route)
+                    nav.navigate(route = OuterScreen.registser.route)
             }){
                 Text(
                     text= stringResource(id = R.string.join_member) ,
@@ -186,10 +204,5 @@ fun rightSide(nav : NavHostController){
                     style = Typography.labelMedium , color = Color333333)
             }
         }
-
     }
-
-
-
-
 }

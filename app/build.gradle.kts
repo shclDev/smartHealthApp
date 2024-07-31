@@ -135,7 +135,8 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-permissions:0.35.1-alpha")
 
     implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation ("commons-io:commons-io:2.7")
+    implementation("commons-io:commons-io:2.7")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

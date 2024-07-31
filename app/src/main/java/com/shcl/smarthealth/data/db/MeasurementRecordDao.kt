@@ -8,6 +8,7 @@ import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
+import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
 import com.shcl.smarthealth.domain.model.db.UserRoom
 import kotlinx.coroutines.flow.Flow
 
@@ -61,5 +62,12 @@ interface MeasurementRecordDao {
 
     @Query("SELECT * FROM user_tb WHERE userId = :userId ")
     fun getUserByUserID(userId : Int) : Flow<UserRoom>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addLastedLoginUser(lastedLoginUserRoom: LastedLoginUserRoom)
+
+    @Query("SELECT * FROM lasted_login_user_tb ORDER BY loginTime DESC LIMIT 1 ")
+    fun getLastedLoginUserByUserID() : Flow<LastedLoginUserRoom>
+
 
 }

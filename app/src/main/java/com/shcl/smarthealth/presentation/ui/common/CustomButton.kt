@@ -35,6 +35,7 @@ fun CustomButton(
     leftIcon : Painter? = null,
     rightIcon : Painter? = null,
     withBoard : Boolean = false,
+    enabled : Boolean = true,
     btnClick : ()-> Unit? = {}
 ) {
 
@@ -47,6 +48,7 @@ fun CustomButton(
         }
 
     Button(
+        enabled = enabled ,
         onClick = {
             btnClick()
         },

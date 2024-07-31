@@ -122,6 +122,9 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
     viewModel.getCurrentWeather()
     val weather by viewModel.weatherResponse.collectAsStateWithLifecycle()
 
+    viewModel.getUserInfo()
+    val user by viewModel.userInfo.collectAsStateWithLifecycle()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -134,7 +137,7 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
 
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween) {
-                UserInfo()
+                UserInfo(user)
                 Spacer(modifier = Modifier.width(100f.pxToDp()))
                 WeatherComponent(
                     weatherResponse = weather,
