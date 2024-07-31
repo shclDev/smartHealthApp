@@ -87,7 +87,7 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun getAllUser(): Flow<List<UserRoom>?> {
+    override suspend fun getAllUser(): Flow<MutableList<UserRoom>?> {
         return flow{
             measureRecordDataSource.getAllUser()
         }

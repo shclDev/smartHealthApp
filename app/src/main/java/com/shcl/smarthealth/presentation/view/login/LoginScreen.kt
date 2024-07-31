@@ -60,7 +60,9 @@ import com.shcl.smarthealth.ui.theme.Typography
 @Composable
 fun LoginScreen(nav: NavHostController , viewModel: LoginViewModel = hiltViewModel()) {
 
+    viewModel.loggedUserCheck()
     val loginStatus by viewModel.loginState.collectAsStateWithLifecycle()
+    val loggedUser by viewModel.loggedUserState.collectAsStateWithLifecycle()
 
     var phoneNum by remember { mutableStateOf("") }
     var birthDay by remember { mutableStateOf("") }
@@ -111,7 +113,9 @@ fun LoginScreen(nav: NavHostController , viewModel: LoginViewModel = hiltViewMod
                         Text(text = stringResource(id = R.string.handphone) , style = Typography.labelMedium , color = Color333333)
                         Spacer(modifier = Modifier.height(25f.pxToDp()))
                         CustomTextField(
-                            modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 86f.pxToDp()),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .defaultMinSize(minHeight = 86f.pxToDp()),
                             focusedBoardColor = Color333333,
                             unfocusedBoardColor = ColorD4D9E1,
                             placeHolder = stringResource(id = R.string.handphone_hint),
@@ -150,7 +154,9 @@ fun LoginScreen(nav: NavHostController , viewModel: LoginViewModel = hiltViewMod
                         Text(text = stringResource(id = R.string.birthday) , style = Typography.labelMedium , color = Color333333)
                         Spacer(modifier = Modifier.height(25f.pxToDp()))
                         CustomTextField(
-                            modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 86f.pxToDp()),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .defaultMinSize(minHeight = 86f.pxToDp()),
                             focusedBoardColor = Color333333,
                             unfocusedBoardColor = ColorD4D9E1,
                             placeHolder = stringResource(id = R.string.birthday_hint),
@@ -266,7 +272,9 @@ fun rightSide(nav: NavHostController , viewModel : LoginViewModel){
                 Text(text = stringResource(id = R.string.handphone) , style = Typography.labelMedium , color = Color333333)
                 Spacer(modifier = Modifier.height(25f.pxToDp()))
                 CustomTextField(
-                    modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 86f.pxToDp()),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .defaultMinSize(minHeight = 86f.pxToDp()),
                     focusedBoardColor = Color333333,
                     unfocusedBoardColor = ColorD4D9E1,
                     placeHolder = stringResource(id = R.string.handphone_hint),
@@ -305,7 +313,9 @@ fun rightSide(nav: NavHostController , viewModel : LoginViewModel){
                 Text(text = stringResource(id = R.string.birthday) , style = Typography.labelMedium , color = Color333333)
                 Spacer(modifier = Modifier.height(25f.pxToDp()))
                 CustomTextField(
-                    modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 86f.pxToDp()),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .defaultMinSize(minHeight = 86f.pxToDp()),
                     focusedBoardColor = Color333333,
                     unfocusedBoardColor = ColorD4D9E1,
                     placeHolder = stringResource(id = R.string.birthday_hint),

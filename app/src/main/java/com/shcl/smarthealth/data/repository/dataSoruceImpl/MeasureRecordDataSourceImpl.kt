@@ -24,5 +24,5 @@ class MeasureRecordDataSourceImpl(private val measurementRecordDao: MeasurementR
     override fun getUserFromDB(userId: Int) = measurementRecordDao.getUserByUserID(userId)
     override suspend fun updateLastedLoginUser(lastedLoginUserRoom: LastedLoginUserRoom) = measurementRecordDao.addLastedLoginUser(lastedLoginUserRoom)
     override fun getLastedLoginUser(): Flow<LastedLoginUserRoom>  = measurementRecordDao.getLastedLoginUserByUserID()
-    override fun getAllUser(): Flow<List<UserRoom>?> = measurementRecordDao.getAllUser()
+    override fun getAllUser(): Flow<MutableList<UserRoom>?> = measurementRecordDao.getAllUser()
 }

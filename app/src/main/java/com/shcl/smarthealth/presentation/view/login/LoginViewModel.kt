@@ -3,6 +3,7 @@ package com.shcl.smarthealth.presentation.view.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shcl.smarthealth.domain.model.db.UserRoom
 import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
 import com.shcl.smarthealth.domain.usecase.user.UserUseCase
 import com.shcl.smarthealth.presentation.view.device.ScanDeviceState
@@ -27,6 +28,9 @@ class LoginViewModel @Inject constructor(
     private val _loginState = MutableStateFlow(LoginStatus.NONE)
     val loginState = _loginState.asStateFlow()
 
+    private val _loggedUserState = MutableStateFlow(mutableListOf<UserRoom>())
+    val loggedUserState = _loggedUserState.asStateFlow()
+
     fun signCheck() {
 
         viewModelScope.launch {
@@ -39,6 +43,21 @@ class LoginViewModel @Inject constructor(
                         _loginState.value = LoginStatus.LOGIN_SUCCESS
                     } else {
                         _loginState.value = LoginStatus.LOGIN_FAILED
+                    }
+                }
+        }
+    }
+
+    fun loggedUserCheck(){
+        viewModelScope.launch {
+            userUseCase.loggedUserUseCase.invoke()
+                ?.onStart {   Log.d("smarthealth" , "loggedUserChk") }
+                ?.onCompletion {  }
+                ?.catch {  }
+                ?.collect{ it->
+                    it?.let {
+                        Log.d("smarthealth" , "loggedUser + ${it.size}")
+                        _loggedUserState.value = it
                     }
                 }
         }
