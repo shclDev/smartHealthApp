@@ -9,6 +9,7 @@ import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
+import com.shcl.smarthealth.domain.model.remote.user.ProfileResponse
 import com.shcl.smarthealth.domain.model.remote.weather.WeatherResponse
 import com.shcl.smarthealth.domain.usecase.dashboard.DashBoardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,6 +45,9 @@ class DashBoardViewModel @Inject constructor(
     private val _userInfo = MutableStateFlow<LastedLoginUserRoom?>(null)
     val userInfo : StateFlow<LastedLoginUserRoom?> = _userInfo
 
+    private val _userInfoServer = MutableStateFlow<ProfileResponse?>(null)
+    val userInfoServer : StateFlow<ProfileResponse?> = _userInfoServer
+
 
     fun getNutrionAdvice(){
         viewModelScope.launch{
@@ -65,6 +69,21 @@ class DashBoardViewModel @Inject constructor(
                 .catch { }
                 .collect {
                     _userInfo.value = it
+                }
+        }
+    }
+
+    fun getUserInfoServer() {
+        viewModelScope.launch {
+            dashBoardUseCase.userInfoServerUseCase.invoke()
+                ?.onStart { }
+                ?.onCompletion { }
+                ?.catch { }
+                ?.collect {
+                    it?.let {
+                        _userInfoServer.value = it
+                    }
+
                 }
         }
     }

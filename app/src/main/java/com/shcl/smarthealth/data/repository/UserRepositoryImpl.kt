@@ -8,6 +8,8 @@ import com.shcl.smarthealth.domain.model.db.UserRoom
 import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
 import com.shcl.smarthealth.domain.model.remote.user.SignUpResponse
 import com.shcl.smarthealth.domain.model.remote.common.ApiResponse
+import com.shcl.smarthealth.domain.model.remote.user.ProfileResponse
+import com.shcl.smarthealth.domain.model.remote.user.SignInRequest
 import com.shcl.smarthealth.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -41,24 +43,6 @@ class UserRepositoryImpl(
                 }
             }
         }
-        /*
-        userRemoteDataSource.signUp(request)
-            .map { it ->
-                it?.let {
-                    if (it.success) {
-                        it.data?.let { response ->
-                            return@map SignUpResponse(
-                                type = response.type,
-                                token = response.token,
-                                id = response.id,
-                                name = response.name,
-                                authCode = response.authCode
-                            )
-
-                        }
-                    }
-                }
-            }*/
     }
 
     override suspend fun userRoomUpdate(userRoom: UserRoom) {
@@ -90,6 +74,26 @@ class UserRepositoryImpl(
     override suspend fun getAllUser(): Flow<MutableList<UserRoom>?> {
         return flow{
             measureRecordDataSource.getAllUser()
+        }
+    }
+
+    override suspend fun signIn(request: SignInRequest): Flow<ApiResponse<String>> {
+        return flow{
+            userRemoteDataSource.signIn(request)
+        }
+    }
+
+    override suspend fun userProfile(): Flow<ProfileResponse>? {
+        return flow{
+            userRemoteDataSource.userProfile().collect{
+                it?.let {
+                    if(it.success){
+                        it.data?.let { response->
+                            emit(response)
+                        }
+                    }
+                }
+            }
         }
     }
 

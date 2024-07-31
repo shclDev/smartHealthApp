@@ -11,6 +11,7 @@ import com.shcl.smarthealth.domain.usecase.dashboard.GetGlucoseDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetNutritionAdviceUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetWeatherUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.UserInfoDBUseCase
+import com.shcl.smarthealth.domain.usecase.dashboard.UserInfoServerUseCase
 import com.shcl.smarthealth.domain.usecase.isens.GetGlucoseRecordUseCase
 import com.shcl.smarthealth.domain.usecase.isens.IsensDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.IsensScanDeviceUseCase
@@ -23,8 +24,10 @@ import com.shcl.smarthealth.domain.usecase.omron.ScanDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.SetBloodPressureUseCase
 import com.shcl.smarthealth.domain.usecase.user.LastedLoginUserRoomUpdateUseCase
 import com.shcl.smarthealth.domain.usecase.user.LoggedUserUseCase
+import com.shcl.smarthealth.domain.usecase.user.UserProfileUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserRoomUpdateUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserSignCheckUseCase
+import com.shcl.smarthealth.domain.usecase.user.UserSignInUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserSignUpUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserUseCase
 import dagger.Module
@@ -39,13 +42,14 @@ import dagger.hilt.components.SingletonComponent
 object UseCaseModule {
 
     @Provides
-    fun provideDashBoardUseCases(dashBoardRepository: DashBoardRepository) = DashBoardUseCase(
+    fun provideDashBoardUseCases(dashBoardRepository: DashBoardRepository , userRepository: UserRepository) = DashBoardUseCase(
         getNutritionAdviceUseCase = GetNutritionAdviceUseCase(repository = dashBoardRepository),
         getBloodPressureDBUseCase = GetBloodPressureDBUseCase(repository = dashBoardRepository),
         getWeightDBUseCase = GetBodyCompositionDBUseCase(repository = dashBoardRepository),
         getGlucoseDBUseCase = GetGlucoseDBUseCase(repository = dashBoardRepository),
         getWeatherUseCase = GetWeatherUseCase(repository = dashBoardRepository),
-        userInfoDBUseCase = UserInfoDBUseCase(repository = dashBoardRepository)
+        userInfoDBUseCase = UserInfoDBUseCase(repository = dashBoardRepository),
+        userInfoServerUseCase = UserInfoServerUseCase(repository = userRepository)
     )
 
     @Provides
@@ -70,7 +74,9 @@ object UseCaseModule {
         userRoomUpdateUseCase = UserRoomUpdateUseCase(repository = userRepository),
         lastedLoginUserRoomUpdateUseCase = LastedLoginUserRoomUpdateUseCase(repository = userRepository),
         userSignCheckUseCase = UserSignCheckUseCase(repository = userRepository),
-        loggedUserUseCase = LoggedUserUseCase(repository = userRepository)
+        loggedUserUseCase = LoggedUserUseCase(repository = userRepository),
+        userProfileUseCase = UserProfileUseCase(repository = userRepository),
+        userSignInUseCase = UserSignInUseCase(repository = userRepository)
     )
 
 }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,22 +46,21 @@ fun CustomGroupButtons(
     //var buttonBoardColor by remember { mutableStateOf(unSelectedColor) }
 
     Row(
-        horizontalArrangement = Arrangement.spacedBy(20f.pxToDp()),
+        horizontalArrangement = Arrangement.spacedBy(15f.pxToDp()),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
         options.forEach { option ->
             Row(modifier = Modifier.padding(all = 8.pxToDp())) {
                 OutlinedButton(
+                    shape = RoundedCornerShape(18f.pxToDp()),
                     border = BorderStroke(width = 6f.pxToDp() , color = if (selectedOption == option.value) {
                         selectedColor
                     } else {
                         unSelectedColor
                     }),
-                    shape = RoundedCornerShape(18f),
-
+                    colors = ButtonDefaults.outlinedButtonColors(ColorD4D9E1),
                     modifier = Modifier
-                        .background(ColorD4D9E1)
                         .defaultMinSize(minWidth = 300f.pxToDp(), 86f.pxToDp())
                         .align(Alignment.CenterVertically),
                     onClick = {
@@ -68,7 +68,6 @@ fun CustomGroupButtons(
                     selectionChanged(selectedOption)
                 }) {
                     Text(
-                        modifier = Modifier.clip(RoundedCornerShape(18f.pxToDp())),
                         text = option.key,
                         textAlign = TextAlign.Center,
                         style = Typography.titleSmall,

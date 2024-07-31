@@ -89,11 +89,10 @@ fun TermsOfUseScreen(nav: NavHostController) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
+                        .background(color = ColorF6F6F6)
                         .fillMaxWidth()
                         .defaultMinSize(minHeight = 80f.pxToDp())
-
                         //.padding(vertical = 30f.pxToDp(), horizontal = 40f.pxToDp())
-                        .background(color = ColorF6F6F6)
                         .border(
                             width = 2f.pxToDp(),
                             color = ColorD4D9E1,

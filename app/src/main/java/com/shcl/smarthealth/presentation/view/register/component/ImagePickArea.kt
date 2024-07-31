@@ -122,12 +122,14 @@ fun MyImageArea(
     AsyncImage(
         contentScale = ContentScale.Crop,
         contentDescription = "User",
-        modifier = Modifier
+        modifier =  Modifier
             .size(200.pxToDp())
-            .clip(CircleShape)
-            .clickable { showBottomSheet = true }
-        ,
-        model = ImageRequest.Builder(LocalContext.current).data(tempUri).placeholder(R.drawable.reg_picture).build()
+            .conditional(tempUri != null ){
+                clip(CircleShape)
+            }
+            .clickable { showBottomSheet = true },
+        model = ImageRequest.Builder(LocalContext.current).data(tempUri).build(),
+        error = painterResource(id = R.drawable.reg_picture)
     )
 
     if (showBottomSheet) {
@@ -206,5 +208,13 @@ fun MyImageArea(
 
         }
 
+    }
+}
+
+fun Modifier.conditional(condition : Boolean, modifier : Modifier.() -> Modifier) : Modifier {
+    return if (condition) {
+        then(modifier(Modifier))
+    } else {
+        this
     }
 }

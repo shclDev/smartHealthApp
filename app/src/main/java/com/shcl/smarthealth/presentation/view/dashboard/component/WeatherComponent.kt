@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -70,7 +72,7 @@ fun WeatherComponent(
                         color = Color.White
                     )
                 }
-
+                Spacer(modifier = Modifier.height(25f.pxToDp()))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween , verticalAlignment =Alignment.CenterVertically){
@@ -83,10 +85,10 @@ fun WeatherComponent(
                             contentDescription = null
                         )
                         Spacer(modifier = Modifier.width(10f.pxToDp()))
-                        Text("서울시", style = Typography.titleMedium, fontSize = 20f.pxToSp() , color = Color.White)
+                        Text("서울시", style = Typography.titleMedium, fontSize = 28f.pxToSp() , color = Color.White)
                     }
 
-                    Row(modifier = Modifier.align(Alignment.CenterVertically)) {
+                    Row(modifier = Modifier.align(Alignment.CenterVertically) , verticalAlignment = Alignment.Bottom) {
                         Text(
                             textAlign = TextAlign.End,
                             text = "${weatherResponse.weather.first().description}",
@@ -98,13 +100,16 @@ fun WeatherComponent(
                         Text(
                             "${weatherResponse.main.temp.toString().substring(0,2)}",
                             style = Typography.titleMedium,
-                            fontSize = 20f.pxToSp(),
+                            fontSize = 28f.pxToSp(),
                             color = Color.White
                         )
                     }
                 }
 
-                Row(verticalAlignment = Alignment.Top , horizontalArrangement = Arrangement.End){
+                Row(
+                    modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                    verticalAlignment = Alignment.Bottom ,
+                    horizontalArrangement = Arrangement.End){
                     Text(
                         "최근 업데이트 ",
                         style = Typography.titleMedium,
@@ -124,8 +129,8 @@ fun WeatherComponent(
                     Spacer(modifier = Modifier.width(10f.pxToDp()))
                     Image(
                         modifier = Modifier
-                            .size(15.pxToDp(), 15.pxToDp())
-                            .align(Alignment.CenterVertically),
+                            .size(20f.pxToDp(), 20f.pxToDp())
+                            .align(Alignment.Bottom),
                         painter = painterResource(id = R.drawable.icon_refresh),
                         contentDescription = null
                     )

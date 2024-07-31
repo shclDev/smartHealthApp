@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shcl.smarthealth.domain.model.db.UserRoom
+import com.shcl.smarthealth.domain.model.remote.user.SignInRequest
 import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
 import com.shcl.smarthealth.domain.usecase.user.UserUseCase
 import com.shcl.smarthealth.presentation.view.device.ScanDeviceState
@@ -36,6 +37,23 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             userUseCase.userSignCheckUseCase.invoke()
                 ?.onStart { Log.d("login", "sign check call") }
+                ?.onCompletion { }
+                ?.catch { }
+                ?.collect { response ->
+                    if (response.success) {
+                        _loginState.value = LoginStatus.LOGIN_SUCCESS
+                    } else {
+                        _loginState.value = LoginStatus.LOGIN_FAILED
+                    }
+                }
+        }
+    }
+
+    fun signIn(mobile : String , birthDate : String) {
+
+        viewModelScope.launch {
+            userUseCase.userSignInUseCase.invoke(SignInRequest(mobile , birthDate))
+                ?.onStart { Log.d("login", "signIn check call") }
                 ?.onCompletion { }
                 ?.catch { }
                 ?.collect { response ->

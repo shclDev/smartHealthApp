@@ -8,6 +8,8 @@ import com.shcl.smarthealth.di.NetworkModule
 import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
 import com.shcl.smarthealth.domain.model.remote.user.SignUpResponse
 import com.shcl.smarthealth.domain.model.remote.common.ApiResponse
+import com.shcl.smarthealth.domain.model.remote.user.ProfileResponse
+import com.shcl.smarthealth.domain.model.remote.user.SignInRequest
 import com.shcl.smarthealth.domain.utils.Utils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -111,6 +113,83 @@ class UserRemoteDataSourceImpl (
                 message = "",
                 data = null
             )
+            )
+        }
+    }
+
+    override suspend fun signIn(signInRequest: SignInRequest): Flow<ApiResponse<String>> {
+        try{
+            val response = userApi.signIn(signInRequest)
+
+            if(response.isSuccessful){
+                response.body()?.let{
+                    return flow{
+                        emit(it)
+                    }
+                }
+            }else{
+                return flow{
+                    emit(
+                        ApiResponse(
+                            success = false,
+                            code = response.code().toString(),
+                            message = response.message(),
+                            data = null
+                        )
+                    )
+                }
+            }
+
+        }catch (e : Exception){
+            Log.e("smarthealth",e.message.toString())
+        }
+
+        return flow{
+            emit(
+                ApiResponse(
+                    success = false,
+                    code = "",
+                    message = "",
+                    data = null
+                )
+            )
+    }
+        }
+
+    override suspend fun userProfile(): Flow<ApiResponse<ProfileResponse>?> {
+        try{
+            val response = userApi.profile()
+
+            if(response.isSuccessful){
+                response.body()?.let{
+                    return flow{
+                        emit(it)
+                    }
+                }
+            }else{
+                return flow{
+                    emit(
+                        ApiResponse(
+                            success = false,
+                            code = response.code().toString(),
+                            message = response.message(),
+                            data = null
+                        )
+                    )
+                }
+            }
+        }catch (e : Exception){
+            Log.e("smartHealth" , e.message.toString())
+        }
+
+        return flow{
+            emit(
+                ApiResponse(
+                    success = false,
+                    code = "",
+                    message = "",
+                    data = null
+                )
             )
         }
     }

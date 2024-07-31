@@ -122,8 +122,12 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
     viewModel.getCurrentWeather()
     val weather by viewModel.weatherResponse.collectAsStateWithLifecycle()
 
+
     viewModel.getUserInfo()
     val user by viewModel.userInfo.collectAsStateWithLifecycle()
+
+    viewModel.getUserInfoServer()
+    val userServer by viewModel.userInfoServer.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier

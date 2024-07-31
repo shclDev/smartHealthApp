@@ -35,6 +35,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
+import com.shcl.smarthealth.domain.model.remote.user.ProfileResponse
 import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
@@ -42,6 +43,77 @@ import com.shcl.smarthealth.presentation.view.dashboard.DashBoardViewModel
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.Typography
+
+
+@Composable
+fun UserInfo(user : ProfileResponse?) {
+
+    Box(
+        modifier = Modifier
+            .background(Color.White),
+        contentAlignment = Alignment.Center
+    ) {
+
+        user?.let {
+            Row(verticalAlignment = Alignment.CenterVertically){
+                AsyncImage(
+                    model = painterResource(id = R.drawable.reg_picture),
+                    //model =ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).placeholder(R.drawable.reg_picture).build(),
+                    //painter = painterResource(id = R.drawable.top_profile_img),
+                    contentScale = ContentScale.Crop,
+                    placeholder = painterResource(id = R.drawable.reg_picture),
+                    contentDescription = "User",
+                    modifier = Modifier
+                        .size(120.pxToDp())
+                        .clip(CircleShape)
+                )
+                Spacer(modifier = Modifier.width(40.pxToDp()))
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically){
+                        Text("${user.name}님, 안녕하세요" , style = Typography.headlineLarge , color = Color1E1E1E , fontSize = 25f.pxToSp())
+                        /*
+                        Image(
+                            modifier = Modifier.size(63.pxToDp() , 63.pxToDp()),
+                            painter = painterResource(id = R.drawable.ani_hand),
+                            contentDescription = null
+                        )*/
+                    }
+                    Spacer(modifier = Modifier.height(20.pxToDp()))
+                    Row(
+                        modifier = Modifier
+                            .defaultMinSize(minWidth = 530.pxToDp(), minHeight = 80.pxToDp())
+                            .align(Alignment.Start)
+                            .border(
+                                width = 1.dp,
+                                color = ColorD4D9E1,
+                                shape = RoundedCornerShape(18.pxToDp())
+                            )
+                            .padding(horizontal = 40.pxToDp(), vertical = 28.pxToDp())){
+                        Text("성별 " , style = Typography.bodySmall)
+                        Spacer(modifier = Modifier.width(30.pxToDp()))
+                        Text(Utils.convertGender(user.gender) , style = Typography.bodySmall , fontWeight = FontWeight.W700)
+
+                        Spacer(modifier = Modifier.width(80f.pxToDp()))
+                        /*
+                        VerticalDivider(
+                            modifier = Modifier.padding(horizontal = 2f.pxToDp()),
+                            thickness = 2f.pxToDp(),
+                            color = ColorD4D9E1
+                        )*/
+
+                        Text("나이 " , style = Typography.bodySmall)
+                        Spacer(modifier = Modifier.width(30.pxToDp()))
+                        Text("${Utils.calcAge(user.birthDate)}세 " , style = Typography.bodySmall, fontWeight = FontWeight.W700)
+                    }
+                }
+            }
+        }?:run{
+
+        }
+
+
+    }
+}
 
 @Composable
 fun UserInfo(user : LastedLoginUserRoom?) {
@@ -55,8 +127,9 @@ fun UserInfo(user : LastedLoginUserRoom?) {
         user?.let {
             Row(verticalAlignment = Alignment.CenterVertically){
                 AsyncImage(
-                    model =ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).placeholder(R.drawable.reg_picture).build(),
+                    model =ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).crossfade(true).build(),
                     //painter = painterResource(id = R.drawable.top_profile_img),
+                    error = painterResource(id = R.drawable.reg_picture),
                     contentScale = ContentScale.Crop,
                     contentDescription = "User",
                     modifier = Modifier

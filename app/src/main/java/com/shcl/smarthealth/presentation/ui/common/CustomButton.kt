@@ -2,6 +2,8 @@ package com.shcl.smarthealth.presentation.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,6 +14,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -38,7 +41,6 @@ fun CustomButton(
     enabled : Boolean = true,
     btnClick : ()-> Unit? = {}
 ) {
-
     var boardColor : Color
 
         if(withBoard){
@@ -67,28 +69,32 @@ fun CustomButton(
             containerColor = containerColor
         )
     ) {
-        leftIcon?.let {
-            Image(
-                modifier = Modifier.size(11f.pxToDp(), 22f.pxToDp()),
-                painter = leftIcon,
-                contentDescription = null
+
+        Row(horizontalArrangement = Arrangement.SpaceBetween){
+            leftIcon?.let {
+                Image(
+                    modifier = Modifier.size(11f.pxToDp(), 22f.pxToDp()),
+                    painter = leftIcon,
+                    contentDescription = null
+                )
+            }
+
+            Text(
+                text = text,
+                textAlign = TextAlign.Center,
+                style = Typography.labelMedium,
+                color = contentColor,
+                //modifier = Modifier.weight(1f),
+                fontSize = 18f.pxToSp()
             )
+            rightIcon?.let {
+                Image(
+                    modifier = Modifier.size(11f.pxToDp(), 22f.pxToDp()),
+                    painter = rightIcon,
+                    contentDescription = null
+                )
+            }
         }
 
-        Text(
-            text = text,
-            textAlign = TextAlign.Center,
-            style = Typography.labelMedium,
-            color = contentColor,
-            //modifier = Modifier.weight(1f),
-            fontSize = 18f.pxToSp()
-        )
-        rightIcon?.let {
-            Image(
-                modifier = Modifier.size(11f.pxToDp(), 22f.pxToDp()),
-                painter = rightIcon,
-                contentDescription = null
-            )
-        }
     }
 }

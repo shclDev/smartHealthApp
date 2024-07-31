@@ -64,8 +64,8 @@ fun LoginScreen(nav: NavHostController , viewModel: LoginViewModel = hiltViewMod
     val loginStatus by viewModel.loginState.collectAsStateWithLifecycle()
     val loggedUser by viewModel.loggedUserState.collectAsStateWithLifecycle()
 
-    var phoneNum by remember { mutableStateOf("") }
-    var birthDay by remember { mutableStateOf("") }
+    var mobile by remember { mutableStateOf("") }
+    var birthDate by remember { mutableStateOf("") }
 
 
     Box {
@@ -121,8 +121,8 @@ fun LoginScreen(nav: NavHostController , viewModel: LoginViewModel = hiltViewMod
                             placeHolder = stringResource(id = R.string.handphone_hint),
                             keyOption = KeyboardOptions(keyboardType = KeyboardType.Number),
                             valueChanged = {
-                                phoneNum = it
-                                Log.d("register" , "phoneNum : ${phoneNum}")
+                                mobile = it
+                                Log.d("register" , "phoneNum : ${mobile}")
                             }
                         )
 
@@ -162,8 +162,8 @@ fun LoginScreen(nav: NavHostController , viewModel: LoginViewModel = hiltViewMod
                             placeHolder = stringResource(id = R.string.birthday_hint),
                             keyOption = KeyboardOptions(keyboardType = KeyboardType.Number),
                             valueChanged = {
-                                birthDay = it
-                                Log.d("register" , "birthDay : ${phoneNum}")
+                                birthDate = it
+                                Log.d("register" , "birthDay : ${birthDate}")
                             }
                         )
                         /*
@@ -192,6 +192,7 @@ fun LoginScreen(nav: NavHostController , viewModel: LoginViewModel = hiltViewMod
                         onClick = {
                             //login check
                             viewModel.signCheck()
+                            //viewModel.signIn(mobile =  mobile , birthDate = birthDate)
                             //nav.navigate(route = OuterScreen.home.route)
                             //nav.navigate(route = OuterScreen.deviceScan.route)
                         },
@@ -350,7 +351,8 @@ fun rightSide(nav: NavHostController , viewModel : LoginViewModel){
             Button(
                 onClick = {
                     //login check
-                    viewModel.signCheck()
+                    //viewModel.signCheck()
+                    viewModel.signIn(mobile =  phoneNum , birthDate = birthDay)
                     //nav.navigate(route = OuterScreen.home.route)
                     //nav.navigate(route = OuterScreen.deviceScan.route)
                 },
