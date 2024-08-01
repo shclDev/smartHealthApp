@@ -1,6 +1,7 @@
 package com.shcl.smarthealth.presentation.ui.common
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,10 +16,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -42,44 +45,48 @@ fun CustomAlertDialog(
     ) {
 
     Dialog(
-        onDismissRequest = { onClickCancel()},
+        onDismissRequest = { onShowDialog(false)},
         properties = DialogProperties(
             dismissOnBackPress = true,
             dismissOnClickOutside = true),
         ){
-            Card(
+            Surface(
                 modifier = Modifier
                     .background(Color.White)
-                    .padding(horizontal = 46f.pxToDp(), vertical = 41f.pxToDp())
-                    .defaultMinSize(minWidth = 450f.pxToDp(), minHeight = 920f.pxToDp()),
-               shape = RoundedCornerShape(30f.pxToDp())
+                    .padding(
+                        start = 40f.pxToDp(),
+                        end = 43f.pxToDp(),
+                        top = 105f.pxToDp(),
+                        bottom = 41f.pxToDp()
+                    )
+                    .defaultMinSize(minWidth = 920f.pxToDp(), minHeight = 450f.pxToDp())
+                    .wrapContentHeight(),
+                shape = RoundedCornerShape(30f.pxToDp()),
             ){
                 Column(
-                    modifier = Modifier
-                        .wrapContentHeight(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    modifier = Modifier.background(Color.White),
+                    horizontalAlignment = Alignment.Start
                 ) {
-                    Spacer(modifier = Modifier.height(105f.pxToDp()))
-
                     Text(
                         text = title,
                         textAlign = TextAlign.Start,
                         style = Typography.headlineMedium,
-                        fontSize = 25f.pxToSp()
+                        fontSize = 30f.pxToSp()
                     )
 
-                    Spacer(modifier = Modifier.height(30f.pxToDp()))
+                    Spacer(modifier = Modifier.height(50f.pxToDp()))
 
                     Text(
                         text = desc,
                         textAlign = TextAlign.Start,
                         style = Typography.labelSmall,
-                        fontSize = 15f.pxToSp()
+                        fontSize = 20f.pxToSp()
                     )
 
                     Spacer(modifier = Modifier.height(60f.pxToDp()))
 
                     Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier
                             .fillMaxWidth()
                             .defaultMinSize(minHeight = 86f.pxToDp())
@@ -91,21 +98,22 @@ fun CustomAlertDialog(
                                 .fillMaxWidth(0.5f),
                             //modifier =Modifier.background(0) ,
                             shape = RoundedCornerShape(18f.pxToDp()),
-                            onClick = { onClickConfirm() }) {
+                            onClick = { onClickConfirm()
+                                onShowDialog(false)
+                            }) {
 
                             Text("확인", fontSize = 15f.pxToSp(), color = Color757575)
 
                         }
-                        Spacer(modifier = Modifier.width(20f.pxToDp()))
                         Button(
                             modifier = Modifier
                                 .background(ColorECF098)
                                 .fillMaxWidth(0.5f),
                             shape = RoundedCornerShape(18f.pxToDp()),
-                            onClick = { onClickConfirm() }) {
-
+                            onClick = { onClickConfirm()
+                                onShowDialog(false)
+                            }) {
                             Text("완료", fontSize = 15f.pxToSp(), color = Color.White)
-
                         }
                     }
                 }

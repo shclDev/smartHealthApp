@@ -13,11 +13,11 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
 
     suspend fun signCheck(): Flow<ApiResponse<String>>
-    suspend fun signUp(request: SignUpRequest): Flow<SignUpResponse>?
+    suspend fun signUp(request: SignUpRequest): Flow<SignUpResponse?>
     suspend fun userRoomUpdate(userRoom : UserRoom)
     suspend fun lastedLoginUserRoomUpdate(lastedLoginUserRoom: LastedLoginUserRoom)
     suspend fun getLastedLoginUserFromRoom() : Flow<LastedLoginUserRoom>
-    suspend fun getAllUser() : Flow<MutableList<UserRoom>?>
+    suspend fun getAllUser() : Flow<List<UserRoom>>
     suspend fun signIn(request: SignInRequest) : Flow<ApiResponse<String>>
     suspend fun userProfile() : Flow<ProfileResponse>?
 

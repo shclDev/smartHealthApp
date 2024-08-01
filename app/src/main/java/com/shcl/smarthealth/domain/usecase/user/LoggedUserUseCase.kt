@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class LoggedUserUseCase @Inject constructor(private val repository: UserRepository){
-    suspend operator fun invoke() : Flow<MutableList<UserRoom>?> = repository.getAllUser()
+    suspend operator fun invoke() = repository.getAllUser()
 }

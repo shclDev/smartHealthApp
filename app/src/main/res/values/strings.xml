@@ -19,6 +19,7 @@
     <string name="intro_desc2">스마트홈 헬스케어 서비스</string>
     <string name="login_welcome">안녕하세요, 사용자님!</string>
     <string name="login_desc">고객님의 휴대폰번호와 생년월일을 입력해주세요.</string>
+    <string name="autologin_desc">고객님의 계정을 클릭해 로그인해주세요.\n다른 사용자가 있는 경우 계정 추가를 클릭해주세요.</string>
     <string name="handphone">휴대폰 번호</string>
     <string name="handphone_hint">010-0000-0000</string>
     <string name="birthday">생년월일</string>

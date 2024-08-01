@@ -3,12 +3,16 @@ package com.shcl.smarthealth.presentation.view.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
 import com.shcl.smarthealth.domain.model.db.UserRoom
 import com.shcl.smarthealth.domain.model.remote.user.SignInRequest
 import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
 import com.shcl.smarthealth.domain.usecase.user.UserUseCase
+import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.presentation.view.device.ScanDeviceState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -31,6 +35,12 @@ class LoginViewModel @Inject constructor(
 
     private val _loggedUserState = MutableStateFlow(mutableListOf<UserRoom>())
     val loggedUserState = _loggedUserState.asStateFlow()
+
+
+
+    init {
+        loggedUserCheck()
+    }
 
     fun signCheck() {
 
@@ -66,19 +76,46 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun loggedUserCheck(){
-        viewModelScope.launch {
+     fun loggedUserCheck(){
+
+         GlobalScope.launch(Dispatchers.IO) {
             userUseCase.loggedUserUseCase.invoke()
-                ?.onStart {   Log.d("smarthealth" , "loggedUserChk") }
-                ?.onCompletion {  }
-                ?.catch {  }
-                ?.collect{ it->
-                    it?.let {
-                        Log.d("smarthealth" , "loggedUser + ${it.size}")
-                        _loggedUserState.value = it
+                .onStart {   Log.d("smarthealth" , "loggedUserChk") }
+                .onCompletion {  Log.d("smarthealth" , "loggedUserChk onCompletion") }
+                .catch {   Log.d("smarthealth" , "loggedUserChk catch")}
+                .collect{
+                    it.let {
+                        Log.d("smarthealth" , "loggedUser size : ${it.size}")
+                        _loggedUserState.value = it.toMutableList()
                     }
                 }
         }
+    }
+
+    fun lastedUserLoginUpdate(user : UserRoom){
+
+        viewModelScope.launch{
+
+            userUseCase.lastedLoginUserRoomUpdateUseCase.invoke(
+                LastedLoginUserRoom(
+                    userId = user.userId,
+                    name = user.name,
+                    nickName = user.nickName,
+                    birthDate = user.birthDate,
+                    gender = user.gender,
+                    mobile = user.mobile,
+                    age = Utils.calcAge(user.birthDate),
+                    type = user.type,
+                    token = user.token,
+                    profileUri = user.profileUri,
+                    loginTime = Utils.getCurrentTimeStamp(),
+                    authCode = user.authCode
+                )
+            )
+        }
+
+
+
     }
 
 

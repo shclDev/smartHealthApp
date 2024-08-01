@@ -23,7 +23,7 @@ class UserRepositoryImpl(
        return userRemoteDataSource.signCheck()
     }
 
-    override suspend fun signUp(request: SignUpRequest): Flow<SignUpResponse> {
+    override suspend fun signUp(request: SignUpRequest): Flow<SignUpResponse?> {
         return flow{
             userRemoteDataSource.signUp(request).collect{
                 it?.let {
@@ -31,14 +31,18 @@ class UserRepositoryImpl(
                         it.data?.let { response->
                             emit(
                                 SignUpResponse(
-                                type = response.type,
-                                token = response.token,
-                                id = response.id,
-                                name = response.name,
-                                authCode = response.authCode
+                                    type = response.type,
+                                    token = response.token,
+                                    id = response.id,
+                                    name = response.name,
+                                    authCode = response.authCode
+                                )
                             )
-                            )
+                        }?:run{
+                            emit(null)
                         }
+                    }else{
+                        emit(null)
                     }
                 }
             }
@@ -71,10 +75,11 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun getAllUser(): Flow<MutableList<UserRoom>?> {
-        return flow{
-            measureRecordDataSource.getAllUser()
-        }
+    override suspend fun getAllUser(): Flow<List<UserRoom>> = flow{
+            measureRecordDataSource.getAllUser().collect{
+                Log.d("smarthealth" , it.toString())
+                emit(it)
+            }
     }
 
     override suspend fun signIn(request: SignInRequest): Flow<ApiResponse<String>> {

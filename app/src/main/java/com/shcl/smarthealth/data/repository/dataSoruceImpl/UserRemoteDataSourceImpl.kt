@@ -55,7 +55,7 @@ class UserRemoteDataSourceImpl (
                 code = "",
                 message = "",
                 data = null
-            )
+                )
             )
         }
     }
@@ -84,9 +84,13 @@ class UserRemoteDataSourceImpl (
 
                 Log.d("register" , "${response.body()}")
 
+                return flow{
+                    emit(response.body())
+                }
+
                 response.body()?.let{
                     return flow{
-                        emit(it)
+                        emit(response.body())
                     }
                 }
             }else{

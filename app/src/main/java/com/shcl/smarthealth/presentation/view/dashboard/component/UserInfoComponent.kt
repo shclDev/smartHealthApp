@@ -57,11 +57,11 @@ fun UserInfo(user : ProfileResponse?) {
         user?.let {
             Row(verticalAlignment = Alignment.CenterVertically){
                 AsyncImage(
-                    model = painterResource(id = R.drawable.reg_picture),
+                    model = painterResource(id = R.drawable.dummy_profile),
                     //model =ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).placeholder(R.drawable.reg_picture).build(),
                     //painter = painterResource(id = R.drawable.top_profile_img),
                     contentScale = ContentScale.Crop,
-                    placeholder = painterResource(id = R.drawable.reg_picture),
+                    error = painterResource(id = R.drawable.dummy_profile),
                     contentDescription = "User",
                     modifier = Modifier
                         .size(120.pxToDp())
@@ -129,7 +129,7 @@ fun UserInfo(user : LastedLoginUserRoom?) {
                 AsyncImage(
                     model =ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).crossfade(true).build(),
                     //painter = painterResource(id = R.drawable.top_profile_img),
-                    error = painterResource(id = R.drawable.reg_picture),
+                    error = painterResource(id = R.drawable.dummy_profile),
                     contentScale = ContentScale.Crop,
                     contentDescription = "User",
                     modifier = Modifier

@@ -12,17 +12,28 @@ import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
 import com.shcl.smarthealth.domain.usecase.user.UserUseCase
 import com.shcl.smarthealth.domain.utils.PreferencesManager
 import com.shcl.smarthealth.domain.utils.Utils
+import com.shcl.smarthealth.presentation.view.login.LoginStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
+enum class SignUpStatus{
+    NONE , SIGNUP_SUCCESS , SIGNUP_FAILED
+}
+
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val userUseCase: UserUseCase
 ) : ViewModel() {
+
+    private var _signUpState = MutableStateFlow(SignUpStatus.NONE)
+    var signUpState = _signUpState.asStateFlow()
 
 
     fun validationUserInfo(name : String,
@@ -37,6 +48,10 @@ class RegisterViewModel @Inject constructor(
         }
 
         return true
+    }
+
+    fun signUpStateChange(status: SignUpStatus){
+        _signUpState.value = status
     }
 
 
@@ -61,43 +76,51 @@ class RegisterViewModel @Inject constructor(
              ?.onCompletion {  }
                 ?.catch {  }
                 ?.collect {
-                    if(!it.token.isNullOrEmpty()){
-                        //save access Token
-                        PreferencesManager.saveData("accessToken" , it.token)
 
-                        userUseCase.userRoomUpdateUseCase.invoke(
-                            UserRoom(
-                                userId = it.id,
-                                name = it.name,
-                                nickName = nickName,
-                                birthDate = birthDate,
-                                gender = gender,
-                                mobile = mobile,
-                                token = it.token,
-                                type = it.type,
-                                age = Utils.calcAge(birthDate),
-                                authCode = it.authCode,
-                                isFirst = true,
-                                profileUri = picture.toString(),
-                                registerTime = Utils.getCurrentDateTime()
+                    it?.let {
+                        if(!it.token.isNullOrEmpty() && !it.id.toString().isNullOrEmpty()){
+                            //save access Token
+                            PreferencesManager.saveData("accessToken" , it.token)
+
+                            userUseCase.userRoomUpdateUseCase.invoke(
+                                UserRoom(
+                                    userId = it.id,
+                                    name = it.name,
+                                    nickName = nickName,
+                                    birthDate = birthDate,
+                                    gender = gender,
+                                    mobile = mobile,
+                                    token = it.token,
+                                    type = it.type,
+                                    age = Utils.calcAge(birthDate),
+                                    authCode = it.authCode,
+                                    isFirst = true,
+                                    profileUri = picture.toString(),
+                                    registerTime = Utils.getCurrentDateTime()
+                                )
                             )
-                        )
 
-                        userUseCase.lastedLoginUserRoomUpdateUseCase.invoke(
-                            LastedLoginUserRoom(
-                                userId = it.id,
-                                name = it.name,
-                                nickName = nickName,
-                                birthDate = birthDate,
-                                gender = gender,
-                                mobile = mobile,
-                                age = Utils.calcAge(birthDate),
-                                type = it.type,
-                                token = it.token,
-                                profileUri = picture.toString(),
-                                loginTime = Utils.getCurrentTimeStamp(),
-                                authCode = it.authCode
-                        ))
+                            userUseCase.lastedLoginUserRoomUpdateUseCase.invoke(
+                                LastedLoginUserRoom(
+                                    userId = it.id,
+                                    name = it.name,
+                                    nickName = nickName,
+                                    birthDate = birthDate,
+                                    gender = gender,
+                                    mobile = mobile,
+                                    age = Utils.calcAge(birthDate),
+                                    type = it.type,
+                                    token = it.token,
+                                    profileUri = picture.toString(),
+                                    loginTime = Utils.getCurrentTimeStamp(),
+                                    authCode = it.authCode
+                                ))
+                        }
+
+                        _signUpState.value = SignUpStatus.SIGNUP_SUCCESS
+
+                    }?:run{
+                        _signUpState.value = SignUpStatus.SIGNUP_FAILED
                     }
                 }
         }

@@ -37,14 +37,20 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
+import com.shcl.smarthealth.domain.model.omron.RequestType
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.navigation.OuterScreen
+import com.shcl.smarthealth.presentation.ui.common.CustomAlertDialog
+import com.shcl.smarthealth.presentation.ui.common.CustomConfirmDialog
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
 import com.shcl.smarthealth.presentation.ui.common.CustomTextField
 import com.shcl.smarthealth.presentation.ui.common.LinearVerticalLine
+import com.shcl.smarthealth.presentation.view.device.ConfirmDialog
+import com.shcl.smarthealth.presentation.view.login.LoginStatus
 import com.shcl.smarthealth.presentation.view.register.component.MyImageArea
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
@@ -66,9 +72,42 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
 
     val genderGroup : HashMap<String , Any> = hashMapOf("남성" to "M" , "여성" to "F")
 
+    var showDialogState by remember { mutableStateOf(false) }
+    var failMessage by remember { mutableStateOf("") }
+
+
+    val signUpStatus by viewModel.signUpState.collectAsStateWithLifecycle()
+
     Box(
         modifier = Modifier.fillMaxSize()
     ){
+
+        if (signUpStatus == SignUpStatus.SIGNUP_SUCCESS) {
+            nav.navigate(route = OuterScreen.terms.route)
+        } else if(signUpStatus == SignUpStatus.SIGNUP_FAILED) {
+            Log.d("signUp" , "signUp failed" )
+            showDialogState = true
+            failMessage = "이미 등록된 사용자입니다.\n로그인 진행해주세요."
+            viewModel.signUpStateChange(SignUpStatus.NONE)
+        }
+
+        when{
+            showDialogState->{
+
+                CustomConfirmDialog(
+                    show = showDialogState,
+                    title = "회원 등록에 실패 하였습니다." ,
+                    desc = "$failMessage",
+                    onDismiss = {showDialogState = false},
+                    onConfirm = {
+                        showDialogState = false
+                    },
+                )
+
+            }
+
+        }
+
         Row {
             LinearVerticalLine()
             Box ( modifier = Modifier.fillMaxWidth()){
@@ -119,13 +158,6 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                 }
                             )
                         }
-
-
-                        /*
-                        UserPictureNickName(
-                            nickNameChanged = { nickName = it },
-                            uriSelected = { uri.value = it }
-                        )*/
 
                         Column(verticalArrangement = Arrangement.SpaceBetween){
                             Column {
@@ -238,18 +270,11 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                                             picture = it
                                                         )
                                                     }
-
-                                                    nav.navigate(route = OuterScreen.terms.route)
+                                                }else{
+                                                    failMessage = "입력하지 않은 정보가 있는지 다시 확인해 주세요"
+                                                    showDialogState = true
                                                 }
                                             }
-
-
-
-
-
-
-
-                                            //nav.navigate(route = OuterScreen.deviceScan.route)
                                         },
                                         shape = RoundedCornerShape(18.pxToDp()),
                                         modifier = Modifier.fillMaxWidth(),
@@ -274,8 +299,6 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                             contentDescription = null
                                         )
                                     }
-
-
                             }
                         }
                     }
