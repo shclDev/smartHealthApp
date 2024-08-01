@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,6 +51,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.min
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -274,9 +276,9 @@ fun autoLoginSide(nav: NavHostController , viewModel : LoginViewModel , users : 
 
     Box(
         modifier = Modifier
+            .background(Color.White)
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(Color.White)
             .padding(start = 123.pxToDp(), top = 123.pxToDp(), end = 123.pxToDp()),
             contentAlignment = Alignment.TopStart
     ){
@@ -289,32 +291,40 @@ fun autoLoginSide(nav: NavHostController , viewModel : LoginViewModel , users : 
             Spacer(modifier = Modifier.height(30.pxToDp()))
             Text(text = stringResource(id = R.string.autologin_desc) , style = Typography.bodySmall )
             Spacer(modifier = Modifier.height(30.pxToDp()))
-            LazyVerticalGrid(
-                modifier = Modifier.padding(30f.pxToDp()),
-                columns = GridCells.Fixed(2),
-                state = rememberLazyGridState()
-            ) {
+            Box(modifier = Modifier.fillMaxSize()
+                .border(
+                shape = RoundedCornerShape(10f.pxToDp()),
+                width = 1f.pxToDp(),
+                color = Color757575
+            )) {
+                LazyVerticalGrid(
+                    modifier = Modifier
+                        .padding(horizontal = 131f.pxToDp(), vertical = 52f.pxToDp())
+                        ,
+                    columns = GridCells.Fixed(2),
+                    state = rememberLazyGridState()
+                ) {
 
-                items(users.size + 1 , span = {
-                    index -> GridItemSpan(1)
-                }){
-                    index->
-                        if(index == users.size){
+                    items(users.size + 1, span = { index ->
+                        GridItemSpan(1)
+                    }) { index ->
+                        if (index == users.size) {
 
                             RegisterCard(onClick = {
                                 nav.navigate(route = OuterScreen.registser.route)
                             })
 
-                        }else{
+                        } else {
                             val user = users[index]
                             LoginUserCard(
-                                user = user ,
+                                user = user,
                                 onClick = {
-                                    PreferencesManager.saveData("accessToken" , user.token)
+                                    PreferencesManager.saveData("accessToken", user.token)
                                     nav.navigate(route = OuterScreen.home.route)
                                     viewModel.lastedUserLoginUpdate(user)
                                 })
                         }
+                    }
                 }
             }
             Spacer(modifier = Modifier.height(20.pxToDp()))
@@ -362,7 +372,9 @@ private fun LoginUserCard(
 ){
 
     Box(
-        modifier = Modifier.clickable { onClick() }
+        modifier = Modifier
+            .defaultMinSize(minWidth = 245f.pxToDp(), minHeight = 266f.pxToDp())
+            .clickable { onClick() }
     ){
        Column (modifier = Modifier.align(Alignment.Center)){
 
@@ -375,11 +387,12 @@ private fun LoginUserCard(
                modifier = Modifier
                    .size(120.pxToDp())
                    .clip(CircleShape)
+                   .align(Alignment.CenterHorizontally)
            )
 
            Spacer(modifier = Modifier.height(25f.pxToDp()))
 
-           Text("${user.name}" , textAlign = TextAlign.Center)
+           Text(text = "${user.name}" , textAlign = TextAlign.Center , fontSize = 24f.pxToSp() , style = Typography.titleSmall )
 
            Spacer(modifier = Modifier.height(25f.pxToDp()))
 
