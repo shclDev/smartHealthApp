@@ -125,15 +125,19 @@ fun UserInfo(user : LastedLoginUserRoom?) {
     ) {
 
         user?.let {
+
+            //val profile = Utils.uriFromFilePath(user.profileUri.toUri())
+
             Row(verticalAlignment = Alignment.CenterVertically){
                 AsyncImage(
-                    model =ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).crossfade(true).build(),
+                    model = ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).crossfade(true).build(),
                     //painter = painterResource(id = R.drawable.top_profile_img),
+                    //model = ImageRequest.Builder( LocalContext.current).data(user.profileUri.toUri()).build(),
                     error = painterResource(id = R.drawable.dummy_profile),
                     contentScale = ContentScale.Crop,
                     contentDescription = "User",
                     modifier = Modifier
-                        .size(120.pxToDp())
+                        .size(138.pxToDp())
                         .clip(CircleShape)
                 )
                 Spacer(modifier = Modifier.width(40.pxToDp()))

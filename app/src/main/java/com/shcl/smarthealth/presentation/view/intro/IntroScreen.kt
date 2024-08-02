@@ -48,14 +48,11 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
 
 
     var allPermissionGranted by remember { mutableStateOf( false ) }
-    allPermissionGranted = featureThatRequiresPermission()
+    allPermissionGranted = featureThatRequiresPermission(onPermissionGranted = {
+        allPermissionGranted = it
+        moveNext(nav , allPermissionGranted)
+    })
 
-    LaunchedEffect(key1 = true) {
-        if(allPermissionGranted){
-            delay(1500L)
-            nav.navigate(route = OuterScreen.login.route)
-        }
-    }
 
     Box(
       modifier = Modifier
@@ -96,6 +93,16 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
             }
 
         }
+}
+
+@Composable
+fun moveNext(nav: NavHostController, permissionChk : Boolean ){
+    LaunchedEffect(key1 = true) {
+        if(permissionChk){
+            delay(1500L)
+            nav.navigate(route = OuterScreen.login.route)
+        }
+    }
 }
 
 

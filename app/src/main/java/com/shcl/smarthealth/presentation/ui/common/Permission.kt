@@ -33,13 +33,16 @@ import com.google.accompanist.permissions.shouldShowRationale
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun featureThatRequiresPermission() : Boolean{
+fun featureThatRequiresPermission(
+    onPermissionGranted : @Composable (Boolean)->Unit
+) : Boolean{
 
     val permissions = listOf(
         android.Manifest.permission.BLUETOOTH_SCAN,
         android.Manifest.permission.BLUETOOTH_ADVERTISE,
         android.Manifest.permission.BLUETOOTH_CONNECT,
-        android.Manifest.permission.ACCESS_FINE_LOCATION
+        android.Manifest.permission.ACCESS_FINE_LOCATION,
+        android.Manifest.permission.READ_MEDIA_IMAGES
     )
 
     var openAlertDialog by remember{ mutableStateOf(false) }
@@ -48,6 +51,7 @@ fun featureThatRequiresPermission() : Boolean{
     val permissionStates = rememberMultiplePermissionsState(permissions)
 
     if(permissionStates.allPermissionsGranted){
+        onPermissionGranted(true)
         return true
     }else{
         permissionStates.permissions.forEach{
@@ -96,8 +100,10 @@ fun featureThatRequiresPermission() : Boolean{
         }
 
         if(permissionStates.allPermissionsGranted){
+            onPermissionGranted(true)
             return true
         }else{
+            onPermissionGranted(false)
             return false
         }
     }
