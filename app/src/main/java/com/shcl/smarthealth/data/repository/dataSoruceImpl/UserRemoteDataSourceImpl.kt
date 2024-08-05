@@ -10,6 +10,7 @@ import com.shcl.smarthealth.domain.model.remote.user.SignUpResponse
 import com.shcl.smarthealth.domain.model.remote.common.ApiResponse
 import com.shcl.smarthealth.domain.model.remote.user.ProfileResponse
 import com.shcl.smarthealth.domain.model.remote.user.SignInRequest
+import com.shcl.smarthealth.domain.model.remote.user.SignInResponse
 import com.shcl.smarthealth.domain.utils.Utils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -121,16 +122,19 @@ class UserRemoteDataSourceImpl (
         }
     }
 
-    override suspend fun signIn(signInRequest: SignInRequest): Flow<ApiResponse<String>> {
+    override suspend fun signIn(signInRequest: SignInRequest): Flow<ApiResponse<SignInResponse?>> {
         try{
             val response = userApi.signIn(signInRequest)
 
+
             if(response.isSuccessful){
-                response.body()?.let{
+
+                response.body()?.let {
                     return flow{
                         emit(it)
                     }
                 }
+
             }else{
                 return flow{
                     emit(
@@ -160,7 +164,7 @@ class UserRemoteDataSourceImpl (
     }
         }
 
-    override suspend fun userProfile(): Flow<ApiResponse<ProfileResponse>?> {
+    override suspend fun userProfile(): Flow<ApiResponse<ProfileResponse?>> {
         try{
             val response = userApi.profile()
 

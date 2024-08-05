@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UserSignInUseCase @Inject constructor(private val repository: UserRepository){
-    suspend operator fun invoke(signInRequest: SignInRequest) : Flow<ApiResponse<String>> = repository.signIn(signInRequest)
+    suspend operator fun invoke(signInRequest: SignInRequest) = repository.signIn(signInRequest)
 }

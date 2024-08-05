@@ -65,6 +65,7 @@ import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.navigation.OuterScreen
+import com.shcl.smarthealth.presentation.ui.common.CustomConfirmDialog
 import com.shcl.smarthealth.presentation.ui.common.CustomTextField
 import com.shcl.smarthealth.ui.theme.BackGroundColor
 import com.shcl.smarthealth.ui.theme.Color143F91
@@ -85,12 +86,31 @@ fun LoginScreen(nav: NavHostController , viewModel: LoginViewModel = hiltViewMod
     var mobile by remember { mutableStateOf("") }
     var birthDate by remember { mutableStateOf("") }
 
+    var showDialogState by remember { mutableStateOf(false) }
+
 
     Box {
         if (loginStatus == LoginStatus.LOGIN_SUCCESS) {
             nav.navigate(route = OuterScreen.home.route)
         } else if (loginStatus == LoginStatus.LOGIN_FAILED) {
             Log.d("login", "login failed")
+            showDialogState = true
+            viewModel.loginUpStateChange(LoginStatus.NONE)
+        }
+
+        when{
+            showDialogState->{
+
+                CustomConfirmDialog(
+                    show = showDialogState,
+                    title = "로그인 실패" ,
+                    desc = "입력하신 정보로 가입된 사용자가 없습니다.\n회원가입 후 진행해주세요.",
+                    onDismiss = {showDialogState = false},
+                    onConfirm = {
+                        showDialogState = false
+                    },
+                )
+            }
         }
 
         Row(
@@ -290,17 +310,20 @@ fun autoLoginSide(nav: NavHostController , viewModel : LoginViewModel , users : 
             Spacer(modifier = Modifier.height(30.pxToDp()))
             Text(text = stringResource(id = R.string.autologin_desc) , style = Typography.bodySmall )
             Spacer(modifier = Modifier.height(30.pxToDp()))
-            Box(modifier = Modifier.fillMaxSize()
+            Box(modifier = Modifier
+                .fillMaxSize()
                 .border(
-                shape = RoundedCornerShape(10f.pxToDp()),
-                width = 1f.pxToDp(),
-                color = Color757575
-            )) {
+                    shape = RoundedCornerShape(10f.pxToDp()),
+                    width = 1f.pxToDp(),
+                    color = Color757575
+                )) {
                 LazyVerticalGrid(
                     modifier = Modifier
                         .padding(horizontal = 131f.pxToDp(), vertical = 52f.pxToDp())
                         ,
                     columns = GridCells.Fixed(2),
+                    verticalArrangement = Arrangement.spacedBy(50f.pxToDp()),
+                    horizontalArrangement = Arrangement.spacedBy(100f.pxToDp()),
                     state = rememberLazyGridState()
                 ) {
 
@@ -339,7 +362,9 @@ private fun RegisterCard(
 ){
 
     Box(
-        modifier = Modifier.defaultMinSize(minWidth = 245f.pxToDp(), minHeight = 266f.pxToDp()).clickable { onClick() }
+        modifier = Modifier
+            .size(width = 245f.pxToDp(), height = 266f.pxToDp())
+            .clickable { onClick() }
     ){
         Column (modifier = Modifier.align(Alignment.Center)){
 
@@ -350,14 +375,14 @@ private fun RegisterCard(
                 contentScale = ContentScale.Crop,
                 contentDescription = "User",
                 modifier = Modifier
-                    .size(120.pxToDp())
+                    .size(180.pxToDp())
                     .clip(CircleShape)
                     .align(Alignment.CenterHorizontally)
             )
 
             Spacer(modifier = Modifier.height(25f.pxToDp()))
 
-            Text("계정 추가" , textAlign = TextAlign.Center , fontSize = 24f.pxToSp() , style = Typography.titleSmall)
+            Text("계정 추가" ,  modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center , fontSize = 24f.pxToSp() , style = Typography.titleSmall)
 
             Spacer(modifier = Modifier.height(25f.pxToDp()))
 
@@ -374,11 +399,10 @@ private fun LoginUserCard(
 
     Box(
         modifier = Modifier
-            .defaultMinSize(minWidth = 245f.pxToDp(), minHeight = 266f.pxToDp())
+            .size(width = 245f.pxToDp(), height = 266f.pxToDp())
             .clickable { onClick() }
     ){
        Column (modifier = Modifier.align(Alignment.Center)){
-
            AsyncImage(
                model = ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).crossfade(true).build(),
                //painter = painterResource(id = R.drawable.top_profile_img),
@@ -393,7 +417,9 @@ private fun LoginUserCard(
 
            Spacer(modifier = Modifier.height(25f.pxToDp()))
 
-           Text(text = "${user.name}" , textAlign = TextAlign.Center , fontSize = 24f.pxToSp() , style = Typography.titleSmall )
+           Text(
+               modifier = Modifier.fillMaxWidth(),
+               text = "${user.name}" , textAlign = TextAlign.Center , fontSize = 24f.pxToSp() , style = Typography.titleSmall )
 
            Spacer(modifier = Modifier.height(25f.pxToDp()))
 

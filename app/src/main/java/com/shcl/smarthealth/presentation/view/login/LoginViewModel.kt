@@ -8,8 +8,10 @@ import com.shcl.smarthealth.domain.model.db.UserRoom
 import com.shcl.smarthealth.domain.model.remote.user.SignInRequest
 import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
 import com.shcl.smarthealth.domain.usecase.user.UserUseCase
+import com.shcl.smarthealth.domain.utils.PreferencesManager
 import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.presentation.view.device.ScanDeviceState
+import com.shcl.smarthealth.presentation.view.register.SignUpStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -68,12 +70,22 @@ class LoginViewModel @Inject constructor(
                 ?.catch { }
                 ?.collect { response ->
                     if (response.success) {
-                        _loginState.value = LoginStatus.LOGIN_SUCCESS
+                        response.data?.let {
+                            Log.d("smarthealth" , "signIn ${response.data}")
+                            PreferencesManager.saveData("accessToken", it.token)
+                            _loginState.value = LoginStatus.LOGIN_SUCCESS
+                        }?:run{
+                            _loginState.value = LoginStatus.LOGIN_FAILED
+                        }
                     } else {
                         _loginState.value = LoginStatus.LOGIN_FAILED
                     }
                 }
         }
+    }
+
+    fun loginUpStateChange(status: LoginStatus){
+        _loginState.value = status
     }
 
      fun loggedUserCheck(){

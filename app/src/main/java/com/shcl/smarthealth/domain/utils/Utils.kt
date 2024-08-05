@@ -110,6 +110,7 @@ object Utils {
     }
 
     fun birthDateToServer(birthdate : String) : String{
+        Log.d("smarthealth","19"+birthdate.substring(0,2) + "-" + birthdate.substring(2,4) +"-" + birthdate.substring(4,6))
         return "19"+birthdate.substring(0,2) + "-" + birthdate.substring(2,4) +"-" + birthdate.substring(4,6)
     }
 
