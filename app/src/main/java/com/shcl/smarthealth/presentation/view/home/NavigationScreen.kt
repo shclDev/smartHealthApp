@@ -3,17 +3,10 @@ package com.shcl.smarthealth.presentation.view.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.material3.DismissibleNavigationDrawer
 import androidx.compose.material3.DrawerValue
@@ -28,10 +21,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.navigation.InnerScreen
 import com.shcl.smarthealth.presentation.view.analysis.AnalysisScreen
@@ -48,38 +45,43 @@ fun DismissibleNavigationDrawer(){
 
     val menus = listOf(
         MenuItem(
-            id="dashboard",
-            title="대시보드",
+            id ="dashboard",
+            title ="대시보드",
             contentDesc = "대시보드",
-            image = Icons.Default.Menu,
+            image = painterResource(id = R.drawable.icon_side_01_off),
+            selectedImage = painterResource(id = R.drawable.icon_side_01_on),
             route = InnerScreen.dashboard.route
         ),
         MenuItem(
-            id="analysis",
-            title="분석결과",
+            id ="analysis",
+            title ="분석결과",
             contentDesc = "분석결과",
-            image = Icons.Default.Send,
+            image =painterResource(id = R.drawable.icon_side_02_off),
+            selectedImage = painterResource(id = R.drawable.icon_side_02_on),
             route = InnerScreen.analysis.route
         ),
         MenuItem(
-            id="reservation",
-            title="예약",
+            id ="reservation",
+            title ="예약",
             contentDesc = "예약",
-            image = Icons.Default.Check,
+            image = painterResource(id = R.drawable.icon_side_03_off),
+            selectedImage = painterResource(id = R.drawable.icon_side_03_on),
             route = InnerScreen.reservation.route
         ),
         MenuItem(
-            id="setting",
-            title="설정",
+            id ="setting",
+            title ="설정",
             contentDesc = "설정",
-            image = Icons.Default.Settings,
+            image = painterResource(id = R.drawable.icon_side_04_off),
+            selectedImage = painterResource(id = R.drawable.icon_side_04_on),
             route = InnerScreen.setting.route
         ),
         MenuItem(
-            id="challenge",
-            title="도전",
+            id ="challenge",
+            title ="도전",
             contentDesc = "도전",
-            image = Icons.Default.Face,
+            image =painterResource(id = R.drawable.icon_side_05_off),
+            selectedImage = painterResource(id = R.drawable.icon_side_05_on),
             route = InnerScreen.challenge.route
         ))
 
@@ -108,7 +110,13 @@ fun DismissibleNavigationDrawer(){
                     )*/
                     menus.forEachIndexed { index, item ->
                         NavigationDrawerItem(
-                            icon = { Icon(item.image, contentDescription = item.contentDesc) },
+                            icon = {
+                                if(selectedIndex == index) {
+                                    Icon(item.selectedImage, contentDescription = item.contentDesc)
+                                }
+                                else{
+                                    Icon(item.image, contentDescription = item.contentDesc)
+                                } },
                             label = { Text(
                                 text = item.title.substringAfterLast("."),
                                 style = Typography.titleMedium,
@@ -134,11 +142,6 @@ fun DismissibleNavigationDrawer(){
                 composable(route = InnerScreen.dashboard.route){
                     DashBoardScreen(nav = nav)
                 }
-
-                /*
-                composable(route = InnerScreen.deviceScan.route){
-                    AnalysisScreen(nav = nav)
-                }*/
 
                 composable(route = InnerScreen.analysis.route){
                     AnalysisScreen(nav = nav)

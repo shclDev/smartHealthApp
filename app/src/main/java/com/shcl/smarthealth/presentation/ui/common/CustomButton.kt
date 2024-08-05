@@ -41,13 +41,7 @@ fun CustomButton(
     enabled : Boolean = true,
     btnClick : ()-> Unit? = {}
 ) {
-    var boardColor : Color
-
-        if(withBoard){
-            boardColor =  contentColor
-        } else{
-            boardColor = containerColor
-        }
+    val boardColor : Color = if(withBoard) contentColor else Color.Transparent
 
     Button(
         enabled = enabled ,
@@ -55,22 +49,20 @@ fun CustomButton(
             btnClick()
         },
         modifier = Modifier
-            .defaultMinSize(
-                minWidth = buttonWidth.pxToDp(),
-                minHeight = buttonHeight.pxToDp()
-            )
             .border(
                 width = 3f.pxToDp(),
                 color = boardColor,
                 shape = RoundedCornerShape(18f.pxToDp())
-            ),
+            ).size(
+                width = buttonWidth.pxToDp(), height = buttonHeight.pxToDp()),
+
         colors = ButtonDefaults.buttonColors(
             contentColor = contentColor,
             containerColor = containerColor
         )
     ) {
 
-        Row(horizontalArrangement = Arrangement.SpaceBetween){
+        Row(horizontalArrangement = Arrangement.Start){
             leftIcon?.let {
                 Image(
                     modifier = Modifier.size(11f.pxToDp(), 22f.pxToDp()),
@@ -84,12 +76,12 @@ fun CustomButton(
                 textAlign = TextAlign.Center,
                 style = Typography.labelMedium,
                 color = contentColor,
-                //modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f),
                 fontSize = 18f.pxToSp()
             )
             rightIcon?.let {
                 Image(
-                    modifier = Modifier.size(11f.pxToDp(), 22f.pxToDp()),
+                    modifier = Modifier.size(11f.pxToDp(), 22f.pxToDp()).align(Alignment.CenterVertically),
                     painter = rightIcon,
                     contentDescription = null
                 )

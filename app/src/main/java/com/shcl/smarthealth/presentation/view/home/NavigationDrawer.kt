@@ -61,7 +61,7 @@ fun DrawerBody(
                     .clickable { onItemClick(menu) }
                     .padding(16.dp)
             ){
-                Icon(imageVector = menu.image, contentDescription = menu.contentDesc)
+                //Icon(imageVector = menu.image, contentDescription = menu.contentDesc)
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = menu.title,

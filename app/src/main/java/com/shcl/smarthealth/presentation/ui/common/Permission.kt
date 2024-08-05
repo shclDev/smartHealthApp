@@ -33,7 +33,9 @@ import com.google.accompanist.permissions.shouldShowRationale
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun featureThatRequiresPermission() : Boolean{
+fun featureThatRequiresPermission(
+    onPermissionStatus : @Composable (Boolean) ->Unit
+) : Boolean{
 
     val permissions = listOf(
         android.Manifest.permission.BLUETOOTH_SCAN,
@@ -48,6 +50,7 @@ fun featureThatRequiresPermission() : Boolean{
     val permissionStates = rememberMultiplePermissionsState(permissions)
 
     if(permissionStates.allPermissionsGranted){
+        onPermissionStatus(true)
         return true
     }else{
         permissionStates.permissions.forEach{
@@ -96,6 +99,7 @@ fun featureThatRequiresPermission() : Boolean{
         }
 
         if(permissionStates.allPermissionsGranted){
+            onPermissionStatus(true)
             return true
         }else{
             return false

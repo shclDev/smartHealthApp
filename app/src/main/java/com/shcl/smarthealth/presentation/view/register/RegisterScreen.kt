@@ -96,16 +96,14 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
 
                 CustomConfirmDialog(
                     show = showDialogState,
-                    title = "회원 등록에 실패 하였습니다." ,
+                    title = "회원가입 실패" ,
                     desc = "$failMessage",
                     onDismiss = {showDialogState = false},
                     onConfirm = {
                         showDialogState = false
                     },
                 )
-
             }
-
         }
 
         Row {
@@ -249,15 +247,13 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                 Spacer(modifier = Modifier.height(80f.pxToDp()))
                                     Button(
                                         onClick = {
-
-                                            uri?.let {
                                                 val validation =  viewModel.validationUserInfo(
                                                     name = name,
                                                     nickName = nickName,
                                                     birthDate = birthDate,
                                                     gender = gender,
                                                     mobile = mobile,
-                                                    picture = it)
+                                                    picture = uri)
 
                                                 if(validation){
                                                     (uri?.let { uri } ?: run { null })?.let {
@@ -274,7 +270,7 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                                     failMessage = "입력하지 않은 정보가 있는지 다시 확인해 주세요"
                                                     showDialogState = true
                                                 }
-                                            }
+
                                         },
                                         shape = RoundedCornerShape(18.pxToDp()),
                                         modifier = Modifier.fillMaxWidth(),

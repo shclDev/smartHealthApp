@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -36,10 +37,11 @@ fun PursePressureComponent(bloodPressure : BloodPressureRoom?){
 
     Box(
         modifier = Modifier
+            .clip(shape = RoundedCornerShape(18f.pxToDp()))
             .background(color = ColorF1F4F9)
+            .border(width = 1.dp, color = ColorD4D9E1 , shape = RoundedCornerShape(18f.pxToDp()))
             .defaultMinSize(minWidth = 288f.pxToDp(), minHeight = 360f.pxToDp())
             .height(415f.pxToDp())
-            .border(width = 1.dp, color = ColorD4D9E1, shape = RoundedCornerShape(18.dp))
             .padding(30.dp)
     ){
         Column(modifier = Modifier

@@ -235,10 +235,9 @@ fun loginSide(nav: NavHostController , viewModel : LoginViewModel){
             Button(
                 onClick = {
                     //login check
-                    viewModel.signCheck()
-                    //viewModel.signIn(mobile =  phoneNum , birthDate = birthDay)
-                    //nav.navigate(route = OuterScreen.home.route)
-                    //nav.navigate(route = OuterScreen.deviceScan.route)
+                    //viewModel.signCheck()
+                    viewModel.signIn(mobile =  Utils.mobileToServer(phoneNum) , birthDate = Utils.birthDateToServer(birthDay))
+
                 },
                 shape = RoundedCornerShape(18.pxToDp()),
                 modifier = Modifier.fillMaxWidth(),
@@ -320,8 +319,9 @@ fun autoLoginSide(nav: NavHostController , viewModel : LoginViewModel , users : 
                                 user = user,
                                 onClick = {
                                     PreferencesManager.saveData("accessToken", user.token)
-                                    nav.navigate(route = OuterScreen.home.route)
                                     viewModel.lastedUserLoginUpdate(user)
+                                    //nav.navigate(route = OuterScreen.home.route)
+                                    viewModel.signCheck()
                                 })
                         }
                     }
@@ -339,7 +339,7 @@ private fun RegisterCard(
 ){
 
     Box(
-        modifier = Modifier.clickable { onClick() }
+        modifier = Modifier.defaultMinSize(minWidth = 245f.pxToDp(), minHeight = 266f.pxToDp()).clickable { onClick() }
     ){
         Column (modifier = Modifier.align(Alignment.Center)){
 
@@ -352,11 +352,12 @@ private fun RegisterCard(
                 modifier = Modifier
                     .size(120.pxToDp())
                     .clip(CircleShape)
+                    .align(Alignment.CenterHorizontally)
             )
 
             Spacer(modifier = Modifier.height(25f.pxToDp()))
 
-            Text("계정 추가" , textAlign = TextAlign.Center)
+            Text("계정 추가" , textAlign = TextAlign.Center , fontSize = 24f.pxToSp() , style = Typography.titleSmall)
 
             Spacer(modifier = Modifier.height(25f.pxToDp()))
 

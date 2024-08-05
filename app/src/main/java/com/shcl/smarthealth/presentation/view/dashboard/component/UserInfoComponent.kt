@@ -1,6 +1,7 @@
 package com.shcl.smarthealth.presentation.view.dashboard.component
 
 import android.net.Uri
+import android.util.Log
 import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -132,6 +133,7 @@ fun UserInfo(user : LastedLoginUserRoom?) {
                     error = painterResource(id = R.drawable.dummy_profile),
                     contentScale = ContentScale.Crop,
                     contentDescription = "User",
+                    onError = { Log.d("smarthealth","${it.result.toString()}")},
                     modifier = Modifier
                         .size(120.pxToDp())
                         .clip(CircleShape)

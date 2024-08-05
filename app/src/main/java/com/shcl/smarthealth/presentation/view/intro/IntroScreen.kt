@@ -48,14 +48,14 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
 
 
     var allPermissionGranted by remember { mutableStateOf( false ) }
-    allPermissionGranted = featureThatRequiresPermission()
-
-    LaunchedEffect(key1 = true) {
+    featureThatRequiresPermission( { permissionGranted ->
+        allPermissionGranted = permissionGranted
         if(allPermissionGranted){
-            delay(1500L)
-            nav.navigate(route = OuterScreen.login.route)
+            nextScreen(nav = nav)
         }
-    }
+    })
+
+
 
     Box(
       modifier = Modifier
@@ -135,3 +135,11 @@ fun Modifier.gradientBackground(colors : List<Color>, angle : Float ) = this.the
         )
     }
 )
+
+@Composable
+fun nextScreen(nav: NavHostController){
+    LaunchedEffect(key1 = true) {
+            delay(1500L)
+            nav.navigate(route = OuterScreen.login.route)
+    }
+}

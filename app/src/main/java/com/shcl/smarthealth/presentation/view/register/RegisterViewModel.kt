@@ -36,14 +36,14 @@ class RegisterViewModel @Inject constructor(
     var signUpState = _signUpState.asStateFlow()
 
 
-    fun validationUserInfo(name : String,
-                            nickName: String,
-                            birthDate : String,
-                            gender : String,
-                            mobile : String,
-                            picture : Uri) : Boolean{
+    fun validationUserInfo(name : String?,
+                            nickName: String?,
+                            birthDate : String?,
+                            gender : String?,
+                            mobile : String?,
+                            picture : Uri?) : Boolean{
         // 이름 , 휴대폰 번호 , 생년월일, 성별 비었는지 검사
-        if(name.isNullOrEmpty() || birthDate.isNullOrEmpty() || gender.isNullOrEmpty() || mobile.isNullOrEmpty() || picture.toString().isNullOrEmpty()){
+        if(name.isNullOrEmpty() && birthDate.isNullOrEmpty() && gender.isNullOrEmpty() && mobile.isNullOrEmpty() && picture.toString().isNullOrEmpty()){
             return false
         }
 

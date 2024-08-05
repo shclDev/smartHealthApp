@@ -134,6 +134,7 @@ fun TermsOfUseScreen(nav: NavHostController) {
                           contentColor = Color143F91, containerColor = Color.White , withBoard = true, text = "이전" , leftIcon = painterResource(id = R.drawable.left_arrow))
                       CustomButton(
                           enabled = termsAgree,
+                          withBoard = false,
                           buttonWidth = 553f,
                           contentColor = Color.White, containerColor = Color143F91 , text = "확인" , rightIcon = painterResource(id = R.drawable.arrow), btnClick = {
                               nav.navigate(route = OuterScreen.registerComplete.route)
