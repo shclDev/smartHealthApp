@@ -101,4 +101,14 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun userProfilePicture(): Flow<String?> {
+        return flow{
+            userRemoteDataSource.userProfilePicture().collect{
+                it?.let {
+                    emit(it.data)
+                }
+            }
+        }
+    }
+
 }

@@ -48,6 +48,9 @@ class DashBoardViewModel @Inject constructor(
     private val _userInfoServer = MutableStateFlow<ProfileResponse?>(null)
     val userInfoServer : StateFlow<ProfileResponse?> = _userInfoServer
 
+    private val _userInfoPicture = MutableStateFlow<String?>("")
+    val userInfoPicture : StateFlow<String?> = _userInfoPicture
+
 
     fun getNutrionAdvice(){
         viewModelScope.launch{
@@ -84,6 +87,20 @@ class DashBoardViewModel @Inject constructor(
                         _userInfoServer.value = it
                     }
 
+                }
+        }
+    }
+
+    fun getUserPicture(){
+        viewModelScope.launch {
+            dashBoardUseCase.userInfoServerUseCase.picture()
+                ?.onStart {  }
+                ?.onCompletion { }
+                ?.catch {  }
+                ?.collect{
+                    it?.let {
+                        Log.d("smarthealth" , it)
+                    }
                 }
         }
     }

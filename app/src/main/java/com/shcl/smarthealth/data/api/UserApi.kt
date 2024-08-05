@@ -7,6 +7,8 @@ import com.shcl.smarthealth.domain.model.remote.user.SignInRequest
 import com.shcl.smarthealth.domain.model.remote.user.SignInResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -33,8 +35,13 @@ interface UserApi {
         @Body signInRequest: SignInRequest
     ) : Response<ApiResponse<SignInResponse?>>
 
-    @GET("/personal/profile")
+    @GET("/personal/profile/")
     suspend fun profile(
     ) : Response<ApiResponse<ProfileResponse?>>
+
+    @GET("/personal/profile/picture")
+    suspend fun profilePicture(
+    ) : Call<ResponseBody>
+
 
 }

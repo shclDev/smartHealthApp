@@ -146,4 +146,20 @@ object Utils {
 
         return 0
     }
+
+    fun calcProfileAge(birthdate: String) : Int{
+        val current = LocalDateTime.now()
+        val formatterYear  = DateTimeFormatter.ofPattern("YYYY")
+
+        try{
+            val birthYear = birthdate.substring(0,4).toInt()
+            val currentYear =  current.format(formatterYear).toInt()
+
+            return currentYear - birthYear
+        }catch(e : Exception){
+            Log.e("smarthealth" , e.message.toString())
+        }
+
+        return 0
+    }
 }

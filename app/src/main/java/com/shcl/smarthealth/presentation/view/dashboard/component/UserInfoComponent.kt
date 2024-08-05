@@ -57,6 +57,7 @@ fun UserInfo(user : ProfileResponse?) {
 
         user?.let {
             Row(verticalAlignment = Alignment.CenterVertically){
+                /*
                 AsyncImage(
                     model = painterResource(id = R.drawable.dummy_profile),
                     //model =ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).placeholder(R.drawable.reg_picture).build(),
@@ -67,7 +68,7 @@ fun UserInfo(user : ProfileResponse?) {
                     modifier = Modifier
                         .size(120.pxToDp())
                         .clip(CircleShape)
-                )
+                )*/
                 Spacer(modifier = Modifier.width(40.pxToDp()))
                 Column {
                     Row(verticalAlignment = Alignment.CenterVertically){
@@ -92,7 +93,7 @@ fun UserInfo(user : ProfileResponse?) {
                             .padding(horizontal = 40.pxToDp(), vertical = 28.pxToDp())){
                         Text("성별 " , style = Typography.bodySmall)
                         Spacer(modifier = Modifier.width(30.pxToDp()))
-                        Text(Utils.convertGender(user.gender) , style = Typography.bodySmall , fontWeight = FontWeight.W700)
+                        Text(user.gender, style = Typography.bodySmall , fontWeight = FontWeight.W700)
 
                         Spacer(modifier = Modifier.width(80f.pxToDp()))
                         /*
@@ -104,7 +105,7 @@ fun UserInfo(user : ProfileResponse?) {
 
                         Text("나이 " , style = Typography.bodySmall)
                         Spacer(modifier = Modifier.width(30.pxToDp()))
-                        Text("${Utils.calcAge(user.birthDate)}세 " , style = Typography.bodySmall, fontWeight = FontWeight.W700)
+                        Text("${Utils.calcProfileAge(user.birthDate)}세 " , style = Typography.bodySmall, fontWeight = FontWeight.W700)
                     }
                 }
             }

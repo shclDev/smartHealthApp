@@ -21,5 +21,5 @@ interface UserRepository {
     suspend fun getAllUser() : Flow<List<UserRoom>>
     suspend fun signIn(request: SignInRequest) : Flow<ApiResponse<SignInResponse?>>
     suspend fun userProfile() : Flow<ProfileResponse?>
-
+    suspend fun userProfilePicture() : Flow<String?>
 }

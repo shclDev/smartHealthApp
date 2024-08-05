@@ -14,4 +14,5 @@ interface UserRemoteDataSource {
     suspend fun signUp(signUpRequest: SignUpRequest) : Flow<ApiResponse<SignUpResponse>?>
     suspend fun signIn(signInRequest: SignInRequest) : Flow<ApiResponse<SignInResponse?>>
     suspend fun userProfile() : Flow<ApiResponse<ProfileResponse?>>
+    suspend fun userProfilePicture() : Flow<ApiResponse<String?>>
 }

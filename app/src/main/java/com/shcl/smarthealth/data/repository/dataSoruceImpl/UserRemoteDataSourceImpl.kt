@@ -1,16 +1,17 @@
 package com.shcl.smarthealth.data.repository.dataSoruceImpl
 
+import android.os.Environment
 import android.util.Log
 import com.google.gson.Gson
 import com.shcl.smarthealth.data.api.UserApi
 import com.shcl.smarthealth.data.repository.dataSource.UserRemoteDataSource
 import com.shcl.smarthealth.di.NetworkModule
-import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
-import com.shcl.smarthealth.domain.model.remote.user.SignUpResponse
 import com.shcl.smarthealth.domain.model.remote.common.ApiResponse
 import com.shcl.smarthealth.domain.model.remote.user.ProfileResponse
 import com.shcl.smarthealth.domain.model.remote.user.SignInRequest
 import com.shcl.smarthealth.domain.model.remote.user.SignInResponse
+import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
+import com.shcl.smarthealth.domain.model.remote.user.SignUpResponse
 import com.shcl.smarthealth.domain.utils.Utils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,7 +19,15 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.ResponseBody
+import org.apache.commons.io.IOUtils
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Retrofit
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+
 
 class UserRemoteDataSourceImpl (
     @NetworkModule.shcl private val userApi : UserApi
@@ -200,6 +209,46 @@ class UserRemoteDataSourceImpl (
                 )
             )
         }
+    }
+
+    override suspend fun userProfilePicture(): Flow<ApiResponse<String?>> {
+
+        /*
+        try{
+            val responseBody : Call<ResponseBody> = userApi.profilePicture()
+            if(responseBody.){
+                response.body()?.let{
+                    return flow{
+                        emit(it)
+                    }
+                }
+            }else{
+                return flow{
+                    emit(
+                        ApiResponse(
+                            success = false,
+                            code = response.code().toString(),
+                            message = response.message(),
+                            data = null
+                        )
+                    )
+                }
+            }
+        }catch (e : Exception){
+            Log.e("smartHealth" , e.message.toString())
+        }*/
+
+        return flow{
+            emit(
+                ApiResponse(
+                    success = false,
+                    code = "",
+                    message = "",
+                    data = null
+                )
+            )
+        }
+
     }
 
 }

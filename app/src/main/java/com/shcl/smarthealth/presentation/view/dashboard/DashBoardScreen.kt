@@ -123,11 +123,14 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
     val weather by viewModel.weatherResponse.collectAsStateWithLifecycle()
 
 
-    viewModel.getUserInfo()
-    val userInfoDB by viewModel.userInfo.collectAsStateWithLifecycle()
+    //viewModel.getUserInfo()
+    //val userInfoDB by viewModel.userInfo.collectAsStateWithLifecycle()
 
     viewModel.getUserInfoServer()
     val userInfoServer by viewModel.userInfoServer.collectAsStateWithLifecycle()
+
+    viewModel.getUserPicture()
+    val userPicture by viewModel.userInfoPicture.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier
@@ -141,7 +144,7 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
 
             Row(
                 horizontalArrangement = Arrangement.Start) {
-                UserInfo(userInfoDB)
+                UserInfo(userInfoServer)
                 Spacer(modifier = Modifier.width(283f.pxToDp()))
                 WeatherComponent(
                     weatherResponse = weather,
