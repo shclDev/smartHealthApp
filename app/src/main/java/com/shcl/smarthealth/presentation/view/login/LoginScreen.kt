@@ -386,7 +386,7 @@ private fun LoginUserCard(
                contentScale = ContentScale.Crop,
                contentDescription = "User",
                modifier = Modifier
-                   .size(120.pxToDp())
+                   .size(180.pxToDp())
                    .clip(CircleShape)
                    .align(Alignment.CenterHorizontally)
            )

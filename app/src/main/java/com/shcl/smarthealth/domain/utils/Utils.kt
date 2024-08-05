@@ -1,6 +1,7 @@
 package com.shcl.smarthealth.domain.utils
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -52,11 +53,37 @@ object Utils {
         val projection = arrayOf(MediaStore.Images.Media.DATA)
         val cursor = GlobalVariables.context.contentResolver.query(uri, projection, null, null, null)
         cursor?.use {
-            if (it.moveToFirst()) {
-                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                return it.getString(columnIndex)
+            if (it.moveToNext())
+            {
+                //val path = it.getString(it.getColumnIndex(MediaStore.MediaColumns.DATA))
+                val path = cursor.getString(it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
+                //val tempUri = Uri.fromFile(File(path))
+
+                cursor.close()
+                return path
             }
         }
+        return null
+    }
+
+    fun uriToBitmap(uri : Uri) : Bitmap?{
+
+        var bitmap : Bitmap? = null
+
+        try{
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+                bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(GlobalVariables.context.contentResolver , uri))
+            }else{
+                bitmap = MediaStore.Images.Media.getBitmap(GlobalVariables.context.contentResolver , uri)
+            }
+
+            return  bitmap
+
+        }catch (e : Exception){
+            Log.e("smarthealth" , "${e.message}")
+        }
+
         return null
     }
 

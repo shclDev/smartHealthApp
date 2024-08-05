@@ -31,7 +31,7 @@ android {
     defaultConfig {
         applicationId = "com.shcl.smarthealth"
         minSdk = 27
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
