@@ -123,8 +123,8 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
     val weather by viewModel.weatherResponse.collectAsStateWithLifecycle()
 
 
-    //viewModel.getUserInfo()
-    //val userInfoDB by viewModel.userInfo.collectAsStateWithLifecycle()
+    viewModel.getUserInfo()
+    val userInfoDB by viewModel.userInfo.collectAsStateWithLifecycle()
 
     viewModel.getUserInfoServer()
     val userInfoServer by viewModel.userInfoServer.collectAsStateWithLifecycle()
@@ -144,7 +144,7 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
 
             Row(
                 horizontalArrangement = Arrangement.Start) {
-                UserInfo(userInfoServer)
+                UserInfo(userInfoDB)
                 Spacer(modifier = Modifier.width(283f.pxToDp()))
                 WeatherComponent(
                     weatherResponse = weather,

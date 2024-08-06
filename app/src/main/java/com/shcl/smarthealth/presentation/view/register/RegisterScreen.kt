@@ -239,7 +239,7 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                     unSelectedColor = ColorD4D9E1 ,
                                     selectedColor = Color143F91,
                                     selectionChanged = { it->
-                                        gender = it
+                                        gender = it as String
                                         Log.d("register" , it)
                                     }
                                 )

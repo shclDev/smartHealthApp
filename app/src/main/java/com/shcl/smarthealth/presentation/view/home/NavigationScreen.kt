@@ -36,6 +36,7 @@ import com.shcl.smarthealth.presentation.view.challenge.ChallengeScreen
 import com.shcl.smarthealth.presentation.view.dashboard.DashBoardScreen
 import com.shcl.smarthealth.presentation.view.device.ScanDeviceScreen
 import com.shcl.smarthealth.presentation.view.reservation.ReservationScreen
+import com.shcl.smarthealth.presentation.view.survey.SurveyScreen
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.Typography
@@ -66,7 +67,7 @@ fun DismissibleNavigationDrawer(){
             contentDesc = "예약",
             image = painterResource(id = R.drawable.icon_side_03_off),
             selectedImage = painterResource(id = R.drawable.icon_side_03_on),
-            route = InnerScreen.reservation.route
+            route = InnerScreen.survey.route
         ),
         MenuItem(
             id ="setting",
@@ -155,10 +156,14 @@ fun DismissibleNavigationDrawer(){
                 composable(route = InnerScreen.challenge.route){
                     ChallengeScreen(nav = nav)
                 }
-                
+
+               composable(route = InnerScreen.survey.route){
+                   SurveyScreen(nav = nav)
+               }
+                /*
                 composable(route = InnerScreen.reservation.route){
                     ReservationScreen(nav = nav)
-                }
+                }*/
         }
     }
     )

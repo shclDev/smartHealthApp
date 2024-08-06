@@ -1,6 +1,7 @@
 package com.shcl.smarthealth.presentation.ui.common
 
 import android.graphics.Paint.Align
+import android.graphics.drawable.Icon
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,7 +41,9 @@ fun CustomGroupButtons(
     options : HashMap<String , Any>,
     unSelectedColor : Color,
     selectedColor : Color,
-    selectionChanged : (String)-> Unit
+    containerColor : Color? = null,
+    icon : Icon? = null,
+    selectionChanged : (Any)-> Unit
     ) {
 
     var selectedOption by remember { mutableStateOf("") }
@@ -54,7 +58,7 @@ fun CustomGroupButtons(
             Row(modifier = Modifier.padding(all = 8.pxToDp())) {
                 OutlinedButton(
                     shape = RoundedCornerShape(18f.pxToDp()),
-                    border = BorderStroke(width = 6f.pxToDp() , color = if (selectedOption == option.value) {
+                    border = BorderStroke(width = 6f.pxToDp() , color = if (selectedOption == option.value.toString()) {
                         selectedColor
                     } else {
                         unSelectedColor
@@ -73,6 +77,10 @@ fun CustomGroupButtons(
                         style = Typography.titleSmall,
                         color = Color333333,
                     )
+                    icon?.let {
+                        icon
+                    }
+
                 }
             }
         }

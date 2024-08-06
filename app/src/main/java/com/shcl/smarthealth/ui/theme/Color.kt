@@ -17,6 +17,16 @@ val BackGroundColor = listOf(
     Color(0xFF001336)
 )
 
+val StepBackGroundColor = listOf(
+    Color(0xFF1A56AF),
+    Color(0xFF01173D)
+)
+
+val stepTextColor = listOf(
+    Color(0xFFFFFFF),
+    Color(0xFFFFFFF)
+)
+
 val PrimaryButtonColor = Color(0xFF143F91)
 
 val ColorD4D9E1 = Color(0xFFD4D9E1)
