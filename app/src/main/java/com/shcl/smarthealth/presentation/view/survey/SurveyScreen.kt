@@ -31,8 +31,11 @@ import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.presentation.ui.common.CustomButton
 import com.shcl.smarthealth.presentation.view.survey.component.Step
+import com.shcl.smarthealth.presentation.view.survey.content.surveyAct
+import com.shcl.smarthealth.presentation.view.survey.content.surveyDepression
 import com.shcl.smarthealth.presentation.view.survey.content.surveyFood
 import com.shcl.smarthealth.presentation.view.survey.content.surveySleep
+import com.shcl.smarthealth.presentation.view.survey.content.surveySmoking
 import com.shcl.smarthealth.ui.theme.BackGroundColor
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.Color757575
@@ -86,6 +89,9 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
                     when(level){
                         1-> surveyFood()
                         2-> surveySleep()
+                        3-> surveyDepression()
+                        4-> surveySmoking()
+                        5-> surveyAct()
                     }
                 }
 

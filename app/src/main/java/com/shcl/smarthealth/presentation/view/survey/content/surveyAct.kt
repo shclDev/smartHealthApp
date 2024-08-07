@@ -15,19 +15,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
-import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeDaysFrequency
-import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeFreq
-import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger421
-import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger521
-import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger543
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeBoolean
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeCancer
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeDisease
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeFamilyDisease
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeGoodBad
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger0123
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger1234567
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeLittleBig
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeSleep1GoodBad
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeSleepGoodBad
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.Typography
 
-
 @Composable
-fun surveyDepression() {
+fun surveyAct(){
+
 
     val scrollState = rememberScrollState()
     //val type_freq : HashMap<String , Any> = hashMapOf("항상 그런 편이다" to 2 , "보통이다" to 1 ,  "아닌편이다" to 0 )
@@ -47,12 +54,13 @@ fun surveyDepression() {
 
     val checkImageIcon = Icons.Default.CheckCircle
 
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(scrollState)) {
         Text("1" , style = Typography.headlineMedium)
-        Text("일을 함에 있어 거의 흥미나 즐거움이 없던 적이 얼마나 있습니까?")
-
+        Text("지난 7일간 무거운 물건 나르기, 달리기, 에어로빅, 빠른 속도로 자전거 타기 등과 같은 격렬한 신체 활동을 며칠간 하셨습니까?" , style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
-            options = typeDaysFrequency ,
+            options = typeInteger1234567 ,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -63,10 +71,9 @@ fun surveyDepression() {
         )
 
         Text("2" , style = Typography.headlineMedium)
-        Text("기분이 가라앉거나 우울하거나 희망이 없던 적이 얼마나 있습니까?")
-
+        Text("그런 날 중 하루에 격렬한 신체활동을 하면서 보낸 시간이 보통 얼마나 됩니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency ,
+            options = typeInteger0123 ,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -77,9 +84,9 @@ fun surveyDepression() {
         )
 
         Text("3" , style = Typography.headlineMedium)
-        Text("잠이 들거나 수면을 유지하는데 문제가 있거나 수면량이 너무 많았던 적이 얼마나 있습니까?")
+        Text("지난 7일간 가벼운 물건 나르기, 보통 속도로 자전거 타기, 복식 테니스 등과 같은 중간 정도 신체 활동을 며칠간 하였습니까? 걷기는 포함시키지 마십시오")
         CustomGroupButtons(
-            options = typeDaysFrequency ,
+            options = typeInteger1234567 ,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -90,9 +97,9 @@ fun surveyDepression() {
         )
 
         Text("4" , style = Typography.headlineMedium)
-        Text("피로감을 느끼거나 기력이 별로 없던 적이 얼마나 있습니까?")
+        Text("그런 날 중 하루에 중간 정도의 신체활동을 하면서 보낸 시간이 보통 얼마나 됩니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency ,
+            options = typeInteger0123 ,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -103,9 +110,9 @@ fun surveyDepression() {
         )
 
         Text("5" , style = Typography.headlineMedium)
-        Text("식욕이 없거나 또는 너무 과식을 한 적이 얼마나 있습니까?")
+        Text("지난 7일간, 한 번에 적어도 10분 이상 걸은 날이 며칠입니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency,
+            options = typeInteger1234567,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -116,9 +123,9 @@ fun surveyDepression() {
         )
 
         Text("6" , style = Typography.headlineMedium)
-        Text("자신에 대해 죄책감을 느끼거나, 실패자라고 생각됨, 또는 자신에 대해 실망을 하거나 가족들을 실망시켰다고 생각한 적이 얼마나 있습니까?")
+        Text("그런 날 중 하루에 걸으면서 보낸 시간이 보통 얼마나 됩니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency,
+            options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -129,9 +136,9 @@ fun surveyDepression() {
         )
 
         Text("7" , style = Typography.headlineMedium)
-        Text("일에 집중하기가 어려운 적이 얼마나 있습니까? (예: 신문읽기 또는 텔레비전 시청)")
+        Text("지난 7일간, 주중에 앉아서 보낸 시간이 보통 얼마나 됩니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency,
+            options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -142,9 +149,9 @@ fun surveyDepression() {
         )
 
         Text("8" , style = Typography.headlineMedium)
-        Text("주변사람들이 알 정도로 움직이거나 말하는 것이 느려짐, 또는 그 반대로 매우 불안하여 평상시와 다르게 안절부절 못하거나 들떠 있었던 적이 얼마나 있습니까?")
+        Text("다음 암을 진단받은 적이 있습니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency,
+            options = typeCancer,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -155,9 +162,9 @@ fun surveyDepression() {
         )
 
         Text("9" , style = Typography.headlineMedium)
-        Text("자신이 죽는 것이 낫다고 생각하거나 어떤 식으로든 자신을 해칠 것이라고 생각한 적이 얼마나 있습니까?")
+        Text("지금까지 아래의 질병이 있다고 진단받은 적이 있습니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency,
+            options = typeDisease,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -168,9 +175,9 @@ fun surveyDepression() {
         )
 
         Text("10" , style = Typography.headlineMedium)
-        Text("이러한 문제들로 인해서 당신은 일을 하거나 가정 일을 돌보거나 다른 사람과 어울리는 것이 얼마나 어려웠습니까?")
+        Text("부모, 형제, 자매, 삼촌 이내의 가까운 친척 중 아래의 질병을 앓았거나 그로 인해 사망한 경우가 있습니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency,
+            options = typeFamilyDisease,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -179,7 +186,7 @@ fun surveyDepression() {
                 Log.d("survey" , "answer : ${it}")
             }
         )
-    }
 
+    }
 
 }

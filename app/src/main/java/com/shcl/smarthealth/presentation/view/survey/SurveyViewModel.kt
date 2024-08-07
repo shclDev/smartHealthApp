@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.shcl.smarthealth.presentation.view.device.ScanDeviceState
+import com.shcl.smarthealth.presentation.view.survey.component.Step
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -50,12 +51,48 @@ class SurveyViewModel @Inject constructor(
     private val _level4Validation = MutableStateFlow(false)
     val level4Validation = _level4Validation.asStateFlow()
 
+    private val _level5Validation = MutableStateFlow(false)
+    val level5Validation = _level5Validation.asStateFlow()
+
+
+    private var _level1HashMap : HashMap<Int,Any?> = HashMap<Int,Any?>()
+    private var _level1Answers = MutableStateFlow(_level1HashMap)
+
+    private var _level3HashMap : HashMap<Int,Any?> = HashMap<Int,Any?>()
+    private var _level3Answers = MutableStateFlow(_level3HashMap)
+
+    private var _level4HashMap : HashMap<Int,Any?> = HashMap<Int,Any?>()
+    private var _level4Answers = MutableStateFlow(_level4HashMap)
+
+    private var _level5HashMap : HashMap<Int,Any?> = HashMap<Int,Any?>()
+    private var _level5Answers = MutableStateFlow(_level5HashMap)
+
+
+    private val LEVEL1_QUESTION_CNT = 11
+    private val LEVEL3_QUESTION_CNT = 12
+    private val LEVEL4_QUESTION_CNT = 11
+    private val LEVEL5_QUESTION_CNT = 14
+
     private val _surveyComplete = MutableStateFlow(false)
     val surveyComplete = _surveyComplete.asStateFlow()
 
     init {
 
+        for(key in 1..LEVEL1_QUESTION_CNT){
+            _level1HashMap.put(key , null)
+        }
 
+        for(key in 1..LEVEL3_QUESTION_CNT){
+            _level3HashMap.put(key , null)
+        }
+
+        for(key in 1..LEVEL4_QUESTION_CNT){
+            _level4HashMap.put(key , null)
+        }
+
+        for(key in 1..LEVEL5_QUESTION_CNT){
+            _level5HashMap.put(key , null)
+        }
     }
 
     fun next(){
@@ -73,6 +110,7 @@ class SurveyViewModel @Inject constructor(
             2-> _levelTitleState.value = SurveyByLevel.LEVEL2
             3-> _levelTitleState.value = SurveyByLevel.LEVEL3
             4-> _levelTitleState.value = SurveyByLevel.LEVEL4
+            5-> _levelTitleState.value = SurveyByLevel.LEVEL5
         }
     }
 
@@ -88,5 +126,33 @@ class SurveyViewModel @Inject constructor(
     fun surveyComplete(){
 
 
+    }
+
+    fun validationAnswer1() {
+        if(_level1Answers.value.containsValue(null))
+            _level1Validation.value = false
+        else
+            _level1Validation.value = true
+    }
+
+    fun validationAnswer3() {
+        if(_level3Answers.value.containsValue(null))
+            _level3Validation.value = false
+        else
+            _level3Validation.value = true
+    }
+
+    fun validationAnswer4() {
+        if(_level4Answers.value.containsValue(null))
+            _level4Validation.value = false
+        else
+            _level4Validation.value = true
+    }
+
+    fun validationAnswer5() {
+        if(_level5Answers.value.containsValue(null))
+            _level5Validation.value = false
+        else
+            _level5Validation.value = true
     }
 }

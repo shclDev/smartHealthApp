@@ -16,18 +16,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
-import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeDaysFrequency
-import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeFreq
-import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger421
-import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger521
-import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger543
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeBoolean
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeGoodBad
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger0123
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger135710
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeIntegerSmoking
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeLittleBig
+
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeNowDrink
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeNowSmoke
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeSleep1GoodBad
+import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeSleepGoodBad
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.Typography
 
-
 @Composable
-fun surveyDepression() {
+fun surveySmoking(){
+
+
 
     val scrollState = rememberScrollState()
     //val type_freq : HashMap<String , Any> = hashMapOf("항상 그런 편이다" to 2 , "보통이다" to 1 ,  "아닌편이다" to 0 )
@@ -49,10 +56,9 @@ fun surveyDepression() {
 
     Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState)) {
         Text("1" , style = Typography.headlineMedium)
-        Text("일을 함에 있어 거의 흥미나 즐거움이 없던 적이 얼마나 있습니까?")
-
+        Text("현재 담배를 피우십니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency ,
+            options = typeNowSmoke ,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -63,10 +69,9 @@ fun surveyDepression() {
         )
 
         Text("2" , style = Typography.headlineMedium)
-        Text("기분이 가라앉거나 우울하거나 희망이 없던 적이 얼마나 있습니까?")
-
+        Text("담배를 언제 끊었습니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency ,
+            options = typeInteger0123 ,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -77,9 +82,9 @@ fun surveyDepression() {
         )
 
         Text("3" , style = Typography.headlineMedium)
-        Text("잠이 들거나 수면을 유지하는데 문제가 있거나 수면량이 너무 많았던 적이 얼마나 있습니까?")
+        Text("끊기 전 2년 동안 하루 평균 몇 개비를 피웠습니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency ,
+            options = typeInteger0123 ,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -90,9 +95,9 @@ fun surveyDepression() {
         )
 
         Text("4" , style = Typography.headlineMedium)
-        Text("피로감을 느끼거나 기력이 별로 없던 적이 얼마나 있습니까?")
+        Text("현재 담배를 피우십니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency ,
+            options = typeIntegerSmoking ,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -103,9 +108,9 @@ fun surveyDepression() {
         )
 
         Text("5" , style = Typography.headlineMedium)
-        Text("식욕이 없거나 또는 너무 과식을 한 적이 얼마나 있습니까?")
+        Text("처음 담배를 피우기 시작한 연령은 몇 세입니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency,
+            options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -116,9 +121,9 @@ fun surveyDepression() {
         )
 
         Text("6" , style = Typography.headlineMedium)
-        Text("자신에 대해 죄책감을 느끼거나, 실패자라고 생각됨, 또는 자신에 대해 실망을 하거나 가족들을 실망시켰다고 생각한 적이 얼마나 있습니까?")
+        Text("현재 하루 평균 몇 개비의 담배를 피우십니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency,
+            options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -129,9 +134,9 @@ fun surveyDepression() {
         )
 
         Text("7" , style = Typography.headlineMedium)
-        Text("일에 집중하기가 어려운 적이 얼마나 있습니까? (예: 신문읽기 또는 텔레비전 시청)")
+        Text("현재 술을 드십니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency,
+            options = typeNowDrink,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -142,9 +147,9 @@ fun surveyDepression() {
         )
 
         Text("8" , style = Typography.headlineMedium)
-        Text("주변사람들이 알 정도로 움직이거나 말하는 것이 느려짐, 또는 그 반대로 매우 불안하여 평상시와 다르게 안절부절 못하거나 들떠 있었던 적이 얼마나 있습니까?")
+        Text("술을 드시는 날은 보통 몇 잔을 드십니까? (*소주, 양주, 포도주 구분없이 각각의 술잔으로 계산합니다. 단 맥주는 캔맥주 1개 (355cc)=1.4잔)")
         CustomGroupButtons(
-            options = typeDaysFrequency,
+            options = typeInteger135710,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -155,9 +160,9 @@ fun surveyDepression() {
         )
 
         Text("9" , style = Typography.headlineMedium)
-        Text("자신이 죽는 것이 낫다고 생각하거나 어떤 식으로든 자신을 해칠 것이라고 생각한 적이 얼마나 있습니까?")
+        Text("처음 술을 드시기 시작한 연령은 몇 세입니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency,
+            options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -168,9 +173,9 @@ fun surveyDepression() {
         )
 
         Text("10" , style = Typography.headlineMedium)
-        Text("이러한 문제들로 인해서 당신은 일을 하거나 가정 일을 돌보거나 다른 사람과 어울리는 것이 얼마나 어려웠습니까?")
+        Text("술을 마시는 횟수는 보통 어느 정도입니까?")
         CustomGroupButtons(
-            options = typeDaysFrequency,
+            options = typeBoolean,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -179,6 +184,85 @@ fun surveyDepression() {
                 Log.d("survey" , "answer : ${it}")
             }
         )
+
+        Text("11" , style = Typography.headlineMedium)
+        Text("지난 한 달 동안, 잠자기 위해서 얼마나 자주 약을 복용하셨습니까?")
+        CustomGroupButtons(
+            options = typeInteger0123,
+            unSelectedColor = ColorD4D9E1 ,
+            selectedColor = Color143F91,
+            containerColor = Color.White,
+            icon = checkImageIcon,
+            selectionChanged = { it->
+                Log.d("survey" , "answer : ${it}")
+            }
+        )
+
+        Text("12" , style = Typography.headlineMedium)
+        Text("지난 한 달 동안, 운전, 식사, 또는 사회 활동 중에 깨어 있는 것이 얼마나 자주 힘들었습니까?")
+        CustomGroupButtons(
+            options = typeInteger0123,
+            unSelectedColor = ColorD4D9E1 ,
+            selectedColor = Color143F91,
+            containerColor = Color.White,
+            icon = checkImageIcon,
+            selectionChanged = { it->
+                Log.d("survey" , "answer : ${it}")
+            }
+        )
+
+        Text("13" , style = Typography.headlineMedium)
+        Text("지난 한 달 동안, 해야 할 일들을 열심히 해서 마치는 것이 얼마나 힘들었습니까?")
+        CustomGroupButtons(
+            options = typeLittleBig,
+            unSelectedColor = ColorD4D9E1 ,
+            selectedColor = Color143F91,
+            containerColor = Color.White,
+            icon = checkImageIcon,
+            selectionChanged = { it->
+                Log.d("survey" , "answer : ${it}")
+            }
+        )
+
+        Text("14" , style = Typography.headlineMedium)
+        Text("하루에 취하고 있는 수면이 피로 회복에 충분하다고 생각하십니까?")
+        CustomGroupButtons(
+            options =  typeSleepGoodBad,
+            unSelectedColor = ColorD4D9E1 ,
+            selectedColor = Color143F91,
+            containerColor = Color.White,
+            icon = checkImageIcon,
+            selectionChanged = { it->
+                Log.d("survey" , "answer : ${it}")
+            }
+        )
+
+        Text("15" , style = Typography.headlineMedium)
+        Text("본인께서 생각하시기에 휴식 시간을 충분히 갖는다고 생각하십니까?")
+        CustomGroupButtons(
+            options =  typeSleep1GoodBad,
+            unSelectedColor = ColorD4D9E1 ,
+            selectedColor = Color143F91,
+            containerColor = Color.White,
+            icon = checkImageIcon,
+            selectionChanged = { it->
+                Log.d("survey" , "answer : ${it}")
+            }
+        )
+
+        Text("16" , style = Typography.headlineMedium)
+        Text("지난 한달 동안, 보통 몇 시에 잠자리에 들고 몇 시에 일어나셨습니까?")
+        CustomGroupButtons(
+            options =  typeSleep1GoodBad,
+            unSelectedColor = ColorD4D9E1 ,
+            selectedColor = Color143F91,
+            containerColor = Color.White,
+            icon = checkImageIcon,
+            selectionChanged = { it->
+                Log.d("survey" , "answer : ${it}")
+            }
+        )
+
     }
 
 

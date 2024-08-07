@@ -343,8 +343,8 @@ fun autoLoginSide(nav: NavHostController , viewModel : LoginViewModel , users : 
                                 onClick = {
                                     PreferencesManager.saveData("accessToken", user.token)
                                     viewModel.lastedUserLoginUpdate(user)
-                                    //nav.navigate(route = OuterScreen.home.route)
-                                    viewModel.signCheck()
+                                    nav.navigate(route = OuterScreen.home.route)
+                                    //viewModel.signCheck()
                                 })
                         }
                     }

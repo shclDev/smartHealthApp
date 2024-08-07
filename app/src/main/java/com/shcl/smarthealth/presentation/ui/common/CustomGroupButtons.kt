@@ -10,6 +10,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.ui.theme.Color333333
@@ -36,34 +39,35 @@ import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.ColorF1F3F8
 import com.shcl.smarthealth.ui.theme.Typography
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CustomGroupButtons(
     options : HashMap<String , Any>,
     unSelectedColor : Color,
     selectedColor : Color,
     containerColor : Color? = null,
-    icon : Icon? = null,
+    icon : ImageVector? = null,
     selectionChanged : (Any)-> Unit
     ) {
 
     var selectedOption by remember { mutableStateOf("") }
     //var buttonBoardColor by remember { mutableStateOf(unSelectedColor) }
 
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(15f.pxToDp()),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+    FlowRow(
+        maxItemsInEachRow = 4,
+        horizontalArrangement = Arrangement.spacedBy(11f.pxToDp()),
+        modifier = Modifier.padding(top = 29f.pxToDp())
     ) {
         options.forEach { option ->
             Row(modifier = Modifier.padding(all = 8.pxToDp())) {
                 OutlinedButton(
                     shape = RoundedCornerShape(18f.pxToDp()),
-                    border = BorderStroke(width = 6f.pxToDp() , color = if (selectedOption == option.value.toString()) {
+                    border = BorderStroke(width = 3f.pxToDp() , color = if (selectedOption == option.value.toString()) {
                         selectedColor
                     } else {
                         unSelectedColor
                     }),
-                    colors = ButtonDefaults.outlinedButtonColors(ColorD4D9E1),
+                    colors = ButtonDefaults.outlinedButtonColors(containerColor ?: ColorD4D9E1),
                     modifier = Modifier
                         .defaultMinSize(minWidth = 300f.pxToDp(), 86f.pxToDp())
                         .align(Alignment.CenterVertically),
@@ -78,9 +82,9 @@ fun CustomGroupButtons(
                         color = Color333333,
                     )
                     icon?.let {
-                        icon
+                        if(selectedOption == option.value.toString())
+                            icon
                     }
-
                 }
             }
         }
