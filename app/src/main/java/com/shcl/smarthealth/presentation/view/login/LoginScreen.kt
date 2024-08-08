@@ -40,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -70,6 +71,7 @@ import com.shcl.smarthealth.presentation.ui.common.CustomTextField
 import com.shcl.smarthealth.ui.theme.BackGroundColor
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.Color333333
+import com.shcl.smarthealth.ui.theme.Color4C96FF
 import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.PrimaryButtonColor
@@ -295,7 +297,7 @@ fun autoLoginSide(nav: NavHostController , viewModel : LoginViewModel , users : 
 
     Box(
         modifier = Modifier
-            .background(Color.White)
+
             .fillMaxHeight()
             .fillMaxWidth()
             .padding(start = 123.pxToDp(), top = 123.pxToDp(), end = 123.pxToDp()),
@@ -311,6 +313,8 @@ fun autoLoginSide(nav: NavHostController , viewModel : LoginViewModel , users : 
             Text(text = stringResource(id = R.string.autologin_desc) , style = Typography.bodySmall )
             Spacer(modifier = Modifier.height(30.pxToDp()))
             Box(modifier = Modifier
+                .clip(RoundedCornerShape(18f.pxToDp()))
+                .background(Color4C96FF.copy(alpha = 0.1f))
                 .fillMaxSize()
                 .border(
                     shape = RoundedCornerShape(10f.pxToDp()),

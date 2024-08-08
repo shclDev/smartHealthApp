@@ -5,14 +5,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -27,12 +34,13 @@ import androidx.compose.ui.unit.sp
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.ui.theme.BackGroundColor
 import com.shcl.smarthealth.ui.theme.Color143F91
+import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.StepBackGroundColor
 import com.shcl.smarthealth.ui.theme.Typography
 import com.shcl.smarthealth.ui.theme.stepTextColor
 
 @Composable
-fun Step(level : Int){
+fun Step(currentLevel : Int , maxLevel : Int){
 
     val textMeasurer  = rememberTextMeasurer()
 
@@ -41,36 +49,61 @@ fun Step(level : Int){
             style = SpanStyle(
                 fontSize = 30.sp,
                 fontWeight = FontWeight.W500,
-                brush = Brush.verticalGradient(colors = stepTextColor)
+                color = Color.White
             )
         ){
-            append("$level")
+            append("$currentLevel")
         }
     }
 
     Row(){
 
-        if(level > 1){
-            Spacer(
-                modifier = Modifier
-                    .height(1f.pxToDp())
-                    .width(50f.pxToDp())
-                    .align(Alignment.CenterVertically)
-                    .background(color = Color143F91)
-            )
-        }
-
-        Canvas(
-            modifier =
-            Modifier
-                .size(55f.pxToDp()),
-            onDraw = {
-                drawText(textMeasurer , annotatedText)
-                drawCircle(
-                    color = Color143F91 , radius = 25f)
-
+        for(step in 1..maxLevel){
+            if(step > 1){
+                if(currentLevel < step){
+                    Spacer(
+                        modifier = Modifier
+                            .height(1f.pxToDp())
+                            .width(50f.pxToDp())
+                            .align(Alignment.CenterVertically)
+                            .background(color = ColorD4D9E1)
+                    )
+                }else{
+                    Spacer(
+                        modifier = Modifier
+                            .height(1f.pxToDp())
+                            .width(50f.pxToDp())
+                            .align(Alignment.CenterVertically)
+                            .background(color = Color143F91)
+                    )
+                }
             }
 
-        )
+
+            if(currentLevel < step){
+                Button(
+                    modifier = Modifier
+                        .size(55f.pxToDp()),
+                    colors =ButtonColors(containerColor = ColorD4D9E1, contentColor = ColorD4D9E1, disabledContentColor =ColorD4D9E1 , disabledContainerColor =ColorD4D9E1),
+                    shape = CircleShape,
+                    onClick = { /*TODO*/ }) {
+                    Text("$step" , color = ColorD4D9E1)
+
+                }
+            }else{
+                Button(
+                    modifier = Modifier
+                        //.background(Color143F91)
+                        .size(55f.pxToDp()),
+                    colors = ButtonColors(containerColor = Color143F91, contentColor = Color.White, disabledContentColor =Color143F91 , disabledContainerColor =Color143F91),
+                    shape = CircleShape,
+                    onClick = { /*TODO*/ }
+                ) {
+                    Text("$step" , color = Color.White)
+                }
+            }
+
+        }
+
     }
 }

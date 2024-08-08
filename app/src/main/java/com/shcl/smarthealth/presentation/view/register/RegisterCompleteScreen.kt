@@ -1,13 +1,16 @@
 package com.shcl.smarthealth.presentation.view.register
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,6 +18,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
@@ -29,7 +37,12 @@ import com.shcl.smarthealth.ui.theme.Typography
 
 @Composable
 fun RegisterCompleteScreen(nav: NavHostController) {
-        Row(
+
+    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.agent_check))
+    val progress by animateLottieCompositionAsState(composition = composition , iterations = LottieConstants.IterateForever)
+
+    Row(
+        modifier = Modifier.background(Color.White),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             LinearVerticalLine()
@@ -37,11 +50,21 @@ fun RegisterCompleteScreen(nav: NavHostController) {
                 modifier = Modifier.padding(start = 650f.pxToDp() , end = 650f.pxToDp() ),
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(stringResource(id = R.string.register_complete_title) , style = Typography.headlineLarge , fontSize = 30f.pxToSp() , color = Color1E1E1E)
-                Spacer(modifier = Modifier.height(250f.pxToDp()))
+                Spacer(modifier = Modifier.height(50f.pxToDp()))
+                LottieAnimation(
+                    modifier = Modifier
+                        .background(Color.White)
+                        .align(Alignment.CenterHorizontally)
+                        .size(150f.pxToDp()),
+                    composition = composition,
+                    progress = { progress},
+                )
+
+                Spacer(modifier = Modifier.height(50f.pxToDp()))
                 Text(stringResource(id = R.string.register_complete_desc) , style = Typography.headlineLarge , fontSize = 15f.pxToSp() , color = Color757575, textAlign = TextAlign.Center)
                 Spacer(modifier = Modifier.height(161f.pxToDp()))
                 CustomButton(buttonWidth = 720f, contentColor = Color.White, containerColor = Color143F91, text ="등록완료", rightIcon = painterResource(id = R.drawable.arrow) , btnClick = {
-                    nav.navigate(route = OuterScreen.home.route)
+                    nav.navigate(route = OuterScreen.suvery.route)
                 } )
             }
         }

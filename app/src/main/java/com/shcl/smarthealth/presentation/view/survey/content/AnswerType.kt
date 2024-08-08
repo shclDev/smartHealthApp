@@ -7,6 +7,8 @@ object AnswerType {
     val typeInteger521 : HashMap<String , Any> = hashMapOf("주 5회 이상" to 5 , "주 2~3회" to 2 ,  "주 1회 이하" to 1 )
     val typeInteger0123 : HashMap<String , Any> = hashMapOf("전혀 없음" to 0 , "주 1회 미만" to 1 ,  "주 1~2회" to 2 , "주 3회 이상" to 3 )
     val typeInteger1234567 : HashMap<String , Any> = hashMapOf("1회" to 1 , "2회" to 2  ,  "3회" to 3  , "4회" to 4 , "5회" to 5,"6회" to 6,"7회" to 7)
+    val typeInteger10204560 : HashMap<String , Any> = hashMapOf("10분이하" to 10 , "10분~30분" to 20 , "30분~1시간" to 45 , "1시간 이상" to 60)
+    val typeInteger0135 : HashMap<String , Any> = hashMapOf("주 1회 미만" to 0 , "주 1~2회" to 1 , "주 3~4회" to 3 , "주 5회 이상" to 5)
 
     val typeInteger135710 : HashMap<String , Any> = hashMapOf("소주 1-2잔 (맥주 355cc 1캔 반 이하, 양주 2잔, 포도주 1-2잔)" to 1,
         "소주 3-4잔 (맥주 3캔, 양주 4잔, 포도주 3-4잔)" to 3 ,

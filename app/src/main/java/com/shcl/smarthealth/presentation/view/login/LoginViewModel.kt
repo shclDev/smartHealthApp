@@ -39,7 +39,6 @@ class LoginViewModel @Inject constructor(
     val loggedUserState = _loggedUserState.asStateFlow()
 
 
-
     init {
         loggedUserCheck()
     }

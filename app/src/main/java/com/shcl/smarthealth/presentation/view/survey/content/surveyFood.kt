@@ -22,7 +22,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import com.shcl.smarthealth.domain.utils.pxToDp
+import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeFreq
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger421
@@ -53,8 +55,8 @@ fun surveyFood() {
     val checkImageIcon = Icons.Default.CheckCircle
 
     Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState)) {
-        Text("1" , style = Typography.headlineMedium)
-        Text("우유나 칼슘 강화 두유,기타 유제품(요구르트 등)을 매일 1컵(200ml) 이상 마십니까?")
+        NumberButton("1")
+        Text("우유나 칼슘 강화 두유,기타 유제품(요구르트 등)을 매일 1컵(200ml) 이상 마십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
 
         CustomGroupButtons(
             options = typeFreq ,
@@ -67,8 +69,8 @@ fun surveyFood() {
             }
         )
 
-        Text("2" , style = Typography.headlineMedium)
-        Text("육류,생선,달걀,콩,두부 등으로 된 음식을 매일 3회 이상 먹습니까?")
+        NumberButton("2")
+        Text("육류,생선,달걀,콩,두부 등으로 된 음식을 매일 3회 이상 먹습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeFreq ,
             unSelectedColor = ColorD4D9E1 ,
@@ -80,8 +82,8 @@ fun surveyFood() {
             }
         )
 
-        Text("3" , style = Typography.headlineMedium)
-        Text("김치 이외의 채소를 식사할 때마다 먹습니까?")
+        NumberButton("3")
+        Text("김치 이외의 채소를 식사할 때마다 먹습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeFreq ,
             unSelectedColor = ColorD4D9E1 ,
@@ -93,8 +95,8 @@ fun surveyFood() {
             }
         )
 
-        Text("4" , style = Typography.headlineMedium)
-        Text("과일(1개)이나 과일쥬스(1잔)을 매일 먹습니까?")
+        NumberButton("4")
+        Text("과일(1개)이나 과일쥬스(1잔)을 매일 먹습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeFreq ,
             unSelectedColor = ColorD4D9E1 ,
@@ -106,8 +108,8 @@ fun surveyFood() {
             }
         )
 
-        Text("5" , style = Typography.headlineMedium)
-        Text("튀김이나 볶음 요리를 얼마나 자주 먹습니까?")
+        NumberButton("5")
+        Text("튀김이나 볶음 요리를 얼마나 자주 먹습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger421,
             unSelectedColor = ColorD4D9E1 ,
@@ -119,8 +121,8 @@ fun surveyFood() {
             }
         )
 
-        Text("6" , style = Typography.headlineMedium)
-        Text("콜레스테롤이 많은 식품(삼겹살,달걀노른자,오징어 등)을 얼마나 자주 먹습니까?")
+        NumberButton("6")
+        Text("콜레스테롤이 많은 식품(삼겹살,달걀노른자,오징어 등)을 얼마나 자주 먹습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger421,
             unSelectedColor = ColorD4D9E1 ,
@@ -132,8 +134,8 @@ fun surveyFood() {
             }
         )
 
-        Text("7" , style = Typography.headlineMedium)
-        Text("아이스크림,케이크,과자,음료수(커피,콜라,식혜 등)중 1가지를 매일 먹습니까?")
+        NumberButton("7")
+        Text("아이스크림,케이크,과자,음료수(커피,콜라,식혜 등)중 1가지를 매일 먹습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeFreq,
             unSelectedColor = ColorD4D9E1 ,
@@ -145,8 +147,8 @@ fun surveyFood() {
             }
         )
 
-        Text("8" , style = Typography.headlineMedium)
-        Text("젓갈,장아찌,자반 등을 매일 먹습니까?")
+        NumberButton("8")
+        Text("젓갈,장아찌,자반 등을 매일 먹습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeFreq,
             unSelectedColor = ColorD4D9E1 ,
@@ -158,8 +160,8 @@ fun surveyFood() {
             }
         )
 
-        Text("9" , style = Typography.headlineMedium)
-        Text("식사를 매일 정해진 시간에 하십니까?")
+        NumberButton("9")
+        Text("식사를 매일 정해진 시간에 하십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeFreq,
             unSelectedColor = ColorD4D9E1 ,
@@ -171,8 +173,8 @@ fun surveyFood() {
             }
         )
 
-        Text("10" , style = Typography.headlineMedium)
-        Text("곡류(밥, 빵류), 고기·생선·달걀·콩류, 채소류, 과일류, 우유류 등 총 5종류의 식품 중에서 하루에 보통 몇 종류의 식품을 드십니까?")
+        NumberButton("10")
+        Text("곡류(밥, 빵류), 고기·생선·달걀·콩류, 채소류, 과일류, 우유류 등 총 5종류의 식품 중에서 하루에 보통 몇 종류의 식품을 드십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger543,
             unSelectedColor = ColorD4D9E1 ,
@@ -184,8 +186,8 @@ fun surveyFood() {
             }
         )
 
-        Text("11" , style = Typography.headlineMedium)
-        Text("외식(직장에서 제공되는 식사 제외)을 얼마나 자주 하십니까?")
+        NumberButton("11")
+        Text("외식(직장에서 제공되는 식사 제외)을 얼마나 자주 하십니까?" ,style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700 )
         CustomGroupButtons(
             options = typeInteger521,
             unSelectedColor = ColorD4D9E1 ,

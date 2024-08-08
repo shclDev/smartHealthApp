@@ -38,10 +38,13 @@ import com.shcl.smarthealth.ui.theme.Color333333
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.ColorF1F3F8
 import com.shcl.smarthealth.ui.theme.Typography
+import java.util.Collections
+import java.util.stream.Collectors
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CustomGroupButtons(
+    reverseSort : Boolean = false,
     options : HashMap<String , Any>,
     unSelectedColor : Color,
     selectedColor : Color,
@@ -50,15 +53,19 @@ fun CustomGroupButtons(
     selectionChanged : (Any)-> Unit
     ) {
 
+
     var selectedOption by remember { mutableStateOf("") }
     //var buttonBoardColor by remember { mutableStateOf(unSelectedColor) }
+    //val reverseMap = options.entries.stream().map(item -> item.getKey()).sorted().collect(Collectors.toList())
 
     FlowRow(
+        modifier = Modifier.padding(top = 40f.pxToDp() , bottom = 80f.pxToDp()),
         maxItemsInEachRow = 4,
-        horizontalArrangement = Arrangement.spacedBy(11f.pxToDp()),
-        modifier = Modifier.padding(top = 29f.pxToDp())
+        horizontalArrangement = Arrangement.spacedBy(5f.pxToDp()),
+        //modifier = Modifier.padding(top = 29f.pxToDp())
     ) {
-        options.forEach { option ->
+
+        options.toSortedMap().forEach { option ->
             Row(modifier = Modifier.padding(all = 8.pxToDp())) {
                 OutlinedButton(
                     shape = RoundedCornerShape(18f.pxToDp()),
@@ -69,11 +76,11 @@ fun CustomGroupButtons(
                     }),
                     colors = ButtonDefaults.outlinedButtonColors(containerColor ?: ColorD4D9E1),
                     modifier = Modifier
-                        .defaultMinSize(minWidth = 300f.pxToDp(), 86f.pxToDp())
+                        .defaultMinSize(minWidth = 250f.pxToDp(), 86f.pxToDp())
                         .align(Alignment.CenterVertically),
                     onClick = {
                     selectedOption = option.value.toString()
-                    selectionChanged(selectedOption)
+                    selectionChanged(option.value)
                 }) {
                     Text(
                         text = option.key,

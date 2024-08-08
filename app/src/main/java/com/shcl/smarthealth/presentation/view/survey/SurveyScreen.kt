@@ -82,7 +82,7 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
                     , horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     surveyTitle(level = level, levelTitle = levelTitle)
-                    stepProgressBar(level)
+                    stepProgressBar(level , 5)
                 }
 
                 Box(modifier = Modifier.weight(0.8f)) {
@@ -114,9 +114,9 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
                         btnClick = {
                             viewModel.next()
                         },
-                        withBoard = false,
+
                         buttonWidth = 553f,
-                        contentColor = Color.White, containerColor = Color143F91 , text = "다음" , rightIcon = painterResource(id = R.drawable.arrow) )
+                        contentColor = Color.White, containerColor = Color143F91 , text = "${level}단계 완료" , rightIcon = painterResource(id = R.drawable.arrow) )
                 }
             }
         }
@@ -137,14 +137,17 @@ fun surveyTitle(level : Int, levelTitle : SurveyByLevel){
 }
 
 @Composable
-fun stepProgressBar(currentStep : Int){
+fun stepProgressBar(currentStep : Int , maxStep : Int){
 
+
+    Step(currentStep , maxStep)
+
+    /*
     Row(){
-         for(step in 1..currentStep){
-             Step(step)
+         for(step in 1..maxStep){
+             Step(step , 5)
          }
-    }
-
+    }*/
 
 }
 

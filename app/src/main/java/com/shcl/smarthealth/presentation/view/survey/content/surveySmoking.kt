@@ -15,6 +15,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeBoolean
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeGoodBad
@@ -55,8 +57,8 @@ fun surveySmoking(){
     val checkImageIcon = Icons.Default.CheckCircle
 
     Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState)) {
-        Text("1" , style = Typography.headlineMedium)
-        Text("현재 담배를 피우십니까?")
+        NumberButton("1")
+        Text("현재 담배를 피우십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeNowSmoke ,
             unSelectedColor = ColorD4D9E1 ,
@@ -68,8 +70,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("2" , style = Typography.headlineMedium)
-        Text("담배를 언제 끊었습니까?")
+        NumberButton("2")
+        Text("담배를 언제 끊었습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger0123 ,
             unSelectedColor = ColorD4D9E1 ,
@@ -81,8 +83,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("3" , style = Typography.headlineMedium)
-        Text("끊기 전 2년 동안 하루 평균 몇 개비를 피웠습니까?")
+        NumberButton("3")
+        Text("끊기 전 2년 동안 하루 평균 몇 개비를 피웠습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger0123 ,
             unSelectedColor = ColorD4D9E1 ,
@@ -94,8 +96,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("4" , style = Typography.headlineMedium)
-        Text("현재 담배를 피우십니까?")
+        NumberButton("4")
+        Text("현재 담배를 피우십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeIntegerSmoking ,
             unSelectedColor = ColorD4D9E1 ,
@@ -107,8 +109,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("5" , style = Typography.headlineMedium)
-        Text("처음 담배를 피우기 시작한 연령은 몇 세입니까?")
+        NumberButton("5")
+        Text("처음 담배를 피우기 시작한 연령은 몇 세입니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
@@ -120,8 +122,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("6" , style = Typography.headlineMedium)
-        Text("현재 하루 평균 몇 개비의 담배를 피우십니까?")
+        NumberButton("6")
+        Text("현재 하루 평균 몇 개비의 담배를 피우십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
@@ -133,8 +135,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("7" , style = Typography.headlineMedium)
-        Text("현재 술을 드십니까?")
+        NumberButton("7")
+        Text("현재 술을 드십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeNowDrink,
             unSelectedColor = ColorD4D9E1 ,
@@ -146,8 +148,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("8" , style = Typography.headlineMedium)
-        Text("술을 드시는 날은 보통 몇 잔을 드십니까? (*소주, 양주, 포도주 구분없이 각각의 술잔으로 계산합니다. 단 맥주는 캔맥주 1개 (355cc)=1.4잔)")
+        NumberButton("8")
+        Text("술을 드시는 날은 보통 몇 잔을 드십니까? (*소주, 양주, 포도주 구분없이 각각의 술잔으로 계산합니다. 단 맥주는 캔맥주 1개 (355cc)=1.4잔)",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger135710,
             unSelectedColor = ColorD4D9E1 ,
@@ -159,8 +161,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("9" , style = Typography.headlineMedium)
-        Text("처음 술을 드시기 시작한 연령은 몇 세입니까?")
+        NumberButton("9")
+        Text("처음 술을 드시기 시작한 연령은 몇 세입니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
@@ -172,8 +174,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("10" , style = Typography.headlineMedium)
-        Text("술을 마시는 횟수는 보통 어느 정도입니까?")
+        NumberButton("10")
+        Text("술을 마시는 횟수는 보통 어느 정도입니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeBoolean,
             unSelectedColor = ColorD4D9E1 ,
@@ -185,8 +187,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("11" , style = Typography.headlineMedium)
-        Text("지난 한 달 동안, 잠자기 위해서 얼마나 자주 약을 복용하셨습니까?")
+        NumberButton("11")
+        Text("지난 한 달 동안, 잠자기 위해서 얼마나 자주 약을 복용하셨습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
@@ -198,8 +200,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("12" , style = Typography.headlineMedium)
-        Text("지난 한 달 동안, 운전, 식사, 또는 사회 활동 중에 깨어 있는 것이 얼마나 자주 힘들었습니까?")
+        NumberButton("12")
+        Text("지난 한 달 동안, 운전, 식사, 또는 사회 활동 중에 깨어 있는 것이 얼마나 자주 힘들었습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
@@ -211,8 +213,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("13" , style = Typography.headlineMedium)
-        Text("지난 한 달 동안, 해야 할 일들을 열심히 해서 마치는 것이 얼마나 힘들었습니까?")
+        NumberButton("13")
+        Text("지난 한 달 동안, 해야 할 일들을 열심히 해서 마치는 것이 얼마나 힘들었습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeLittleBig,
             unSelectedColor = ColorD4D9E1 ,
@@ -224,8 +226,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("14" , style = Typography.headlineMedium)
-        Text("하루에 취하고 있는 수면이 피로 회복에 충분하다고 생각하십니까?")
+        NumberButton("14")
+        Text("하루에 취하고 있는 수면이 피로 회복에 충분하다고 생각하십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options =  typeSleepGoodBad,
             unSelectedColor = ColorD4D9E1 ,
@@ -237,8 +239,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("15" , style = Typography.headlineMedium)
-        Text("본인께서 생각하시기에 휴식 시간을 충분히 갖는다고 생각하십니까?")
+        NumberButton("15")
+        Text("본인께서 생각하시기에 휴식 시간을 충분히 갖는다고 생각하십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options =  typeSleep1GoodBad,
             unSelectedColor = ColorD4D9E1 ,
@@ -250,8 +252,8 @@ fun surveySmoking(){
             }
         )
 
-        Text("16" , style = Typography.headlineMedium)
-        Text("지난 한달 동안, 보통 몇 시에 잠자리에 들고 몇 시에 일어나셨습니까?")
+        NumberButton("16")
+        Text("지난 한달 동안, 보통 몇 시에 잠자리에 들고 몇 시에 일어나셨습니까?" ,style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options =  typeSleep1GoodBad,
             unSelectedColor = ColorD4D9E1 ,

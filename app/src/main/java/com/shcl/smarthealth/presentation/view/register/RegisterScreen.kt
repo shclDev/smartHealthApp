@@ -115,7 +115,7 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                         .padding(
                             start = 80f.pxToDp(),
                             end = 80f.pxToDp(),
-                            top = 204f.pxToDp(),
+                            top = 104f.pxToDp(),
                             bottom = 40f.pxToDp(),
                         )
                 ) {
@@ -247,6 +247,9 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                 Spacer(modifier = Modifier.height(80f.pxToDp()))
                                     Button(
                                         onClick = {
+
+                                            nav.navigate(route = OuterScreen.terms.route)
+                                            /*
                                                 val validation =  viewModel.validationUserInfo(
                                                     name = name,
                                                     nickName = nickName,
@@ -269,7 +272,7 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                                 }else{
                                                     failMessage = "입력하지 않은 정보가 있는지 다시 확인해 주세요"
                                                     showDialogState = true
-                                                }
+                                                }*/
 
                                         },
                                         shape = RoundedCornerShape(18.pxToDp()),

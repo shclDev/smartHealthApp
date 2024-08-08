@@ -57,7 +57,7 @@ fun surveyAct(){
     Column(modifier = Modifier
         .fillMaxSize()
         .verticalScroll(scrollState)) {
-        Text("1" , style = Typography.headlineMedium)
+        NumberButton("1")
         Text("지난 7일간 무거운 물건 나르기, 달리기, 에어로빅, 빠른 속도로 자전거 타기 등과 같은 격렬한 신체 활동을 며칠간 하셨습니까?" , style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger1234567 ,
@@ -70,8 +70,8 @@ fun surveyAct(){
             }
         )
 
-        Text("2" , style = Typography.headlineMedium)
-        Text("그런 날 중 하루에 격렬한 신체활동을 하면서 보낸 시간이 보통 얼마나 됩니까?")
+        NumberButton("2")
+        Text("그런 날 중 하루에 격렬한 신체활동을 하면서 보낸 시간이 보통 얼마나 됩니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger0123 ,
             unSelectedColor = ColorD4D9E1 ,
@@ -83,8 +83,8 @@ fun surveyAct(){
             }
         )
 
-        Text("3" , style = Typography.headlineMedium)
-        Text("지난 7일간 가벼운 물건 나르기, 보통 속도로 자전거 타기, 복식 테니스 등과 같은 중간 정도 신체 활동을 며칠간 하였습니까? 걷기는 포함시키지 마십시오")
+        NumberButton("3")
+        Text("지난 7일간 가벼운 물건 나르기, 보통 속도로 자전거 타기, 복식 테니스 등과 같은 중간 정도 신체 활동을 며칠간 하였습니까? 걷기는 포함시키지 마십시오" ,style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger1234567 ,
             unSelectedColor = ColorD4D9E1 ,
@@ -96,8 +96,8 @@ fun surveyAct(){
             }
         )
 
-        Text("4" , style = Typography.headlineMedium)
-        Text("그런 날 중 하루에 중간 정도의 신체활동을 하면서 보낸 시간이 보통 얼마나 됩니까?")
+        NumberButton("4")
+        Text("그런 날 중 하루에 중간 정도의 신체활동을 하면서 보낸 시간이 보통 얼마나 됩니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger0123 ,
             unSelectedColor = ColorD4D9E1 ,
@@ -109,8 +109,8 @@ fun surveyAct(){
             }
         )
 
-        Text("5" , style = Typography.headlineMedium)
-        Text("지난 7일간, 한 번에 적어도 10분 이상 걸은 날이 며칠입니까?")
+        NumberButton("5")
+        Text("지난 7일간, 한 번에 적어도 10분 이상 걸은 날이 며칠입니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger1234567,
             unSelectedColor = ColorD4D9E1 ,
@@ -122,8 +122,8 @@ fun surveyAct(){
             }
         )
 
-        Text("6" , style = Typography.headlineMedium)
-        Text("그런 날 중 하루에 걸으면서 보낸 시간이 보통 얼마나 됩니까?")
+        NumberButton("6")
+        Text("그런 날 중 하루에 걸으면서 보낸 시간이 보통 얼마나 됩니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
@@ -135,8 +135,8 @@ fun surveyAct(){
             }
         )
 
-        Text("7" , style = Typography.headlineMedium)
-        Text("지난 7일간, 주중에 앉아서 보낸 시간이 보통 얼마나 됩니까?")
+        NumberButton("7")
+        Text("지난 7일간, 주중에 앉아서 보낸 시간이 보통 얼마나 됩니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
@@ -148,8 +148,8 @@ fun surveyAct(){
             }
         )
 
-        Text("8" , style = Typography.headlineMedium)
-        Text("다음 암을 진단받은 적이 있습니까?")
+        NumberButton("8")
+        Text("다음 암을 진단받은 적이 있습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeCancer,
             unSelectedColor = ColorD4D9E1 ,
@@ -161,8 +161,8 @@ fun surveyAct(){
             }
         )
 
-        Text("9" , style = Typography.headlineMedium)
-        Text("지금까지 아래의 질병이 있다고 진단받은 적이 있습니까?")
+        NumberButton("9")
+        Text("지금까지 아래의 질병이 있다고 진단받은 적이 있습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeDisease,
             unSelectedColor = ColorD4D9E1 ,
@@ -174,8 +174,8 @@ fun surveyAct(){
             }
         )
 
-        Text("10" , style = Typography.headlineMedium)
-        Text("부모, 형제, 자매, 삼촌 이내의 가까운 친척 중 아래의 질병을 앓았거나 그로 인해 사망한 경우가 있습니까?")
+        NumberButton("10")
+        Text("부모, 형제, 자매, 삼촌 이내의 가까운 친척 중 아래의 질병을 앓았거나 그로 인해 사망한 경우가 있습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
             options = typeFamilyDisease,
             unSelectedColor = ColorD4D9E1 ,
