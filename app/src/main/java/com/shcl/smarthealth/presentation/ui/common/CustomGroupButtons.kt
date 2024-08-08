@@ -13,10 +13,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -88,9 +90,12 @@ fun CustomGroupButtons(
                         style = Typography.titleSmall,
                         color = Color333333,
                     )
+
+                    Spacer(modifier = Modifier.width(15f.pxToDp()))
+
                     icon?.let {
                         if(selectedOption == option.value.toString())
-                            icon
+                            Icon(imageVector = icon, contentDescription = "")
                     }
                 }
             }

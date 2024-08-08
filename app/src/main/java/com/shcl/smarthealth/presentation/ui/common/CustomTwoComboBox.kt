@@ -18,6 +18,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.ui.theme.Color757575
@@ -52,38 +54,42 @@ fun CustomTwoComboBox(
     var secondExpanded by remember { mutableStateOf(false ) }
     var secondSelected by remember { mutableStateOf("| 선택") }
 
-    Row(modifier = Modifier
-        .padding(32f.pxToDp())
+    Row(modifier = Modifier.fillMaxWidth()
+        .padding(top = 32f.pxToDp())
        , verticalAlignment = Alignment.CenterVertically) {
 
         Text("${subject}" , fontSize = 22f.pxToSp())
 
         Spacer(modifier = Modifier.width(50f.pxToDp()))
 
-        Box {
+        Box() {
             Row(
                 modifier = Modifier
                     .clickable { firstExpanded = true }
-                    .defaultMinSize(minWidth = 300f.pxToDp(), minHeight = 85f.pxToDp())
-                    .background(Color.White)
-                    .clip(RoundedCornerShape(18f.pxToDp()))
                     .border(
                         width = 2f.pxToDp(),
-                        color = Color757575
+                        color = Color757575,
+                        shape = RoundedCornerShape(18f.pxToDp())
                     )
-                    .padding(25f.pxToDp())
+                    .defaultMinSize(minWidth = 300f.pxToDp(), minHeight = 85f.pxToDp())
+                    .background(Color.White)
+                    .padding(15f.pxToDp())
             ){
-                Text( text = "${firstSelected}" , color = Color757575 , fontSize = 22f.pxToSp() )
+                Text( text = "${firstSelected}" , color = Color757575 , fontSize = 20f.pxToSp() )
             }
             DropdownMenu(expanded = firstExpanded,
+                modifier = Modifier.background(Color.White),
                 onDismissRequest = { firstExpanded = false }
             ) {
 
                 firstList.forEachIndexed { index, label ->
-                    DropdownMenuItem(text = { Text("$label" , fontSize = 22f.pxToSp())  }, onClick = {
-                        firstExpanded = false
-                        firstSelected = label
-                        //firstSelected()
+                    DropdownMenuItem( modifier = Modifier
+                        .background(Color.White)
+                        .border(width = 1f.pxToDp(), color = Color.Gray),text = { Text("$label" , fontSize = 20f.pxToSp())  },
+                        onClick = {
+                            firstExpanded = false
+                            firstSelected = label
+                            //firstSelected()
                     })
                 }
 
@@ -97,28 +103,33 @@ fun CustomTwoComboBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(32f.pxToDp())
-
         ) {
             Row(
                 modifier = Modifier
                     .clickable { secondExpanded = true }
                     .defaultMinSize(minWidth = 300f.pxToDp(), minHeight = 85f.pxToDp())
                     .background(Color.White)
-                    .clip(RoundedCornerShape(18f.pxToDp()))
                     .border(
                         width = 2f.pxToDp(),
-                        color = Color757575
+                        color = Color757575,
+                        shape = RoundedCornerShape(18f.pxToDp())
                     )
-                    .padding(25f.pxToDp())
+                    .padding(15f.pxToDp())
             ){
-                Text( text = "${secondSelected}" , color = Color757575 ,fontSize = 22f.pxToSp() )
+                Text( secondSelected , color = Color757575 ,fontSize = 20f.pxToSp() )
             }
-            DropdownMenu(expanded = secondExpanded,
+            DropdownMenu(
+                expanded = secondExpanded,
+                modifier = Modifier.background(Color.White),
                 onDismissRequest = { secondExpanded = false }
             ) {
 
                 secondList.forEachIndexed { index, label ->
-                    DropdownMenuItem(text = { Text("$label" , fontSize = 22f.pxToSp()) }, onClick = {
+                    DropdownMenuItem(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .border(width = 1f.pxToDp(), color = Color.LightGray),
+                        text = { Text("$label" , fontSize = 20f.pxToSp() , textAlign = TextAlign.Center) }, onClick = {
                         secondExpanded = false
                         secondSelected = label
                         //secondSelected()
@@ -127,7 +138,7 @@ fun CustomTwoComboBox(
             }
         }
         Spacer(modifier = Modifier.width(30f.pxToDp()))
-        Text("$secondUnit" , fontSize = 22f.pxToSp())
+        Text(secondUnit, fontSize = 22f.pxToSp())
     }
 
 }

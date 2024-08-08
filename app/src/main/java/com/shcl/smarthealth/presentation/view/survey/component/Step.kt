@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -16,6 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +34,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import com.shcl.smarthealth.domain.utils.pxToDp
+import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.ui.theme.BackGroundColor
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
@@ -81,25 +84,29 @@ fun Step(currentLevel : Int , maxLevel : Int){
 
 
             if(currentLevel < step){
-                Button(
+                TextButton(
                     modifier = Modifier
-                        .size(55f.pxToDp()),
-                    colors =ButtonColors(containerColor = ColorD4D9E1, contentColor = ColorD4D9E1, disabledContentColor =ColorD4D9E1 , disabledContainerColor =ColorD4D9E1),
+                        .size(width = 55f.pxToDp(), height = 55f.pxToDp())
+                        .clip(CircleShape)
+                        .border(width = 1f.pxToDp(), color = ColorD4D9E1, shape = CircleShape)
+                       ,
+                    colors =ButtonColors(containerColor = Color.Transparent, contentColor = ColorD4D9E1, disabledContentColor =Color.Transparent , disabledContainerColor =Color.Transparent),
                     shape = CircleShape,
                     onClick = { /*TODO*/ }) {
-                    Text("$step" , color = ColorD4D9E1)
+                    Text("$step" , color = ColorD4D9E1 , fontSize = 15f.pxToSp())
 
                 }
             }else{
-                Button(
+                TextButton(
                     modifier = Modifier
-                        //.background(Color143F91)
-                        .size(55f.pxToDp()),
+                        .size(width = 55f.pxToDp(), height = 55f.pxToDp())
+                        .clip(CircleShape),
+                        //.border(width = 10f.pxToDp(), color = Color.Transparent, shape = CircleShape),
                     colors = ButtonColors(containerColor = Color143F91, contentColor = Color.White, disabledContentColor =Color143F91 , disabledContainerColor =Color143F91),
                     shape = CircleShape,
                     onClick = { /*TODO*/ }
                 ) {
-                    Text("$step" , color = Color.White)
+                    Text("$step", color = Color.White , fontSize = 15f.pxToSp())
                 }
             }
 
