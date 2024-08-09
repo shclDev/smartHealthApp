@@ -1,5 +1,6 @@
 package com.shcl.smarthealth.presentation.view.survey
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
@@ -7,27 +8,37 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.shcl.smarthealth.domain.model.remote.survey.CategoryQuestionResponse
+import com.shcl.smarthealth.domain.usecase.survey.SurveyUseCase
+import com.shcl.smarthealth.domain.usecase.user.UserUseCase
 import com.shcl.smarthealth.presentation.view.device.ScanDeviceState
 import com.shcl.smarthealth.presentation.view.survey.component.Step
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-enum class SurveyByLevel(val title : String, val desc:String){
+enum class SurveyByLevel(val title : String, val desc:String , val category:String){
 
-    LEVEL1("식습관" , "식습관"),
-    LEVEL2("수면습관","수면습관"),
-    LEVEL3("우울감","우울감"),
-    LEVEL4("흡연/음주","흡연 및 음주"),
-    LEVEL5("신체활동 / 질병력 및 가족력" , "평소 신체활동")
+    LEVEL1("식습관" , "식습관" , "EATING"),
+    LEVEL2("수면습관","수면습관" , "SLEEPING"),
+    LEVEL3("우울감","우울감", "DEPRESSION"),
+    LEVEL4("흡연/음주","흡연 및 음주" , "SMOKING_AND_DRINKING"),
+    LEVEL5("신체활동 / 질병력 및 가족력" , "평소 신체활동" , "ACTIVITY_AND_MEDICAL_HISTORY")
 
 }
 
 
 @HiltViewModel
 class SurveyViewModel @Inject constructor(
+    private val surveyUseCase: SurveyUseCase
 ) : ViewModel() {
 
     private val MAX_LEVEL = 5
@@ -73,10 +84,19 @@ class SurveyViewModel @Inject constructor(
     private val LEVEL4_QUESTION_CNT = 11
     private val LEVEL5_QUESTION_CNT = 14
 
+    private var surveyId : Int = 1
+
+    /*
+    private var _questions : CategoryQuestionResponse = CategoryQuestionResponse(null)
+    private var questions = MutableStateFlow(_questions)
+    */
+
     private val _surveyComplete = MutableStateFlow(false)
     val surveyComplete = _surveyComplete.asStateFlow()
 
     init {
+
+        surveyInfo()
 
         for(key in 1..LEVEL1_QUESTION_CNT){
             _level1HashMap.put(key , null)
@@ -93,9 +113,11 @@ class SurveyViewModel @Inject constructor(
         for(key in 1..LEVEL5_QUESTION_CNT){
             _level5HashMap.put(key , null)
         }
+
     }
 
     fun next(){
+
         if(_levelState.value + 1 >= MAX_LEVEL){
             _levelState.value = MAX_LEVEL
         }else{
@@ -112,6 +134,8 @@ class SurveyViewModel @Inject constructor(
             4-> _levelTitleState.value = SurveyByLevel.LEVEL4
             5-> _levelTitleState.value = SurveyByLevel.LEVEL5
         }
+
+        getCategoryQuestion(_levelTitleState.value.category)
     }
 
     fun prev(){
@@ -123,8 +147,75 @@ class SurveyViewModel @Inject constructor(
         levelTitle(_levelState.value)
     }
 
+    fun surveyStart(){
+
+        GlobalScope.launch(Dispatchers.IO) {
+            surveyUseCase.startSurveyUseCase.invoke()
+                .onStart {   Log.d("smarthealth" , "survey start") }
+                .onCompletion {  Log.d("smarthealth" , "") }
+                .catch {   Log.d("smarthealth" , "")}
+                .collect{
+                    it.let {
+                        Log.d("smarthealth" , "survey  : ${it}")
+                    }
+                }
+        }
+    }
+
+    fun getCategoryQuestion(category : String){
+
+        GlobalScope.launch(Dispatchers.IO) {
+            surveyUseCase.getCategoryQuestionUseCase.invoke(surveyId , category)
+                .onStart {   Log.d("smarthealth" , "survey question") }
+                .onCompletion {  Log.d("smarthealth" , "") }
+                .catch {   Log.d("smarthealth" , "")}
+                .collect{
+                    it.let {
+
+                        /*
+                        if(it.success){
+                            questions.value = it.data!!
+                        }*/
+
+                        Log.d("smarthealth" , "survey  : ${it}")
+                    }
+                }
+        }
+    }
+
+    fun surveyInfo(){
+        GlobalScope.launch(Dispatchers.IO) {
+            surveyUseCase.getSurveysInfoUseCase.invoke()
+                .onStart {   Log.d("smarthealth" , "survey info") }
+                .onCompletion {  Log.d("smarthealth" , "") }
+                .catch {   Log.d("smarthealth" , "")}
+                .collect{
+                    it.let {
+
+                        if(it.success){
+                            surveyId = it.data?.id ?: 0
+                            getCategoryQuestion(SurveyByLevel.LEVEL1.category)
+                            surveyStart()
+                        }
+                        Log.d("smarthealth" , "survey : ${it}")
+                    }
+                }
+        }
+    }
+
     fun surveyComplete(){
 
+        GlobalScope.launch(Dispatchers.IO) {
+            surveyUseCase.completeSurveyUseCase.invoke(surveyId)
+                .onStart {   Log.d("smarthealth" , "survey info") }
+                .onCompletion {  Log.d("smarthealth" , "") }
+                .catch {   Log.d("smarthealth" , "")}
+                .collect{
+                    it.let {
+                        Log.d("smarthealth" , "survey : ${it}")
+                    }
+                }
+        }
 
     }
 

@@ -3,6 +3,7 @@ package com.shcl.smarthealth.di
 import com.shcl.smarthealth.domain.repository.DashBoardRepository
 import com.shcl.smarthealth.domain.repository.IsensRepository
 import com.shcl.smarthealth.domain.repository.OmronRepository
+import com.shcl.smarthealth.domain.repository.SurveyRepository
 import com.shcl.smarthealth.domain.repository.UserRepository
 import com.shcl.smarthealth.domain.usecase.dashboard.DashBoardUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetBloodPressureDBUseCase
@@ -22,6 +23,12 @@ import com.shcl.smarthealth.domain.usecase.omron.OmronDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.RegisterDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.ScanDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.SetBloodPressureUseCase
+import com.shcl.smarthealth.domain.usecase.survey.CompleteSurveyUseCase
+import com.shcl.smarthealth.domain.usecase.survey.GetCategoryQuestionUseCase
+import com.shcl.smarthealth.domain.usecase.survey.GetSurveyInfoUseCase
+import com.shcl.smarthealth.domain.usecase.survey.SetCategoryAnswerUseCase
+import com.shcl.smarthealth.domain.usecase.survey.StartSurveyUseCase
+import com.shcl.smarthealth.domain.usecase.survey.SurveyUseCase
 import com.shcl.smarthealth.domain.usecase.user.LastedLoginUserRoomUpdateUseCase
 import com.shcl.smarthealth.domain.usecase.user.LoggedUserUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserProfileUseCase
@@ -78,5 +85,13 @@ object UseCaseModule {
         userProfileUseCase = UserProfileUseCase(repository = userRepository),
         userSignInUseCase = UserSignInUseCase(repository = userRepository)
     )
+
+    @Provides
+    fun provideSurveyUseCase(surveyRepository: SurveyRepository) = SurveyUseCase(
+        startSurveyUseCase = StartSurveyUseCase(repository = surveyRepository),
+        completeSurveyUseCase = CompleteSurveyUseCase(repository = surveyRepository),
+        getSurveysInfoUseCase = GetSurveyInfoUseCase(repository = surveyRepository),
+        getCategoryQuestionUseCase = GetCategoryQuestionUseCase(repository = surveyRepository),
+        setCategoryAnswerUseCase = SetCategoryAnswerUseCase(repository =    surveyRepository))
 
 }

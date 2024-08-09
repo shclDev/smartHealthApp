@@ -2,6 +2,7 @@ package com.shcl.smarthealth.di
 
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.data.api.DashBoardApi
+import com.shcl.smarthealth.data.api.SurveyApi
 import com.shcl.smarthealth.data.api.UserApi
 import com.shcl.smarthealth.data.api.WeatherApi
 import com.shcl.smarthealth.data.remote.AuthInterceptor
@@ -99,6 +100,13 @@ object NetworkModule {
     @shcl
     fun provideUserApi(@shcl retrofit: Retrofit): UserApi {
         return retrofit.create(UserApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @shcl
+    fun provideSurveyApi(@shcl retrofit: Retrofit): SurveyApi {
+        return retrofit.create(SurveyApi::class.java)
     }
 
 
