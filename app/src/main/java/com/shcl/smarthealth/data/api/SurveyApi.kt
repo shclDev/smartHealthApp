@@ -53,7 +53,7 @@ interface SurveyApi {
     /// 카테고리별 설문조사 답변 데이터 저장
     @POST("/personal/health/survey/answer/category")
     suspend fun surveyCategoryAnswer(
-        request: CategoryQuestionRequest
+        @Body request: CategoryQuestionRequest
     ) : Response<ApiResponse<String?>>
 
 

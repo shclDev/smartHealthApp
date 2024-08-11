@@ -35,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.SurveyEnumType
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.ui.theme.Color333333
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
@@ -46,6 +47,7 @@ import java.util.stream.Collectors
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CustomGroupButtons(
+    questionId : Int? = 0,
     reverseSort : Boolean = false,
     options : HashMap<String , Any>,
     unSelectedColor : Color,
@@ -81,8 +83,8 @@ fun CustomGroupButtons(
                         .defaultMinSize(minWidth = 250f.pxToDp(), 86f.pxToDp())
                         .align(Alignment.CenterVertically),
                     onClick = {
-                    selectedOption = option.value.toString()
-                    selectionChanged(option.value)
+                        selectedOption = option.value.toString()
+                        selectionChanged(option.value)
                 }) {
                     Text(
                         text = option.key,

@@ -31,10 +31,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.transition.Visibility
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.GoodBadType
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.LittleBigType
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
 import com.shcl.smarthealth.presentation.ui.common.CustomTwoComboBox
+import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeBoolean
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeGoodBad
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger0123
@@ -83,7 +86,8 @@ fun surveySleep() {
         NumberButton("1")
         Text("지난 한 달 동안 당신이 취한 전반적인 수면의 질을 어떻게 평가하시겠습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
-            options = typeGoodBad,
+
+            options = GoodBadType.convertHashMap(SurveyByLevel.LEVEL2),
             unSelectedColor = ColorD4D9E1,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -324,6 +328,7 @@ fun surveySleep() {
                 NumberButton("10-2")
                 Text("지난 한 달 동안, 위에 해당하는 이유로 잠을 자는데 얼마나 어려움을 겪었습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
                 CustomGroupButtons(
+                    questionId = 26,
                     options = typeInteger0135,
                     unSelectedColor = ColorD4D9E1,
                     selectedColor = Color143F91,
@@ -367,7 +372,7 @@ fun surveySleep() {
         NumberButton("13")
         Text("지난 한 달 동안, 해야 할 일들을 열심히 해서 마치는 것이 얼마나 힘들었습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
-            options = typeLittleBig,
+            options = LittleBigType.convertHashMap(SurveyByLevel.LEVEL2),
             unSelectedColor = ColorD4D9E1,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -380,7 +385,7 @@ fun surveySleep() {
         NumberButton("14")
         Text("하루에 취하고 있는 수면이 피로 회복에 충분하다고 생각하십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
-            options = typeSleepGoodBad,
+            options = GoodBadType.convertHashMap(SurveyByLevel.LEVEL2),
             unSelectedColor = ColorD4D9E1,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -393,7 +398,7 @@ fun surveySleep() {
         NumberButton("15")
         Text("본인께서 생각하시기에 휴식 시간을 충분히 갖는다고 생각하십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
-            options = typeSleep1GoodBad,
+            options = GoodBadType.convertHashMap(SurveyByLevel.LEVEL2),
             unSelectedColor = ColorD4D9E1,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -405,15 +410,24 @@ fun surveySleep() {
 
         NumberButton("16")
         Text("지난 한달 동안, 보통 몇 시에 잠자리에 들고 몇 시에 일어나셨습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
-        CustomGroupButtons(
-            options = typeSleep1GoodBad,
-            unSelectedColor = ColorD4D9E1,
-            selectedColor = Color143F91,
-            containerColor = Color.White,
-            icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
-            }
+        CustomTwoComboBox(
+            subject = "취침 시각",
+            firstList =  Arrays.asList("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"),
+            secondList = Arrays.asList("00","30"),
+            firstSelected = { Log.d("smarthealth","f selected") },
+            firstUnit = "시",
+            secondUnit = "분",
+            secondSelected = {Log.d("smarthealth","2 selected") }
+        )
+
+        CustomTwoComboBox(
+            subject = "기상 시각",
+            firstList =  Arrays.asList("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"),
+            secondList = Arrays.asList("00","30"),
+            firstSelected = { Log.d("smarthealth","f selected") },
+            firstUnit = "시",
+            secondUnit = "분",
+            secondSelected = {Log.d("smarthealth","2 selected") }
         )
 
     }

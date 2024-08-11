@@ -24,10 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.CancerType
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.DiseaseType
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.FamilyDiseaseType
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
 import com.shcl.smarthealth.presentation.ui.common.CustomTwoComboBox
+import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeBoolean
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeCancer
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeDisease
@@ -197,7 +201,7 @@ fun surveyAct(){
         NumberButton("8")
         Text("다음 암을 진단받은 적이 있습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
-            options = typeCancer,
+            options = CancerType.convertHashMap(SurveyByLevel.LEVEL5),
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -210,7 +214,7 @@ fun surveyAct(){
         NumberButton("9")
         Text("지금까지 아래의 질병이 있다고 진단받은 적이 있습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
-            options = typeDisease,
+            options = DiseaseType.convertHashMap(SurveyByLevel.LEVEL5),
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -223,7 +227,7 @@ fun surveyAct(){
         NumberButton("10")
         Text("부모, 형제, 자매, 삼촌 이내의 가까운 친척 중 아래의 질병을 앓았거나 그로 인해 사망한 경우가 있습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
-            options = typeFamilyDisease,
+            options = FamilyDiseaseType.convertHashMap(SurveyByLevel.LEVEL5),
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,

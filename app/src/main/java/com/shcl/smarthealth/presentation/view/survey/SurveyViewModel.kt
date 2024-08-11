@@ -1,18 +1,14 @@
 package com.shcl.smarthealth.presentation.view.survey
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.shcl.smarthealth.domain.model.remote.survey.CategoryQuestionResponse
+import com.shcl.smarthealth.domain.model.remote.survey.Question
+import com.shcl.smarthealth.domain.model.remote.survey.answer.Answer
+import com.shcl.smarthealth.domain.model.remote.survey.answer.CategoryQuestionRequest
 import com.shcl.smarthealth.domain.usecase.survey.SurveyUseCase
-import com.shcl.smarthealth.domain.usecase.user.UserUseCase
-import com.shcl.smarthealth.presentation.view.device.ScanDeviceState
-import com.shcl.smarthealth.presentation.view.survey.component.Step
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -22,6 +18,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import javax.inject.Inject
 
 
@@ -66,16 +63,19 @@ class SurveyViewModel @Inject constructor(
     val level5Validation = _level5Validation.asStateFlow()
 
 
-    private var _level1HashMap : HashMap<Int,Any?> = HashMap<Int,Any?>()
+    private var _level1HashMap : HashMap<Int,Answer> = HashMap<Int,Answer>()
     private var _level1Answers = MutableStateFlow(_level1HashMap)
 
-    private var _level3HashMap : HashMap<Int,Any?> = HashMap<Int,Any?>()
+    private var _level2HashMap : HashMap<Int,Answer> = HashMap<Int,Answer>()
+    private var _level2Answers = MutableStateFlow(_level2HashMap)
+
+    private var _level3HashMap : HashMap<Int,Answer> = HashMap<Int,Answer>()
     private var _level3Answers = MutableStateFlow(_level3HashMap)
 
-    private var _level4HashMap : HashMap<Int,Any?> = HashMap<Int,Any?>()
+    private var _level4HashMap : HashMap<Int,Answer> = HashMap<Int,Answer>()
     private var _level4Answers = MutableStateFlow(_level4HashMap)
 
-    private var _level5HashMap : HashMap<Int,Any?> = HashMap<Int,Any?>()
+    private var _level5HashMap : HashMap<Int,Answer> = HashMap<Int,Answer>()
     private var _level5Answers = MutableStateFlow(_level5HashMap)
 
 
@@ -86,10 +86,13 @@ class SurveyViewModel @Inject constructor(
 
     private var surveyId : Int = 1
 
-    /*
-    private var _questions : CategoryQuestionResponse = CategoryQuestionResponse(null)
-    private var questions = MutableStateFlow(_questions)
-    */
+
+    private var _questions : List<Question>? = null
+    var questions = MutableStateFlow(_questions)
+
+    private var _uploadSuccess : Boolean = false
+    var uploadSuccess = MutableStateFlow(_uploadSuccess)
+
 
     private val _surveyComplete = MutableStateFlow(false)
     val surveyComplete = _surveyComplete.asStateFlow()
@@ -98,6 +101,7 @@ class SurveyViewModel @Inject constructor(
 
         surveyInfo()
 
+        /*
         for(key in 1..LEVEL1_QUESTION_CNT){
             _level1HashMap.put(key , null)
         }
@@ -114,9 +118,13 @@ class SurveyViewModel @Inject constructor(
             _level5HashMap.put(key , null)
         }
 
+         */
+
     }
 
     fun next(){
+
+        uploadSuccess.value = false
 
         if(_levelState.value + 1 >= MAX_LEVEL){
             _levelState.value = MAX_LEVEL
@@ -125,6 +133,27 @@ class SurveyViewModel @Inject constructor(
         }
         levelTitle(_levelState.value)
     }
+
+    fun addLevel1Answer(answer : Answer){
+        _level1Answers.value.put(answer.questionId , answer)
+    }
+
+    fun addLevel2Answer(answer : Answer){
+        _level2Answers.value.put(answer.questionId , answer)
+    }
+
+    fun addLevel3Answer(answer : Answer){
+        _level1Answers.value.put(answer.questionId , answer)
+    }
+
+    fun addLevel4Answer(answer : Answer){
+        _level1Answers.value.put(answer.questionId , answer)
+    }
+
+    fun addLevel5Answer(answer : Answer){
+        _level1Answers.value.put(answer.questionId , answer)
+    }
+
 
     fun levelTitle(level : Int){
         when(level){
@@ -172,10 +201,10 @@ class SurveyViewModel @Inject constructor(
                 .collect{
                     it.let {
 
-                        /*
+
                         if(it.success){
                             questions.value = it.data!!
-                        }*/
+                        }
 
                         Log.d("smarthealth" , "survey  : ${it}")
                     }
@@ -219,31 +248,45 @@ class SurveyViewModel @Inject constructor(
 
     }
 
-    fun validationAnswer1() {
-        if(_level1Answers.value.containsValue(null))
-            _level1Validation.value = false
-        else
-            _level1Validation.value = true
+    fun uploadAnswer(){
+
+        var answers : List<Answer>
+
+        when(levelTitleState.value){
+               SurveyByLevel.LEVEL1->{ answers = _level1HashMap.values.toList() }
+                SurveyByLevel.LEVEL2->{ answers = _level2HashMap.values.toList() }
+                SurveyByLevel.LEVEL3->{ answers = _level3HashMap.values.toList() }
+                SurveyByLevel.LEVEL4->{ answers = _level4HashMap.values.toList()}
+                SurveyByLevel.LEVEL5->{ answers = _level5HashMap.values.toList()}
+        }
+
+
+        var categoryQuestionRequest : CategoryQuestionRequest = CategoryQuestionRequest(
+            answerId = surveyId,
+            category = _levelTitleState.value.category,
+            answers =  answers
+        )
+
+        GlobalScope.launch(Dispatchers.IO) {
+            surveyUseCase.setCategoryAnswerUseCase.invoke(categoryQuestionRequest)
+                .onStart {   Log.d("smarthealth" , "survey info") }
+                .onCompletion {  Log.d("smarthealth" , "") }
+                .catch {   Log.d("smarthealth" , "")}
+                .collect{
+                    it.let {
+                        if(it.success){
+                            uploadSuccess.value  = true
+                            Log.d("smarthealth" , "survey upload success")
+                        }
+                        Log.d("smarthealth" , "survey : ${it}")
+                    }
+                }
+        }
+
+
+
     }
 
-    fun validationAnswer3() {
-        if(_level3Answers.value.containsValue(null))
-            _level3Validation.value = false
-        else
-            _level3Validation.value = true
-    }
 
-    fun validationAnswer4() {
-        if(_level4Answers.value.containsValue(null))
-            _level4Validation.value = false
-        else
-            _level4Validation.value = true
-    }
 
-    fun validationAnswer5() {
-        if(_level5Answers.value.containsValue(null))
-            _level5Validation.value = false
-        else
-            _level5Validation.value = true
-    }
 }

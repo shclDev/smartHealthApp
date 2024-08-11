@@ -2,14 +2,10 @@ package com.shcl.smarthealth.domain.model.remote.survey.answer.enumType
 
 import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 
-enum class FamilyMemberType ( val korName : String,
-                              val value : Any) : SurveyEnumType{
-
-    FATHER("아버지" , "FATHER"){
-        override fun getValue(value: Any): Any {
-           return "FATHER"
-        }
-
+enum class CancerType( val korName : String,
+                       val value : Any,
+) : SurveyEnumType {
+    LUNG_CANCER("폐암" , "LUNG_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
                 SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
@@ -17,131 +13,114 @@ enum class FamilyMemberType ( val korName : String,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "아버지"
+                    return "폐암"
             }
         }
 
-    },
-
-    MOTHER("어머니","MONTHER"){
         override fun getValue(value: Any): Any {
-            return "MONTHER"
-        }
-
-        override fun getKorName(surveyByLevel: SurveyByLevel): String {
-            when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
-                SurveyByLevel.LEVEL3,
-                SurveyByLevel.LEVEL4,
-                SurveyByLevel.LEVEL5->
-
-                    return "어머니"
-            }
+            return "LUNG_CANCER"
         }
     },
-
-
-
-    SIBLING("형제자매","SIBLING"){
-        override fun getValue(value: Any): Any {
-            return "SIBLING"
-        }
-
+    GASTRIC_CANCER("위암" , "GASTRIC_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL1,
+                SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "형제자매"
+                    return "위암"
             }
+        }
+
+        override fun getValue(value: Any): Any {
+            return "GASTRIC_CANCER"
         }
     },
 
-    CHILDREN("자녀","CHILDREN"){
-        override fun getValue(value: Any): Any {
-            return "CHILDREN"
-        }
-
+    COLON_CANCER("대장암" , "COLON_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL1,SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "자녀"
+                    return "대장암"
             }
+        }
+
+        override fun getValue(value: Any): Any {
+            return "COLON_CANCER"
         }
     },
 
-
-    GRAND_F("할아버지","GRAND_F"){
-        override fun getValue(value: Any): Any {
-            return "GRAND_F"
-        }
-
+    LIVER_CANCER("간암" , "LIVER_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL1,SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "할아버지"
+                    return "간암"
             }
+        }
+
+        override fun getValue(value: Any): Any {
+            return "LIVER_CANCER"
         }
     },
 
-    GRAND_M("할머니","GRAND_M"){
-        override fun getValue(value: Any): Any {
-            return "GRAND_M"
-        }
-
+    THYROID_CANCER("갑상선암" , "THYROID_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL1,SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "할머니"
+                    return "갑상선암"
             }
+        }
+
+        override fun getValue(value: Any): Any {
+            return "THYROID_CANCER"
         }
     },
 
-    MATERNAL_G_F("외할아버지","MATERNAL_G_F"){
-        override fun getValue(value: Any): Any {
-            return "MATERNAL_G_F"
-        }
-
+    BREAST_CANCER("유방암" , "BREAST_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL1,SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "외할아버지"
+                    return "유방암"
             }
+        }
+
+        override fun getValue(value: Any): Any {
+            return "BREAST_CANCER"
         }
     },
 
-    MATERNAL_G_M("외할머니","MATERNAL_G_M"){
-        override fun getValue(value: Any): Any {
-            return "MATERNAL_G_M"
-        }
-
+    ETC_CANCER("기타암" , "ETC_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL1,SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "외할머니"
+                    return "기타암"
             }
+        }
+
+        override fun getValue(value: Any): Any {
+            return "ETC_CANCER"
         }
     };
 
@@ -149,14 +128,13 @@ enum class FamilyMemberType ( val korName : String,
 
         private val answerMap : HashMap<String , Any> = HashMap()
 
-        fun convertHashMap() : HashMap<String , Any>{
-            enumValues<FamilyMemberType>().map {
-                answerMap.put(it.korName , it.value)
+        fun convertHashMap(surveyByLevel: SurveyByLevel) : HashMap<String , Any>{
+            enumValues<CancerType>().map {
+                answerMap.put(it.getKorName(surveyByLevel) , it.value)
             }.forEach {  }
 
             return answerMap
         }
 
     }
-
 }

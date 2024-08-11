@@ -2,10 +2,9 @@ package com.shcl.smarthealth.domain.model.remote.survey.answer.enumType
 
 import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 
-enum class DiseaseType( val korName : String,
-                        val value : Any,
+enum class FamilyDiseaseType(val korName : String,
+                             val value : Any,
 ) : SurveyEnumType {
-
 
     HIGH_BLOOD_PRESSURE("고혈압" , "HIGH_BLOOD_PRESSURE"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
@@ -58,22 +57,6 @@ enum class DiseaseType( val korName : String,
         }
     },
 
-    HYPERLIPIDEMIA ("고지혈증" , "HYPERLIPIDEMIA"){
-        override fun getKorName(surveyByLevel: SurveyByLevel): String {
-            when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
-                SurveyByLevel.LEVEL3,
-                SurveyByLevel.LEVEL4,
-                SurveyByLevel.LEVEL5->
-
-                    return "고지혈증"
-            }
-        }
-
-        override fun getValue(value: Any): Any {
-            return "HYPERLIPIDEMIA"
-        }
-    },
 
     STROKE("뇌졸증(중풍)" , "STROKE"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
@@ -92,8 +75,7 @@ enum class DiseaseType( val korName : String,
         }
     },
 
-
-    TUBERCULOSIS_OF_LUNG("폐결핵" , "TUBERCULOSIS_OF_LUNG"){
+    DEMENTIA("치매" , "DEMENTIA"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
                 SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
@@ -101,46 +83,17 @@ enum class DiseaseType( val korName : String,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "폐결핵"
+                    return "치매"
             }
         }
 
         override fun getValue(value: Any): Any {
-            return "TUBERCULOSIS_OF_LUNG"
-        }
-    }, HEPATITIS("B형,C형 간염보유자" , "HEPATITIS"){
-        override fun getKorName(surveyByLevel: SurveyByLevel): String {
-            when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
-                SurveyByLevel.LEVEL3,
-                SurveyByLevel.LEVEL4,
-                SurveyByLevel.LEVEL5->
-
-                    return "B형,C형 간염보유자"
-            }
-        }
-
-        override fun getValue(value: Any): Any {
-            return "HEPATITIS"
-        }
-    }, OSTEOPOROSIS("골다골증" , "OSTEOPOROSIS"){
-        override fun getKorName(surveyByLevel: SurveyByLevel): String {
-            when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
-                SurveyByLevel.LEVEL3,
-                SurveyByLevel.LEVEL4,
-                SurveyByLevel.LEVEL5->
-
-                    return "골다골증"
-            }
-        }
-
-        override fun getValue(value: Any): Any {
-            return "OSTEOPOROSIS"
+            return "DEMENTIA"
         }
     },
 
-    HYPERTHYROIDISM("갑상성기능항진증" , "HYPERTHYROIDISM"){
+
+    CHRONIC_HEPATITIS_OR_LIVER_CIRRHOSIS("만성간염/간경변" , "CHRONIC_HEPATITIS_OR_LIVER_CIRRHOSIS"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
                 SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
@@ -148,16 +101,16 @@ enum class DiseaseType( val korName : String,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "갑상성기능항진증"
+                    return "만성간염/간경변"
             }
         }
 
         override fun getValue(value: Any): Any {
-            return "HYPERTHYROIDISM"
+            return "CHRONIC_HEPATITIS_OR_LIVER_CIRRHOSIS"
         }
     },
 
-    ASTHMA("천식" , "ASTHMA"){
+    LUNG_CANCER("폐암" , "LUNG_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
                 SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
@@ -165,142 +118,132 @@ enum class DiseaseType( val korName : String,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "천식"
+                    return "폐암"
             }
         }
 
         override fun getValue(value: Any): Any {
-            return "ASTHMA"
+            return "LUNG_CANCER"
         }
-    }, ALLERGIC_RHINITIS("알레르기 비염" , "ALLERGIC_RHINITIS"){
+    },
+    GASTRIC_CANCER("위암" , "GASTRIC_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL1,
+                SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "알레르기 비염"
+                    return "위암"
             }
         }
 
         override fun getValue(value: Any): Any {
-            return "ALLERGIC_RHINITIS"
-        }
-    }, GASTRIC_ULCER_OR_DUODENAL_ULCER("위궤양/십이지장 궤양" , "GASTRIC_ULCER_OR_DUODENAL_ULCER"){
-        override fun getKorName(surveyByLevel: SurveyByLevel): String {
-            when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
-                SurveyByLevel.LEVEL3,
-                SurveyByLevel.LEVEL4,
-                SurveyByLevel.LEVEL5->
-
-                    return "위궤양/십이지장 궤양"
-            }
-        }
-
-        override fun getValue(value: Any): Any {
-            return "GASTRIC_ULCER_OR_DUODENAL_ULCER"
-        }
-    },REFLUX_ESOPHAGITIS("역류성 식도염" , "REFLUX_ESOPHAGITIS"){
-        override fun getKorName(surveyByLevel: SurveyByLevel): String {
-            when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
-                SurveyByLevel.LEVEL3,
-                SurveyByLevel.LEVEL4,
-                SurveyByLevel.LEVEL5->
-
-                    return "역류성 식도염"
-            }
-        }
-
-        override fun getValue(value: Any): Any {
-            return "REFLUX_ESOPHAGITIS"
+            return "GASTRIC_CANCER"
         }
     },
 
-    CHRONIC_KIDNEY_DISEASE("만성 신장 질환" , "CHRONIC_KIDNEY_DISEASE"){
+    COLON_CANCER_OR_RECTAL_CANCER("대장,직장암" , "COLON_CANCER_OR_RECTAL_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL1,SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "만성 신장 질환"
+                    return "대장,직장암"
             }
         }
 
         override fun getValue(value: Any): Any {
-            return "CHRONIC_KIDNEY_DISEASE"
+            return "COLON_CANCER_OR_RECTAL_CANCER"
         }
     },
 
-    BENIGN_PROSTATIC_HYPERPLASIA("전립선비대증" , "BENIGN_PROSTATIC_HYPERPLASIA"){
+    LIVER_CANCER("간암" , "LIVER_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL1,SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "전립선비대증"
+                    return "간암"
             }
         }
 
         override fun getValue(value: Any): Any {
-            return "BENIGN_PROSTATIC_HYPERPLASIA"
+            return "LIVER_CANCER"
         }
     },
 
-    GLAUCOMA("녹내장" , "GLAUCOMA"){
+    THYROID_CANCER("갑상선암" , "THYROID_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL1,SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "녹내장"
+                    return "갑상선암"
             }
         }
 
         override fun getValue(value: Any): Any {
-            return "GLAUCOMA"
+            return "THYROID_CANCER"
         }
     },
 
-    ARTHRITIS("관절염" , "ARTHRITIS"){
+    PANCREATIC_CANCER("췌장암" , "PANCREATIC_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL1,SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "관절염"
+                    return "췌장암"
             }
         }
 
         override fun getValue(value: Any): Any {
-            return "ARTHRITIS"
+            return "PANCREATIC_CANCER"
         }
     },
 
-    ETC_DISEASE("기타질환" , "ETC_DISEASE"){
+    BREAST_CANCER("유방암" , "BREAST_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
-                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL1,SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
 
-                    return "기타질환"
+                    return "유방암"
             }
         }
 
         override fun getValue(value: Any): Any {
-            return "ETC_DISEASE"
+            return "BREAST_CANCER"
+        }
+    },
+
+
+    ETC_CANCER("기타암" , "ETC_CANCER"){
+        override fun getKorName(surveyByLevel: SurveyByLevel): String {
+            when(surveyByLevel){
+                SurveyByLevel.LEVEL1,SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL3,
+                SurveyByLevel.LEVEL4,
+                SurveyByLevel.LEVEL5->
+
+                    return "기타암"
+            }
+        }
+
+        override fun getValue(value: Any): Any {
+            return "ETC_CANCER"
         }
     };
 
@@ -309,7 +252,7 @@ enum class DiseaseType( val korName : String,
         private val answerMap : HashMap<String , Any> = HashMap()
 
         fun convertHashMap(surveyByLevel: SurveyByLevel) : HashMap<String , Any>{
-            enumValues<DiseaseType>().map {
+            enumValues<FamilyDiseaseType>().map {
                 answerMap.put(it.getKorName(surveyByLevel) , it.value)
             }.forEach {  }
 
@@ -317,4 +260,5 @@ enum class DiseaseType( val korName : String,
         }
 
     }
+
 }

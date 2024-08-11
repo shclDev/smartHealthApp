@@ -1,7 +1,9 @@
 package com.shcl.smarthealth.domain.model.remote.survey.answer
 
+import com.google.gson.annotations.SerializedName
+
 data class Answer(
-    val questionId : Int,
-    val answerType : String,
-    val answer : Any
+    @SerializedName("questionId") val questionId : Int,
+    @SerializedName("answerType") val answerType : String,
+    @SerializedName("answer") var answer : Any?
 )

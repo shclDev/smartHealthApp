@@ -1,23 +1,43 @@
 package com.shcl.smarthealth.presentation.view.survey.content
 
 import android.util.Log
+import android.view.View
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.LittleBigType
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.NowType
+import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
+import com.shcl.smarthealth.presentation.ui.common.CustomTwoComboBox
+import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeBoolean
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeGoodBad
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger0123
@@ -30,8 +50,10 @@ import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeNowS
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeSleep1GoodBad
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeSleepGoodBad
 import com.shcl.smarthealth.ui.theme.Color143F91
+import com.shcl.smarthealth.ui.theme.Color94918A
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.Typography
+import java.util.Arrays
 
 @Composable
 fun surveySmoking(){
@@ -53,48 +75,64 @@ fun surveySmoking(){
     var question10Answer by remember { mutableStateOf(0) }
     var question11Answer by remember { mutableStateOf(0) }
 
+    var question1_1_visible by remember { mutableStateOf(false) }
+    var question1_3_visible by remember { mutableStateOf(false) }
+
 
     val checkImageIcon = Icons.Default.CheckCircle
 
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState)) {
+
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(scrollState)) {
         NumberButton("1")
         Text("현재 담배를 피우십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
-            options = typeNowSmoke ,
+            options = NowType.convertHashMap(SurveyByLevel.LEVEL4) ,
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
             selectionChanged = { it->
+                if(it == "" )
                 Log.d("survey" , "answer : ${it}")
             }
         )
 
-        NumberButton("2")
-        Text("담배를 언제 끊었습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
-        CustomGroupButtons(
-            options = typeInteger0123 ,
-            unSelectedColor = ColorD4D9E1 ,
-            selectedColor = Color143F91,
-            containerColor = Color.White,
-            icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
-            }
-        )
+        AnimatedVisibility (
+            visible = question1_1_visible,
+            enter = fadeIn(animationSpec = tween(durationMillis = 500)),
+            exit = fadeOut(animationSpec = tween(durationMillis = 500))
+        ){
+            NumberButton("1-1")
+            Text("담배를 언제 끊었습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
+            CustomTwoComboBox(
+                subject = "",
+                firstList =  Arrays.asList("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"),
+                secondList = Arrays.asList("1","2","3","4","5","6","7","8","9","10","11","12"),
+                firstSelected = { Log.d("smarthealth","f selected") },
+                firstUnit = "년",
+                secondUnit = "월",
+                secondSelected = {Log.d("smarthealth","2 selected") }
+            )
 
-        NumberButton("3")
-        Text("끊기 전 2년 동안 하루 평균 몇 개비를 피웠습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
-        CustomGroupButtons(
-            options = typeInteger0123 ,
-            unSelectedColor = ColorD4D9E1 ,
-            selectedColor = Color143F91,
-            containerColor = Color.White,
-            icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            NumberButton("1-2")
+            Text("끊기 전 2년 동안 하루 평균 몇 개비를 피웠습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
+            Row {
+                TextField(
+                    readOnly = false,
+                    modifier = Modifier
+                        .background(Color.White)
+                        .defaultMinSize(minWidth = 383f.pxToDp(), minHeight = 85f.pxToDp())
+                        .clip(RoundedCornerShape(10f.pxToDp()))
+                        .border(width = 2f.pxToDp(), color = Color94918A),
+                    value = "", onValueChange = { })
+                Text("개비")
             }
-        )
+
+
+        }
+
 
         NumberButton("4")
         Text("현재 담배를 피우십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
@@ -216,7 +254,7 @@ fun surveySmoking(){
         NumberButton("13")
         Text("지난 한 달 동안, 해야 할 일들을 열심히 해서 마치는 것이 얼마나 힘들었습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
-            options = typeLittleBig,
+            options = LittleBigType.convertHashMap(SurveyByLevel.LEVEL4),
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,

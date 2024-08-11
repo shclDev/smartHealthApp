@@ -61,10 +61,18 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
     val level by viewModel.levelState.collectAsStateWithLifecycle()
     val levelTitle by viewModel.levelTitleState.collectAsStateWithLifecycle()
 
+    val uploadSuccess by viewModel.uploadSuccess.collectAsStateWithLifecycle()
+
+
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
     ){
+
+        if(uploadSuccess){
+            viewModel.next()
+        }
+
         Row{
             LinearVerticalLine()
 
@@ -87,7 +95,7 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
 
                 Box(modifier = Modifier.weight(0.8f)) {
                     when(level){
-                        1-> surveyFood()
+                        1-> surveyFood(viewModel)
                         2-> surveySleep()
                         3-> surveyDepression()
                         4-> surveySmoking()
@@ -111,8 +119,10 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
                         contentColor = Color143F91, containerColor = Color.White , withBoard = true, text = "이전" , leftIcon = painterResource(id = R.drawable.left_arrow)
                     )
                     CustomButton(
-                        btnClick = {
-                            viewModel.next()
+                        btnClick =  {
+
+                            viewModel.uploadAnswer()
+                            //viewModel.next()
                         },
 
                         buttonWidth = 553f,

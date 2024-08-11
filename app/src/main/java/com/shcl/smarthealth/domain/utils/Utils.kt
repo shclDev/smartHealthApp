@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.decodeBitmap
 import androidx.core.net.toUri
 import com.shcl.smarthealth.common.GlobalVariables
+import com.shcl.smarthealth.domain.model.remote.survey.Question
+import com.shcl.smarthealth.domain.model.remote.survey.answer.Answer
 import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -32,6 +34,20 @@ object Utils {
 
     @Composable
     fun Int.dp() = with(LocalDensity.current) {  Dp(this@dp.toFloat()).toSp()  }
+
+
+    fun getAnswer(questionId : Int , questions : List<Question>?) : Answer?{
+
+        val question = questions?.find { it.questionId ==  questionId}
+
+        question?.let { it->
+            return Answer(
+                questionId = it.questionId,
+                answerType = it.answerType,
+                answer = ""
+            )
+        }?:run { return null }
+    }
 
     fun getTimeStamp() : String {
         val dateformat : SimpleDateFormat = SimpleDateFormat("yyyyMMddhhmmss")

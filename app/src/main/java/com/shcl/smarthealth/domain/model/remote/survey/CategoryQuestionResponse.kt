@@ -4,5 +4,5 @@ data class CategoryQuestionResponse(
     val success : Boolean,
     val code : String,
     val message : String,
-    val data: List<Question>?
+    var data: List<Question>?
 )
