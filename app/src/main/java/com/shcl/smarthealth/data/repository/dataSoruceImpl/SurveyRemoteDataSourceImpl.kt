@@ -8,6 +8,7 @@ import com.shcl.smarthealth.di.NetworkModule
 import com.shcl.smarthealth.domain.model.remote.common.ApiResponse
 import com.shcl.smarthealth.domain.model.remote.survey.CategoryQuestionResponse
 import com.shcl.smarthealth.domain.model.remote.survey.SurveyInfoResponse
+import com.shcl.smarthealth.domain.model.remote.survey.SurveyStartRequest
 import com.shcl.smarthealth.domain.model.remote.survey.SurveyStartResponse
 import com.shcl.smarthealth.domain.model.remote.survey.answer.CategoryQuestionRequest
 import kotlinx.coroutines.flow.Flow
@@ -54,9 +55,9 @@ class SurveyRemoteDataSourceImpl(
         }
     }
 
-    override suspend fun surveyStart(): Flow<ApiResponse<SurveyStartResponse>> {
+    override suspend fun surveyStart(surveyId: Int): Flow<ApiResponse<SurveyStartResponse>> {
         try{
-            val response = surveyApi.surveyStart()
+            val response = surveyApi.surveyStart(SurveyStartRequest(surveyId))
 
             if(response.isSuccessful){
                 response.body()?.let {

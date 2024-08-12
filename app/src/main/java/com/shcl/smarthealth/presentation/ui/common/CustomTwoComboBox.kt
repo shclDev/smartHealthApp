@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
+import com.shcl.smarthealth.ui.theme.Color1E1E1E
 import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 
@@ -45,8 +46,8 @@ fun CustomTwoComboBox(
     firstUnit : String = "",
     secondUnit : String = "",
     secondList : MutableList<String>,
-    firstSelected : ()->Unit,
-    secondSelected : ()->Unit
+    firstSelected : (Any)->Unit,
+    secondSelected : (Any)->Unit
 ) {
 
     var firstExpanded by remember { mutableStateOf(false ) }
@@ -76,7 +77,7 @@ fun CustomTwoComboBox(
                     .background(Color.White)
                     .padding(15f.pxToDp())
             ){
-                Text( text = "${firstSelected}" , color = Color757575 , fontSize = 20f.pxToSp() )
+                Text( text = "${firstSelected}" , color = Color1E1E1E , fontSize = 20f.pxToSp() )
             }
             DropdownMenu(expanded = firstExpanded,
                 modifier = Modifier.background(Color.White),
@@ -90,7 +91,7 @@ fun CustomTwoComboBox(
                         onClick = {
                             firstExpanded = false
                             firstSelected = label
-                            //firstSelected()
+                            firstSelected(firstList[index])
                     })
                 }
 
@@ -117,7 +118,7 @@ fun CustomTwoComboBox(
                     )
                     .padding(15f.pxToDp())
             ){
-                Text( secondSelected , color = Color757575 ,fontSize = 20f.pxToSp() )
+                Text( secondSelected , color = Color1E1E1E ,fontSize = 20f.pxToSp() )
             }
             DropdownMenu(
                 expanded = secondExpanded,
@@ -133,7 +134,7 @@ fun CustomTwoComboBox(
                         text = { Text("$label" , fontSize = 20f.pxToSp() , textAlign = TextAlign.Center) }, onClick = {
                         secondExpanded = false
                         secondSelected = label
-                        //secondSelected()
+                        secondSelected(secondList[index])
                     })
                 }
             }

@@ -11,7 +11,7 @@ interface SurveyRepository {
 
     suspend fun surveyInfo() : Flow<ApiResponse<SurveyInfoResponse>>
 
-    suspend fun surveyStart() : Flow<ApiResponse<SurveyStartResponse>>
+    suspend fun surveyStart(surveyId: Int) : Flow<ApiResponse<SurveyStartResponse>>
 
     suspend fun surveyComplete(answerId : Int) : Flow<ApiResponse<String?>>
 

@@ -150,6 +150,8 @@ enum class FamilyMemberType ( val korName : String,
         private val answerMap : HashMap<String , Any> = HashMap()
 
         fun convertHashMap() : HashMap<String , Any>{
+
+            answerMap.clear()
             enumValues<FamilyMemberType>().map {
                 answerMap.put(it.korName , it.value)
             }.forEach {  }

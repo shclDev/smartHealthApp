@@ -85,6 +85,7 @@ class SurveyViewModel @Inject constructor(
     private val LEVEL5_QUESTION_CNT = 14
 
     private var surveyId : Int = 1
+    private var answerId : Int = 0
 
 
     private var _questions : List<Question>? = null
@@ -143,15 +144,15 @@ class SurveyViewModel @Inject constructor(
     }
 
     fun addLevel3Answer(answer : Answer){
-        _level1Answers.value.put(answer.questionId , answer)
+        _level3Answers.value.put(answer.questionId , answer)
     }
 
     fun addLevel4Answer(answer : Answer){
-        _level1Answers.value.put(answer.questionId , answer)
+        _level4Answers.value.put(answer.questionId , answer)
     }
 
     fun addLevel5Answer(answer : Answer){
-        _level1Answers.value.put(answer.questionId , answer)
+        _level5Answers.value.put(answer.questionId , answer)
     }
 
 
@@ -179,12 +180,19 @@ class SurveyViewModel @Inject constructor(
     fun surveyStart(){
 
         GlobalScope.launch(Dispatchers.IO) {
-            surveyUseCase.startSurveyUseCase.invoke()
+            surveyUseCase.startSurveyUseCase.invoke(surveyId)
                 .onStart {   Log.d("smarthealth" , "survey start") }
                 .onCompletion {  Log.d("smarthealth" , "") }
                 .catch {   Log.d("smarthealth" , "")}
                 .collect{
                     it.let {
+
+                        if(it.success){
+                            it.data?.let { data->
+                                answerId = data.id
+                            }
+                        }
+
                         Log.d("smarthealth" , "survey  : ${it}")
                     }
                 }
@@ -262,7 +270,7 @@ class SurveyViewModel @Inject constructor(
 
 
         var categoryQuestionRequest : CategoryQuestionRequest = CategoryQuestionRequest(
-            answerId = surveyId,
+            answerId = answerId,
             category = _levelTitleState.value.category,
             answers =  answers
         )

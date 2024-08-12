@@ -16,10 +16,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.DaysFrequencyType
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.LittleBigType
+import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
 import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
+import com.shcl.smarthealth.presentation.view.survey.SurveyViewModel
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeDaysFrequency
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeFreq
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger421
@@ -31,9 +35,12 @@ import com.shcl.smarthealth.ui.theme.Typography
 
 
 @Composable
-fun surveyDepression() {
+fun surveyDepression(viewModel : SurveyViewModel) {
 
     val scrollState = rememberScrollState()
+
+    val questions by viewModel.questions.collectAsStateWithLifecycle()
+
     //val type_freq : HashMap<String , Any> = hashMapOf("항상 그런 편이다" to 2 , "보통이다" to 1 ,  "아닌편이다" to 0 )
     //val question2 : HashMap<String , Any> = hashMapOf("항상 그런 편이다" to 2 , "보통이다" to 1 ,  "아닌편이다" to 0 )
     var question1Answer by remember { mutableStateOf(0) }
@@ -61,8 +68,15 @@ fun surveyDepression() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = { value->
+
+                var answer = Utils.getAnswer(33, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel3Answer(answer)
+                }
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
@@ -75,8 +89,15 @@ fun surveyDepression() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = {   value->
+
+                var answer = Utils.getAnswer(34, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel3Answer(answer)
+                }
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
@@ -88,8 +109,17 @@ fun surveyDepression() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = { value->
+
+
+                var answer = Utils.getAnswer(35, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel3Answer(answer)
+                }
+
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
@@ -101,8 +131,16 @@ fun surveyDepression() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = {  value->
+
+
+                var answer = Utils.getAnswer(36, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel3Answer(answer)
+                }
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
@@ -114,8 +152,16 @@ fun surveyDepression() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = {  value->
+
+
+                var answer = Utils.getAnswer(37, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel3Answer(answer)
+                }
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
@@ -127,8 +173,16 @@ fun surveyDepression() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = {  value->
+
+
+                var answer = Utils.getAnswer(38, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel3Answer(answer)
+                }
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
@@ -140,8 +194,16 @@ fun surveyDepression() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = {  value->
+
+
+                var answer = Utils.getAnswer(39, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel3Answer(answer)
+                }
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
@@ -153,8 +215,16 @@ fun surveyDepression() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = {  value->
+
+
+                var answer = Utils.getAnswer(40, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel3Answer(answer)
+                }
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
@@ -166,21 +236,36 @@ fun surveyDepression() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = {  value->
+
+
+                var answer = Utils.getAnswer(41, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel3Answer(answer)
+                }
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
         NumberButton("10")
         Text("이러한 문제들로 인해서 당신은 일을 하거나 가정 일을 돌보거나 다른 사람과 어울리는 것이 얼마나 어려웠습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
-            options = DaysFrequencyType.convertHashMap(SurveyByLevel.LEVEL3),
+            options = LittleBigType.convertHashMap(SurveyByLevel.LEVEL3),
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = {  value->
+
+                var answer = Utils.getAnswer(42, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel3Answer(answer)
+                }
+                Log.d("survey" , "answer : ${value}")
             }
         )
     }

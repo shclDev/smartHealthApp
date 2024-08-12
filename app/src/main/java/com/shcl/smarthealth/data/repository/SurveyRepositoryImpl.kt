@@ -16,8 +16,8 @@ class SurveyRepositoryImpl(
         return surveyRemoteDataSource.surveyInfo()
     }
 
-    override suspend fun surveyStart(): Flow<ApiResponse<SurveyStartResponse>> {
-       return surveyRemoteDataSource.surveyStart()
+    override suspend fun surveyStart(surveyId: Int): Flow<ApiResponse<SurveyStartResponse>> {
+       return surveyRemoteDataSource.surveyStart(surveyId)
     }
 
     override suspend fun surveyComplete(answerId: Int): Flow<ApiResponse<String?>> {

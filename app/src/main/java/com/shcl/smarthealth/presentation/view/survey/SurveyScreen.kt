@@ -96,10 +96,10 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
                 Box(modifier = Modifier.weight(0.8f)) {
                     when(level){
                         1-> surveyFood(viewModel)
-                        2-> surveySleep()
-                        3-> surveyDepression()
-                        4-> surveySmoking()
-                        5-> surveyAct()
+                        2-> surveySleep(viewModel)
+                        3-> surveyDepression(viewModel)
+                        4-> surveySmoking(viewModel)
+                        5-> surveyAct(viewModel)
                     }
                 }
 
@@ -120,7 +120,6 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
                     )
                     CustomButton(
                         btnClick =  {
-
                             viewModel.uploadAnswer()
                             //viewModel.next()
                         },

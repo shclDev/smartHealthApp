@@ -1,6 +1,10 @@
 package com.shcl.smarthealth.presentation.view.survey.content
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -24,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.CancerType
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.DiseaseType
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.FamilyDiseaseType
@@ -32,6 +38,8 @@ import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
 import com.shcl.smarthealth.presentation.ui.common.CustomTwoComboBox
 import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
+import com.shcl.smarthealth.presentation.view.survey.SurveyViewModel
+import com.shcl.smarthealth.presentation.view.survey.component.CancerDetail
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeBoolean
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeCancer
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeDisease
@@ -51,10 +59,12 @@ import com.shcl.smarthealth.ui.theme.Typography
 import java.util.Arrays
 
 @Composable
-fun surveyAct(){
+fun surveyAct(viewModel: SurveyViewModel){
 
 
     val scrollState = rememberScrollState()
+    val questions by viewModel.questions.collectAsStateWithLifecycle()
+
     //val type_freq : HashMap<String , Any> = hashMapOf("항상 그런 편이다" to 2 , "보통이다" to 1 ,  "아닌편이다" to 0 )
     //val question2 : HashMap<String , Any> = hashMapOf("항상 그런 편이다" to 2 , "보통이다" to 1 ,  "아닌편이다" to 0 )
     var question1Answer by remember { mutableStateOf(0) }
@@ -69,6 +79,9 @@ fun surveyAct(){
     var question10Answer by remember { mutableStateOf(0) }
     var question11Answer by remember { mutableStateOf(0) }
 
+    var cancerDetailVisible by remember { mutableStateOf(false) }
+    var selectedCancerList by remember { mutableStateOf( emptyList<String>()) }
+    var cacner by remember { mutableStateOf("") }
 
     val checkImageIcon = Icons.Default.CheckCircle
 
@@ -207,9 +220,24 @@ fun surveyAct(){
             containerColor = Color.White,
             icon = checkImageIcon,
             selectionChanged = { it->
+                cacner = it.toString()
+                cancerDetailVisible = true
                 Log.d("survey" , "answer : ${it}")
             }
         )
+
+        AnimatedVisibility(
+            visible = cancerDetailVisible,
+            enter = fadeIn(animationSpec = tween(durationMillis = 500)),
+            exit = fadeOut(animationSpec = tween(durationMillis = 500))
+        ) {
+
+            CancerDetail(
+                selectChange = { data->
+                Log.d("smarthealth" , "${data}")
+            }, cancerType = "$cacner" )
+
+        }
 
         NumberButton("9")
         Text("지금까지 아래의 질병이 있다고 진단받은 적이 있습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)

@@ -1,5 +1,6 @@
 package com.shcl.smarthealth.domain.model.remote.survey.answer.enumType
 
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.FamilyDiseaseType.Companion
 import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 
 enum class DurationType(
@@ -52,6 +53,8 @@ enum class DurationType(
         private val answerMap : HashMap<String , Any> = HashMap()
 
         fun convertHashMap(surveyByLevel: SurveyByLevel) : HashMap<String , Any>{
+            answerMap.clear()
+
             enumValues<DurationType>().map {
                 answerMap.put(it.getKorName(surveyByLevel) , it.value)
             }.forEach {  }

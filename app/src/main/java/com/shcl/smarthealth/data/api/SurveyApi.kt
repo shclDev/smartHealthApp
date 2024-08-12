@@ -3,6 +3,7 @@ package com.shcl.smarthealth.data.api
 import com.shcl.smarthealth.domain.model.remote.common.ApiResponse
 import com.shcl.smarthealth.domain.model.remote.survey.CategoryQuestionResponse
 import com.shcl.smarthealth.domain.model.remote.survey.SurveyInfoResponse
+import com.shcl.smarthealth.domain.model.remote.survey.SurveyStartRequest
 import com.shcl.smarthealth.domain.model.remote.survey.SurveyStartResponse
 import com.shcl.smarthealth.domain.model.remote.survey.answer.CategoryQuestionRequest
 import com.shcl.smarthealth.domain.model.remote.user.ProfileResponse
@@ -35,6 +36,7 @@ interface SurveyApi {
     ///설문조사 답변 시작
     @POST("/personal/health/survey/answer/start")
     suspend fun surveyStart(
+        @Body reuest: SurveyStartRequest
     ) : Response<ApiResponse<SurveyStartResponse>>
 
     ///설문조사 답변 완료

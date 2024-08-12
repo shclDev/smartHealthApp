@@ -178,4 +178,40 @@ object Utils {
 
         return 0
     }
+
+    fun hourMinFormat(hour : String? , min : String?) : String?{
+
+        try{
+            if( !hour.isNullOrEmpty() && !min.isNullOrEmpty()){
+                return "$hour:$min"
+            }else{
+                return null
+            }
+        }catch(e : Exception){
+            Log.e("smarthealth" , e.message.toString() )
+        }
+
+        return null
+    }
+
+    fun makeYearRange(startYear : Int , endYear : Int) : ArrayList<String>{
+        var years : ArrayList<String> = arrayListOf()
+
+        for(i in startYear until endYear){
+            years.add(i.toString())
+        }
+
+        return years
+    }
+
+    fun makeAgeRange(startAge : Int , endAge : Int) : ArrayList<String>{
+        var ages : ArrayList<String> = arrayListOf()
+
+        for(i in startAge until endAge){
+            ages.add(i.toString())
+        }
+
+        return ages
+    }
+
 }

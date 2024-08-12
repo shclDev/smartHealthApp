@@ -4,5 +4,5 @@ import com.shcl.smarthealth.domain.repository.SurveyRepository
 import javax.inject.Inject
 
 class StartSurveyUseCase  @Inject constructor(private val repository: SurveyRepository) {
-    suspend operator fun invoke()  = repository.surveyStart()
+    suspend operator fun invoke(surveyId : Int)  = repository.surveyStart(surveyId)
 }

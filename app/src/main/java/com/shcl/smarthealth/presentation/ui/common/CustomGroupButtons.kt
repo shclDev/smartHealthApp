@@ -54,11 +54,14 @@ fun CustomGroupButtons(
     selectedColor : Color,
     containerColor : Color? = null,
     icon : ImageVector? = null,
+    multiSelect : Boolean = false,
     selectionChanged : (Any)-> Unit
     ) {
 
 
     var selectedOption by remember { mutableStateOf("") }
+    //var selectedState = options.values.toList()
+    //var selectedState by remember { mutableStateOf(List<Boolean>())}
     //var buttonBoardColor by remember { mutableStateOf(unSelectedColor) }
     //val reverseMap = options.entries.stream().map(item -> item.getKey()).sorted().collect(Collectors.toList())
 

@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.min
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
+import com.shcl.smarthealth.ui.theme.Color1E1E1E
 import com.shcl.smarthealth.ui.theme.Color757575
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,7 +41,7 @@ fun CustomComboBox(
     firstUnit : String="",
     secondUnit : String="",
     list : ArrayList<String>,
-    selected : ()->Unit
+    selected : (Any)->Unit
 ){
 
     var expanded by remember { mutableStateOf(false) }
@@ -65,15 +66,21 @@ fun CustomComboBox(
                 .padding(25f.pxToDp())
 
         ) {
-            DropdownMenu(expanded = expanded,
+            Text("${selected}" , color = Color1E1E1E , fontSize = 20f.pxToSp())
+
+            DropdownMenu(
+                expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
 
                 list.forEachIndexed { index, label ->
-                    DropdownMenuItem(text = { Text("$label" , fontSize = 22f.pxToSp()) }, onClick = {
+                    DropdownMenuItem(modifier = Modifier
+                        .background(Color.White)
+                        .border(width = 1f.pxToDp(), color = Color.Gray)
+                        , text = { Text("$label" , fontSize = 22f.pxToSp()) }, onClick = {
                         expanded = false
                         selected = label
-                        selected() })
+                        selected(list[index]) })
                 }
             }
         }

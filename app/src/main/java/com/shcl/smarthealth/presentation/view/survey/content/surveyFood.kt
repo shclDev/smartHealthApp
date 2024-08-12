@@ -45,7 +45,6 @@ fun surveyFood(viewModel : SurveyViewModel) {
     val scrollState = rememberScrollState()
     val questions by viewModel.questions.collectAsStateWithLifecycle()
 
-
     val checkImageIcon = Icons.Default.CheckCircle
 
     Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState)) {

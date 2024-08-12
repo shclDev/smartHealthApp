@@ -1,5 +1,6 @@
 package com.shcl.smarthealth.domain.model.remote.survey.answer.enumType
 
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.GoodBadType.Companion
 import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 
 enum class FrequencyType( val korName : String,
@@ -58,6 +59,9 @@ enum class FrequencyType( val korName : String,
         private val answerMap : HashMap<String , Any> = HashMap()
 
         fun convertHashMap(surveyByLevel: SurveyByLevel) : HashMap<String , Any>{
+
+            answerMap.clear()
+
             enumValues<FrequencyType>().map {
                 answerMap.put(it.getKorName(surveyByLevel) , it.value)
             }.forEach {  }

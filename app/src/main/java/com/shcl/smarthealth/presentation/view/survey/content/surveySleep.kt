@@ -30,14 +30,18 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.transition.Visibility
+import com.shcl.smarthealth.domain.model.remote.survey.answer.dtoType.StartEndTimeDto
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.GoodBadType
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.LittleBigType
+import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
 import com.shcl.smarthealth.presentation.ui.common.CustomTwoComboBox
 import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
+import com.shcl.smarthealth.presentation.view.survey.SurveyViewModel
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeBoolean
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeGoodBad
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeInteger0123
@@ -53,28 +57,33 @@ import com.shcl.smarthealth.ui.theme.Typography
 import java.util.Arrays
 
 @Composable
-fun surveySleep() {
+fun surveySleep(viewModel : SurveyViewModel) {
 
 
     val scrollState = rememberScrollState()
-    //val type_freq : HashMap<String , Any> = hashMapOf("항상 그런 편이다" to 2 , "보통이다" to 1 ,  "아닌편이다" to 0 )
-    //val question2 : HashMap<String , Any> = hashMapOf("항상 그런 편이다" to 2 , "보통이다" to 1 ,  "아닌편이다" to 0 )
-    var question1Answer by remember { mutableStateOf(0) }
-    var question2Answer by remember { mutableStateOf(0) }
-    var question3Answer by remember { mutableStateOf(0) }
-    var question4Answer by remember { mutableStateOf(0) }
-    var question5Answer by remember { mutableStateOf(0) }
-    var question6Answer by remember { mutableStateOf(0) }
-    var question7Answer by remember { mutableStateOf(0) }
-    var question8Answer by remember { mutableStateOf(0) }
-    var question9Answer by remember { mutableStateOf(0) }
-    var question10Answer by remember { mutableStateOf(0) }
-    var question11Answer by remember { mutableStateOf(0) }
-    var question10_1Answer by remember { mutableStateOf("") }
+    val questions by viewModel.questions.collectAsStateWithLifecycle()
 
     var question1_1_visible by remember { mutableStateOf(false) }
     var question1_2_visible by remember { mutableStateOf(false) }
     var question_10_1_visible by remember { mutableStateOf(false) }
+
+    var question_13_start_hour_answer by remember { mutableStateOf("") }
+    var question_13_start_min_answer by remember { mutableStateOf("") }
+    var question_13_start_hour_min_answer by remember { mutableStateOf("") }
+
+    var question_13_end_hour_answer by remember { mutableStateOf("") }
+    var question_13_end_min_answer by remember { mutableStateOf("") }
+    var question_13_end_hour_min_answer by remember { mutableStateOf("") }
+
+    var question_25_answer by remember { mutableStateOf("") }
+
+    var question_32_start_hour_answer by remember { mutableStateOf("") }
+    var question_32_start_min_answer by remember { mutableStateOf("") }
+    var question_32_start_hour_min_answer by remember { mutableStateOf("") }
+
+    var question_32_end_hour_answer by remember { mutableStateOf("") }
+    var question_32_end_min_answer by remember { mutableStateOf("") }
+    var question_32_end_hour_min_answer by remember { mutableStateOf("") }
 
     val checkImageIcon = Icons.Default.CheckCircle
 
@@ -92,15 +101,23 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                if ("VERY_GOOD".compareTo(it.toString()) == 0 || "GOOD".compareTo(it.toString()) == 0) {
+            selectionChanged = { value ->
+
+                var answer = Utils.getAnswer(12,questions)
+
+                answer?.let{
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                if ("VERY_GOOD".compareTo(value.toString()) == 0 || "GOOD".compareTo(value.toString()) == 0) {
                     question1_1_visible = true
                     question1_2_visible =false
                 } else {
                     question1_1_visible = false
                     question1_2_visible = true
                 }
-                Log.d("survey", "answer : ${it}")
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -120,17 +137,77 @@ fun surveySleep() {
                     subject = "취침 시각",
                     firstList =  Arrays.asList("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"),
                     secondList = Arrays.asList("00","30"),
-                    firstSelected = { Log.d("smarthealth","f selected") },
+                    firstSelected = { value->
+
+                        question_13_start_hour_answer = value.toString()
+
+                        val startTime = Utils.hourMinFormat(question_13_start_hour_answer , question_13_start_min_answer)
+
+                        startTime?.let {
+
+                            question_13_start_hour_min_answer = startTime
+
+                            if(!question_13_start_hour_min_answer.isNullOrEmpty() && !question_13_end_hour_min_answer.isNullOrEmpty()){
+                                var answer = Utils.getAnswer(13,questions)
+
+                                answer?.let{
+                                    answer.answer = StartEndTimeDto(startTime = question_13_start_hour_min_answer , endTime = question_13_end_hour_min_answer)
+                                    viewModel.addLevel2Answer(answer)
+                                }
+                            }
+                        }
+
+                        Log.d("smarthealth","f selected")
+
+                    },
                     firstUnit = "시",
                     secondUnit = "분",
-                    secondSelected = {Log.d("smarthealth","2 selected") }
+                    secondSelected = { value->
+
+                        question_13_start_min_answer = value.toString()
+
+                        val startTime = Utils.hourMinFormat(question_13_start_hour_answer , question_13_start_min_answer)
+
+                        startTime?.let {
+
+                            question_13_start_hour_min_answer = startTime
+
+                            if(!question_13_start_hour_min_answer.isNullOrEmpty() && !question_13_end_hour_min_answer.isNullOrEmpty()){
+                                var answer = Utils.getAnswer(13,questions)
+
+                                answer?.let{
+                                    answer.answer = StartEndTimeDto(startTime = question_13_start_hour_min_answer , endTime = question_13_end_hour_min_answer)
+                                    viewModel.addLevel2Answer(answer)
+                                }
+                            }
+                        }
+                    }
                 )
 
                 CustomTwoComboBox(
                     subject = "기상 시각",
                     firstList =  Arrays.asList("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"),
                     secondList = Arrays.asList("00","30"),
-                    firstSelected = { Log.d("smarthealth","f selected") },
+                    firstSelected = { value->
+
+                        question_13_end_hour_answer = value.toString()
+
+                        val endTime = Utils.hourMinFormat(question_13_end_hour_answer , question_13_end_min_answer)
+
+                        endTime?.let {
+
+                            question_13_end_hour_min_answer = endTime
+
+                            if(!question_13_start_hour_min_answer.isNullOrEmpty() && !question_13_end_hour_min_answer.isNullOrEmpty()){
+                                var answer = Utils.getAnswer(13,questions)
+
+                                answer?.let{
+                                    answer.answer = StartEndTimeDto(startTime = question_13_start_hour_min_answer , endTime = question_13_end_hour_min_answer)
+                                    viewModel.addLevel2Answer(answer)
+                                }
+                            }
+                        }
+                    },
                     firstUnit = "시",
                     secondUnit = "분",
                     secondSelected = {Log.d("smarthealth","2 selected") }
@@ -154,13 +231,21 @@ fun surveySleep() {
                     selectedColor = Color143F91,
                     containerColor = Color.White,
                     icon = checkImageIcon,
-                    selectionChanged = { it ->
-                        if ("VERY_GOOD".compareTo(it.toString()) == 0 || "GOOD".compareTo(it.toString()) == 0) {
+                    selectionChanged = { value ->
+                        if ("VERY_GOOD".compareTo(value.toString()) == 0 || "GOOD".compareTo(value.toString()) == 0) {
                             question1_1_visible = true
                         } else {
                             question1_1_visible = false
                         }
-                        Log.d("survey", "answer : ${it}")
+                        Log.d("survey", "answer : ${value}")
+
+                        var answer = Utils.getAnswer(14, questions)
+
+                        answer?.let {
+                            answer.answer = value
+                            viewModel.addLevel2Answer(answer)
+                        }
+
                     }
                 )
 
@@ -172,13 +257,21 @@ fun surveySleep() {
                     selectedColor = Color143F91,
                     containerColor = Color.White,
                     icon = checkImageIcon,
-                    selectionChanged = { it ->
-                        if ("VERY_GOOD".compareTo(it.toString()) == 0 || "GOOD".compareTo(it.toString()) == 0) {
+                    selectionChanged = { value ->
+                        if ("VERY_GOOD".compareTo(value.toString()) == 0 || "GOOD".compareTo(value.toString()) == 0) {
                             question1_1_visible = true
                         } else {
                             question1_1_visible = false
                         }
-                        Log.d("survey", "answer : ${it}")
+
+                        var answer = Utils.getAnswer(15, questions)
+
+                        answer?.let {
+                            answer.answer = value
+                            viewModel.addLevel2Answer(answer)
+                        }
+
+                        Log.d("survey", "answer : ${value}")
                     }
                 )
             }
@@ -192,8 +285,16 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value ->
+
+                var answer = Utils.getAnswer(16, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -205,8 +306,16 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value ->
+
+                var answer = Utils.getAnswer(17, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -218,8 +327,16 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value ->
+
+                var answer = Utils.getAnswer(18, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -231,8 +348,17 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value ->
+
+
+                var answer = Utils.getAnswer(19, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -244,8 +370,16 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value  ->
+
+                var answer = Utils.getAnswer(20, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -257,8 +391,16 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value ->
+
+                var answer = Utils.getAnswer(21, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -270,8 +412,17 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value ->
+
+
+                var answer = Utils.getAnswer(22, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -283,8 +434,16 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value ->
+
+                var answer = Utils.getAnswer(23, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -296,13 +455,21 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                if(it as Boolean){
+            selectionChanged = { value ->
+                if(value as Boolean){
                     question_10_1_visible = true
                 }else{
                     question_10_1_visible = false
                 }
-                Log.d("survey", "answer : ${it}")
+
+                var answer = Utils.getAnswer(24, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -323,7 +490,17 @@ fun surveySleep() {
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(10f.pxToDp()))
                         .border(width = 2f.pxToDp(), color = Color94918A),
-                    value = "$question10_1Answer" , onValueChange = { question10_1Answer = it})
+                    value = "$question_25_answer" , onValueChange = {  value->
+
+                        question_25_answer = value
+
+                        var answer = Utils.getAnswer(25, questions)
+
+                        answer?.let {
+                            answer.answer = value
+                            viewModel.addLevel2Answer(answer)
+                        }
+                    })
 
                 NumberButton("10-2")
                 Text("지난 한 달 동안, 위에 해당하는 이유로 잠을 자는데 얼마나 어려움을 겪었습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
@@ -334,8 +511,17 @@ fun surveySleep() {
                     selectedColor = Color143F91,
                     containerColor = Color.White,
                     icon = checkImageIcon,
-                    selectionChanged = { it ->
-                        Log.d("survey", "answer : ${it}")
+                    selectionChanged = { value ->
+
+
+                        var answer = Utils.getAnswer(26, questions)
+
+                        answer?.let {
+                            answer.answer = value
+                            viewModel.addLevel2Answer(answer)
+                        }
+
+                        Log.d("survey", "answer : ${value}")
                     }
                 )
             }
@@ -351,8 +537,16 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value ->
+
+                var answer = Utils.getAnswer(27, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -364,8 +558,16 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value ->
+
+                var answer = Utils.getAnswer(28, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -377,8 +579,16 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value ->
+
+                var answer = Utils.getAnswer(29, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -390,8 +600,16 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value ->
+
+                var answer = Utils.getAnswer(30, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -403,8 +621,16 @@ fun surveySleep() {
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it ->
-                Log.d("survey", "answer : ${it}")
+            selectionChanged = { value ->
+
+                var answer = Utils.getAnswer(31, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel2Answer(answer)
+                }
+
+                Log.d("survey", "answer : ${value}")
             }
         )
 
@@ -414,20 +640,104 @@ fun surveySleep() {
             subject = "취침 시각",
             firstList =  Arrays.asList("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"),
             secondList = Arrays.asList("00","30"),
-            firstSelected = { Log.d("smarthealth","f selected") },
+            firstSelected = {  value->
+
+                question_32_start_hour_answer = value.toString()
+
+                val startTime = Utils.hourMinFormat(question_32_start_hour_answer , question_32_start_min_answer)
+
+                startTime?.let {
+
+                    question_32_start_hour_min_answer = startTime
+
+                    if(!question_32_start_hour_min_answer.isNullOrEmpty() && !question_32_end_hour_min_answer.isNullOrEmpty()){
+                        var answer = Utils.getAnswer(32,questions)
+
+                        answer?.let{
+                            answer.answer = StartEndTimeDto(startTime = question_32_start_hour_min_answer , endTime = question_32_end_hour_min_answer)
+                            viewModel.addLevel2Answer(answer)
+                        }
+                    }
+                }
+
+                Log.d("smarthealth","f selected") },
             firstUnit = "시",
             secondUnit = "분",
-            secondSelected = {Log.d("smarthealth","2 selected") }
+            secondSelected = { value->
+
+
+                question_32_start_min_answer = value.toString()
+
+                val startTime = Utils.hourMinFormat(question_32_start_hour_answer , question_32_start_min_answer)
+
+                startTime?.let {
+
+                    question_32_start_hour_min_answer = startTime
+
+                    if(!question_32_start_hour_min_answer.isNullOrEmpty() && !question_32_end_hour_min_answer.isNullOrEmpty()){
+                        var answer = Utils.getAnswer(32,questions)
+
+                        answer?.let{
+                            answer.answer = StartEndTimeDto(startTime = question_32_start_hour_min_answer , endTime = question_32_end_hour_min_answer)
+                            viewModel.addLevel2Answer(answer)
+                        }
+                    }
+                }
+
+
+
+                Log.d("smarthealth","2 selected") }
         )
 
         CustomTwoComboBox(
             subject = "기상 시각",
             firstList =  Arrays.asList("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"),
             secondList = Arrays.asList("00","30"),
-            firstSelected = { Log.d("smarthealth","f selected") },
+            firstSelected = {  value->
+
+                question_32_end_hour_answer = value.toString()
+
+                val endTime = Utils.hourMinFormat(question_32_end_hour_answer , question_32_end_min_answer)
+
+                endTime?.let {
+
+                    question_32_end_hour_min_answer = endTime
+
+                    if(!question_32_start_hour_min_answer.isNullOrEmpty() && !question_32_end_hour_min_answer.isNullOrEmpty()){
+                        var answer = Utils.getAnswer(32,questions)
+
+                        answer?.let{
+                            answer.answer = StartEndTimeDto(startTime = question_32_start_hour_min_answer , endTime = question_32_end_hour_min_answer)
+                            viewModel.addLevel2Answer(answer)
+                        }
+                    }
+                }
+
+
+                Log.d("smarthealth","f selected") },
             firstUnit = "시",
             secondUnit = "분",
-            secondSelected = {Log.d("smarthealth","2 selected") }
+            secondSelected = { value->
+
+                question_32_end_min_answer = value.toString()
+
+                val endTime = Utils.hourMinFormat(question_32_end_hour_answer , question_32_end_min_answer)
+
+                endTime?.let {
+
+                    question_32_end_hour_min_answer = endTime
+
+                    if(!question_32_start_hour_min_answer.isNullOrEmpty() && !question_32_end_hour_min_answer.isNullOrEmpty()){
+                        var answer = Utils.getAnswer(32,questions)
+
+                        answer?.let{
+                            answer.answer = StartEndTimeDto(startTime = question_32_start_hour_min_answer , endTime = question_32_end_hour_min_answer)
+                            viewModel.addLevel2Answer(answer)
+                        }
+                    }
+                }
+
+                Log.d("smarthealth","2 selected") }
         )
 
     }

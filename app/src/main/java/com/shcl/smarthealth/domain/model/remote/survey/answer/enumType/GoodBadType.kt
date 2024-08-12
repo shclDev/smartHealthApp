@@ -1,5 +1,6 @@
 package com.shcl.smarthealth.domain.model.remote.survey.answer.enumType
 
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.NowType.Companion
 import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 
 enum class GoodBadType(
@@ -79,6 +80,7 @@ enum class GoodBadType(
         private val answerMap : HashMap<String , Any> = HashMap()
 
         fun convertHashMap(surveyByLevel: SurveyByLevel) : HashMap<String , Any>{
+            answerMap.clear()
             enumValues<GoodBadType>().map {
                 answerMap.put(it.getKorName(surveyByLevel) , it.value)
             }.forEach {  }

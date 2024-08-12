@@ -75,6 +75,7 @@ enum class LittleBigType(
         private val answerMap : HashMap<String , Any> = HashMap()
 
         fun convertHashMap(surveyByLevel: SurveyByLevel) : HashMap<String , Any>{
+            answerMap.clear()
             enumValues<LittleBigType>().map {
                 answerMap.put(it.getKorName(surveyByLevel) , it.value)
             }.forEach {  }
