@@ -7,6 +7,7 @@ import com.shcl.smarthealth.data.repository.dataSource.SurveyRemoteDataSource
 import com.shcl.smarthealth.di.NetworkModule
 import com.shcl.smarthealth.domain.model.remote.common.ApiResponse
 import com.shcl.smarthealth.domain.model.remote.survey.CategoryQuestionResponse
+import com.shcl.smarthealth.domain.model.remote.survey.SurveyCompleteRequest
 import com.shcl.smarthealth.domain.model.remote.survey.SurveyInfoResponse
 import com.shcl.smarthealth.domain.model.remote.survey.SurveyStartRequest
 import com.shcl.smarthealth.domain.model.remote.survey.SurveyStartResponse
@@ -89,7 +90,7 @@ class SurveyRemoteDataSourceImpl(
     }
 
     override suspend fun surveyComplete(answerId: Int): Flow<ApiResponse<String?>> {
-       val response = surveyApi.surveyComplete(answerId)
+       val response = surveyApi.surveyComplete(SurveyCompleteRequest( answerId))
 
         try{
             if(response.isSuccessful){

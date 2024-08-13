@@ -38,8 +38,8 @@ class SurveyViewModel @Inject constructor(
     private val surveyUseCase: SurveyUseCase
 ) : ViewModel() {
 
-    private val MAX_LEVEL = 5
-    private val MIN_LEVEL = 1
+    val MAX_LEVEL = 5
+    val MIN_LEVEL = 1
 
     private val _levelState = MutableStateFlow(1)
     val levelState = _levelState.asStateFlow()
@@ -274,7 +274,7 @@ class SurveyViewModel @Inject constructor(
         }
 
 
-        var categoryQuestionRequest : CategoryQuestionRequest = CategoryQuestionRequest(
+        var categoryQuestionRequest  = CategoryQuestionRequest(
             answerId = answerId,
             category = _levelTitleState.value.category,
             answers =  answers

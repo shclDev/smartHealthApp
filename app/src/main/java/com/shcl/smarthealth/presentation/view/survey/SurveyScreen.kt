@@ -16,6 +16,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -29,7 +32,9 @@ import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.navigation.OuterScreen
+import com.shcl.smarthealth.presentation.ui.common.CustomAlertDialog
 import com.shcl.smarthealth.presentation.ui.common.CustomButton
+import com.shcl.smarthealth.presentation.ui.common.CustomConfirmDialog
 import com.shcl.smarthealth.presentation.view.survey.component.Step
 import com.shcl.smarthealth.presentation.view.survey.content.surveyAct
 import com.shcl.smarthealth.presentation.view.survey.content.surveyDepression
@@ -64,18 +69,34 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
     val uploadSuccess by viewModel.uploadSuccess.collectAsStateWithLifecycle()
     val complete by viewModel.surveyComplete.collectAsStateWithLifecycle()
 
+    var showDialogState by remember { mutableStateOf(false) }
+
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
     ){
 
+        when{
+            showDialogState->{
+
+                CustomAlertDialog(
+                    onShowDialog = showDialogState,
+                    title = "건강정보 입력을 마치시겠습니까?" ,
+                    desc = "아직 수정할 내용이 있거나, 답하지 못한 질문은 없는지 확인해주세요.\n확인을 마치셨다면 '완료'버튼을 눌러주세요.",
+                    onClickCancel = {showDialogState = false},
+                    onClickConfirm = {
+                        viewModel.uploadAnswer()
+                        showDialogState = false
+                    },
+                )
+            }
+        }
+
         if(uploadSuccess){
             viewModel.next()
         }
 
-        if(complete){
 
-        }
 
         Row{
             LinearVerticalLine()
@@ -124,7 +145,12 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
                     )
                     CustomButton(
                         btnClick =  {
-                            viewModel.uploadAnswer()
+                            if(viewModel.levelState.value == viewModel.MAX_LEVEL){
+                                showDialogState = true
+                            }else{
+                                viewModel.uploadAnswer()
+                            }
+
                             //viewModel.next()
                         },
 

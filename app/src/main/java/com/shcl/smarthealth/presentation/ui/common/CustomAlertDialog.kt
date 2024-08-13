@@ -18,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,38 +31,45 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
+import com.shcl.smarthealth.ui.theme.Color1E1E1E
+import com.shcl.smarthealth.ui.theme.Color4C96FF
 import com.shcl.smarthealth.ui.theme.Color757575
+import com.shcl.smarthealth.ui.theme.Color94918A
 import com.shcl.smarthealth.ui.theme.ColorECF098
+import com.shcl.smarthealth.ui.theme.ColorECF0F8
 import com.shcl.smarthealth.ui.theme.Typography
 
 @Composable
 fun CustomAlertDialog(
     title : String,
     desc : String,
-    onShowDialog : (Boolean) -> Unit,
+    onShowDialog :Boolean,
     icon : ImageVector? = null,
     onClickCancel : ()-> Unit,
     onClickConfirm : () -> Unit
     ) {
 
-    Dialog(
-        onDismissRequest = { onShowDialog(false)},
-        properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = true),
+    if(onShowDialog){
+        Dialog(
+            onDismissRequest = { onClickCancel },
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true),
         ){
             Surface(
+                shape = RoundedCornerShape(18f.pxToDp()),
                 modifier = Modifier
+                    .clip(shape = RoundedCornerShape(18f.pxToDp()))
                     .background(Color.White)
+
+                    .defaultMinSize(minWidth = 920f.pxToDp(), minHeight = 450f.pxToDp())
+
                     .padding(
                         start = 40f.pxToDp(),
                         end = 43f.pxToDp(),
                         top = 105f.pxToDp(),
                         bottom = 41f.pxToDp()
-                    )
-                    .defaultMinSize(minWidth = 920f.pxToDp(), minHeight = 450f.pxToDp())
-                    .wrapContentHeight(),
-                shape = RoundedCornerShape(30f.pxToDp()),
+                    ),
             ){
                 Column(
                     modifier = Modifier.background(Color.White),
@@ -70,8 +78,9 @@ fun CustomAlertDialog(
                     Text(
                         text = title,
                         textAlign = TextAlign.Start,
-                        style = Typography.headlineMedium,
-                        fontSize = 30f.pxToSp()
+                        style = Typography.titleMedium,
+                        fontSize = 35f.pxToSp(),
+                        color = Color1E1E1E
                     )
 
                     Spacer(modifier = Modifier.height(50f.pxToDp()))
@@ -79,8 +88,9 @@ fun CustomAlertDialog(
                     Text(
                         text = desc,
                         textAlign = TextAlign.Start,
-                        style = Typography.labelSmall,
-                        fontSize = 20f.pxToSp()
+                        style = Typography.titleMedium,
+                        fontSize = 16f.pxToSp(),
+                        color = Color757575
                     )
 
                     Spacer(modifier = Modifier.height(60f.pxToDp()))
@@ -92,28 +102,31 @@ fun CustomAlertDialog(
                             .defaultMinSize(minHeight = 86f.pxToDp())
                     ) {
 
-                        Button(
+                        TextButton(
                             modifier = Modifier
-                                .background(ColorECF098)
-                                .fillMaxWidth(0.5f),
+                                .weight(0.5f)
+                                //.fillMaxWidth(0.5f)
+                                .clip(shape = RoundedCornerShape(18f.pxToDp()))
+                                .background(ColorECF0F8),
                             //modifier =Modifier.background(0) ,
-                            shape = RoundedCornerShape(18f.pxToDp()),
-                            onClick = { onClickConfirm()
-                                onShowDialog(false)
+                            onClick = {
+                                onClickCancel()
                             }) {
-
-                            Text("확인", fontSize = 15f.pxToSp(), color = Color757575)
-
-                        }
-                        Button(
+                                Text("이전", style = Typography.bodySmall ,fontSize = 25f.pxToSp(), color = Color757575)
+                            }
+                        
+                        Spacer(modifier = Modifier.width(20f.pxToDp()))
+                        
+                        TextButton(
                             modifier = Modifier
-                                .background(ColorECF098)
-                                .fillMaxWidth(0.5f),
-                            shape = RoundedCornerShape(18f.pxToDp()),
-                            onClick = { onClickConfirm()
-                                onShowDialog(false)
+                                .weight(0.5f)
+                                //.fillMaxWidth(0.5f)
+                                .clip(shape = RoundedCornerShape(18f.pxToDp()))
+                                .background(Color4C96FF),
+                            onClick = {
+                                onClickConfirm()
                             }) {
-                            Text("완료", fontSize = 15f.pxToSp(), color = Color.White)
+                            Text("완료",style = Typography.bodySmall, fontSize = 25f.pxToSp(), color = Color.White)
                         }
                     }
                 }
@@ -121,4 +134,7 @@ fun CustomAlertDialog(
             }
 
         }
+    }
+
+
 }
