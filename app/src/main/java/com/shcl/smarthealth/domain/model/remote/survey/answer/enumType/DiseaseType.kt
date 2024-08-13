@@ -319,5 +319,13 @@ enum class DiseaseType( val korName : String,
             return answerMap
         }
 
+        fun getKorName(value : String) : String? {
+            val findName = enumValues<DiseaseType>().find { it.value == value }
+            if (findName != null) {
+                return findName.korName
+            }
+            return null
+        }
+
     }
 }

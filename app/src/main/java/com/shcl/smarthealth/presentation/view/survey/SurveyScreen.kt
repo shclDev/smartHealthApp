@@ -62,7 +62,7 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
     val levelTitle by viewModel.levelTitleState.collectAsStateWithLifecycle()
 
     val uploadSuccess by viewModel.uploadSuccess.collectAsStateWithLifecycle()
-
+    val complete by viewModel.surveyComplete.collectAsStateWithLifecycle()
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -71,6 +71,10 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
 
         if(uploadSuccess){
             viewModel.next()
+        }
+
+        if(complete){
+
         }
 
         Row{

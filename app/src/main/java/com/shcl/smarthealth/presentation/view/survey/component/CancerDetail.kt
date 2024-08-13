@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.shcl.smarthealth.domain.model.remote.survey.Question
@@ -26,6 +27,7 @@ import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomComboBox
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
+import com.shcl.smarthealth.presentation.ui.common.CustomRadioButton
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeBoolean
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
@@ -53,12 +55,14 @@ fun CancerDetail(
         radiationTherapy = false
     )
 
+    val cancerTitle = CancerType.getKorName(cancerType)
+
     Row(
        modifier = Modifier
            .fillMaxWidth()
     ){
 
-        Text("$cancerType" , style = Typography.bodyMedium , fontSize = 20f.pxToSp() )
+        Text("$cancerTitle" , style = Typography.bodyMedium , fontSize = 20f.pxToSp() )
 
         VerticalDivider(
             modifier = Modifier.padding(vertical = 12f.pxToDp(), horizontal = 8f.pxToDp()),
@@ -82,6 +86,12 @@ fun CancerDetail(
             Row {
                 Text("수술을 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
                 Spacer(modifier = Modifier.width(20f.pxToDp()))
+                CustomRadioButton(options = typeBoolean , selectionChanged = {
+                    value->
+                        cancerHistoryDto.operation = value as Boolean
+                        selectChange(cancerHistoryDto)
+                })
+                /*
                 CustomGroupButtons(
                     options = typeBoolean,
                     unSelectedColor = ColorD4D9E1 ,
@@ -94,12 +104,18 @@ fun CancerDetail(
                         cancerHistoryDto.operation = isSurgery
                         selectChange(cancerHistoryDto)
                     }
-                )
+                )*/
             }
 
             Row {
                 Text("항암치료를 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
                 Spacer(modifier = Modifier.width(20f.pxToDp()))
+                CustomRadioButton(options = typeBoolean , selectionChanged = {
+                        value->
+                    cancerHistoryDto.chemoTherapy = value as Boolean
+                    selectChange(cancerHistoryDto)
+                })
+                /*
                 CustomGroupButtons(
                     options = typeBoolean,
                     unSelectedColor = ColorD4D9E1 ,
@@ -111,12 +127,17 @@ fun CancerDetail(
                         cancerHistoryDto.chemoTherapy = isChemotherapy
                         selectChange(cancerHistoryDto)
                     }
-                )
+                )*/
             }
 
             Row {
                 Text("호르몬 치료를 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
                 Spacer(modifier = Modifier.width(20f.pxToDp()))
+                CustomRadioButton(options = typeBoolean , selectionChanged = { value->
+                    cancerHistoryDto.hormoneTherapy = value as Boolean
+                    selectChange(cancerHistoryDto)
+                })
+                /*
                 CustomGroupButtons(
                     options = typeBoolean,
                     unSelectedColor = ColorD4D9E1 ,
@@ -128,12 +149,18 @@ fun CancerDetail(
                         cancerHistoryDto.hormoneTherapy = isHormoneTreatment
                         selectChange(cancerHistoryDto)
                     }
-                )
+                )*/
             }
 
             Row {
                 Text("방사선 치료를 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
                 Spacer(modifier = Modifier.width(20f.pxToDp()))
+                CustomRadioButton(options = typeBoolean , selectionChanged = {
+                    value->
+                    cancerHistoryDto.radiationTherapy = value as Boolean
+                    selectChange(cancerHistoryDto)
+                })
+                /*
                 CustomGroupButtons(
                     options = typeBoolean,
                     unSelectedColor = ColorD4D9E1 ,
@@ -144,7 +171,7 @@ fun CancerDetail(
                         cancerHistoryDto.radiationTherapy = isRadiationTherapy
                         selectChange(cancerHistoryDto)
                     }
-                )
+                )*/
             }
         }
     }

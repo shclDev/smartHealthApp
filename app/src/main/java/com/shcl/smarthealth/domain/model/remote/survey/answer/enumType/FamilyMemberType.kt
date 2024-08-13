@@ -149,11 +149,11 @@ enum class FamilyMemberType ( val korName : String,
 
         private val answerMap : HashMap<String , Any> = HashMap()
 
-        fun convertHashMap() : HashMap<String , Any>{
+        fun convertHashMap(surveyByLevel: SurveyByLevel) : HashMap<String , Any>{
 
             answerMap.clear()
             enumValues<FamilyMemberType>().map {
-                answerMap.put(it.korName , it.value)
+                answerMap.put(it.getKorName(surveyByLevel) , it.value)
             }.forEach {  }
 
             return answerMap

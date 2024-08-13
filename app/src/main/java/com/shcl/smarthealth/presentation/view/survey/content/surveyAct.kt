@@ -6,40 +6,57 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.shcl.smarthealth.domain.model.remote.survey.answer.dtoType.FamilyDiseaseHistoryDto
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.CancerType
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.DiseaseType
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.FamilyDiseaseType
+import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.FamilyMemberType
+import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
+import com.shcl.smarthealth.presentation.ui.common.CustomMultipleGroupButtons
 import com.shcl.smarthealth.presentation.ui.common.CustomTwoComboBox
 import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 import com.shcl.smarthealth.presentation.view.survey.SurveyViewModel
 import com.shcl.smarthealth.presentation.view.survey.component.CancerDetail
+import com.shcl.smarthealth.presentation.view.survey.component.DiseaseDetail
+import com.shcl.smarthealth.presentation.view.survey.component.FamilyDisease
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeBoolean
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeCancer
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeDisease
@@ -56,6 +73,7 @@ import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.ColorECF098
 import com.shcl.smarthealth.ui.theme.ColorECF0F8
 import com.shcl.smarthealth.ui.theme.Typography
+import java.util.ArrayList
 import java.util.Arrays
 
 @Composable
@@ -69,19 +87,28 @@ fun surveyAct(viewModel: SurveyViewModel){
     //val question2 : HashMap<String , Any> = hashMapOf("항상 그런 편이다" to 2 , "보통이다" to 1 ,  "아닌편이다" to 0 )
     var question1Answer by remember { mutableStateOf(0) }
     var question2Answer by remember { mutableStateOf(0) }
-    var question3Answer by remember { mutableStateOf(0) }
-    var question4Answer by remember { mutableStateOf(0) }
-    var question5Answer by remember { mutableStateOf(0) }
-    var question6Answer by remember { mutableStateOf(0) }
-    var question7Answer by remember { mutableStateOf(0) }
-    var question8Answer by remember { mutableStateOf(0) }
-    var question9Answer by remember { mutableStateOf(0) }
-    var question10Answer by remember { mutableStateOf(0) }
-    var question11Answer by remember { mutableStateOf(0) }
 
-    var cancerDetailVisible by remember { mutableStateOf(false) }
-    var selectedCancerList by remember { mutableStateOf( emptyList<String>()) }
+
+    var question2_hour_Answer by remember { mutableStateOf("") }
+    var question2_min_Answer by remember { mutableStateOf("") }
+
+    var question4_hour_Answer by remember { mutableStateOf("") }
+    var question4_min_Answer by remember { mutableStateOf("") }
+
+    var question6_hour_Answer by remember { mutableStateOf("") }
+    var question6_min_Answer by remember { mutableStateOf("") }
+
     var cacner by remember { mutableStateOf("") }
+    var cancerDetailVisible by remember { mutableStateOf(false) }
+
+    var disease by remember { mutableStateOf("") }
+    var diseaseDetailVisible by remember { mutableStateOf(false) }
+
+    //var familyDisease = remember { mutableStateListOf<String>() }
+    //var familyDisease : MutableList<String> = arrayListOf()
+    var familyDisease by remember { mutableStateOf(listOf<String>()) }
+    var familyDiseaseVisible by remember { mutableStateOf(false) }
+
 
     val checkImageIcon = Icons.Default.CheckCircle
 
@@ -107,8 +134,15 @@ fun surveyAct(viewModel: SurveyViewModel){
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = { value->
+
+                var answer = Utils.getAnswer(52, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel5Answer(answer)
+                }
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
@@ -118,10 +152,42 @@ fun surveyAct(viewModel: SurveyViewModel){
             subject = "하루에",
             firstList =  Arrays.asList("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"),
             secondList = Arrays.asList("00","30"),
-            firstSelected = { Log.d("smarthealth","f selected") },
+            firstSelected = {
+                 value->
+
+                    question2_hour_Answer = value.toString()
+
+                    if(!question2_hour_Answer.isNullOrEmpty() && !question2_min_Answer.isNullOrEmpty() ){
+                        var answer = Utils.getAnswer(53, questions)
+
+                        answer?.let {
+                            answer.answer = "$question2_hour_Answer:$question2_min_Answer"
+                            viewModel.addLevel5Answer(answer)
+                        }
+                    }
+
+
+                    Log.d("survey" , "answer : ${value}")
+
+            },
             firstUnit = "시간",
             secondUnit = "분",
-            secondSelected = {Log.d("smarthealth","2 selected") }
+            secondSelected = { value->
+
+                question2_min_Answer = value.toString()
+
+                if(!question2_hour_Answer.isNullOrEmpty() && !question2_min_Answer.isNullOrEmpty() ){
+                    var answer = Utils.getAnswer(53, questions)
+
+                    answer?.let {
+                        answer.answer = "$question2_hour_Answer:$question2_min_Answer"
+                        viewModel.addLevel5Answer(answer)
+                    }
+                }
+
+                Log.d("survey" , "answer : ${value}")
+
+               }
         )
 
         NumberButton("3")
@@ -144,8 +210,16 @@ fun surveyAct(viewModel: SurveyViewModel){
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = { value->
+
+                var answer = Utils.getAnswer(54, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel5Answer(answer)
+                }
+
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
@@ -155,10 +229,37 @@ fun surveyAct(viewModel: SurveyViewModel){
             subject = "하루에",
             firstList =  Arrays.asList("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"),
             secondList = Arrays.asList("00","30"),
-            firstSelected = { Log.d("smarthealth","f selected") },
+            firstSelected = { value->
+                question4_hour_Answer = value.toString()
+
+                if(!question4_hour_Answer.isNullOrEmpty() && !question4_min_Answer.isNullOrEmpty() ){
+                    var answer = Utils.getAnswer(55, questions)
+
+                    answer?.let {
+                        answer.answer = "$question4_hour_Answer:$question4_min_Answer"
+                        viewModel.addLevel5Answer(answer)
+                    }
+                }
+
+                Log.d("survey" , "answer : ${value}")
+            },
             firstUnit = "시",
             secondUnit = "분",
-            secondSelected = {Log.d("smarthealth","2 selected") }
+            secondSelected = { value->
+
+                question4_min_Answer = value.toString()
+
+                if(!question4_hour_Answer.isNullOrEmpty() && !question4_min_Answer.isNullOrEmpty() ){
+                    var answer = Utils.getAnswer(55, questions)
+
+                    answer?.let {
+                        answer.answer = "$question4_hour_Answer:$question4_min_Answer"
+                        viewModel.addLevel5Answer(answer)
+                    }
+                }
+
+
+                Log.d("smarthealth","2 selected") }
         )
 
 
@@ -181,8 +282,16 @@ fun surveyAct(viewModel: SurveyViewModel){
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = { value->
+
+                var answer = Utils.getAnswer(56, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel5Answer(answer)
+                }
+
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
@@ -192,10 +301,35 @@ fun surveyAct(viewModel: SurveyViewModel){
             subject = "하루에",
             firstList =  Arrays.asList("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"),
             secondList = Arrays.asList("00","30"),
-            firstSelected = { Log.d("smarthealth","f selected") },
+            firstSelected = { value->
+                question6_hour_Answer = value.toString()
+
+                if(!question6_hour_Answer.isNullOrEmpty() && !question6_min_Answer.isNullOrEmpty() ){
+                    var answer = Utils.getAnswer(57, questions)
+
+                    answer?.let {
+                        answer.answer = "$question6_hour_Answer:$question6_min_Answer"
+                        viewModel.addLevel5Answer(answer)
+                    }
+                }
+
+                Log.d("smarthealth","f selected") },
             firstUnit = "시간",
             secondUnit = "분",
-            secondSelected = {Log.d("smarthealth","2 selected") }
+            secondSelected = { value->
+
+                question6_min_Answer = value.toString()
+
+                if(!question6_hour_Answer.isNullOrEmpty() && !question6_min_Answer.isNullOrEmpty() ){
+                    var answer = Utils.getAnswer(57, questions)
+
+                    answer?.let {
+                        answer.answer = "$question6_hour_Answer:$question6_min_Answer"
+                        viewModel.addLevel5Answer(answer)
+                    }
+                }
+
+                Log.d("smarthealth","2 selected") }
         )
 
         NumberButton("7")
@@ -206,8 +340,16 @@ fun surveyAct(viewModel: SurveyViewModel){
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
-            selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+            selectionChanged = { value->
+
+                var answer = Utils.getAnswer(58, questions)
+
+                answer?.let {
+                    answer.answer = value
+                    viewModel.addLevel5Answer(answer)
+                }
+
+                Log.d("survey" , "answer : ${value}")
             }
         )
 
@@ -234,6 +376,14 @@ fun surveyAct(viewModel: SurveyViewModel){
 
             CancerDetail(
                 selectChange = { data->
+
+                    var answer = Utils.getAnswer(60, questions)
+
+                    answer?.let {
+                        answer.answer = data
+                        viewModel.addLevel5Answer(answer)
+                    }
+
                 Log.d("smarthealth" , "${data}")
             }, cancerType = "$cacner" )
 
@@ -248,22 +398,109 @@ fun surveyAct(viewModel: SurveyViewModel){
             containerColor = Color.White,
             icon = checkImageIcon,
             selectionChanged = { it->
+                disease = it.toString()
+                diseaseDetailVisible = true
                 Log.d("survey" , "answer : ${it}")
             }
         )
 
+        AnimatedVisibility(
+            visible = diseaseDetailVisible,
+            enter = fadeIn(animationSpec = tween(durationMillis = 500)),
+            exit = fadeOut(animationSpec = tween(durationMillis = 500))
+        ) {
+
+            DiseaseDetail(
+                selectChange = { data->
+
+                    var answer = Utils.getAnswer(68, questions)
+
+                    answer?.let {
+                        answer.answer = data
+                        viewModel.addLevel5Answer(answer)
+                    }
+
+                    Log.d("smarthealth" , "${data}")
+                }, diseaseType = "$disease" )
+
+        }
+
         NumberButton("10")
         Text("부모, 형제, 자매, 삼촌 이내의 가까운 친척 중 아래의 질병을 앓았거나 그로 인해 사망한 경우가 있습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
-        CustomGroupButtons(
+
+        CustomMultipleGroupButtons(
             options = FamilyDiseaseType.convertHashMap(SurveyByLevel.LEVEL5),
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
             selectionChanged = { it->
-                Log.d("survey" , "answer : ${it}")
+                familyDisease = it
+
+                if(familyDisease.isNotEmpty()){
+                    familyDiseaseVisible = true
+                }else{
+                    familyDiseaseVisible = false
+                }
+                Log.d("survey" , "answer : ${familyDisease}")
             }
         )
+
+
+        AnimatedVisibility(
+            visible = familyDiseaseVisible,
+            enter = fadeIn(animationSpec = tween(durationMillis = 500)),
+            exit = fadeOut(animationSpec = tween(durationMillis = 500))
+        ) {
+            Column {
+                familyDisease.forEach{ disease->
+                    Row(modifier = Modifier.background(Color.White),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = FamilyDiseaseType.getKorName(disease)!!, style = Typography.bodyMedium, fontSize = 20f.pxToSp() , color = Color143F91 , textAlign = TextAlign.Center)
+                        VerticalDivider(
+                            modifier = Modifier.padding(
+                                vertical = 12f.pxToDp(),
+                                horizontal = 8f.pxToDp()
+                            ),
+                            thickness = 2f.pxToDp(),
+                        )
+                        CustomMultipleGroupButtons(
+                            options = FamilyMemberType.convertHashMap(SurveyByLevel.LEVEL5),
+                            unSelectedColor = ColorD4D9E1,
+                            selectedColor = Color143F91,
+                            containerColor = Color.White,
+                            selectionChanged = { it ->
+
+                                var familyDiseaseHistoryDto = FamilyDiseaseHistoryDto(
+                                    disease, it
+                                )
+
+                                var answer = Utils.getAnswer(68, questions)
+
+                                answer?.let {
+                                    answer.answer = familyDiseaseHistoryDto
+                                    viewModel.addLevel5Answer(answer)
+                                }
+
+                            }
+                        )
+                    }
+                }
+
+            }
+
+
+            /*
+            LazyColumn(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
+                items(familyDisease.toList() , itemContent =  { disease ->
+                    DiseaseDetail(
+                        diseaseType = disease,
+                        selectChange = {}
+                    )
+                })
+            }*/
+        }
 
     }
 

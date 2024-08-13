@@ -13,7 +13,6 @@ enum class CancerType( val korName : String,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL4,
                 SurveyByLevel.LEVEL5->
-
                     return "폐암"
             }
         }
@@ -138,6 +137,14 @@ enum class CancerType( val korName : String,
             }.forEach {  }
 
             return answerMap
+        }
+
+        fun getKorName(value : String) : String? {
+            val findName = enumValues<CancerType>().find { it.value == value }
+            if (findName != null) {
+                return findName.korName
+            }
+            return null
         }
 
     }

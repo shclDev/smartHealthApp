@@ -243,12 +243,17 @@ class SurveyViewModel @Inject constructor(
     fun surveyComplete(){
 
         GlobalScope.launch(Dispatchers.IO) {
-            surveyUseCase.completeSurveyUseCase.invoke(surveyId)
+            surveyUseCase.completeSurveyUseCase.invoke(answerId)
                 .onStart {   Log.d("smarthealth" , "survey info") }
                 .onCompletion {  Log.d("smarthealth" , "") }
                 .catch {   Log.d("smarthealth" , "")}
                 .collect{
                     it.let {
+
+                        if(it.success){
+                            _surveyComplete.value = true
+                        }
+
                         Log.d("smarthealth" , "survey : ${it}")
                     }
                 }
@@ -285,6 +290,11 @@ class SurveyViewModel @Inject constructor(
                         if(it.success){
                             uploadSuccess.value  = true
                             Log.d("smarthealth" , "survey upload success")
+
+                            if(_levelState.value == MAX_LEVEL){
+                                surveyComplete()
+                            }
+
                         }
                         Log.d("smarthealth" , "survey : ${it}")
                     }

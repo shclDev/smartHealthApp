@@ -4,6 +4,6 @@ import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.DiseaseTy
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.FamilyMemberType
 
 data class FamilyDiseaseHistoryDto (
-    val diseaseType : DiseaseType,
-    val family : List<FamilyMemberType>
+    var diseaseType : String,
+    var family : List<String>
 )
