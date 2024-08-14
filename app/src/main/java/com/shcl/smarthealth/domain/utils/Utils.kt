@@ -13,17 +13,21 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.decodeBitmap
-import androidx.core.net.toUri
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.domain.model.remote.survey.Question
 import com.shcl.smarthealth.domain.model.remote.survey.answer.Answer
+import okhttp3.ResponseBody
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.concurrent.TimeUnit
+
 
 object Utils {
 
@@ -72,6 +76,10 @@ object Utils {
             Log.e("smartHealth" , e.message.toString())
             return null
         }
+    }
+
+    fun writeResponseBodyToDisk(body : ResponseBody){
+
     }
 
     fun uriFromFilePath(uri : Uri) : String?{

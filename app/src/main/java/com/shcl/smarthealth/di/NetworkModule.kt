@@ -6,6 +6,7 @@ import com.shcl.smarthealth.data.api.SurveyApi
 import com.shcl.smarthealth.data.api.UserApi
 import com.shcl.smarthealth.data.api.WeatherApi
 import com.shcl.smarthealth.data.remote.AuthInterceptor
+import com.shcl.smarthealth.data.remote.NaverInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +32,10 @@ object NetworkModule {
     @Retention(AnnotationRetention.BINARY)
     annotation class shcl
 
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class ncloud
+
 
     @Provides
     @Singleton
@@ -42,6 +47,22 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor(AuthInterceptor())
+            .readTimeout(6, TimeUnit.SECONDS)
+            .connectTimeout(6, TimeUnit.SECONDS)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @ncloud
+    fun provideNcloudHttpClient(): OkHttpClient {
+
+        // http-logging
+        val httpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+
+        return OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(NaverInterceptor())
             .readTimeout(6, TimeUnit.SECONDS)
             .connectTimeout(6, TimeUnit.SECONDS)
             .build()
@@ -64,6 +85,18 @@ object NetworkModule {
     fun provideWeatherRetrofitInstance(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(GlobalVariables.weatherBaseUrl)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @ncloud
+    fun provideNCloudRetrofitInstance(okHttpClient: OkHttpClient): Retrofit {
+
+        return Retrofit.Builder()
+            .baseUrl(GlobalVariables.naverProdBaseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

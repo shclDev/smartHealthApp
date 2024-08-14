@@ -1,7 +1,9 @@
 package com.shcl.smarthealth.di
 
+import android.speech.tts.Voice
 import com.shcl.smarthealth.domain.repository.DashBoardRepository
 import com.shcl.smarthealth.domain.repository.IsensRepository
+import com.shcl.smarthealth.domain.repository.NCloudRepository
 import com.shcl.smarthealth.domain.repository.OmronRepository
 import com.shcl.smarthealth.domain.repository.SurveyRepository
 import com.shcl.smarthealth.domain.repository.UserRepository
@@ -37,6 +39,8 @@ import com.shcl.smarthealth.domain.usecase.user.UserSignCheckUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserSignInUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserSignUpUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserUseCase
+import com.shcl.smarthealth.domain.usecase.voice.VoiceTTSUseCase
+import com.shcl.smarthealth.domain.usecase.voice.VoiceUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -93,5 +97,11 @@ object UseCaseModule {
         getSurveysInfoUseCase = GetSurveyInfoUseCase(repository = surveyRepository),
         getCategoryQuestionUseCase = GetCategoryQuestionUseCase(repository = surveyRepository),
         setCategoryAnswerUseCase = SetCategoryAnswerUseCase(repository =    surveyRepository))
+
+
+    @Provides
+    fun provideVoiceUseCase(nCloudRepository: NCloudRepository) = VoiceUseCase(
+            voiceTTSUseCase = VoiceTTSUseCase(repositroy = nCloudRepository)
+    )
 
 }

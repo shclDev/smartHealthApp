@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.shcl.smarthealth.domain.model.remote.survey.answer.dtoType.DurationFrequencyDto
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.DurationType
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.LittleBigType
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.NowType
@@ -81,6 +82,8 @@ fun surveySmoking(viewModel : SurveyViewModel){
     var question1_2_answer by remember { mutableStateOf("") }
     var question1_3_answer by remember { mutableStateOf("") }
     var question1_4_answer by remember { mutableStateOf("") }
+    var question2_2_answer by remember { mutableStateOf("") }
+
 
     var question1_1_visible by remember { mutableStateOf(false) }
     var question1_3_visible by remember { mutableStateOf(false) }
@@ -341,12 +344,15 @@ fun surveySmoking(viewModel : SurveyViewModel){
                         options = DurationType.convertHashMap(SurveyByLevel.LEVEL4),
                         selectionChanged = { value ->
 
+                            question2_2_answer = value.toString()
+
+                            /*
                             var answer = Utils.getAnswer(50, questions)
 
                             answer?.let {
                                 answer.answer = value
                                 viewModel.addLevel4Answer(answer)
-                            }
+                            }*/
 
                             Log.d("survey", "answer : ${value}")
                         }
@@ -361,10 +367,15 @@ fun surveySmoking(viewModel : SurveyViewModel){
                         unfocusedBoardColor = ColorD4D9E1,
                         placeHolder = "여기에 입력해주세요",
                         valueChanged = { value->
-                            var answer = Utils.getAnswer(51, questions)
+                            var answer = Utils.getAnswer(50, questions)
+
+                            var durationFrequencyDto = DurationFrequencyDto(
+                                durationType = question2_2_answer,
+                                value = Integer.parseInt(value)
+                            )
 
                             answer?.let {
-                                answer.answer = Integer.parseInt(value)
+                                answer.answer = durationFrequencyDto
                                 viewModel.addLevel4Answer(answer)
                             }
                         })

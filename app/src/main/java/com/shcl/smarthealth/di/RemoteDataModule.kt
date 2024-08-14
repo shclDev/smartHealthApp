@@ -2,13 +2,16 @@ package com.shcl.smarthealth.di
 
 
 import com.shcl.smarthealth.data.api.DashBoardApi
+import com.shcl.smarthealth.data.api.NaverApi
 import com.shcl.smarthealth.data.api.SurveyApi
 import com.shcl.smarthealth.data.api.UserApi
 import com.shcl.smarthealth.data.api.WeatherApi
 import com.shcl.smarthealth.data.repository.dataSoruceImpl.DashBoardRemoteDataSourceImpl
+import com.shcl.smarthealth.data.repository.dataSoruceImpl.NCloudRemoteDataSourceImpl
 import com.shcl.smarthealth.data.repository.dataSoruceImpl.SurveyRemoteDataSourceImpl
 import com.shcl.smarthealth.data.repository.dataSoruceImpl.UserRemoteDataSourceImpl
 import com.shcl.smarthealth.data.repository.dataSource.DashBoardRemoteDataSource
+import com.shcl.smarthealth.data.repository.dataSource.NCloudRemoteDataSource
 import com.shcl.smarthealth.data.repository.dataSource.SurveyRemoteDataSource
 import com.shcl.smarthealth.data.repository.dataSource.UserRemoteDataSource
 import dagger.Module
@@ -31,5 +34,9 @@ object RemoteDataModule {
     @Provides
     fun provideSurveyRemoteDataSource(@NetworkModule.shcl surveyApi: SurveyApi) : SurveyRemoteDataSource =
         SurveyRemoteDataSourceImpl(surveyApi)
+
+    @Provides
+    fun provideNcloudRemoteDataSource(@NetworkModule.ncloud naverApi: NaverApi) : NCloudRemoteDataSource =
+        NCloudRemoteDataSourceImpl(naverApi)
 
 }
