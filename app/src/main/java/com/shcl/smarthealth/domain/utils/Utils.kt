@@ -36,17 +36,26 @@ object Utils {
     fun Int.dp() = with(LocalDensity.current) {  Dp(this@dp.toFloat()).toSp()  }
 
 
-    fun getAnswer(questionId : Int , questions : List<Question>?) : Answer?{
+    fun getAnswer(questionId : Int , questions : List<Question>?) : Answer? {
 
-        val question = questions?.find { it.questionId ==  questionId}
+        val question = questions?.find { it.questionId == questionId }
 
-        question?.let { it->
+        question?.let { it ->
             return Answer(
                 questionId = it.questionId,
                 answerType = it.answerType,
                 answer = ""
             )
-        }?:run { return null }
+        } ?: run { return null }
+    }
+
+    fun getHistoryAnswer(questions: List<Question>?, diseaseName : String, answerType : String ): Answer?{
+
+        val question = questions?.find { it.content.compareTo(diseaseName) == 0 && it.answerType.compareTo(answerType) == 0 }
+        question?.let {
+            return Answer(questionId =  it.questionId , answerType = it.answerType , answer = "")
+        } ?: run { return null}
+
     }
 
     fun getTimeStamp() : String {

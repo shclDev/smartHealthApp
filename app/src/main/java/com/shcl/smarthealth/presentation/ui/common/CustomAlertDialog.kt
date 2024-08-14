@@ -88,7 +88,7 @@ fun CustomAlertDialog(
                     Text(
                         text = desc,
                         textAlign = TextAlign.Start,
-                        style = Typography.titleMedium,
+                        style = Typography.labelMedium,
                         fontSize = 16f.pxToSp(),
                         color = Color757575
                     )

@@ -506,7 +506,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                 Text("지난 한 달 동안, 위에 해당하는 이유로 잠을 자는데 얼마나 어려움을 겪었습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
                 CustomGroupButtons(
                     questionId = 26,
-                    options = typeInteger0135,
+                    options = typeInteger0123,
                     unSelectedColor = ColorD4D9E1,
                     selectedColor = Color143F91,
                     containerColor = Color.White,

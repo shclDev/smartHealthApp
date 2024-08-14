@@ -47,7 +47,7 @@ fun CustomComboBox(
     var expanded by remember { mutableStateOf(false) }
     var selected by remember { mutableStateOf("| 선택") }
 
-    Row(modifier = Modifier.padding(32f.pxToDp()), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier = Modifier.padding(start = 32f.pxToDp()), verticalAlignment = Alignment.CenterVertically) {
 
         Text("${subject}",fontSize = 22f.pxToSp())
 

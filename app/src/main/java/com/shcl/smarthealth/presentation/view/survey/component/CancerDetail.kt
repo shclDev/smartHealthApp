@@ -3,6 +3,7 @@ package com.shcl.smarthealth.presentation.view.survey.component
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import com.shcl.smarthealth.domain.model.remote.survey.Question
 import com.shcl.smarthealth.domain.model.remote.survey.answer.dtoType.CancerHistoryDto
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.CancerType
@@ -58,20 +60,25 @@ fun CancerDetail(
     val cancerTitle = CancerType.getKorName(cancerType)
 
     Row(
+       verticalAlignment = Alignment.CenterVertically,
        modifier = Modifier
            .fillMaxWidth()
     ){
 
-        Text("$cancerTitle" , style = Typography.bodyMedium , fontSize = 20f.pxToSp() )
+        Text(modifier = Modifier.width(180f.pxToDp()),text="$cancerTitle" , style = Typography.bodyMedium , fontSize = 20f.pxToSp() , textAlign = TextAlign.Center , color = Color143F91 )
 
-        VerticalDivider(
-            modifier = Modifier.padding(vertical = 12f.pxToDp(), horizontal = 8f.pxToDp()),
-            thickness = 2f.pxToDp(),
+        Divider(
+            color = ColorD4D9E1,
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(2f.pxToDp()),
+                //.padding(start = 10f.pxToDp(), end = 10f.pxToDp()),
+            //thickness = 2f.pxToDp(),
         )
 
-        Column {
+       Column(modifier = Modifier.width(950f.pxToDp())) {
             Row {
-                Text("언제 진단을 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
+                Text(modifier = Modifier.weight(0.5f) , text ="언제 진단을 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
                 Spacer(modifier = Modifier.width(20f.pxToDp()))
                 CustomComboBox(
                     subject = "",
@@ -84,7 +91,7 @@ fun CancerDetail(
             }
 
             Row {
-                Text("수술을 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
+                Text(modifier = Modifier.weight(0.5f), text ="수술을 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
                 Spacer(modifier = Modifier.width(20f.pxToDp()))
                 CustomRadioButton(options = typeBoolean , selectionChanged = {
                     value->
@@ -108,7 +115,7 @@ fun CancerDetail(
             }
 
             Row {
-                Text("항암치료를 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
+                Text(modifier = Modifier.weight(0.5f) , text ="항암치료를 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
                 Spacer(modifier = Modifier.width(20f.pxToDp()))
                 CustomRadioButton(options = typeBoolean , selectionChanged = {
                         value->
@@ -131,7 +138,7 @@ fun CancerDetail(
             }
 
             Row {
-                Text("호르몬 치료를 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
+                Text(modifier = Modifier.weight(0.5f) , text ="호르몬 치료를 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
                 Spacer(modifier = Modifier.width(20f.pxToDp()))
                 CustomRadioButton(options = typeBoolean , selectionChanged = { value->
                     cancerHistoryDto.hormoneTherapy = value as Boolean
@@ -153,7 +160,7 @@ fun CancerDetail(
             }
 
             Row {
-                Text("방사선 치료를 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
+                Text(modifier = Modifier.weight(0.5f) , text ="방사선 치료를 받으셨나요?" , style = Typography.labelMedium , fontSize = 25f.pxToSp())
                 Spacer(modifier = Modifier.width(20f.pxToDp()))
                 CustomRadioButton(options = typeBoolean , selectionChanged = {
                     value->

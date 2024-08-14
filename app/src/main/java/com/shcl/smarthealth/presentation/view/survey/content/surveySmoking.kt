@@ -46,6 +46,8 @@ import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomComboBox
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
+import com.shcl.smarthealth.presentation.ui.common.CustomRadioButton
+import com.shcl.smarthealth.presentation.ui.common.CustomTextField
 import com.shcl.smarthealth.presentation.ui.common.CustomTwoComboBox
 import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 import com.shcl.smarthealth.presentation.view.survey.SurveyViewModel
@@ -280,7 +282,7 @@ fun surveySmoking(viewModel : SurveyViewModel){
         NumberButton("2")
         Text("현재 술을 드십니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
         CustomGroupButtons(
-            options = NowType.convertHashMap(SurveyByLevel.LEVEL4),
+            options = NowType.convertHashMap(SurveyByLevel.LEVEL4, otherName = true),
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
@@ -334,6 +336,43 @@ fun surveySmoking(viewModel : SurveyViewModel){
                     fontSize = 30f.pxToSp(),
                     fontWeight = FontWeight.W700
                 )
+                Row {
+                    CustomRadioButton(
+                        options = DurationType.convertHashMap(SurveyByLevel.LEVEL4),
+                        selectionChanged = { value ->
+
+                            var answer = Utils.getAnswer(50, questions)
+
+                            answer?.let {
+                                answer.answer = value
+                                viewModel.addLevel4Answer(answer)
+                            }
+
+                            Log.d("survey", "answer : ${value}")
+                        }
+                    )
+
+                    CustomTextField(
+                        modifier = Modifier.defaultMinSize(
+                            minWidth = 290f.pxToDp(),
+                            minHeight = 86f.pxToDp()
+                        ),
+                        focusedBoardColor = Color143F91,
+                        unfocusedBoardColor = ColorD4D9E1,
+                        placeHolder = "여기에 입력해주세요",
+                        valueChanged = { value->
+                            var answer = Utils.getAnswer(51, questions)
+
+                            answer?.let {
+                                answer.answer = Integer.parseInt(value)
+                                viewModel.addLevel4Answer(answer)
+                            }
+                        })
+
+                    Text("회", style = Typography.labelSmall)
+                }
+
+                /*
                 CustomGroupButtons(
                     options = DurationType.convertHashMap(SurveyByLevel.LEVEL4),
                     unSelectedColor = ColorD4D9E1,
@@ -351,7 +390,7 @@ fun surveySmoking(viewModel : SurveyViewModel){
 
                         Log.d("survey", "answer : ${value}")
                     }
-                )
+                )*/
 
                 NumberButton("2-3")
                 Text(

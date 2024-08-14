@@ -244,7 +244,7 @@ class SurveyViewModel @Inject constructor(
 
         GlobalScope.launch(Dispatchers.IO) {
             surveyUseCase.completeSurveyUseCase.invoke(answerId)
-                .onStart {   Log.d("smarthealth" , "survey info") }
+                .onStart {   Log.d("smarthealth" , "survey complete") }
                 .onCompletion {  Log.d("smarthealth" , "") }
                 .catch {   Log.d("smarthealth" , "")}
                 .collect{
@@ -282,7 +282,7 @@ class SurveyViewModel @Inject constructor(
 
         GlobalScope.launch(Dispatchers.IO) {
             surveyUseCase.setCategoryAnswerUseCase.invoke(categoryQuestionRequest)
-                .onStart {   Log.d("smarthealth" , "survey info") }
+                .onStart {   Log.d("smarthealth" , "survey upload") }
                 .onCompletion {  Log.d("smarthealth" , "") }
                 .catch {   Log.d("smarthealth" , "")}
                 .collect{

@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class Question(
     @SerializedName("answerType") val answerType: String,
     @SerializedName("answerTypeName") val answerTypeName: String,
+    @SerializedName("content") val content: String,
     @SerializedName("category") val category: String,
     @SerializedName("categoryName") val categoryName: String,
     @SerializedName("mainSeq") val mainSeq: Int,

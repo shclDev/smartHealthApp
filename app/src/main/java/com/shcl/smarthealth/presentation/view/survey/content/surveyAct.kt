@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.shcl.smarthealth.domain.model.remote.survey.answer.dtoType.DiseaseHistoryDto
 import com.shcl.smarthealth.domain.model.remote.survey.answer.dtoType.FamilyDiseaseHistoryDto
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.CancerType
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.DiseaseType
@@ -101,7 +102,7 @@ fun surveyAct(viewModel: SurveyViewModel){
     var cacner by remember { mutableStateOf("") }
     var cancerDetailVisible by remember { mutableStateOf(false) }
 
-    var disease by remember { mutableStateOf("") }
+    var disease by remember { mutableStateOf(listOf<String>()) }
     var diseaseDetailVisible by remember { mutableStateOf(false) }
 
     //var familyDisease = remember { mutableStateListOf<String>() }
@@ -364,6 +365,14 @@ fun surveyAct(viewModel: SurveyViewModel){
             selectionChanged = { it->
                 cacner = it.toString()
                 cancerDetailVisible = true
+
+                var answer = Utils.getAnswer(59, questions)
+
+                answer?.let {
+                    answer.answer = cacner
+                    viewModel.addLevel5Answer(answer)
+                }
+
                 Log.d("survey" , "answer : ${it}")
             }
         )
@@ -377,7 +386,8 @@ fun surveyAct(viewModel: SurveyViewModel){
             CancerDetail(
                 selectChange = { data->
 
-                    var answer = Utils.getAnswer(60, questions)
+                    //var answer = Utils.getAnswer(60, questions)
+                    var answer = Utils.getHistoryAnswer(questions , diseaseName = cacner , answerType = "CANCER_HISTORY")
 
                     answer?.let {
                         answer.answer = data
@@ -391,15 +401,28 @@ fun surveyAct(viewModel: SurveyViewModel){
 
         NumberButton("9")
         Text("지금까지 아래의 질병이 있다고 진단받은 적이 있습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
-        CustomGroupButtons(
+        CustomMultipleGroupButtons(
             options = DiseaseType.convertHashMap(SurveyByLevel.LEVEL5),
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
             selectionChanged = { it->
-                disease = it.toString()
-                diseaseDetailVisible = true
+                disease = it
+
+                if(disease.isNotEmpty()){
+                    diseaseDetailVisible = true
+                }else{
+                    diseaseDetailVisible = false
+                }
+
+                var answer = Utils.getAnswer(84, questions)
+
+                answer?.let {
+                    answer.answer = disease
+                    viewModel.addLevel5Answer(answer)
+                }
+
                 Log.d("survey" , "answer : ${it}")
             }
         )
@@ -410,18 +433,24 @@ fun surveyAct(viewModel: SurveyViewModel){
             exit = fadeOut(animationSpec = tween(durationMillis = 500))
         ) {
 
-            DiseaseDetail(
-                selectChange = { data->
+            Column {
+                disease.forEach { disease->
+                    DiseaseDetail(
+                        selectChange = { data ->
 
-                    var answer = Utils.getAnswer(68, questions)
+                            var answer = Utils.getHistoryAnswer(questions , diseaseName = DiseaseType.getKorName(disease)!! , answerType = "DISEASE_HISTORY")
+                            //var answer = Utils.getAnswer(68, questions)
 
-                    answer?.let {
-                        answer.answer = data
-                        viewModel.addLevel5Answer(answer)
-                    }
+                            answer?.let {
+                                answer.answer = data
+                                viewModel.addLevel5Answer(answer)
+                            }
 
-                    Log.d("smarthealth" , "${data}")
-                }, diseaseType = "$disease" )
+                            Log.d("smarthealth", "${data}")
+                        }, diseaseType = "$disease"
+                    )
+                }
+            }
 
         }
 
@@ -442,6 +471,14 @@ fun surveyAct(viewModel: SurveyViewModel){
                 }else{
                     familyDiseaseVisible = false
                 }
+
+                var answer = Utils.getAnswer(85, questions)
+
+                answer?.let {
+                    answer.answer = familyDisease
+                    viewModel.addLevel5Answer(answer)
+                }
+
                 Log.d("survey" , "answer : ${familyDisease}")
             }
         )
@@ -453,11 +490,11 @@ fun surveyAct(viewModel: SurveyViewModel){
             exit = fadeOut(animationSpec = tween(durationMillis = 500))
         ) {
             Column {
-                familyDisease.forEach{ disease->
+                familyDisease.forEach{ familyDisease->
                     Row(modifier = Modifier.background(Color.White),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = FamilyDiseaseType.getKorName(disease)!!, style = Typography.bodyMedium, fontSize = 20f.pxToSp() , color = Color143F91 , textAlign = TextAlign.Center)
+                        Text(text = FamilyDiseaseType.getKorName(familyDisease)!!, style = Typography.bodyMedium, fontSize = 20f.pxToSp() , color = Color143F91 , textAlign = TextAlign.Center)
                         VerticalDivider(
                             modifier = Modifier.padding(
                                 vertical = 12f.pxToDp(),
@@ -473,12 +510,16 @@ fun surveyAct(viewModel: SurveyViewModel){
                             selectionChanged = { it ->
 
                                 var familyDiseaseHistoryDto = FamilyDiseaseHistoryDto(
-                                    disease, it
+                                    familyDisease, it
                                 )
 
-                                var answer = Utils.getAnswer(68, questions)
+                                Log.d("survey" , familyDiseaseHistoryDto.toString())
+                                var answer = Utils.getHistoryAnswer(questions , diseaseName = FamilyDiseaseType.getKorName(familyDisease)!! , answerType = "FAMILY_DISEASE_HISTORY" )
+
+                                //var answer = Utils.getAnswer(68, questions)
 
                                 answer?.let {
+                                    Log.d("survey" , answer.toString())
                                     answer.answer = familyDiseaseHistoryDto
                                     viewModel.addLevel5Answer(answer)
                                 }
@@ -489,17 +530,6 @@ fun surveyAct(viewModel: SurveyViewModel){
                 }
 
             }
-
-
-            /*
-            LazyColumn(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
-                items(familyDisease.toList() , itemContent =  { disease ->
-                    DiseaseDetail(
-                        diseaseType = disease,
-                        selectChange = {}
-                    )
-                })
-            }*/
         }
 
     }

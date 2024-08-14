@@ -41,13 +41,15 @@ fun CustomRadioButton(
                     ).align(Alignment.CenterVertically)
 
                 ) {
-                    RadioButton(selected = (it.key == selectedObserver), onClick = {
+                    RadioButton(
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        selected = (it.key == selectedObserver), onClick = {
                         selectedObserver = it.key
                         selectionChanged(it.value) })
                     Text(modifier = Modifier.padding(start = 16f.pxToDp()),
-                        text = "${it.key}", fontSize = 16f.pxToSp(), textAlign = TextAlign.End)
+                        text = "${it.key}", fontSize = 16f.pxToSp(), textAlign = TextAlign.Start)
                 }
-                Spacer(modifier = Modifier.width(50f.pxToDp()))
+                //Spacer(modifier = Modifier.width(50f.pxToDp()))
             }
 
         }
