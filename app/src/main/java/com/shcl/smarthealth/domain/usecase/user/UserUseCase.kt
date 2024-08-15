@@ -7,5 +7,6 @@ data class UserUseCase(
     val userSignCheckUseCase: UserSignCheckUseCase,
     val loggedUserUseCase: LoggedUserUseCase,
     val userSignInUseCase: UserSignInUseCase,
-    val userProfileUseCase: UserProfileUseCase
+    val userProfileUseCase: UserProfileUseCase,
+    val lastedLoginUserUseCase: LastedLoginUserUseCase
 )

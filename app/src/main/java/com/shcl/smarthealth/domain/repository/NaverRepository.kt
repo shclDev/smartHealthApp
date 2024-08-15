@@ -5,5 +5,5 @@ import retrofit2.Response
 
 interface NaverRepository {
 
-    suspend fun clovaVoice(voiceRequest: VoiceRequest) : Response<String>
+    suspend fun clovaVoice(speaker : String , text : String)
 }

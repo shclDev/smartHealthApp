@@ -31,10 +31,12 @@ import androidx.navigation.compose.rememberNavController
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.navigation.InnerScreen
+import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.presentation.view.analysis.AnalysisScreen
 import com.shcl.smarthealth.presentation.view.challenge.ChallengeScreen
 import com.shcl.smarthealth.presentation.view.dashboard.DashBoardScreen
 import com.shcl.smarthealth.presentation.view.device.ScanDeviceScreen
+import com.shcl.smarthealth.presentation.view.measurement.MeasurementScreen
 import com.shcl.smarthealth.presentation.view.reservation.ReservationScreen
 import com.shcl.smarthealth.presentation.view.survey.SurveyScreen
 import com.shcl.smarthealth.ui.theme.Color143F91
@@ -83,7 +85,7 @@ fun DismissibleNavigationDrawer(){
             contentDesc = "도전",
             image =painterResource(id = R.drawable.icon_side_05_off),
             selectedImage = painterResource(id = R.drawable.icon_side_05_on),
-            route = InnerScreen.challenge.route
+            route = OuterScreen.measurement.route
         ))
 
     val drawerState = rememberDrawerState(DrawerValue.Open)
@@ -153,8 +155,9 @@ fun DismissibleNavigationDrawer(){
                     ScanDeviceScreen(nav = nav)
                 }
 
-                composable(route = InnerScreen.challenge.route){
-                    ChallengeScreen(nav = nav)
+                composable(route = OuterScreen.measurement.route){
+                    MeasurementScreen(nav = nav)
+                    //ChallengeScreen(nav = nav)
                 }
 
                composable(route = InnerScreen.survey.route){

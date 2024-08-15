@@ -9,6 +9,9 @@ class NaverInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response = with(chain){
 
         val newRequest = request().newBuilder()
+            .addHeader("asdfasfdasdf" , "sadfasfdsadfsafd")
+            //.addHeader("Content-Type","application/x-www-form-urlencoded")
+            .addHeader("Content-Type","application/x-xxxxx")
             .addHeader("X-NCP-APIGW-API-KEY-ID", "tdjdr9pruq")
             .addHeader("X-NCP-APIGW-API-KEY" , "XAY4fMhyhDfDjw31v83nmZjHU1rf0i9FINshMFZg")
             .build()

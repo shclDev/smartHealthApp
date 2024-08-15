@@ -10,7 +10,7 @@ class NaverRepositoryImpl @Inject constructor(
     private val api : NaverApi
 ) : NaverRepository{
 
-    override suspend fun clovaVoice(voiceRequest: VoiceRequest) : Response<String> {
-        return api.clovaVoice(voiceRequest)
+    override suspend fun clovaVoice(speaker : String , text : String)  {
+         api.clovaVoice(speaker , text)
     }
 }

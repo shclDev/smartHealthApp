@@ -11,5 +11,7 @@ sealed  class OuterScreen(val route : String) {
     object terms : OuterScreen(("terms").toString())
     object registerComplete : OuterScreen(("registerComplete").toString())
     object suvery : OuterScreen(("survey").toString())
+    object measurement : OuterScreen(("measurement").toString())
+
 
 }

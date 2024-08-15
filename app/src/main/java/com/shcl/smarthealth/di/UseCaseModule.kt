@@ -32,6 +32,7 @@ import com.shcl.smarthealth.domain.usecase.survey.SetCategoryAnswerUseCase
 import com.shcl.smarthealth.domain.usecase.survey.StartSurveyUseCase
 import com.shcl.smarthealth.domain.usecase.survey.SurveyUseCase
 import com.shcl.smarthealth.domain.usecase.user.LastedLoginUserRoomUpdateUseCase
+import com.shcl.smarthealth.domain.usecase.user.LastedLoginUserUseCase
 import com.shcl.smarthealth.domain.usecase.user.LoggedUserUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserProfileUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserRoomUpdateUseCase
@@ -39,6 +40,7 @@ import com.shcl.smarthealth.domain.usecase.user.UserSignCheckUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserSignInUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserSignUpUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserUseCase
+import com.shcl.smarthealth.domain.usecase.voice.VoicePlayUseCase
 import com.shcl.smarthealth.domain.usecase.voice.VoiceTTSUseCase
 import com.shcl.smarthealth.domain.usecase.voice.VoiceUseCase
 import dagger.Module
@@ -87,7 +89,8 @@ object UseCaseModule {
         userSignCheckUseCase = UserSignCheckUseCase(repository = userRepository),
         loggedUserUseCase = LoggedUserUseCase(repository = userRepository),
         userProfileUseCase = UserProfileUseCase(repository = userRepository),
-        userSignInUseCase = UserSignInUseCase(repository = userRepository)
+        userSignInUseCase = UserSignInUseCase(repository = userRepository),
+        lastedLoginUserUseCase = LastedLoginUserUseCase(repository = userRepository)
     )
 
     @Provides
@@ -101,7 +104,8 @@ object UseCaseModule {
 
     @Provides
     fun provideVoiceUseCase(nCloudRepository: NCloudRepository) = VoiceUseCase(
-            voiceTTSUseCase = VoiceTTSUseCase(repositroy = nCloudRepository)
+            voiceTTSUseCase = VoiceTTSUseCase(repositroy = nCloudRepository),
+            voicePlayUseCase = VoicePlayUseCase()
     )
 
 }

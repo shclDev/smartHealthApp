@@ -4,7 +4,7 @@ data class VoiceRequest(
     val speaker : String,
     val text : String,
     val volume : Integer?,
-    val speed : Integer?,
+    val speed : Integer,
     val emotion : Integer?,
     val emotionStrength : Integer?,
     val format : String?,

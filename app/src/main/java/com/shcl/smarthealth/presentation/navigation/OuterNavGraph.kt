@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.shcl.smarthealth.presentation.view.home.DismissibleNavigationDrawer
 import com.shcl.smarthealth.presentation.view.intro.IntroScreen
 import com.shcl.smarthealth.presentation.view.login.LoginScreen
+import com.shcl.smarthealth.presentation.view.measurement.MeasurementScreen
 import com.shcl.smarthealth.presentation.view.register.RegisterCompleteScreen
 import com.shcl.smarthealth.presentation.view.register.RegisterScreen
 import com.shcl.smarthealth.presentation.view.register.TermsOfUseScreen
@@ -45,6 +46,10 @@ fun OuterNavGraph(navCtrl : NavHostController) {
 
         composable(route = OuterScreen.suvery.route){
             SurveyScreen(nav = navCtrl)
+        }
+
+        composable(route = OuterScreen.suvery.route){
+            MeasurementScreen(nav =  navCtrl)
         }
 
     }

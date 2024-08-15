@@ -1,10 +1,9 @@
 package com.shcl.smarthealth.domain.repository
 
 import com.shcl.smarthealth.domain.model.remote.ncloud.VoiceRequest
+import kotlinx.coroutines.flow.Flow
 
 interface NCloudRepository {
 
-    suspend fun clovaVoice(voiceRequest: VoiceRequest)
-
-
+    suspend fun clovaVoice(speaker : String , text:String) : Flow<String?>
 }

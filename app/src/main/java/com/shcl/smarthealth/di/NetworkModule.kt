@@ -2,6 +2,7 @@ package com.shcl.smarthealth.di
 
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.data.api.DashBoardApi
+import com.shcl.smarthealth.data.api.NaverApi
 import com.shcl.smarthealth.data.api.SurveyApi
 import com.shcl.smarthealth.data.api.UserApi
 import com.shcl.smarthealth.data.api.WeatherApi
@@ -36,6 +37,10 @@ object NetworkModule {
     @Retention(AnnotationRetention.BINARY)
     annotation class ncloud
 
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class ncloudHttp
+
 
     @Provides
     @Singleton
@@ -47,14 +52,14 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor(AuthInterceptor())
-            .readTimeout(6, TimeUnit.SECONDS)
-            .connectTimeout(6, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
             .build()
     }
 
     @Provides
     @Singleton
-    @ncloud
+    @ncloudHttp
     fun provideNcloudHttpClient(): OkHttpClient {
 
         // http-logging
@@ -63,8 +68,8 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor(NaverInterceptor())
-            .readTimeout(6, TimeUnit.SECONDS)
-            .connectTimeout(6, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
             .build()
     }
 
@@ -93,7 +98,7 @@ object NetworkModule {
     @Provides
     @Singleton
     @ncloud
-    fun provideNCloudRetrofitInstance(okHttpClient: OkHttpClient): Retrofit {
+    fun provideNCloudRetrofitInstance(@ncloudHttp okHttpClient: OkHttpClient): Retrofit {
 
         return Retrofit.Builder()
             .baseUrl(GlobalVariables.naverProdBaseUrl)
@@ -140,6 +145,13 @@ object NetworkModule {
     @shcl
     fun provideSurveyApi(@shcl retrofit: Retrofit): SurveyApi {
         return retrofit.create(SurveyApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @ncloud
+    fun provideNaverApi(@ncloud retrofit: Retrofit): NaverApi {
+        return retrofit.create(NaverApi::class.java)
     }
 
 
