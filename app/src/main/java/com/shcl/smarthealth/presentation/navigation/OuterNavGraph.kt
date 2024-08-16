@@ -44,11 +44,11 @@ fun OuterNavGraph(navCtrl : NavHostController) {
             RegisterCompleteScreen(nav = navCtrl)
         }
 
-        composable(route = OuterScreen.suvery.route){
+        composable(route = OuterScreen.survery.route){
             SurveyScreen(nav = navCtrl)
         }
 
-        composable(route = OuterScreen.suvery.route){
+        composable(route = OuterScreen.measurement.route){
             MeasurementScreen(nav =  navCtrl)
         }
 

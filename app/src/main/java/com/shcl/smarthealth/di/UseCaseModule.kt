@@ -1,6 +1,5 @@
 package com.shcl.smarthealth.di
 
-import android.speech.tts.Voice
 import com.shcl.smarthealth.domain.repository.DashBoardRepository
 import com.shcl.smarthealth.domain.repository.IsensRepository
 import com.shcl.smarthealth.domain.repository.NCloudRepository
@@ -20,7 +19,8 @@ import com.shcl.smarthealth.domain.usecase.isens.IsensDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.IsensScanDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.SetGlucoseRecordUserCase
 import com.shcl.smarthealth.domain.usecase.omron.BodyCompositionUseCase
-import com.shcl.smarthealth.domain.usecase.omron.GetBloodPressureUseCase
+import com.shcl.smarthealth.domain.usecase.omron.GetDataTransferUseCase
+import com.shcl.smarthealth.domain.usecase.omron.GetDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.OmronDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.RegisterDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.omron.ScanDeviceUseCase
@@ -47,7 +47,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.components.SingletonComponent
 
 
 @Module
@@ -68,10 +67,11 @@ object UseCaseModule {
     @Provides
     fun provideOmronDeviceUseCase(omronRepository: OmronRepository) = OmronDeviceUseCase(
         scanDeviceUseCase = ScanDeviceUseCase(repository = omronRepository),
-        getBloodPressureUseCase = GetBloodPressureUseCase(repository = omronRepository),
+        getDataTransferUseCase = GetDataTransferUseCase(repository = omronRepository),
         setBloodPressureUseCase = SetBloodPressureUseCase(repository = omronRepository),
         registerDeviceUseCase = RegisterDeviceUseCase(repository = omronRepository),
-        bodyCompositionUseCase = BodyCompositionUseCase(repository = omronRepository)
+        bodyCompositionUseCase = BodyCompositionUseCase(repository = omronRepository),
+        getDeviceUseCase = GetDeviceUseCase(repository = omronRepository)
     )
 
     @Provides

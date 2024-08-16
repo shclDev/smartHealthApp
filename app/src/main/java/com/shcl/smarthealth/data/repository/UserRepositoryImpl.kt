@@ -71,9 +71,7 @@ class UserRepositoryImpl(
     }
 
     override suspend fun getLastedLoginUserFromRoom(): Flow<LastedLoginUserRoom> {
-        return flow{
-            measureRecordDataSource.getLastedLoginUser()
-        }
+        return measureRecordDataSource.getLastedLoginUser()
     }
 
     override suspend fun getAllUser(): Flow<List<UserRoom>> = flow{

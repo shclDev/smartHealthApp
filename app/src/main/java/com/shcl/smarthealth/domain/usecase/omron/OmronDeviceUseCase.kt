@@ -1,9 +1,10 @@
 package com.shcl.smarthealth.domain.usecase.omron
 
 data class OmronDeviceUseCase (
-    val getBloodPressureUseCase : GetBloodPressureUseCase,
+    val getDataTransferUseCase : GetDataTransferUseCase,
     val scanDeviceUseCase: ScanDeviceUseCase,
     val setBloodPressureUseCase: SetBloodPressureUseCase,
     val registerDeviceUseCase: RegisterDeviceUseCase,
-    val bodyCompositionUseCase: BodyCompositionUseCase
+    val bodyCompositionUseCase: BodyCompositionUseCase,
+    val getDeviceUseCase: GetDeviceUseCase
 )

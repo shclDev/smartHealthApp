@@ -69,7 +69,7 @@ fun DismissibleNavigationDrawer(){
             contentDesc = "예약",
             image = painterResource(id = R.drawable.icon_side_03_off),
             selectedImage = painterResource(id = R.drawable.icon_side_03_on),
-            route = InnerScreen.survey.route
+            route = OuterScreen.survery.route
         ),
         MenuItem(
             id ="setting",
@@ -160,7 +160,7 @@ fun DismissibleNavigationDrawer(){
                     //ChallengeScreen(nav = nav)
                 }
 
-               composable(route = InnerScreen.survey.route){
+               composable(route = OuterScreen.survery.route){
                    SurveyScreen(nav = nav)
                }
                 /*

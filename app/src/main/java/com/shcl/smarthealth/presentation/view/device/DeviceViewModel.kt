@@ -1,7 +1,6 @@
 package com.shcl.smarthealth.presentation.view.device
 
 
-import android.bluetooth.BluetoothDevice
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -130,7 +129,7 @@ class DeviceViewModel @Inject constructor(
     fun getOmronMeasurementRecord(device : DiscoveredDevice , type : RequestType){
 
         viewModelScope.launch {
-            omronDeviceUseCase.getBloodPressureUseCase.getDataTransfer(device , type).collect{
+            omronDeviceUseCase.getDataTransferUseCase.getDataTransfer(device , type).collect{
                 Log.d("omron" , it.toString())
 
                 if(it.status == MeasurementStatus.ParingSuccess){

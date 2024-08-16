@@ -44,4 +44,6 @@ interface OmronRepository {
     //get from db
     fun getRegisterAllDevice() : Flow<List<FoundDeviceRoom>>
 
+    fun getDeviceByCategory(category : String) : Flow<FoundDeviceRoom>
+
 }

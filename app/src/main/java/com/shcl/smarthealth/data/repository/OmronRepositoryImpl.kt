@@ -93,5 +93,9 @@ class OmronRepositoryImpl (
         TODO("Not yet implemented")
     }
 
+    override fun getDeviceByCategory(category: String): Flow<FoundDeviceRoom> {
+        return measureRecordDataSource.getDeviceByCategory(category)
+    }
+
 
 }

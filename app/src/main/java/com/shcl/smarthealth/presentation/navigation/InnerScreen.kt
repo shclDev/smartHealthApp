@@ -11,6 +11,6 @@ sealed  class InnerScreen(val route : String) {
     object setting : InnerScreen((R.string.setting_screen).toString())
     object challenge : InnerScreen((R.string.challenge_screen).toString())
     object reservation : InnerScreen((R.string.reservation_screen).toString())
-    object survey : InnerScreen(("survey").toString())
+    //object survey : InnerScreen(("survey").toString())
 
 }

@@ -10,7 +10,7 @@ sealed  class OuterScreen(val route : String) {
     object registser : OuterScreen(("register").toString())
     object terms : OuterScreen(("terms").toString())
     object registerComplete : OuterScreen(("registerComplete").toString())
-    object suvery : OuterScreen(("survey").toString())
+    object survery : OuterScreen(("survey").toString())
     object measurement : OuterScreen(("measurement").toString())
 
 

@@ -53,6 +53,7 @@ import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
 import com.shcl.smarthealth.presentation.ui.common.CustomMultipleGroupButtons
 import com.shcl.smarthealth.presentation.ui.common.CustomTwoComboBox
+import com.shcl.smarthealth.presentation.ui.common.VerticalLine
 import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 import com.shcl.smarthealth.presentation.view.survey.SurveyViewModel
 import com.shcl.smarthealth.presentation.view.survey.component.CancerDetail
@@ -99,7 +100,7 @@ fun surveyAct(viewModel: SurveyViewModel){
     var question6_hour_Answer by remember { mutableStateOf("") }
     var question6_min_Answer by remember { mutableStateOf("") }
 
-    var cacner by remember { mutableStateOf("") }
+    var cacner by remember { mutableStateOf(listOf<String>()) }
     var cancerDetailVisible by remember { mutableStateOf(false) }
 
     var disease by remember { mutableStateOf(listOf<String>()) }
@@ -356,15 +357,21 @@ fun surveyAct(viewModel: SurveyViewModel){
 
         NumberButton("8")
         Text("다음 암을 진단받은 적이 있습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
-        CustomGroupButtons(
+        CustomMultipleGroupButtons(
             options = CancerType.convertHashMap(SurveyByLevel.LEVEL5),
             unSelectedColor = ColorD4D9E1 ,
             selectedColor = Color143F91,
             containerColor = Color.White,
             icon = checkImageIcon,
             selectionChanged = { it->
-                cacner = it.toString()
-                cancerDetailVisible = true
+                cacner = it
+
+
+                if(cacner.isNotEmpty()){
+                    cancerDetailVisible = true
+                }else{
+                    cancerDetailVisible = false
+                }
 
                 var answer = Utils.getAnswer(59, questions)
 
@@ -383,20 +390,23 @@ fun surveyAct(viewModel: SurveyViewModel){
             exit = fadeOut(animationSpec = tween(durationMillis = 500))
         ) {
 
-            CancerDetail(
-                selectChange = { data->
+            Column {
+                cacner.forEach{ cacner->
+                    CancerDetail(
+                        selectChange = { data->
 
-                    //var answer = Utils.getAnswer(60, questions)
-                    var answer = Utils.getHistoryAnswer(questions , diseaseName = cacner , answerType = "CANCER_HISTORY")
+                            //var answer = Utils.getAnswer(60, questions)
+                            var answer = Utils.getHistoryAnswer(questions , diseaseName = cacner , answerType = "CANCER_HISTORY")
 
-                    answer?.let {
-                        answer.answer = data
-                        viewModel.addLevel5Answer(answer)
-                    }
+                            answer?.let {
+                                answer.answer = data
+                                viewModel.addLevel5Answer(answer)
+                            }
 
-                Log.d("smarthealth" , "${data}")
-            }, cancerType = "$cacner" )
-
+                            Log.d("smarthealth" , "${data}")
+                        }, cancerType = "$cacner" )
+                }
+            }
         }
 
         NumberButton("9")
@@ -495,6 +505,9 @@ fun surveyAct(viewModel: SurveyViewModel){
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(text = FamilyDiseaseType.getKorName(familyDisease)!!, style = Typography.bodyMedium, fontSize = 20f.pxToSp() , color = Color143F91 , textAlign = TextAlign.Center)
+
+                        VerticalLine(2)
+
                         VerticalDivider(
                             modifier = Modifier.padding(
                                 vertical = 12f.pxToDp(),

@@ -8,7 +8,7 @@ import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetBloodPressureUseCase @Inject constructor(
+class GetDataTransferUseCase @Inject constructor(
     private val repository: OmronRepository
 ) {
 

@@ -36,6 +36,9 @@ interface MeasurementRecordDao {
     @Query("SELECT * FROM found_device_tb WHERE userId = :userId ORDER BY timeStamp DESC LIMIT 1")
     fun getDeviceByUserID(userId : Int) : Flow<FoundDeviceRoom>
 
+    @Query("SELECT * FROM found_device_tb WHERE deviceCategory = :deviceCategory ORDER BY timeStamp DESC LIMIT 1")
+    fun getDeviceByCategory(deviceCategory : String) : Flow<FoundDeviceRoom>
+
     @Query("DELETE FROM found_device_tb")
     suspend fun deleteAllDevice()
 

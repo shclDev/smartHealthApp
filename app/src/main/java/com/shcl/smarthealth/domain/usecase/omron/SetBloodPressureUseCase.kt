@@ -10,6 +10,4 @@ class SetBloodPressureUseCase @Inject constructor(
 
     suspend fun updateBloodPressureToDB( bloodPressureRoom: BloodPressureRoom) = repository.updateBloodPressureDataToDB(bloodPressureRoom)
 
-    fun getBloodPressureFromDB(userId : Int) = repository.getDataTransferFromDB(userId)
-
 }

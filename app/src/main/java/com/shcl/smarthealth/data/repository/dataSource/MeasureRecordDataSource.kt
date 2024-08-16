@@ -6,6 +6,7 @@ import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
 import com.shcl.smarthealth.domain.model.db.UserRoom
+import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import kotlinx.coroutines.flow.Flow
 
 interface MeasureRecordDataSource {
@@ -22,4 +23,5 @@ interface MeasureRecordDataSource {
     suspend fun updateLastedLoginUser(lastedLoginUserRoom: LastedLoginUserRoom)
     fun getLastedLoginUser() : Flow<LastedLoginUserRoom>
     fun getAllUser() : Flow<List<UserRoom>>
+    fun getDeviceByCategory(category : String) : Flow<FoundDeviceRoom>
 }
