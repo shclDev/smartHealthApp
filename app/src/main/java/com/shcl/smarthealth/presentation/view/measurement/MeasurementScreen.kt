@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,6 +26,7 @@ import com.shcl.smarthealth.presentation.view.measurement.content.BloodPressureW
 import com.shcl.smarthealth.presentation.view.measurement.content.BloodSugarInit
 import com.shcl.smarthealth.presentation.view.measurement.content.BloodSugarSuccess
 import com.shcl.smarthealth.presentation.view.measurement.content.BloodSugarWait
+import com.shcl.smarthealth.presentation.view.measurement.content.Errpage
 import com.shcl.smarthealth.presentation.view.measurement.content.HelloScreen
 import com.shcl.smarthealth.presentation.view.measurement.content.WatchLoadSuccess
 import com.shcl.smarthealth.presentation.view.measurement.content.WatchLoadingScreen
@@ -40,18 +42,17 @@ fun MeasurementScreen(nav : NavHostController, viewModel: MeasurementViewModel =
     val step by viewModel.measurementStep.collectAsStateWithLifecycle()
 
     Box(
+        contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
             .padding(
                 top = 180f.pxToDp(),
-                start = 350f.pxToDp(),
-                end = 350f.pxToDp(),
-                bottom = 242f.pxToDp()
+                start = 80f.pxToDp(),
+                end = 80f.pxToDp(),
+                bottom = 120f.pxToDp()
             )
             .background(Color.White)
     ){
-
-       viewModel.clovaVoice(step.title)
 
        when(step){
            MeasurementStep.HELLO-> HelloScreen(viewModel = viewModel)
@@ -67,7 +68,8 @@ fun MeasurementScreen(nav : NavHostController, viewModel: MeasurementViewModel =
            MeasurementStep.WEIGHT_INIT-> WeightInit(viewModel = viewModel)
            MeasurementStep.WEIGHT_WAIT-> WeightWait(viewModel = viewModel)
            MeasurementStep.WEIGHT_SUCCESS-> WeightSuccess(viewModel = viewModel)
-           MeasurementStep.ALL_COMPLTE-> AllComplete(viewModel = viewModel)
+           MeasurementStep.ALL_COMPLTE-> AllComplete(viewModel = viewModel , nav = nav)
+           MeasurementStep.ERR_PAGE-> Errpage(viewModel = viewModel)
        }
     }
 }

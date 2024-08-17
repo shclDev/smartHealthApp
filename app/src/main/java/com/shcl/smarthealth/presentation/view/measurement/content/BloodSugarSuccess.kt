@@ -31,6 +31,8 @@ import kotlinx.coroutines.delay
 fun BloodSugarSuccess(viewModel: MeasurementViewModel) {
 
     val step by viewModel.measurementStep.collectAsStateWithLifecycle()
+    val title by viewModel.titleText.collectAsStateWithLifecycle()
+    val measurement by viewModel.measurementText.collectAsStateWithLifecycle()
 
     val displayTime = step.displayTime * 1000L
     LaunchedEffect(key1 = true) {
@@ -38,12 +40,12 @@ fun BloodSugarSuccess(viewModel: MeasurementViewModel) {
         viewModel.nextStep()
         //nav.navigate(route = OuterScreen.login.route)
     }
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceAround) {
+    viewModel.clovaVoice(title)
+    Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceEvenly) {
 
         Text(
             modifier = Modifier.weight(0.3f),
-            text = "${step.title}",
+            text = "${title}",
             style = Typography.headlineLarge,
             fontSize = 45f.pxToSp(),
             textAlign = TextAlign.Center,
@@ -52,15 +54,15 @@ fun BloodSugarSuccess(viewModel: MeasurementViewModel) {
 
 
         Text(
-            text = "##",
+            text = "${measurement}",
             style = Typography.headlineLarge,
-            fontSize = 60f.pxToSp(),
+            fontSize = 300f.pxToSp(),
             textAlign = TextAlign.Center,
             color = Color143F91
         )
 
         CustomButton(contentColor = Color.White, containerColor = Color143F91 , text = "확인" , buttonWidth = 720f , buttonHeight = 86f , btnClick = {
-
+            viewModel.nextStep()
         } )
 
     }

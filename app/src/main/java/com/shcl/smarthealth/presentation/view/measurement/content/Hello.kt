@@ -35,11 +35,14 @@ fun HelloScreen(viewModel: MeasurementViewModel){
 
     val step by viewModel.measurementStep.collectAsStateWithLifecycle()
     val displayTime = step.displayTime * 1000L
+
     LaunchedEffect(key1 = true) {
         delay(displayTime)
         viewModel.nextStep()
         //nav.navigate(route = OuterScreen.login.route)
     }
+
+    viewModel.clovaVoice(step.title)
 
     Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceAround) {
         Text(

@@ -36,6 +36,7 @@ fun WatchLoadingScreen(viewModel: MeasurementViewModel){
     val step by viewModel.measurementStep.collectAsStateWithLifecycle()
 
     val displayTime = step.displayTime * 1000L
+    viewModel.clovaVoice(step.title)
     LaunchedEffect(key1 = true) {
         delay(displayTime)
         viewModel.nextStep()

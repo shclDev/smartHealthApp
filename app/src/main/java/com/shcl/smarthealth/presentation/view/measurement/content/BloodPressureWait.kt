@@ -23,6 +23,7 @@ import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.view.device.MeasurementStatus
+import com.shcl.smarthealth.presentation.view.measurement.MeasurementStep
 import com.shcl.smarthealth.presentation.view.measurement.MeasurementViewModel
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
 import com.shcl.smarthealth.ui.theme.Typography
@@ -37,10 +38,7 @@ fun BloodPressureWait(viewModel: MeasurementViewModel) {
     val progress by animateLottieCompositionAsState(composition = agentLottie , iterations = LottieConstants.IterateForever)
 
     val step by viewModel.measurementStep.collectAsStateWithLifecycle()
-    val measurementText by viewModel.measurementText.collectAsStateWithLifecycle()
     val measurementState by viewModel.measurementState.collectAsStateWithLifecycle()
-
-
 
     viewModel.getDevice("BloodPressureMonitor")
 
@@ -51,16 +49,19 @@ fun BloodPressureWait(viewModel: MeasurementViewModel) {
         //nav.navigate(route = OuterScreen.login.route)
     }
 
+    viewModel.clovaVoice(step.title)
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceAround) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceEvenly) {
 
         if(measurementState == MeasurementStatus.Success){
-            viewModel.clovaVoice(measurementText)
+            viewModel.nextStep()
+        }else if(measurementState == MeasurementStatus.Fail){
+            viewModel.stepJump(MeasurementStep.BLOOD_PRESSURE_FAIL)
         }
 
         Text(
             modifier = Modifier.weight(0.3f),
-            text = "$measurementText",
+            text = "${step.title}",
             style = Typography.headlineLarge,
             fontSize = 45f.pxToSp(),
             textAlign = TextAlign.Center,

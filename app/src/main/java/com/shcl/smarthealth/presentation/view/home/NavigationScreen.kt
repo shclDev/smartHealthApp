@@ -1,5 +1,7 @@
 package com.shcl.smarthealth.presentation.view.home
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -43,6 +45,7 @@ import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.Typography
 
+@RequiresApi(Build.VERSION_CODES.R)
 @Composable
 fun DismissibleNavigationDrawer(){
 

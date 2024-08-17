@@ -21,6 +21,7 @@ import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomButton
+import com.shcl.smarthealth.presentation.view.measurement.MeasurementStep
 import com.shcl.smarthealth.presentation.view.measurement.MeasurementViewModel
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
@@ -40,8 +41,9 @@ fun BloodPressureFail (viewModel: MeasurementViewModel){
         viewModel.nextStep()
         //nav.navigate(route = OuterScreen.login.route)
     }
+    viewModel.clovaVoice(step.title)
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceAround) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceEvenly) {
         Text(
             text = "${step.title}",
             style = Typography.headlineLarge,
@@ -59,7 +61,7 @@ fun BloodPressureFail (viewModel: MeasurementViewModel){
         )
 
         CustomButton(contentColor = Color.White, containerColor = Color143F91 , text = "다시 측정하기" , buttonWidth = 720f , buttonHeight = 86f , btnClick = {
-
+            viewModel.stepJump(MeasurementStep.BLOOD_PRESSURE_WAIT)
         } )
 
     }

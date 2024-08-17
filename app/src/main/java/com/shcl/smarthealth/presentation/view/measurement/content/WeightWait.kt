@@ -41,7 +41,7 @@ fun WeightWait(viewModel: MeasurementViewModel) {
         viewModel.nextStep()
         //nav.navigate(route = OuterScreen.login.route)
     }
-
+    viewModel.clovaVoice(step.title)
     Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceAround) {
         Text(
             modifier = Modifier.weight(0.3f),

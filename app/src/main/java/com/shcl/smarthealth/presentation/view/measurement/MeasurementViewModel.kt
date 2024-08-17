@@ -39,7 +39,7 @@ enum class MeasurementStep(val num : Int , val title : String, val displayTime:I
     WATCH_LOAD_SUCCESS(3,"새로운 건강 기록을 불러오는데 성공했습니다.",5),
     BLOOD_PRESSURE_INIT(4,"혈압을 측정하겠습니다.\n연동된 기기를 꺼내어 혈압을 측정해주세요.",20),
     BLOOD_PRESSURE_WAIT(5,"측정값을 불러오는 중입니다." , 100),
-    BLOOD_PRESSURE_FAIL(6,"재측정이 필요합니다.[다시 측정하기] 버튼을 눌러주세요." , 100),
+    BLOOD_PRESSURE_FAIL(6,"재측정이 필요합니다.\n[다시 측정하기] 버튼을 눌러주세요." , 100),
     BLOOD_PRESSURE_SUCCESS(7,"",100),
 
     BLOOD_SUGAR_INIT(8,"혈당을 측정하겠습니다.\n연동된 기기를 꺼내어 혈당을 측정해주세요.",20),
@@ -50,7 +50,8 @@ enum class MeasurementStep(val num : Int , val title : String, val displayTime:I
     WEIGHT_WAIT(12,"측정값을 불러오는 중입니다." , 100),
     WEIGHT_SUCCESS(13,"",100),
 
-    ALL_COMPLTE(14,"잠시만 기다려주세요.\n곧 귀하의 건강 기록을 분석하여 보고드리겠습니다.", 10)
+    ALL_COMPLTE(14,"잠시만 기다려주세요.\n곧 귀하의 건강 기록을 분석하여 보고드리겠습니다.", 10),
+    ERR_PAGE(15,"",100)
 }
 
 
@@ -72,6 +73,9 @@ class MeasurementViewModel @Inject constructor(
     private val _deviceState = MutableStateFlow<DiscoveredDevice?>(null)
     val deviceState = _loggedUserState.asStateFlow()
 
+    private val _titleText = MutableStateFlow<String>("")
+    val titleText = _titleText.asStateFlow()
+
     private val _measurementText = MutableStateFlow<String>("")
     val measurementText = _measurementText.asStateFlow()
 
@@ -92,14 +96,14 @@ class MeasurementViewModel @Inject constructor(
                 .onCompletion {  Log.d("smarthealth" , "loggedUserChk onCompletion") }
                 .catch {   Log.d("smarthealth" , "loggedUserChk catch")}
                 .collect{
-                    it.let {
+                    it?.let {
 
                         var category : OHQDeviceCategory = OHQDeviceCategory.Unknown
 
                             if (it.deviceCategory.contains("BloodPressureMonitor"))
                                category= OHQDeviceCategory.BloodPressureMonitor
                             else if(it.deviceCategory.contains("WeightScale")){
-                               category =OHQDeviceCategory.WeightScale
+                               category =OHQDeviceCategory.BodyCompositionMonitor
                             }else{
                                category = OHQDeviceCategory.Unknown
                             }
@@ -141,7 +145,8 @@ class MeasurementViewModel @Inject constructor(
                                     )
 
                                     _measurementState.value = MeasurementStatus.Success
-                                    _measurementText.value = "측정된 혈압은 ${bloodPressure.systolic} 입니다."
+                                    _measurementText.value = "${bloodPressure.systolic} / ${bloodPressure.diastolic}"
+                                    _titleText.value = "측정된 혈압은 ${bloodPressure.systolic} 입니다."
 
                                 }
                             }
@@ -173,7 +178,8 @@ class MeasurementViewModel @Inject constructor(
                                             timeStamp = timeStamp
                                         )
                                         _measurementState.value = MeasurementStatus.Success
-                                        _measurementText.value = "측정된 몸무게는 ${bodyComposition.weight} 입니다."
+                                        _titleText.value = "측정된 몸무게는 ${bodyComposition.weight} 입니다."
+                                        _measurementText.value = "${bodyComposition.weight} "
                                     }
 
                             }else->{
@@ -182,14 +188,16 @@ class MeasurementViewModel @Inject constructor(
                         }
 
                     }catch (e : Exception){
+
+                        _measurementState.value = MeasurementStatus.Fail
+                        _titleText.value = "알수없는 오류가 발생했습니다."
+                        stepJump(MeasurementStep.ERR_PAGE)
+
                         Log.e("smarthealth" , e.message.toString())
                     }
                 }
-
-
             }
         }
-
     }
 
     fun nextStep(){
@@ -198,6 +206,15 @@ class MeasurementViewModel @Inject constructor(
 
         step?.let {
             _measurementStep.value = step
+        }
+    }
+
+    fun stepJump(jumpStep : MeasurementStep){
+        val findStep = enumValues<MeasurementStep>().find { it == jumpStep }
+
+        findStep?.let {
+            stepNum = it.num
+            _measurementStep.value = it
         }
     }
 

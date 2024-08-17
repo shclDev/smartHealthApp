@@ -31,14 +31,15 @@ import kotlinx.coroutines.delay
 fun WeightSuccess(viewModel: MeasurementViewModel) {
 
     val step by viewModel.measurementStep.collectAsStateWithLifecycle()
-
+    val title by viewModel.titleText.collectAsStateWithLifecycle()
+    val measurement by viewModel.measurementText.collectAsStateWithLifecycle()
     val displayTime = step.displayTime * 1000L
     LaunchedEffect(key1 = true) {
         delay(displayTime)
         viewModel.nextStep()
         //nav.navigate(route = OuterScreen.login.route)
     }
-
+    viewModel.clovaVoice(title)
     Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceAround) {
 
         Text(
@@ -52,9 +53,9 @@ fun WeightSuccess(viewModel: MeasurementViewModel) {
 
 
         Text(
-            text = "##",
+            text = "$measurement",
             style = Typography.headlineLarge,
-            fontSize = 60f.pxToSp(),
+            fontSize = 300f.pxToSp(),
             textAlign = TextAlign.Center,
             color = Color143F91
         )
