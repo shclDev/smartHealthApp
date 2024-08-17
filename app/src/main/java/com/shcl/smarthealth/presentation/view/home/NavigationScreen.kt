@@ -3,17 +3,21 @@ package com.shcl.smarthealth.presentation.view.home
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.material3.DismissibleNavigationDrawer
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemColors
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -43,6 +47,9 @@ import com.shcl.smarthealth.presentation.view.reservation.ReservationScreen
 import com.shcl.smarthealth.presentation.view.survey.SurveyScreen
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.Color757575
+import com.shcl.smarthealth.ui.theme.ColorD4D9E1
+import com.shcl.smarthealth.ui.theme.ColorEBF3FE
+import com.shcl.smarthealth.ui.theme.ColorEBF5FF
 import com.shcl.smarthealth.ui.theme.Typography
 
 @RequiresApi(Build.VERSION_CODES.R)
@@ -97,13 +104,20 @@ fun DismissibleNavigationDrawer(){
 
     DismissibleNavigationDrawer(
         modifier = Modifier
-            .background(color = Color.White),
+            .background(Color.White)
+            .border(1f.pxToDp() , color = ColorD4D9E1),
         drawerState = drawerState,
         drawerContent = {
-            DismissibleDrawerSheet(modifier = Modifier
-                .background(Color.White)
-                .width(340f.pxToDp())
-                .fillMaxHeight()) {
+            DismissibleDrawerSheet(
+                drawerContentColor = Color.White,
+                drawerContainerColor = Color.White,
+                modifier = Modifier
+                    .background(Color.White)
+                    .width(340f.pxToDp())
+                    .fillMaxHeight()
+                    .border(1f.pxToDp() , color = ColorD4D9E1)
+            )
+            {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     DrawerHeader()
                     /*
@@ -116,13 +130,21 @@ fun DismissibleNavigationDrawer(){
                     )*/
                     menus.forEachIndexed { index, item ->
                         NavigationDrawerItem(
+                            shape = RoundedCornerShape(18f.pxToDp()),
+                            colors = NavigationDrawerItemDefaults.colors(
+                                unselectedContainerColor = Color.Transparent,
+                                selectedContainerColor = ColorEBF5FF,
+                                selectedTextColor = Color143F91 ,
+                                selectedIconColor = Color143F91 ,
+                                unselectedTextColor = Color757575 ,
+                                unselectedIconColor = Color757575),
                             icon = {
-                                if(selectedIndex == index) {
-                                    Icon(item.selectedImage, contentDescription = item.contentDesc)
-                                }
-                                else{
-                                    Icon(item.image, contentDescription = item.contentDesc)
-                                } },
+                                if (selectedIndex == index) Icon(
+                                    item.selectedImage,
+                                    contentDescription = item.contentDesc
+                                ) else Icon(item.image, contentDescription = item.contentDesc)
+
+                            },
                             label = { Text(
                                 text = item.title.substringAfterLast("."),
                                 style = Typography.titleMedium,
