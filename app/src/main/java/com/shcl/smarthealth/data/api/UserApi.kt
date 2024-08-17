@@ -41,7 +41,7 @@ interface UserApi {
 
     @GET("/personal/profile/picture")
     suspend fun profilePicture(
-    ) : Call<ResponseBody>
+    ) : Response<ResponseBody>
 
 
 }

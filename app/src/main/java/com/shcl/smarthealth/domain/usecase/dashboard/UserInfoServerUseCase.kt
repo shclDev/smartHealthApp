@@ -10,5 +10,4 @@ import javax.inject.Inject
 class UserInfoServerUseCase @Inject constructor(private val repository: UserRepository){
 
     suspend operator fun invoke() = repository.userProfile()
-    suspend fun picture() = repository.userProfilePicture()
 }

@@ -47,7 +47,7 @@ import com.shcl.smarthealth.ui.theme.Typography
 
 
 @Composable
-fun UserInfo(user : ProfileResponse?) {
+fun UserInfo(user : ProfileResponse? , userPicture : String? = null ) {
 
     Box(
         modifier = Modifier
@@ -55,20 +55,22 @@ fun UserInfo(user : ProfileResponse?) {
         contentAlignment = Alignment.Center
     ) {
 
-        user?.let {
+
             Row(verticalAlignment = Alignment.CenterVertically){
-                /*
-                AsyncImage(
-                    model = painterResource(id = R.drawable.dummy_profile),
-                    //model =ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).placeholder(R.drawable.reg_picture).build(),
-                    //painter = painterResource(id = R.drawable.top_profile_img),
-                    contentScale = ContentScale.Crop,
-                    error = painterResource(id = R.drawable.dummy_profile),
-                    contentDescription = "User",
-                    modifier = Modifier
-                        .size(120.pxToDp())
-                        .clip(CircleShape)
-                )*/
+                userPicture?.let {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current).data(userPicture).build(),
+                        //model =ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).placeholder(R.drawable.reg_picture).build(),
+                        //painter = painterResource(id = R.drawable.top_profile_img),
+                        contentScale = ContentScale.Crop,
+                        error = painterResource(id = R.drawable.dummy_profile),
+                        contentDescription = "User",
+                        modifier = Modifier
+                            .size(120.pxToDp())
+                            .clip(CircleShape)
+                    )
+                }
+             user?.let {
                 Spacer(modifier = Modifier.width(40.pxToDp()))
                 Column {
                     Row(verticalAlignment = Alignment.CenterVertically){

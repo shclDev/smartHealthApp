@@ -3,6 +3,7 @@ package com.shcl.smarthealth.data.repository.dataSoruceImpl
 import android.os.Environment
 import android.util.Log
 import com.google.gson.Gson
+import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.data.api.UserApi
 import com.shcl.smarthealth.data.repository.dataSource.UserRemoteDataSource
 import com.shcl.smarthealth.di.NetworkModule
@@ -27,6 +28,8 @@ import retrofit2.Retrofit
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.InputStream
+import java.util.Date
 
 
 class UserRemoteDataSourceImpl (
@@ -211,42 +214,42 @@ class UserRemoteDataSourceImpl (
         }
     }
 
-    override suspend fun userProfilePicture(): Flow<ApiResponse<String?>> {
+    override suspend fun userProfilePicture(): Flow<String?> {
 
-        /*
         try{
-            val responseBody : Call<ResponseBody> = userApi.profilePicture()
-            if(responseBody.){
-                response.body()?.let{
-                    return flow{
-                        emit(it)
-                    }
+            val response = userApi.profilePicture()
+
+            if(response.isSuccessful){
+                val responseBody : ResponseBody = response.body()!!
+
+                val istream : InputStream = responseBody.byteStream()
+                var read = 0
+                var bytes = ByteArray(1024)
+
+                val tempName : String = Date().time.toString()
+                val f = File("${GlobalVariables.context.cacheDir}","${tempName}.jpeg")
+
+                f.createNewFile()
+                val outputStream = FileOutputStream(f)
+
+                while ((istream.read(bytes).also { read = it }) != -1) {
+                    outputStream.write(bytes, 0, read)
                 }
-            }else{
+
+                Log.d("smarthealth" , f.path)
+
+                istream.close()
+
                 return flow{
-                    emit(
-                        ApiResponse(
-                            success = false,
-                            code = response.code().toString(),
-                            message = response.message(),
-                            data = null
-                        )
-                    )
+                    emit(f.path)
                 }
             }
         }catch (e : Exception){
-            Log.e("smartHealth" , e.message.toString())
-        }*/
+            Log.e("smarthealth" , e.message.toString())
+        }
 
         return flow{
-            emit(
-                ApiResponse(
-                    success = false,
-                    code = "",
-                    message = "",
-                    data = null
-                )
-            )
+            emit(null)
         }
 
     }

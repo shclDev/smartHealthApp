@@ -52,6 +52,20 @@ class DashBoardViewModel @Inject constructor(
     val userInfoPicture : StateFlow<String?> = _userInfoPicture
 
 
+    init {
+
+        getNutrionAdvice()
+        getLastedBloodPressure()
+        getLastedWeight()
+        getLastedGlucose()
+        //getUserInfo()
+        getUserInfoServer()
+        getUserPicture()
+        getCurrentWeather()
+
+
+    }
+
     fun getNutrionAdvice(){
         viewModelScope.launch{
             dashBoardUseCase.getNutritionAdviceUseCase.invoke()
@@ -93,12 +107,13 @@ class DashBoardViewModel @Inject constructor(
 
     fun getUserPicture(){
         viewModelScope.launch {
-            dashBoardUseCase.userInfoServerUseCase.picture()
+            dashBoardUseCase.userImageUseCase.invoke()
                 ?.onStart {  }
                 ?.onCompletion { }
                 ?.catch {  }
                 ?.collect{
                     it?.let {
+                        _userInfoPicture.value = it
                         Log.d("smarthealth" , it)
                     }
                 }

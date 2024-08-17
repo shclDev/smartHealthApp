@@ -9,5 +9,6 @@ data class DashBoardUseCase (
     val getGlucoseDBUseCase: GetGlucoseDBUseCase,
     val getWeatherUseCase: GetWeatherUseCase,
     val userInfoDBUseCase: UserInfoDBUseCase,
-    val userInfoServerUseCase : UserInfoServerUseCase
+    val userInfoServerUseCase : UserInfoServerUseCase,
+    val userImageUseCase: UserImageUseCase
 )

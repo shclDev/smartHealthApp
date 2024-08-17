@@ -12,6 +12,7 @@ import com.shcl.smarthealth.domain.usecase.dashboard.GetBodyCompositionDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetGlucoseDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetNutritionAdviceUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetWeatherUseCase
+import com.shcl.smarthealth.domain.usecase.dashboard.UserImageUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.UserInfoDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.UserInfoServerUseCase
 import com.shcl.smarthealth.domain.usecase.isens.GetGlucoseRecordUseCase
@@ -47,6 +48,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import jp.co.ohq.ble.advertising.EachUserData.User
 
 
 @Module
@@ -61,7 +63,8 @@ object UseCaseModule {
         getGlucoseDBUseCase = GetGlucoseDBUseCase(repository = dashBoardRepository),
         getWeatherUseCase = GetWeatherUseCase(repository = dashBoardRepository),
         userInfoDBUseCase = UserInfoDBUseCase(repository = dashBoardRepository),
-        userInfoServerUseCase = UserInfoServerUseCase(repository = userRepository)
+        userInfoServerUseCase = UserInfoServerUseCase(repository = userRepository),
+        userImageUseCase = UserImageUseCase(repository = userRepository)
     )
 
     @Provides
