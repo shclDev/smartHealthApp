@@ -28,7 +28,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun AllComplete(viewModel: MeasurementViewModel , nav: NavHostController){
 
-    val agentLottie by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.agent_report_loading))
+    val agentLottie by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.agent_loading))
     val progress by animateLottieCompositionAsState(composition = agentLottie , iterations = LottieConstants.IterateForever)
 
     val step by viewModel.measurementStep.collectAsStateWithLifecycle()

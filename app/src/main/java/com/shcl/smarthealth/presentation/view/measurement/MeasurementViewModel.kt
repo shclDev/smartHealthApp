@@ -93,8 +93,8 @@ class MeasurementViewModel @Inject constructor(
         viewModelScope.launch{
             omronDeviceUseCase.getDeviceUseCase.getDevice(category)
                 .onStart {  }
-                .onCompletion {  Log.d("smarthealth" , "loggedUserChk onCompletion") }
-                .catch {   Log.d("smarthealth" , "loggedUserChk catch")}
+                .onCompletion {  Log.d("smarthealth" , "getDevice onCompletion") }
+                .catch {   Log.d("smarthealth" , "getDevice catch")}
                 .collect{
                     it?.let {
 
@@ -241,7 +241,7 @@ class MeasurementViewModel @Inject constructor(
             voiceUseCase.voiceTTSUseCase.invoke(
                 spearker = "nara",
                 text = text)
-                .onStart {   Log.d("smarthealth" , "survey start") }
+                .onStart {   Log.d("smarthealth" , "voice start") }
                 .onCompletion {  Log.d("smarthealth" , "") }
                 .catch {   Log.d("smarthealth" , "")}
                 .collect{

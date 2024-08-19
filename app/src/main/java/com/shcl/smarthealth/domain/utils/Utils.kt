@@ -23,7 +23,9 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -229,6 +231,10 @@ object Utils {
         }
 
         return ages
+    }
+
+    fun strConvertLocalTime(time : String) : LocalTime{
+        return LocalTime.parse(time , DateTimeFormatter.ofPattern("HH:mm"))
     }
 
 }

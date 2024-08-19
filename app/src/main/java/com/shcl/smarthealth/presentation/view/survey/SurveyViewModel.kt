@@ -2,6 +2,7 @@ package com.shcl.smarthealth.presentation.view.survey
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.shcl.smarthealth.domain.model.remote.survey.CategoryQuestionResponse
@@ -9,6 +10,12 @@ import com.shcl.smarthealth.domain.model.remote.survey.Question
 import com.shcl.smarthealth.domain.model.remote.survey.answer.Answer
 import com.shcl.smarthealth.domain.model.remote.survey.answer.CategoryQuestionRequest
 import com.shcl.smarthealth.domain.usecase.survey.SurveyUseCase
+import com.shcl.smarthealth.domain.usecase.voice.VoiceUseCase
+import com.shcl.smarthealth.presentation.view.survey.content.Level1Assistant
+import com.shcl.smarthealth.presentation.view.survey.content.Level2Assistant
+import com.shcl.smarthealth.presentation.view.survey.content.Level3Assistant
+import com.shcl.smarthealth.presentation.view.survey.content.Level4Assistant
+import com.shcl.smarthealth.presentation.view.survey.content.Level5Assistant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -29,13 +36,15 @@ enum class SurveyByLevel(val title : String, val desc:String , val category:Stri
     LEVEL3("우울감","우울감", "DEPRESSION"),
     LEVEL4("흡연/음주","흡연 및 음주" , "SMOKING_AND_DRINKING"),
     LEVEL5("신체활동 / 질병력 및 가족력" , "평소 신체활동" , "ACTIVITY_AND_MEDICAL_HISTORY")
-
 }
+
+
 
 
 @HiltViewModel
 class SurveyViewModel @Inject constructor(
-    private val surveyUseCase: SurveyUseCase
+    private val surveyUseCase: SurveyUseCase,
+    private val voiceUseCase: VoiceUseCase,
 ) : ViewModel() {
 
     val MAX_LEVEL = 5
@@ -137,22 +146,27 @@ class SurveyViewModel @Inject constructor(
 
     fun addLevel1Answer(answer : Answer){
         _level1Answers.value.put(answer.questionId , answer)
+        voiceAssistant(questionId = answer.questionId + 1)
     }
 
     fun addLevel2Answer(answer : Answer){
         _level2Answers.value.put(answer.questionId , answer)
+        voiceAssistant(questionId = answer.questionId + 1)
     }
 
     fun addLevel3Answer(answer : Answer){
         _level3Answers.value.put(answer.questionId , answer)
+        voiceAssistant(questionId = answer.questionId + 1)
     }
 
     fun addLevel4Answer(answer : Answer){
         _level4Answers.value.put(answer.questionId , answer)
+        voiceAssistant(questionId = answer.questionId + 1)
     }
 
     fun addLevel5Answer(answer : Answer){
         _level5Answers.value.put(answer.questionId , answer)
+        voiceAssistant(questionId = answer.questionId + 1)
     }
 
 
@@ -208,12 +222,10 @@ class SurveyViewModel @Inject constructor(
                 .catch {   Log.d("smarthealth" , "")}
                 .collect{
                     it.let {
-
-
                         if(it.success){
                             questions.value = it.data!!
+                            voiceAssistant(questions.value!!.first().questionId)
                         }
-
                         Log.d("smarthealth" , "survey  : ${it}")
                     }
                 }
@@ -261,6 +273,43 @@ class SurveyViewModel @Inject constructor(
 
     }
 
+    fun voiceAssistant(questionId: Int){
+
+        var voice : String? = ""
+
+        when(levelTitleState.value){
+            SurveyByLevel.LEVEL1->{
+                voice =  Level1Assistant.getVoiceByQuestionId(questionId)
+            }
+            SurveyByLevel.LEVEL2->{
+                voice = Level2Assistant.getVoiceByQuestionId(questionId)
+            }
+            SurveyByLevel.LEVEL3->{
+                voice = Level3Assistant.getVoiceByQuestionId(questionId)
+            }
+            SurveyByLevel.LEVEL4->{
+                voice = Level4Assistant.getVoiceByQuestionId(questionId)
+            }
+            SurveyByLevel.LEVEL5->{
+                voice = Level5Assistant.getVoiceByQuestionId(questionId)
+            }
+        }
+
+        voice?.let {
+            viewModelScope.launch {
+                voiceUseCase.voiceTTSUseCase.invoke(
+                    spearker = "nara",
+                    text = it)
+                    .collect{
+                        it?.let {
+                            voiceUseCase.voicePlayUseCase.invoke(it)
+                        }
+                    }
+            }
+        }
+
+    }
+
     fun uploadAnswer(){
 
         var answers : List<Answer>
@@ -300,9 +349,6 @@ class SurveyViewModel @Inject constructor(
                     }
                 }
         }
-
-
-
     }
 
 

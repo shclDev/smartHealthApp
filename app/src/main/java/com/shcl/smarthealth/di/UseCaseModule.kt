@@ -48,7 +48,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import jp.co.ohq.ble.advertising.EachUserData.User
 
 
 @Module
@@ -97,18 +96,20 @@ object UseCaseModule {
     )
 
     @Provides
-    fun provideSurveyUseCase(surveyRepository: SurveyRepository) = SurveyUseCase(
+    fun provideSurveyUseCase(surveyRepository: SurveyRepository , nCloudRepository: NCloudRepository) = SurveyUseCase(
         startSurveyUseCase = StartSurveyUseCase(repository = surveyRepository),
         completeSurveyUseCase = CompleteSurveyUseCase(repository = surveyRepository),
         getSurveysInfoUseCase = GetSurveyInfoUseCase(repository = surveyRepository),
         getCategoryQuestionUseCase = GetCategoryQuestionUseCase(repository = surveyRepository),
-        setCategoryAnswerUseCase = SetCategoryAnswerUseCase(repository =    surveyRepository))
+        setCategoryAnswerUseCase = SetCategoryAnswerUseCase(repository =    surveyRepository),
+        voiceUseCase = VoiceUseCase(voicePlayUseCase = VoicePlayUseCase.INSTANCE, voiceTTSUseCase = VoiceTTSUseCase(nCloudRepository))
+    )
 
 
     @Provides
     fun provideVoiceUseCase(nCloudRepository: NCloudRepository) = VoiceUseCase(
             voiceTTSUseCase = VoiceTTSUseCase(repositroy = nCloudRepository),
-            voicePlayUseCase = VoicePlayUseCase()
+            voicePlayUseCase = VoicePlayUseCase.INSTANCE
     )
 
 }

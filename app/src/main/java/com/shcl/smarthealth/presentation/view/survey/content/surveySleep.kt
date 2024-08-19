@@ -151,7 +151,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                                 var answer = Utils.getAnswer(13,questions)
 
                                 answer?.let{
-                                    answer.answer = StartEndTimeDto(startTime = question_13_start_hour_min_answer , endTime = question_13_end_hour_min_answer)
+                                    answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_13_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_13_end_hour_min_answer))
                                     viewModel.addLevel2Answer(answer)
                                 }
                             }
@@ -176,7 +176,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                                 var answer = Utils.getAnswer(13,questions)
 
                                 answer?.let{
-                                    answer.answer = StartEndTimeDto(startTime = question_13_start_hour_min_answer , endTime = question_13_end_hour_min_answer)
+                                    answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_13_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_13_end_hour_min_answer))
                                     viewModel.addLevel2Answer(answer)
                                 }
                             }
@@ -202,7 +202,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                                 var answer = Utils.getAnswer(13,questions)
 
                                 answer?.let{
-                                    answer.answer = StartEndTimeDto(startTime = question_13_start_hour_min_answer , endTime = question_13_end_hour_min_answer)
+                                    answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_13_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_13_end_hour_min_answer))
                                     viewModel.addLevel2Answer(answer)
                                 }
                             }
@@ -654,7 +654,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                         var answer = Utils.getAnswer(32,questions)
 
                         answer?.let{
-                            answer.answer = StartEndTimeDto(startTime = question_32_start_hour_min_answer , endTime = question_32_end_hour_min_answer)
+                            answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_32_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_32_end_hour_min_answer))
                             viewModel.addLevel2Answer(answer)
                         }
                     }
@@ -678,7 +678,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                         var answer = Utils.getAnswer(32,questions)
 
                         answer?.let{
-                            answer.answer = StartEndTimeDto(startTime = question_32_start_hour_min_answer , endTime = question_32_end_hour_min_answer)
+                            answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_32_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_32_end_hour_min_answer))
                             viewModel.addLevel2Answer(answer)
                         }
                     }
@@ -707,7 +707,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                         var answer = Utils.getAnswer(32,questions)
 
                         answer?.let{
-                            answer.answer = StartEndTimeDto(startTime = question_32_start_hour_min_answer , endTime = question_32_end_hour_min_answer)
+                            answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_32_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_32_end_hour_min_answer))
                             viewModel.addLevel2Answer(answer)
                         }
                     }
@@ -731,7 +731,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                         var answer = Utils.getAnswer(32,questions)
 
                         answer?.let{
-                            answer.answer = StartEndTimeDto(startTime = question_32_start_hour_min_answer , endTime = question_32_end_hour_min_answer)
+                            answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_32_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_32_end_hour_min_answer))
                             viewModel.addLevel2Answer(answer)
                         }
                     }
