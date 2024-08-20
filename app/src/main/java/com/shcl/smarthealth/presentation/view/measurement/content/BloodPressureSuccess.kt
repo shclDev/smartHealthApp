@@ -2,6 +2,8 @@ package com.shcl.smarthealth.presentation.view.measurement.content
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,7 +43,7 @@ fun BloodPressureSuccess(viewModel: MeasurementViewModel) {
         //nav.navigate(route = OuterScreen.login.route)
     }
     viewModel.clovaVoice(title)
-    Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceBetween) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.Top) {
 
         Text(
             modifier = Modifier.weight(0.3f),
@@ -52,6 +54,9 @@ fun BloodPressureSuccess(viewModel: MeasurementViewModel) {
             color = Color1E1E1E
         )
 
+        Spacer(modifier = Modifier.height(70f.pxToDp()))
+
+
 
         Text(
             text = "$measurement",
@@ -60,6 +65,9 @@ fun BloodPressureSuccess(viewModel: MeasurementViewModel) {
             textAlign = TextAlign.Center,
             color = Color143F91
         )
+
+        Spacer(modifier = Modifier.height(70f.pxToDp()))
+
 
         CustomButton(contentColor = Color.White, containerColor = Color143F91 , text = "확인" , buttonWidth = 720f , buttonHeight = 86f , btnClick = {
             viewModel.nextStep()

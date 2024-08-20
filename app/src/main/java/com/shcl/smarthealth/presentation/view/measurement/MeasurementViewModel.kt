@@ -46,7 +46,7 @@ enum class MeasurementStep(val num : Int , val title : String, val displayTime:I
     BLOOD_PRESSURE_FAIL(6,"재측정이 필요합니다.\n[다시 측정하기] 버튼을 눌러주세요." , 100),
     BLOOD_PRESSURE_SUCCESS(7,"",100),
 
-    BLOOD_SUGAR_INIT(8,"혈당을 측정하겠습니다.\n연동된 기기를 꺼내어 혈당을 측정해주세요.",20),
+    BLOOD_SUGAR_INIT(8,"혈당을 측정하겠습니다.\n연동된 기기를 꺼내어 혈당을 측정해주세요.",15),
     BLOOD_SUGAR_WAIT(9,"측정값을 불러오는 중입니다." , 100),
     BLOOD_SUGAR_SUCCESS(10,"",100),
 
@@ -250,7 +250,7 @@ class MeasurementViewModel @Inject constructor(
                             Log.d("smarthealth" , lastRecord.toString())
                             _measurementState.value = MeasurementStatus.Success
                             _measurementText.value = "${lastRecord.glucoseData}"
-                            _titleText.value = "측정된 혈당은 ${lastRecord.glucoseData} 입니다"
+                            _titleText.value = "측정된 혈당은 ${lastRecord.glucoseData} mg/dL 입니다"
                             stepJump(MeasurementStep.BLOOD_SUGAR_SUCCESS)
                         }
                     }
@@ -323,7 +323,7 @@ class MeasurementViewModel @Inject constructor(
                                         )
                                         omronTimerStop()
                                         _measurementState.value = MeasurementStatus.Success
-                                        _titleText.value = "측정된 몸무게는 ${bodyComposition.weight} 입니다."
+                                        _titleText.value = "측정된 몸무게는 ${bodyComposition.weight} Kg 입니다."
                                         _measurementText.value = "${bodyComposition.weight} "
                                         stepJump(MeasurementStep.WEIGHT_SUCCESS)
                                     }
