@@ -41,7 +41,7 @@ fun BloodSugarSuccess(viewModel: MeasurementViewModel) {
         //nav.navigate(route = OuterScreen.login.route)
     }
     viewModel.clovaVoice(title)
-    Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceEvenly) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceBetween) {
 
         Text(
             modifier = Modifier.weight(0.3f),
@@ -54,9 +54,9 @@ fun BloodSugarSuccess(viewModel: MeasurementViewModel) {
 
 
         Text(
-            text = "${measurement}",
+            text = "${measurement} mg/dL",
             style = Typography.headlineLarge,
-            fontSize = 300f.pxToSp(),
+            fontSize = 200f.pxToSp(),
             textAlign = TextAlign.Center,
             color = Color143F91
         )

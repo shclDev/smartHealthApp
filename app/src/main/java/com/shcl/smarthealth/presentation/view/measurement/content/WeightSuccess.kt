@@ -40,11 +40,11 @@ fun WeightSuccess(viewModel: MeasurementViewModel) {
         //nav.navigate(route = OuterScreen.login.route)
     }
     viewModel.clovaVoice(title)
-    Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceAround) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceBetween) {
 
         Text(
             modifier = Modifier.weight(0.3f),
-            text = "${step.title}",
+            text = "${title}",
             style = Typography.headlineLarge,
             fontSize = 45f.pxToSp(),
             textAlign = TextAlign.Center,
@@ -53,9 +53,9 @@ fun WeightSuccess(viewModel: MeasurementViewModel) {
 
 
         Text(
-            text = "$measurement",
+            text = "${measurement} Kg",
             style = Typography.headlineLarge,
-            fontSize = 300f.pxToSp(),
+            fontSize = 200f.pxToSp(),
             textAlign = TextAlign.Center,
             color = Color143F91
         )

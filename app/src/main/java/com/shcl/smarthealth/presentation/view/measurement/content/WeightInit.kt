@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,7 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -29,8 +32,10 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
+import com.shcl.smarthealth.presentation.view.measurement.MeasurementStep
 import com.shcl.smarthealth.presentation.view.measurement.MeasurementViewModel
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
+import com.shcl.smarthealth.ui.theme.ColorD9D9D9
 import com.shcl.smarthealth.ui.theme.ColorEBF3FE
 import com.shcl.smarthealth.ui.theme.Typography
 import kotlinx.coroutines.delay
@@ -46,9 +51,18 @@ fun WeightInit(viewModel: MeasurementViewModel){
         //nav.navigate(route = OuterScreen.login.route)
     }
     viewModel.clovaVoice(step.title)
+    viewModel.getDevice("WeightScale")
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceEvenly) {
+        TextButton(
+            modifier = Modifier.align(Alignment.End),
+            onClick = {
+                viewModel.stepJump(MeasurementStep.ALL_COMPLTE)
+            }) {
+            Text("건너뛰기" , style = Typography.headlineLarge, fontSize = 32f.pxToSp() , fontWeight = FontWeight.W700 , textDecoration = TextDecoration.Underline, color = ColorD9D9D9)
+        }
         Text(
             text = "${step.title}",
             style = Typography.headlineLarge,

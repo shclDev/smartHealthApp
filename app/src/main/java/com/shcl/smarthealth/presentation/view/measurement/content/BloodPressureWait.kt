@@ -50,14 +50,9 @@ fun BloodPressureWait(viewModel: MeasurementViewModel) {
     }
 
     viewModel.clovaVoice(step.title)
+    viewModel.periodicOmronExecution(step.displayTime)
 
     Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceEvenly) {
-
-        if(measurementState == MeasurementStatus.Success){
-            viewModel.nextStep()
-        }else if(measurementState == MeasurementStatus.Fail){
-            viewModel.stepJump(MeasurementStep.BLOOD_PRESSURE_FAIL)
-        }
 
         Text(
             modifier = Modifier.weight(0.3f),

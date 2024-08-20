@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice
 import android.util.SparseArray
 import com.isens.standard.ble.IBLE_GlucoseRecord
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
+import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.presentation.view.device.IsensGlucoseRecordState
 import kotlinx.coroutines.flow.Flow
@@ -27,6 +28,9 @@ interface IsensRepository {
 
     //get from db
     fun getGlucoseRecordFromDB(userID : Int)
+
+    //get device info from db
+    fun getDeviceByCategory(category : String) : Flow<FoundDeviceRoom>
 
 
 }

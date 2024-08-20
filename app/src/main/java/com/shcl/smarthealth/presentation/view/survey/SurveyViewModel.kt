@@ -350,7 +350,4 @@ class SurveyViewModel @Inject constructor(
                 }
         }
     }
-
-
-
 }
