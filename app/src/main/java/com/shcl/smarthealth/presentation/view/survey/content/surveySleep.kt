@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.transition.Visibility
+import com.google.gson.Gson
 import com.shcl.smarthealth.domain.model.remote.survey.answer.dtoType.StartEndTimeDto
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.GoodBadType
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.LittleBigType
@@ -54,6 +55,7 @@ import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.Color94918A
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.Typography
+import java.time.LocalTime
 import java.util.Arrays
 
 @Composable
@@ -151,7 +153,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                                 var answer = Utils.getAnswer(13,questions)
 
                                 answer?.let{
-                                    answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_13_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_13_end_hour_min_answer))
+                                    //answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_13_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_13_end_hour_min_answer))
                                     viewModel.addLevel2Answer(answer)
                                 }
                             }
@@ -176,7 +178,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                                 var answer = Utils.getAnswer(13,questions)
 
                                 answer?.let{
-                                    answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_13_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_13_end_hour_min_answer))
+                                    //answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_13_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_13_end_hour_min_answer))
                                     viewModel.addLevel2Answer(answer)
                                 }
                             }
@@ -202,7 +204,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                                 var answer = Utils.getAnswer(13,questions)
 
                                 answer?.let{
-                                    answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_13_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_13_end_hour_min_answer))
+                                    //answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_13_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_13_end_hour_min_answer))
                                     viewModel.addLevel2Answer(answer)
                                 }
                             }
@@ -654,7 +656,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                         var answer = Utils.getAnswer(32,questions)
 
                         answer?.let{
-                            answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_32_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_32_end_hour_min_answer))
+                          //  answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_32_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_32_end_hour_min_answer))
                             viewModel.addLevel2Answer(answer)
                         }
                     }
@@ -678,7 +680,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                         var answer = Utils.getAnswer(32,questions)
 
                         answer?.let{
-                            answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_32_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_32_end_hour_min_answer))
+                          //  answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_32_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_32_end_hour_min_answer))
                             viewModel.addLevel2Answer(answer)
                         }
                     }
@@ -707,7 +709,7 @@ fun surveySleep(viewModel : SurveyViewModel) {
                         var answer = Utils.getAnswer(32,questions)
 
                         answer?.let{
-                            answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_32_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_32_end_hour_min_answer))
+                           // answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_32_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_32_end_hour_min_answer))
                             viewModel.addLevel2Answer(answer)
                         }
                     }
@@ -732,6 +734,9 @@ fun surveySleep(viewModel : SurveyViewModel) {
 
                         answer?.let{
                             answer.answer = StartEndTimeDto(startTime = Utils.strConvertLocalTime(question_32_start_hour_min_answer) , endTime = Utils.strConvertLocalTime(question_32_end_hour_min_answer))
+                            //var time = StartEndTimeDto(startTime = "09:30" , endTime ="12:00")
+                            //val json = Gson().toJson(time.toString())
+                            //answer.answer =  json
                             viewModel.addLevel2Answer(answer)
                         }
                     }

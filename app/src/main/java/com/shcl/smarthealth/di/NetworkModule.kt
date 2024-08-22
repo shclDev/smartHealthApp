@@ -1,6 +1,10 @@
 package com.shcl.smarthealth.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializer
 import com.shcl.smarthealth.common.GlobalVariables
+import com.shcl.smarthealth.common.GlobalVariables.context
 import com.shcl.smarthealth.data.api.DashBoardApi
 import com.shcl.smarthealth.data.api.MeasurementApi
 import com.shcl.smarthealth.data.api.NaverApi
@@ -9,6 +13,7 @@ import com.shcl.smarthealth.data.api.UserApi
 import com.shcl.smarthealth.data.api.WeatherApi
 import com.shcl.smarthealth.data.remote.AuthInterceptor
 import com.shcl.smarthealth.data.remote.NaverInterceptor
+import com.shcl.smarthealth.domain.utils.LocalTimeConvert
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +22,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -112,10 +119,13 @@ object NetworkModule {
     @Singleton
     @shcl
     fun provideShclRetrofitInstance(okHttpClient: OkHttpClient): Retrofit {
+
+        val gson = GsonBuilder().setDateFormat("HH:mm").registerTypeAdapter(LocalTime::class.java , LocalTimeConvert()).create()
+
         return Retrofit.Builder()
             .baseUrl(GlobalVariables.shclProdBaseUrl)
             .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 

@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.google.gson.Gson
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.domain.model.remote.survey.Question
 import com.shcl.smarthealth.domain.model.remote.survey.answer.Answer
@@ -234,7 +235,16 @@ object Utils {
     }
 
     fun strConvertLocalTime(time : String) : LocalTime{
-        return LocalTime.parse(time , DateTimeFormatter.ofPattern("HH:mm"))
+        val localTime =  LocalTime.parse(time , DateTimeFormatter.ofPattern("HH:mm"))
+        Log.d("smarthealth" , "$localTime")
+        return localTime
     }
+
+    fun timeStrConvertLocalTimeJson(time : String) : String{
+        val localTime =  LocalTime.parse(time , DateTimeFormatter.ofPattern("HH:mm"))
+        val gson = Gson()
+        return gson.toJson(localTime.toString())
+    }
+
 
 }
