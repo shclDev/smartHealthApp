@@ -29,7 +29,7 @@ fun CustomRadioButton(
 
     var selectedObserver by remember { mutableStateOf("") }
 
-    Row(){
+    Row(verticalAlignment = Alignment.CenterVertically){
             options.forEach {
                 Row(modifier = Modifier
                     .selectable(
@@ -42,12 +42,12 @@ fun CustomRadioButton(
 
                 ) {
                     RadioButton(
-                        modifier = Modifier.align(Alignment.CenterVertically),
+                        modifier = Modifier.align(Alignment.Bottom),
                         selected = (it.key == selectedObserver), onClick = {
                         selectedObserver = it.key
                         selectionChanged(it.value) })
-                    Text(modifier = Modifier.padding(start = 16f.pxToDp()),
-                        text = "${it.key}", fontSize = 16f.pxToSp(), textAlign = TextAlign.Start)
+                    Text(modifier = Modifier.padding(start = 16f.pxToDp()).align(Alignment.CenterVertically),
+                        text = "${it.key}", fontSize = 16f.pxToSp())
                 }
                 //Spacer(modifier = Modifier.width(50f.pxToDp()))
             }

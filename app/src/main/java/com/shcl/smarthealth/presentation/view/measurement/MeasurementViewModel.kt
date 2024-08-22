@@ -346,8 +346,8 @@ class MeasurementViewModel @Inject constructor(
                             )
 
                             _measurementState.value = MeasurementStatus.Success
-                            _measurementText.value = "${lastRecord.glucoseData}"
-                            _titleText.value = "측정된 혈당은 ${lastRecord.glucoseData} 입니다"
+                            _measurementText.value = "${lastRecord.glucoseData.toInt()}"
+                            _titleText.value = "측정된 혈당은 ${lastRecord.glucoseData.toInt()} 입니다"
                             stepJump(MeasurementStep.BLOOD_SUGAR_SUCCESS)
                         }
                     }
@@ -359,8 +359,8 @@ class MeasurementViewModel @Inject constructor(
                         lastRecord?.let {
                             Log.d("smarthealth" , lastRecord.toString())
                             _measurementState.value = MeasurementStatus.Success
-                            _measurementText.value = "${lastRecord.glucoseData}"
-                            _titleText.value = "측정된 혈당은 ${lastRecord.glucoseData} mg/dL 입니다"
+                            _measurementText.value = "${lastRecord.glucoseData.toInt()}"
+                            _titleText.value = "측정된 혈당은 ${lastRecord.glucoseData.toInt()} mg/dL 입니다"
                             stepJump(MeasurementStep.BLOOD_SUGAR_SUCCESS)
                         }
                     }
@@ -411,8 +411,8 @@ class MeasurementViewModel @Inject constructor(
 
                                     omronTimerStop()
                                     _measurementState.value = MeasurementStatus.Success
-                                    _measurementText.value = "${bloodPressure.systolic} / ${bloodPressure.diastolic} ${bloodPressure.systolicUnit}"
-                                    _titleText.value = "측정된 혈압은 ${bloodPressure.systolic} / ${bloodPressure.diastolic} ${bloodPressure.systolicUnit} 입니다."
+                                    _measurementText.value = "${bloodPressure.systolic.toInt()} / ${bloodPressure.diastolic.toInt()}"
+                                    _titleText.value = "측정된 혈압은 ${bloodPressure.systolic.toInt()} / ${bloodPressure.diastolic.toInt()} ${bloodPressure.systolicUnit} 입니다."
                                     stepJump(MeasurementStep.BLOOD_PRESSURE_SUCCESS)
                                 }
                             }

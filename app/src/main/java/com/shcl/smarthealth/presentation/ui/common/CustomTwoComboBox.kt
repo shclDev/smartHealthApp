@@ -56,8 +56,7 @@ fun CustomTwoComboBox(
     var secondExpanded by remember { mutableStateOf(false ) }
     var secondSelected by remember { mutableStateOf("| 선택") }
 
-    Row(modifier = Modifier.fillMaxWidth()
-        .padding(top = 32f.pxToDp())
+    Row(modifier = Modifier.padding(top = 32f.pxToDp())
        , verticalAlignment = Alignment.CenterVertically) {
 
         Text("${subject}" , fontSize = 22f.pxToSp())
@@ -138,9 +137,11 @@ fun CustomTwoComboBox(
                     })
                 }
             }
+
         }
         Spacer(modifier = Modifier.width(30f.pxToDp()))
-        Text(secondUnit, fontSize = 22f.pxToSp())
+        Text("$secondUnit" , fontSize = 22f.pxToSp())
+        Spacer(modifier = Modifier.width(30f.pxToDp()))
     }
 
 }

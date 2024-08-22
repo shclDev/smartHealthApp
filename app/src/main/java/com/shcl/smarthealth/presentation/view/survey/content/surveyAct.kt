@@ -25,6 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -100,6 +101,9 @@ fun surveyAct(viewModel: SurveyViewModel){
     var question6_hour_Answer by remember { mutableStateOf("") }
     var question6_min_Answer by remember { mutableStateOf("") }
 
+    var question7_hour_Answer by remember { mutableStateOf("") }
+    var question7_min_Answer by remember { mutableStateOf("") }
+
     var cacner by remember { mutableStateOf(listOf<String>()) }
     var cancerDetailVisible by remember { mutableStateOf(false) }
 
@@ -163,7 +167,7 @@ fun surveyAct(viewModel: SurveyViewModel){
                         var answer = Utils.getAnswer(53, questions)
 
                         answer?.let {
-                            answer.answer = "$question2_hour_Answer:$question2_min_Answer"
+                            answer.answer = Utils.strConvertLocalTime("$question2_hour_Answer:$question2_min_Answer")
                             viewModel.addLevel5Answer(answer)
                         }
                     }
@@ -182,7 +186,7 @@ fun surveyAct(viewModel: SurveyViewModel){
                     var answer = Utils.getAnswer(53, questions)
 
                     answer?.let {
-                        answer.answer = "$question2_hour_Answer:$question2_min_Answer"
+                        answer.answer = Utils.strConvertLocalTime("$question2_hour_Answer:$question2_min_Answer")
                         viewModel.addLevel5Answer(answer)
                     }
                 }
@@ -255,7 +259,7 @@ fun surveyAct(viewModel: SurveyViewModel){
                     var answer = Utils.getAnswer(55, questions)
 
                     answer?.let {
-                        answer.answer = "$question4_hour_Answer:$question4_min_Answer"
+                        answer.answer = Utils.strConvertLocalTime("$question4_hour_Answer:$question4_min_Answer")
                         viewModel.addLevel5Answer(answer)
                     }
                 }
@@ -310,7 +314,7 @@ fun surveyAct(viewModel: SurveyViewModel){
                     var answer = Utils.getAnswer(57, questions)
 
                     answer?.let {
-                        answer.answer = "$question6_hour_Answer:$question6_min_Answer"
+                        answer.answer = Utils.strConvertLocalTime("$question6_hour_Answer:$question6_min_Answer")
                         viewModel.addLevel5Answer(answer)
                     }
                 }
@@ -326,7 +330,7 @@ fun surveyAct(viewModel: SurveyViewModel){
                     var answer = Utils.getAnswer(57, questions)
 
                     answer?.let {
-                        answer.answer = "$question6_hour_Answer:$question6_min_Answer"
+                        answer.answer =  Utils.strConvertLocalTime("$question6_hour_Answer:$question6_min_Answer")
                         viewModel.addLevel5Answer(answer)
                     }
                 }
@@ -336,6 +340,43 @@ fun surveyAct(viewModel: SurveyViewModel){
 
         NumberButton("7")
         Text("지난 7일간, 주중에 앉아서 보낸 시간이 보통 얼마나 됩니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
+
+        CustomTwoComboBox(
+            subject = "하루에",
+            firstList =  Arrays.asList("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"),
+            secondList = Arrays.asList("00","30"),
+            firstSelected = { value->
+                question7_hour_Answer = value.toString()
+
+                if(!question7_hour_Answer.isNullOrEmpty() && !question7_min_Answer.isNullOrEmpty() ){
+                    var answer = Utils.getAnswer(58, questions)
+
+                    answer?.let {
+                        answer.answer = Utils.strConvertLocalTime("$question7_hour_Answer:$question7_min_Answer")
+                        viewModel.addLevel5Answer(answer)
+                    }
+                }
+
+                Log.d("smarthealth","f selected") },
+            firstUnit = "시간",
+            secondUnit = "분",
+            secondSelected = { value->
+
+                question7_min_Answer = value.toString()
+
+                if(!question7_hour_Answer.isNullOrEmpty() && !question7_min_Answer.isNullOrEmpty() ){
+                    var answer = Utils.getAnswer(58, questions)
+
+                    answer?.let {
+                        answer.answer =  Utils.strConvertLocalTime("$question7_hour_Answer:$question7_min_Answer")
+                        viewModel.addLevel5Answer(answer)
+                    }
+                }
+
+                Log.d("smarthealth","2 selected") }
+        )
+
+        /*
         CustomGroupButtons(
             options = typeInteger0123,
             unSelectedColor = ColorD4D9E1 ,
@@ -353,7 +394,7 @@ fun surveyAct(viewModel: SurveyViewModel){
 
                 Log.d("survey" , "answer : ${value}")
             }
-        )
+        )*/
 
         NumberButton("8")
         Text("다음 암을 진단받은 적이 있습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
@@ -405,6 +446,9 @@ fun surveyAct(viewModel: SurveyViewModel){
 
                             Log.d("smarthealth" , "${data}")
                         }, cancerType = "$cacner" )
+                    Spacer(modifier = Modifier.height(30f.pxToDp()))
+                    HorizontalDivider()
+                    Spacer(modifier = Modifier.height(30f.pxToDp()))
                 }
             }
         }
@@ -459,6 +503,9 @@ fun surveyAct(viewModel: SurveyViewModel){
                             Log.d("smarthealth", "${data}")
                         }, diseaseType = "$disease"
                     )
+                    Spacer(modifier = Modifier.height(30f.pxToDp()))
+                    HorizontalDivider()
+                    Spacer(modifier = Modifier.height(30f.pxToDp()))
                 }
             }
 

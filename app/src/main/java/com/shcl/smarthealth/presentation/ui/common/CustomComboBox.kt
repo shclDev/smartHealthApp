@@ -84,6 +84,8 @@ fun CustomComboBox(
                 }
             }
         }
+        Spacer(modifier = Modifier.width(10f.pxToDp()))
+        Text("${firstUnit}",fontSize = 22f.pxToSp())
     }
 
 

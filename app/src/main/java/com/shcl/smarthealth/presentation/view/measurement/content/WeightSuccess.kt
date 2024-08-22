@@ -57,7 +57,7 @@ fun WeightSuccess(viewModel: MeasurementViewModel) {
 
 
         Text(
-            text = "${measurement} Kg",
+            text = "${measurement}",
             style = Typography.headlineLarge,
             fontSize = 200f.pxToSp(),
             textAlign = TextAlign.Center,

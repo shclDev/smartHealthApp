@@ -10,11 +10,13 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -30,9 +32,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.transition.Visibility
 import com.google.gson.Gson
+import com.shcl.smarthealth.domain.model.remote.survey.answer.dtoType.DurationFrequencyDto
 import com.shcl.smarthealth.domain.model.remote.survey.answer.dtoType.StartEndTimeDto
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.GoodBadType
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.LittleBigType
@@ -40,6 +44,7 @@ import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
+import com.shcl.smarthealth.presentation.ui.common.CustomTextField
 import com.shcl.smarthealth.presentation.ui.common.CustomTwoComboBox
 import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 import com.shcl.smarthealth.presentation.view.survey.SurveyViewModel
@@ -485,6 +490,27 @@ fun surveySleep(viewModel : SurveyViewModel) {
             Column {
                 NumberButton("10-1")
                 Text("잠을 자기 어려운 다른 이유가 있으셨다면, 어떤 것이었는지 알려주세요",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
+
+                CustomTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                    ,
+                    keyOption = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    focusedBoardColor = Color143F91,
+                    unfocusedBoardColor = ColorD4D9E1,
+                    placeHolder = "여기에 입력해주세요",
+                    valueChanged = {value->
+
+                        question_25_answer = value
+
+                        var answer = Utils.getAnswer(25, questions)
+
+                        answer?.let {
+                            answer.answer = value
+                            viewModel.addLevel2Answer(answer)
+                        }
+                    })
+                /*
                 TextField(
                     readOnly = false,
                     modifier = Modifier
@@ -502,7 +528,8 @@ fun surveySleep(viewModel : SurveyViewModel) {
                             answer.answer = value
                             viewModel.addLevel2Answer(answer)
                         }
-                    })
+                    })*/
+
 
                 NumberButton("10-2")
                 Text("지난 한 달 동안, 위에 해당하는 이유로 잠을 자는데 얼마나 어려움을 겪었습니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)

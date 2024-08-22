@@ -26,18 +26,22 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.remote.survey.answer.dtoType.DurationFrequencyDto
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.DurationType
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.LittleBigType
@@ -64,6 +68,7 @@ import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeNowS
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeSleep1GoodBad
 import com.shcl.smarthealth.presentation.view.survey.content.AnswerType.typeSleepGoodBad
 import com.shcl.smarthealth.ui.theme.Color143F91
+import com.shcl.smarthealth.ui.theme.Color333333
 import com.shcl.smarthealth.ui.theme.Color94918A
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.Typography
@@ -199,9 +204,30 @@ fun surveySmoking(viewModel : SurveyViewModel){
                     fontWeight = FontWeight.W700
                 )
                 Spacer(modifier = Modifier.height(20f.pxToDp()))
-                Row {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    CustomTextField(
+                        modifier = Modifier
+                            .defaultMinSize(minWidth = 383f.pxToDp(), minHeight = 75f.pxToDp()),
+                        focusedBoardColor = Color333333,
+                        unfocusedBoardColor = ColorD4D9E1,
+                        isHiddenText = false,
+                        placeHolder = "",
+                        keyOption = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        valueChanged = {
+                                value->
+                                question1_2_answer = value
+                                var answer = Utils.getAnswer(45, questions)
+
+                                answer?.let {
+                                    answer.answer = value
+                                    viewModel.addLevel4Answer(answer)
+                            }
+                        }
+                    )
+                    /*
                     TextField(
                         singleLine = true,
+                        colors = TextFieldColors(unfocusedContainerColor = Color.White , focusedContainerColor = Color.White),
                         shape = RoundedCornerShape(10f.pxToDp()),
                         readOnly = false,
                         modifier = Modifier
@@ -217,9 +243,9 @@ fun surveySmoking(viewModel : SurveyViewModel){
                                     answer.answer = value
                                     viewModel.addLevel4Answer(answer)
                                 }
-                            })
-                    Spacer(modifier = Modifier.width(35f.pxToDp()))
-                    Text("개비")
+                            })*/
+                    Spacer(modifier = Modifier.width(20f.pxToDp()))
+                    Text("개비" , fontSize = 20f.pxToSp())
                 }
             }
         }
@@ -258,6 +284,24 @@ fun surveySmoking(viewModel : SurveyViewModel){
                 )
                 Spacer(modifier = Modifier.height(20f.pxToDp()))
                 Row {
+                    CustomTextField(
+                        modifier = Modifier
+                            .defaultMinSize(minHeight = 85f.pxToDp() , minWidth = 383f.pxToDp())
+                        ,
+                        keyOption = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        focusedBoardColor = Color143F91,
+                        unfocusedBoardColor = ColorD4D9E1,
+                        placeHolder = "여기에 입력해주세요",
+                        valueChanged = { value->
+                            question1_4_answer = value
+                            var answer = Utils.getAnswer(47, questions)
+
+                            answer?.let {
+                                answer.answer = Integer.parseInt(value.toString())
+                                viewModel.addLevel4Answer(answer)
+                            }
+                        })
+                    /*
                     TextField(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         singleLine = true,
@@ -275,7 +319,7 @@ fun surveySmoking(viewModel : SurveyViewModel){
                                 answer.answer = Integer.parseInt(value.toString())
                                 viewModel.addLevel4Answer(answer)
                             }
-                        })
+                        })*/
                     Spacer(modifier = Modifier.width(35f.pxToDp()))
                     Text("개비")
                 }
@@ -315,6 +359,7 @@ fun surveySmoking(viewModel : SurveyViewModel){
             exit = fadeOut(animationSpec = tween(durationMillis = 500))
         ) {
             Column {
+                NumberButton("2-1")
                 Text(
                     "처음 술을 드시기 시작한 연령은 몇 세입니까?",
                     style = Typography.headlineMedium,
@@ -339,7 +384,7 @@ fun surveySmoking(viewModel : SurveyViewModel){
                     fontSize = 30f.pxToSp(),
                     fontWeight = FontWeight.W700
                 )
-                Row {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     CustomRadioButton(
                         options = DurationType.convertHashMap(SurveyByLevel.LEVEL4),
                         selectionChanged = { value ->
@@ -363,6 +408,7 @@ fun surveySmoking(viewModel : SurveyViewModel){
                             minWidth = 290f.pxToDp(),
                             minHeight = 86f.pxToDp()
                         ),
+                        keyOption = KeyboardOptions(keyboardType = KeyboardType.Number),
                         focusedBoardColor = Color143F91,
                         unfocusedBoardColor = ColorD4D9E1,
                         placeHolder = "여기에 입력해주세요",
@@ -380,7 +426,7 @@ fun surveySmoking(viewModel : SurveyViewModel){
                             }
                         })
 
-                    Text("회", style = Typography.labelSmall)
+                    Text("회", style = Typography.labelSmall , fontSize = 20f.pxToSp())
                 }
 
                 /*

@@ -106,7 +106,7 @@ enum class Level3Assistant(val num : Int , val questionId : Int ,  val title : S
     companion object{
 
         fun getVoiceByQuestionId(questionId: Int) : String?{
-            val findQuestion = enumValues<Level2Assistant>().find { it.questionId == questionId}
+            val findQuestion = enumValues<Level3Assistant>().find { it.questionId == questionId}
 
             findQuestion?.let {
                 return findQuestion.title
@@ -115,7 +115,7 @@ enum class Level3Assistant(val num : Int , val questionId : Int ,  val title : S
         }
 
         fun getVoiceByNum(num: Int) : String?{
-            val findQuestion = enumValues<Level2Assistant>().find { it.num == num}
+            val findQuestion = enumValues<Level3Assistant>().find { it.num == num}
 
             findQuestion?.let {
                 return findQuestion.title
@@ -186,7 +186,7 @@ enum class Level5Assistant(val num : Int , val questionId : Int ,  val title : S
     companion object{
 
         fun getVoiceByQuestionId(questionId: Int) : String?{
-            val findQuestion = enumValues<Level4Assistant>().find { it.questionId == questionId}
+            val findQuestion = enumValues<Level5Assistant>().find { it.questionId == questionId}
 
             findQuestion?.let {
                 return findQuestion.title
@@ -195,7 +195,7 @@ enum class Level5Assistant(val num : Int , val questionId : Int ,  val title : S
         }
 
         fun getVoiceByNum(num: Int) : String?{
-            val findQuestion = enumValues<Level2Assistant>().find { it.num == num}
+            val findQuestion = enumValues<Level5Assistant>().find { it.num == num}
 
             findQuestion?.let {
                 return findQuestion.title
