@@ -4,13 +4,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -25,6 +28,7 @@ import com.shcl.smarthealth.presentation.view.measurement.MeasurementStep
 import com.shcl.smarthealth.presentation.view.measurement.MeasurementViewModel
 import com.shcl.smarthealth.ui.theme.Color143F91
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
+import com.shcl.smarthealth.ui.theme.ColorD9D9D9
 import com.shcl.smarthealth.ui.theme.Typography
 import kotlinx.coroutines.delay
 
@@ -44,6 +48,13 @@ fun BloodPressureFail (viewModel: MeasurementViewModel){
     viewModel.clovaVoice(step.title)
 
     Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceEvenly) {
+        TextButton(
+            modifier = Modifier.align(Alignment.End),
+            onClick = {
+                viewModel.stepJump(MeasurementStep.BLOOD_SUGAR_INIT)
+            }) {
+            Text("건너뛰기" , style = Typography.headlineLarge, fontSize = 32f.pxToSp() , fontWeight = FontWeight.W700 , textDecoration = TextDecoration.Underline, color = ColorD9D9D9)
+        }
         Text(
             text = "${step.title}",
             style = Typography.headlineLarge,

@@ -426,7 +426,7 @@ fun surveyAct(viewModel: SurveyViewModel){
                     diseaseDetailVisible = false
                 }
 
-                var answer = Utils.getAnswer(84, questions)
+                var answer = Utils.getAnswer(67, questions)
 
                 answer?.let {
                     answer.answer = disease
@@ -482,7 +482,7 @@ fun surveyAct(viewModel: SurveyViewModel){
                     familyDiseaseVisible = false
                 }
 
-                var answer = Utils.getAnswer(85, questions)
+                var answer = Utils.getAnswer(87, questions)
 
                 answer?.let {
                     answer.answer = familyDisease

@@ -16,6 +16,7 @@ import com.shcl.smarthealth.domain.usecase.dashboard.UserImageUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.UserInfoDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.UserInfoServerUseCase
 import com.shcl.smarthealth.domain.usecase.isens.GetGlucoseRecordUseCase
+import com.shcl.smarthealth.domain.usecase.isens.GetISensDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.IsensDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.IsensScanDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.SetGlucoseRecordUserCase
@@ -80,7 +81,8 @@ object UseCaseModule {
     fun provideIsensDeviceUseCase(isensRepository: IsensRepository) = IsensDeviceUseCase(
         isensScanDeviceUseCase = IsensScanDeviceUseCase(repository = isensRepository),
         getGlucoseRecordUseCase = GetGlucoseRecordUseCase(repository = isensRepository),
-        setGlucoseRecordUserCase = SetGlucoseRecordUserCase(repository = isensRepository)
+        setGlucoseRecordUserCase = SetGlucoseRecordUserCase(repository = isensRepository),
+        getIsensDeviceUseCase = GetISensDeviceUseCase(repository = isensRepository)
     )
 
     @Provides

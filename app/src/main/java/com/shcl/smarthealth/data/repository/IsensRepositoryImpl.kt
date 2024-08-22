@@ -5,6 +5,7 @@ import android.util.SparseArray
 import com.isens.standard.ble.IBLE_GlucoseRecord
 import com.shcl.smarthealth.data.repository.dataSource.IsensDeviceDataSource
 import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
+import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.repository.IsensRepository
 import com.shcl.smarthealth.presentation.view.device.IsensGlucoseRecordState
@@ -67,5 +68,8 @@ class IsensRepositoryImpl(
         measureRecordDataSource.getGlucoseFromDB(userID)
     }
 
+    override fun getDeviceByCategory(category: String): Flow<FoundDeviceRoom> {
+        return measureRecordDataSource.getDeviceByCategory(category)
+    }
 
 }

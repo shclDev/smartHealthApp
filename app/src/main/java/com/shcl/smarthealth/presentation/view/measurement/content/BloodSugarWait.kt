@@ -42,6 +42,7 @@ fun BloodSugarWait(viewModel: MeasurementViewModel) {
         //nav.navigate(route = OuterScreen.login.route)
     }
     viewModel.clovaVoice(step.title)
+    viewModel.periodicISensExecution(step.displayTime)
     Column(horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceAround) {
         Text(
             modifier = Modifier.weight(0.3f),
