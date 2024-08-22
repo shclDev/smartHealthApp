@@ -81,6 +81,7 @@ class RegisterViewModel @Inject constructor(
                         if(!it.token.isNullOrEmpty() && !it.id.toString().isNullOrEmpty()){
                             //save access Token
                             PreferencesManager.saveData("accessToken" , it.token)
+                            PreferencesManager.saveData("userId" , it.id)
 
                             userUseCase.userRoomUpdateUseCase.invoke(
                                 UserRoom(
@@ -100,6 +101,7 @@ class RegisterViewModel @Inject constructor(
                                 )
                             )
 
+                            /*
                             userUseCase.lastedLoginUserRoomUpdateUseCase.invoke(
                                 LastedLoginUserRoom(
                                     userId = it.id,
@@ -115,6 +117,7 @@ class RegisterViewModel @Inject constructor(
                                     loginTime = Utils.getCurrentTimeStamp(),
                                     authCode = it.authCode
                                 ))
+                             */
                         }
 
                         _signUpState.value = SignUpStatus.SIGNUP_SUCCESS

@@ -61,9 +61,7 @@ class DashBoardViewModel @Inject constructor(
         //getUserInfo()
         getUserInfoServer()
         getUserPicture()
-        getCurrentWeather()
-
-
+       //getCurrentWeather()
     }
 
     fun getNutrionAdvice(){

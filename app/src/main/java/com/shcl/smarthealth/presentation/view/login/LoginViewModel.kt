@@ -71,7 +71,26 @@ class LoginViewModel @Inject constructor(
                     if (response.success) {
                         response.data?.let {
                             Log.d("smarthealth" , "signIn ${response.data}")
+                            PreferencesManager.saveData("userId" , it.id)
                             PreferencesManager.saveData("accessToken", it.token)
+
+                            userUseCase.userRoomUpdateUseCase.invoke(
+                                UserRoom(
+                                    userId = it.id,
+                                    name = it.name,
+                                    nickName = "",
+                                    birthDate = birthDate,
+                                    gender = "",
+                                    mobile = mobile,
+                                    token = it.token,
+                                    type = it.type,
+                                    age = Utils.calcAge(birthDate),
+                                    authCode = it.authCode,
+                                    isFirst = true,
+                                    profileUri = "",
+                                    registerTime = Utils.getCurrentDateTime()
+                                )
+                            )
                             _loginState.value = LoginStatus.LOGIN_SUCCESS
                         }?:run{
                             _loginState.value = LoginStatus.LOGIN_FAILED

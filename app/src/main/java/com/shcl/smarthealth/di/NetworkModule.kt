@@ -2,6 +2,7 @@ package com.shcl.smarthealth.di
 
 import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.data.api.DashBoardApi
+import com.shcl.smarthealth.data.api.MeasurementApi
 import com.shcl.smarthealth.data.api.NaverApi
 import com.shcl.smarthealth.data.api.SurveyApi
 import com.shcl.smarthealth.data.api.UserApi
@@ -152,6 +153,13 @@ object NetworkModule {
     @ncloud
     fun provideNaverApi(@ncloud retrofit: Retrofit): NaverApi {
         return retrofit.create(NaverApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @shcl
+    fun provideMeasurementApi(@shcl retrofit: Retrofit): MeasurementApi {
+        return retrofit.create(MeasurementApi::class.java)
     }
 
 

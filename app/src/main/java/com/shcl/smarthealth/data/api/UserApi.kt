@@ -35,7 +35,7 @@ interface UserApi {
         @Body signInRequest: SignInRequest
     ) : Response<ApiResponse<SignInResponse?>>
 
-    @GET("/personal/profile/")
+    @GET("/personal/profile")
     suspend fun profile(
     ) : Response<ApiResponse<ProfileResponse?>>
 

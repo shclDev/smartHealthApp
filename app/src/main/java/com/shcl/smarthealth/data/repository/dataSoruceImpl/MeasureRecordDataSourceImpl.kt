@@ -26,5 +26,4 @@ class MeasureRecordDataSourceImpl(private val measurementRecordDao: MeasurementR
     override fun getLastedLoginUser(): Flow<LastedLoginUserRoom>  = measurementRecordDao.getLastedLoginUserByUserID()
     override fun getAllUser(): Flow<List<UserRoom>> = measurementRecordDao.getAllUser()
     override fun getDeviceByCategory(category: String): Flow<FoundDeviceRoom> = measurementRecordDao.getDeviceByCategory(category)
-
 }

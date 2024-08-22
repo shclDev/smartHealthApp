@@ -187,7 +187,7 @@ fun loginSide(nav: NavHostController , viewModel : LoginViewModel){
                     unfocusedBoardColor = ColorD4D9E1,
                     isHiddenText = false,
                     placeHolder = stringResource(id = R.string.handphone_hint),
-                    keyOption = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                    keyOption = KeyboardOptions(keyboardType = KeyboardType.Number),
                     valueChanged = {
                         phoneNum = it
                         Log.d("register" , "phoneNum : ${phoneNum}")
@@ -229,7 +229,7 @@ fun loginSide(nav: NavHostController , viewModel : LoginViewModel){
                     focusedBoardColor = Color333333,
                     unfocusedBoardColor = ColorD4D9E1,
                     placeHolder = stringResource(id = R.string.birthday_hint),
-                    keyOption = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    keyOption = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                     valueChanged = {
                         birthDay = it
                         Log.d("register" , "birthDay : ${phoneNum}")
@@ -349,7 +349,8 @@ fun autoLoginSide(nav: NavHostController , viewModel : LoginViewModel , users : 
                                 user = user,
                                 onClick = {
                                     PreferencesManager.saveData("accessToken", user.token)
-                                    viewModel.lastedUserLoginUpdate(user)
+                                    PreferencesManager.saveData("userId", user.userId)
+                                    //viewModel.lastedUserLoginUpdate(user)
                                     nav.navigate(route = OuterScreen.home.route)
                                     //viewModel.signCheck()
                                 })

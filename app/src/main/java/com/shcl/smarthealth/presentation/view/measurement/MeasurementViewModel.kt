@@ -1,22 +1,33 @@
 package com.shcl.smarthealth.presentation.view.measurement
 
+import android.health.connect.datatypes.BloodGlucoseRecord
+import android.health.connect.datatypes.units.BloodGlucose
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
+import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
+import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
 import com.shcl.smarthealth.domain.model.db.UserRoom
 import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.BodyComposition
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.model.omron.RequestType
+import com.shcl.smarthealth.domain.model.remote.measurement.BloodGlucoseRequest
+import com.shcl.smarthealth.domain.model.remote.measurement.BloodPressureRequest
+import com.shcl.smarthealth.domain.model.remote.measurement.BodyCompositionRequest
+import com.shcl.smarthealth.domain.model.remote.measurement.HeightRequest
 import com.shcl.smarthealth.domain.model.remote.ncloud.VoiceRequest
 import com.shcl.smarthealth.domain.model.remote.survey.answer.enumType.FamilyDiseaseType
 import com.shcl.smarthealth.domain.usecase.isens.IsensDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.IsensScanDeviceUseCase
+import com.shcl.smarthealth.domain.usecase.measurement.MeasurementUseCase
 import com.shcl.smarthealth.domain.usecase.omron.OmronDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserUseCase
 import com.shcl.smarthealth.domain.usecase.voice.VoiceUseCase
+import com.shcl.smarthealth.domain.utils.PreferencesManager
 import com.shcl.smarthealth.presentation.view.device.IsensGlucoseRecordState
 import com.shcl.smarthealth.presentation.view.device.MeasurementStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -65,7 +76,8 @@ class MeasurementViewModel @Inject constructor(
     private val voiceUseCase: VoiceUseCase,
     private val userUseCase: UserUseCase,
     private val omronDeviceUseCase: OmronDeviceUseCase,
-    private val isensDeviceUseCase : IsensDeviceUseCase
+    private val isensDeviceUseCase : IsensDeviceUseCase,
+    private val measurementUseCase: MeasurementUseCase
 ) : ViewModel() {
 
     private var _measurementStep = MutableStateFlow<MeasurementStep>(MeasurementStep.HELLO)
@@ -173,6 +185,83 @@ class MeasurementViewModel @Inject constructor(
 
     }
 
+    fun updateBloodPressure(data : BloodPressureRoom){
+        viewModelScope.launch {
+            measurementUseCase.updateBloodPressureUseCase.invoke(BloodPressureRequest(
+                diastolic = data.diastolic,
+                diastolicUnit = data.diastolicUnit.uppercase(),
+                systolic = data.systolic,
+                systolicUnit = data.systolicUnit.uppercase(),
+                pulseRate = data.pulseRate,
+                timeStamp = data.timeStamp
+            ))
+            ?.collect{
+                    it?.let {
+
+                    }
+            }
+            omronDeviceUseCase.setBloodPressureUseCase.updateBloodPressureToDB(data)
+        }
+    }
+
+    fun updateBloodGlucose(data : GlucoseRecordRoom){
+        viewModelScope.launch {
+            measurementUseCase.updateBloodGlucoseUseCase.invoke(BloodGlucoseRequest(
+                glucoseData = data.glucoseData,
+                flagCs =  data.flagCs,
+                flagHilow = data.flagHilow,
+                flagContext = data.flagContext,
+                flagMeal = data.flagMeal,
+                flagFasting = data.flagFasting,
+                flagKetone = data.flagKetone,
+                flagNomark = data.flagNomark,
+                timeoffset = data.timeOffset,
+                time = data.time
+            ))
+                ?.collect{
+                    it?.let {
+
+                    }
+            }
+            isensDeviceUseCase.setGlucoseRecordUserCase.updateGlucoseRecordToDB(data)
+        }
+    }
+
+    fun updateBodyCompostion(data : BodyCompositionRoom){
+        viewModelScope.launch {
+            measurementUseCase.updateBodyCompostionUseCase.invoke(BodyCompositionRequest(
+                    userIndex = data.userIndex,
+                    sequenceNumber = data.sequenceNumber,
+                    weight = data.weight,
+                    weightUnit = data.weightUnit.uppercase(),
+                    bodyAge = data.bodyAge,
+                    bmi = data.bmi,
+                    musclePercentage = data.musclePercentage,
+                    bodyFatPercentage = data.bodyFatPercentage,
+                    skeletalMusclePercentage = data.skeletalMusclePercentage,
+                    timeStamp = data.timeStamp
+                ))?.collect{
+                    it?.let {
+
+                    }
+                }
+
+            omronDeviceUseCase.bodyCompositionUseCase.updateBodyCompositionToDB(data)
+        }
+    }
+
+    fun updateHeight(request : HeightRequest){
+        viewModelScope.launch {
+            measurementUseCase.updateHeightUseCase.invoke(request)
+                ?.collect{
+                    it?.let {
+
+                    }
+                }
+        }
+    }
+
+
     fun periodicOmronExecution( timeSec : Int ){
 
         var timerSec = timeSec
@@ -218,8 +307,11 @@ class MeasurementViewModel @Inject constructor(
 
     fun getISensMeasurementRecord(){
         viewModelScope.launch {
-            isensDeviceUseCase.isensScanDeviceUseCase.connect("74:46:B3:4E:30:F7")
-            isensDeviceUseCase.getGlucoseRecordUseCase.requestAllRecords()
+
+            _deviceState.value?.let {
+                isensDeviceUseCase.isensScanDeviceUseCase.connect(it.address)
+                isensDeviceUseCase.getGlucoseRecordUseCase.requestAllRecords()
+            }
         }
     }
 
@@ -235,6 +327,24 @@ class MeasurementViewModel @Inject constructor(
 
                         lastRecord?.let {
                             Log.d("smarthealth" , lastRecord.toString())
+
+                            val userId = PreferencesManager.getUserId("userId" , 0)
+
+                            updateBloodGlucose(
+                                GlucoseRecordRoom(
+                                    userId = userId,
+                                    glucoseData = lastRecord.glucoseData,
+                                    flagCs = lastRecord.flag_cs,
+                                    flagHilow = lastRecord.flag_hilow,
+                                    flagContext = lastRecord.flag_context,
+                                    flagMeal = lastRecord.flag_meal,
+                                    flagFasting = lastRecord.flag_fasting,
+                                    flagKetone = lastRecord.flag_ketone,
+                                    timeOffset = lastRecord.timeoffset,
+                                    time = lastRecord.time
+                                )
+                            )
+
                             _measurementState.value = MeasurementStatus.Success
                             _measurementText.value = "${lastRecord.glucoseData}"
                             _titleText.value = "측정된 혈당은 ${lastRecord.glucoseData} 입니다"
@@ -284,6 +394,21 @@ class MeasurementViewModel @Inject constructor(
                                         pulseRate = measurementRecord.get(OHQMeasurementRecordKey.PulseRateKey).toString().toFloat(),
                                         timeStamp = measurementRecord.get(OHQMeasurementRecordKey.TimeStampKey).toString()
                                     )
+
+                                    val userId = PreferencesManager.getUserId("userId" , 0)
+
+                                    updateBloodPressure(
+                                        BloodPressureRoom(
+                                            diastolic = bloodPressure.diastolic,
+                                            diastolicUnit = bloodPressure.diastolicUnit,
+                                            systolic = bloodPressure.systolic,
+                                            systolicUnit = bloodPressure.systolicUnit,
+                                            pulseRate = bloodPressure.pulseRate,
+                                            timeStamp = bloodPressure.timeStamp,
+                                            userId = userId
+                                        )
+                                    )
+
                                     omronTimerStop()
                                     _measurementState.value = MeasurementStatus.Success
                                     _measurementText.value = "${bloodPressure.systolic} / ${bloodPressure.diastolic} ${bloodPressure.systolicUnit}"
@@ -321,6 +446,24 @@ class MeasurementViewModel @Inject constructor(
                                             skeletalMusclePercentage = skeletalMusclePercentage,
                                             timeStamp = timeStamp
                                         )
+
+                                        val userId = PreferencesManager.getUserId("userId" , 0)
+
+                                        updateBodyCompostion(BodyCompositionRoom(
+                                            userId = userId,
+                                            userIndex = bodyComposition.userIndex,
+                                            sequenceNumber = bodyComposition.sequenceNumber,
+                                            weight = bodyComposition.weight,
+                                            weightUnit = bodyComposition.weightUnit,
+                                            fatPercentage = bodyComposition.bodyFatPercentage,
+                                            bodyAge = bodyComposition.bodyAge,
+                                            bmi = bodyComposition.bmi,
+                                            musclePercentage = bodyComposition.musclePercentage,
+                                            bodyFatPercentage = bodyComposition.bodyFatPercentage,
+                                            skeletalMusclePercentage = bodyComposition.skeletalMusclePercentage,
+                                            timeStamp = bodyComposition.timeStamp
+                                        ))
+
                                         omronTimerStop()
                                         _measurementState.value = MeasurementStatus.Success
                                         _titleText.value = "측정된 몸무게는 ${bodyComposition.weight} Kg 입니다."

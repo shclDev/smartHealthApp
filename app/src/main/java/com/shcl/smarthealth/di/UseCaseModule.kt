@@ -2,6 +2,7 @@ package com.shcl.smarthealth.di
 
 import com.shcl.smarthealth.domain.repository.DashBoardRepository
 import com.shcl.smarthealth.domain.repository.IsensRepository
+import com.shcl.smarthealth.domain.repository.MeasurmentRepository
 import com.shcl.smarthealth.domain.repository.NCloudRepository
 import com.shcl.smarthealth.domain.repository.OmronRepository
 import com.shcl.smarthealth.domain.repository.SurveyRepository
@@ -20,6 +21,11 @@ import com.shcl.smarthealth.domain.usecase.isens.GetISensDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.IsensDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.IsensScanDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.SetGlucoseRecordUserCase
+import com.shcl.smarthealth.domain.usecase.measurement.MeasurementUseCase
+import com.shcl.smarthealth.domain.usecase.measurement.UpdateBloodGlucoseUseCase
+import com.shcl.smarthealth.domain.usecase.measurement.UpdateBloodPressureUseCase
+import com.shcl.smarthealth.domain.usecase.measurement.UpdateBodyCompostionUseCase
+import com.shcl.smarthealth.domain.usecase.measurement.UpdateHeightUseCase
 import com.shcl.smarthealth.domain.usecase.omron.BodyCompositionUseCase
 import com.shcl.smarthealth.domain.usecase.omron.GetDataTransferUseCase
 import com.shcl.smarthealth.domain.usecase.omron.GetDeviceUseCase
@@ -114,4 +120,11 @@ object UseCaseModule {
             voicePlayUseCase = VoicePlayUseCase.INSTANCE
     )
 
+    @Provides
+    fun provideMeasurementUseCase(measurementRepository: MeasurmentRepository) = MeasurementUseCase(
+            updateBloodGlucoseUseCase = UpdateBloodGlucoseUseCase(repository = measurementRepository),
+            updateBloodPressureUseCase = UpdateBloodPressureUseCase(repository = measurementRepository),
+            updateBodyCompostionUseCase = UpdateBodyCompostionUseCase(repository = measurementRepository),
+            updateHeightUseCase = UpdateHeightUseCase(repository = measurementRepository)
+    )
 }

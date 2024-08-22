@@ -133,7 +133,7 @@ class DeviceViewModel @Inject constructor(
                 Log.d("omron" , it.toString())
 
                 if(it.status == MeasurementStatus.ParingSuccess){
-                    _registerToDBDevice(device)
+                    registerToDBDevice(device)
                 }else if(it.status == MeasurementStatus.ParingFail){
                     Log.e("omron","paring error")
                 }
@@ -264,7 +264,7 @@ class DeviceViewModel @Inject constructor(
         }
     }*/
 
-    fun _registerToDBDevice(discoveredDevice: DiscoveredDevice){
+    fun registerToDBDevice(discoveredDevice: DiscoveredDevice){
 
         GlobalScope.launch(Dispatchers.IO){
             omronDeviceUseCase.registerDeviceUseCase.registerDeviceToDB(discoveredDevice)

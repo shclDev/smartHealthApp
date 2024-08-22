@@ -54,6 +54,7 @@ fun BloodSugarInit(viewModel: MeasurementViewModel){
         //nav.navigate(route = OuterScreen.login.route)
     }
     viewModel.clovaVoice(step.title)
+    viewModel.getDevice("Glucose")
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.SpaceEvenly) {

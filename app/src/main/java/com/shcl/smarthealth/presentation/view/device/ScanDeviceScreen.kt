@@ -229,7 +229,7 @@ fun iSensDeviceItem(viewModel:DeviceViewModel, device : BluetoothDevice){
                         // to handle the case where the user grants the permission. See the documentation
                         // for ActivityCompat#requestPermissions for more details.
                     }
-                    viewModel._registerToDBDevice(DiscoveredDevice(address = device.address , localName = device.name , deviceCategory = OHQDeviceCategory.Glucose))
+                    viewModel.registerToDBDevice(DiscoveredDevice(address = device.address , localName = device.name , deviceCategory = OHQDeviceCategory.Glucose))
                     //viewModel.getOmronMeasurementRecord(device , RequestType.Paring)
                     showRegisterDialogState = false
                 },
