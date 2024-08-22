@@ -2,15 +2,20 @@ package com.shcl.smarthealth.presentation.view.intro
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -23,9 +28,13 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.shcl.smarthealth.R
+import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.presentation.ui.common.featureThatRequiresPermission
@@ -46,23 +55,49 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
     //requestPermission()
     //val context = LocalContext.current
 
-
+    val transitionState = remember { MutableTransitionState(false)}
     var allPermissionGranted by remember { mutableStateOf( false ) }
     featureThatRequiresPermission( { permissionGranted ->
         allPermissionGranted = permissionGranted
+        /*
         if(allPermissionGranted){
             nextScreen(nav = nav)
+        }*/
+        if(allPermissionGranted){
+            LaunchedEffect(key1 = true) {
+                transitionState.targetState = true
+                delay(1500L)
+                nav.navigate(route = OuterScreen.login.route)
+            }
         }
     })
 
+    val configuration = LocalConfiguration.current
+    val density = LocalDensity.current.density
+
+    val screenWidthDp = configuration.screenWidthDp
+    val screenHeightDp = configuration.screenHeightDp
+
+    val screenWidthPx = (screenWidthDp * density).toInt()
+    val screenHeightPx = (screenHeightDp * density).toInt()
 
 
-    Box(
-      modifier = Modifier
-          .fillMaxSize()
-          .background(brush = Brush.verticalGradient(BackGroundColor))
-          //.gradientBackground(BackGroundColor, angle = 90f)
-    ){
+    val aniWidth by animateDpAsState(targetValue = if(transitionState.currentState) (screenWidthPx/2).pxToDp() else screenWidthPx.pxToDp() ,
+            animationSpec = tween(durationMillis = 3000 , delayMillis = 700)
+    )
+
+    LaunchedEffect(Unit) {
+        transitionState.targetState = true
+     }
+
+    Surface(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .size(width = aniWidth, height = screenHeightPx.pxToDp())
+                .fillMaxHeight()
+                .background(brush = Brush.verticalGradient(BackGroundColor))
+            //.gradientBackground(BackGroundColor, angle = 90f)
+        ) {
 
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -77,7 +112,7 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
                         contentDescription = null
                     )
                 }
-                Spacer(modifier = Modifier.height(16.pxToDp()) )
+                Spacer(modifier = Modifier.height(16.pxToDp()))
 
                 /*
                 Button(
@@ -96,10 +131,8 @@ fun IntroScreen(nav : NavHostController , modifier: Modifier?){
             }
 
         }
+    }
 }
-
-
-
 
 
 fun Modifier.gradientBackground(colors : List<Color>, angle : Float ) = this.then(

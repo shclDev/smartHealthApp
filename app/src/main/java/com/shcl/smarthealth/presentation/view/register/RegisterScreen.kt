@@ -187,7 +187,8 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                 Text(stringResource(id = R.string.birthday) , style = Typography.titleSmall , fontSize = 20f.pxToSp() , color = Color333333)
                                 Spacer(modifier = Modifier.height(25f.pxToDp()))
                                 CustomTextField(
-                                    keyOption = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                    keyOption = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                                    isHiddenText = true,
                                     modifier = Modifier.defaultMinSize(minWidth = 620f.pxToDp(), minHeight = 86f.pxToDp()),
                                     focusedBoardColor = Color143F91,
                                     unfocusedBoardColor = ColorD4D9E1,

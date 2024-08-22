@@ -127,7 +127,14 @@ fun MyImageArea(
             .conditional(tempUri != null ){
                 clip(CircleShape)
             }
-            .clickable { showBottomSheet = true },
+            .clickable {
+                //showBottomSheet = true
+                imagePicker.launch(
+                PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
+            )
+        },
         model = ImageRequest.Builder(LocalContext.current).data(tempUri).build(),
         error = painterResource(id = R.drawable.reg_picture)
     )

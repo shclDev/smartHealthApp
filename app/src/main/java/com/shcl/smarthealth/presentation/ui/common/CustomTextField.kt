@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
@@ -34,6 +35,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
@@ -49,6 +52,7 @@ fun CustomTextField(
     modifier: Modifier = Modifier,
     focusedBoardColor : Color,
     unfocusedBoardColor : Color,
+    isHiddenText : Boolean = false,
     placeHolder : String,
     keyOption : KeyboardOptions? = KeyboardOptions(keyboardType = KeyboardType.Text),
     valueChanged : (String)-> Unit,
@@ -63,6 +67,8 @@ fun CustomTextField(
         KeyboardOptions(keyboardType = KeyboardType.Text)
     }
 
+    var isHidden by rememberSaveable { mutableStateOf(isHiddenText) }
+
     OutlinedTextField(
         modifier = modifier
             .addFocusCleaner(focusManager)
@@ -71,6 +77,7 @@ fun CustomTextField(
             focusedBorderColor = focusedBoardColor,
             unfocusedBorderColor = unfocusedBoardColor
         ),
+        visualTransformation = if (isHidden) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = keyboardType,
         textStyle = Typography.titleSmall,
         shape = RoundedCornerShape(18f.pxToDp()),

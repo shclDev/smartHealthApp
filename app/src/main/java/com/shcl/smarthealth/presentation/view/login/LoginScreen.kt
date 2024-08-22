@@ -49,6 +49,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -184,8 +185,9 @@ fun loginSide(nav: NavHostController , viewModel : LoginViewModel){
                         .defaultMinSize(minHeight = 86f.pxToDp()),
                     focusedBoardColor = Color333333,
                     unfocusedBoardColor = ColorD4D9E1,
+                    isHiddenText = false,
                     placeHolder = stringResource(id = R.string.handphone_hint),
-                    keyOption = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyOption = KeyboardOptions(keyboardType = KeyboardType.Phone),
                     valueChanged = {
                         phoneNum = it
                         Log.d("register" , "phoneNum : ${phoneNum}")
@@ -223,10 +225,11 @@ fun loginSide(nav: NavHostController , viewModel : LoginViewModel){
                     modifier = Modifier
                         .fillMaxWidth()
                         .defaultMinSize(minHeight = 86f.pxToDp()),
+                    isHiddenText = true ,
                     focusedBoardColor = Color333333,
                     unfocusedBoardColor = ColorD4D9E1,
                     placeHolder = stringResource(id = R.string.birthday_hint),
-                    keyOption = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyOption = KeyboardOptions(keyboardType = KeyboardType.Password),
                     valueChanged = {
                         birthDay = it
                         Log.d("register" , "birthDay : ${phoneNum}")
