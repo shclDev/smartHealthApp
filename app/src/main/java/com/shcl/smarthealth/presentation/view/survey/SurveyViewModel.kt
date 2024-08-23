@@ -151,7 +151,7 @@ class SurveyViewModel @Inject constructor(
 
     fun addLevel2Answer(answer : Answer){
         _level2Answers.value.put(answer.questionId , answer)
-        voiceAssistant(questionId = answer.questionId + 1)
+        voiceAssistant(questionId = answer.questionId , answer)
     }
 
     fun addLevel3Answer(answer : Answer){
@@ -161,7 +161,7 @@ class SurveyViewModel @Inject constructor(
 
     fun addLevel4Answer(answer : Answer){
         _level4Answers.value.put(answer.questionId , answer)
-        voiceAssistant(questionId = answer.questionId + 1)
+        voiceAssistant(questionId = answer.questionId , answer)
     }
 
     fun addLevel5Answer(answer : Answer){
@@ -273,7 +273,7 @@ class SurveyViewModel @Inject constructor(
 
     }
 
-    fun voiceAssistant(questionId: Int){
+    fun voiceAssistant(questionId: Int , answer : Answer? = null){
 
         var voice : String? = ""
 
@@ -282,13 +282,70 @@ class SurveyViewModel @Inject constructor(
                 voice =  Level1Assistant.getVoiceByQuestionId(questionId)
             }
             SurveyByLevel.LEVEL2->{
-                voice = Level2Assistant.getVoiceByQuestionId(questionId)
+                val assistant = Level2Assistant.getQuestion(questionId)
+
+                answer?.let {
+                    when(it.questionId){
+                        12->{
+                                if(it.answer.toString().compareTo("GOOD") == 0 || it.answer.toString().compareTo("VERY_GOOD") == 0){
+                                    voice = Level2Assistant.getVoiceByQuestionId(assistant!!.defaultNextQuestionId)
+                                }else{
+                                    voice = Level2Assistant.getVoiceByQuestionId(assistant!!.jumpQuestionId)
+                                }
+                        }
+
+                        24->{
+                            if(it.answer == true){
+                                voice = Level2Assistant.getVoiceByQuestionId(assistant!!.jumpQuestionId)
+                            }else{
+                                voice = Level2Assistant.getVoiceByQuestionId(assistant!!.defaultNextQuestionId)
+                            }
+                        }
+
+                        else->{
+                            voice = Level2Assistant.getVoiceByQuestionId(assistant!!.defaultNextQuestionId)
+                        }
+                    }
+                } ?: run {
+                    voice = Level2Assistant.getVoiceByQuestionId(questionId)
+                }
+
+
             }
             SurveyByLevel.LEVEL3->{
                 voice = Level3Assistant.getVoiceByQuestionId(questionId)
             }
             SurveyByLevel.LEVEL4->{
-                voice = Level4Assistant.getVoiceByQuestionId(questionId)
+
+                val assistant = Level4Assistant.getQuestion(questionId)
+
+                answer?.let {
+                    when(it.questionId){
+                        43->{
+                            if(it.answer.toString().contains("NOT_NOW")){
+                                voice = Level4Assistant.getVoiceByQuestionId(assistant!!.jumpQuestionId)
+                            }else if(it.answer.toString().contains("NOW")){
+                                voice = Level4Assistant.getVoiceByQuestionId(assistant!!.otherJumpQuestionId)
+                            }else{
+                                voice = Level4Assistant.getVoiceByQuestionId(assistant!!.defaultNextQuestionId)
+                            }
+                        }
+
+                        48->{
+                            if(it.answer.toString().compareTo("NOW") == 0){
+                                voice = Level4Assistant.getVoiceByQuestionId(assistant!!.jumpQuestionId)
+                            }else{
+                                voice = Level4Assistant.getVoiceByQuestionId(assistant!!.defaultNextQuestionId)
+                            }
+                        }
+
+                        else->{
+                            voice = Level4Assistant.getVoiceByQuestionId(assistant!!.defaultNextQuestionId)
+                        }
+                    }
+                } ?: run{
+                    voice = Level4Assistant.getVoiceByQuestionId(questionId)
+                }
             }
             SurveyByLevel.LEVEL5->{
                 voice = Level5Assistant.getVoiceByQuestionId(questionId)
@@ -296,15 +353,17 @@ class SurveyViewModel @Inject constructor(
         }
 
         voice?.let {
-            viewModelScope.launch {
-                voiceUseCase.voiceTTSUseCase.invoke(
-                    spearker = "nara",
-                    text = it)
-                    .collect{
-                        it?.let {
-                            voiceUseCase.voicePlayUseCase.invoke(it)
+            if(!voice.isNullOrEmpty()){
+                viewModelScope.launch {
+                    voiceUseCase.voiceTTSUseCase.invoke(
+                        spearker = "nara",
+                        text = it)
+                        .collect{
+                            it?.let {
+                                voiceUseCase.voicePlayUseCase.invoke(it)
+                            }
                         }
-                    }
+                }
             }
         }
 

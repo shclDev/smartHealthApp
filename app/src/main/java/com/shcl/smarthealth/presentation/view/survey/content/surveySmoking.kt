@@ -219,7 +219,7 @@ fun surveySmoking(viewModel : SurveyViewModel){
                                 var answer = Utils.getAnswer(45, questions)
 
                                 answer?.let {
-                                    answer.answer = value
+                                    answer.answer = Integer.parseInt(value)
                                     viewModel.addLevel4Answer(answer)
                             }
                         }

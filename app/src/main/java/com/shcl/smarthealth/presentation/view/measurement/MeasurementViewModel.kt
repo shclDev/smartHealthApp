@@ -159,7 +159,7 @@ class MeasurementViewModel @Inject constructor(
                                 Log.d("smarthealth" , "Glucose ${it.address!!}")
                                 Log.d("smarthealth" , "Glucose ${it.deviceCategory!!}")
 
-                                var category : OHQDeviceCategory = OHQDeviceCategory.Unknown
+                                var category : OHQDeviceCategory
 
                                 if(it.deviceCategory.contains("Glucose")){
                                     category = OHQDeviceCategory.Glucose
@@ -347,25 +347,10 @@ class MeasurementViewModel @Inject constructor(
 
                             _measurementState.value = MeasurementStatus.Success
                             _measurementText.value = "${lastRecord.glucoseData.toInt()}"
-                            _titleText.value = "측정된 혈당은 ${lastRecord.glucoseData.toInt()} 입니다"
-                            stepJump(MeasurementStep.BLOOD_SUGAR_SUCCESS)
-                        }
-                    }
-                }else{
-                    it.records?.let {
-                        isensTimerStop()
-                        val lastRecord = it[it.size()]
-
-                        lastRecord?.let {
-                            Log.d("smarthealth" , lastRecord.toString())
-                            _measurementState.value = MeasurementStatus.Success
-                            _measurementText.value = "${lastRecord.glucoseData.toInt()}"
                             _titleText.value = "측정된 혈당은 ${lastRecord.glucoseData.toInt()} mg/dL 입니다"
                             stepJump(MeasurementStep.BLOOD_SUGAR_SUCCESS)
                         }
                     }
-
-
                 }
             }
         }
