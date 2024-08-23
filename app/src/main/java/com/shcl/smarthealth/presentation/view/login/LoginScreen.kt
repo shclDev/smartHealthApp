@@ -412,7 +412,7 @@ private fun LoginUserCard(
     ){
        Column (modifier = Modifier.align(Alignment.Center)){
            AsyncImage(
-               model = ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).crossfade(true).build(),
+               model = ImageRequest.Builder(LocalContext.current).data(user.profileUri).crossfade(true).build(),
                //painter = painterResource(id = R.drawable.top_profile_img),
                error = painterResource(id = R.drawable.dummy_profile),
                contentScale = ContentScale.Crop,

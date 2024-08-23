@@ -10,5 +10,6 @@ data class DashBoardUseCase (
     val getWeatherUseCase: GetWeatherUseCase,
     val userInfoDBUseCase: UserInfoDBUseCase,
     val userInfoServerUseCase : UserInfoServerUseCase,
-    val userImageUseCase: UserImageUseCase
+    val userImageUseCase: UserImageUseCase,
+    val getAllDataUseCase : GetAllDataUseCase
 )

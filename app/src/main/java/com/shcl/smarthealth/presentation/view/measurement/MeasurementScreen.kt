@@ -42,8 +42,10 @@ fun MeasurementScreen(nav : NavHostController, viewModel: MeasurementViewModel =
     val step by viewModel.measurementStep.collectAsStateWithLifecycle()
 
     Box(
+
         contentAlignment = Alignment.Center,
         modifier = Modifier
+            .background(Color.White)
             .fillMaxSize()
             .padding(
                 top = 180f.pxToDp(),
@@ -51,7 +53,6 @@ fun MeasurementScreen(nav : NavHostController, viewModel: MeasurementViewModel =
                 end = 80f.pxToDp(),
                 bottom = 120f.pxToDp()
             )
-            .background(Color.White)
     ){
 
        when(step){

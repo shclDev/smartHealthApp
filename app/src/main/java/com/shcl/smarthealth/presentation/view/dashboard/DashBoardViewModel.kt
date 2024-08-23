@@ -9,6 +9,7 @@ import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
+import com.shcl.smarthealth.domain.model.remote.dashboard.OverallResponse
 import com.shcl.smarthealth.domain.model.remote.user.ProfileResponse
 import com.shcl.smarthealth.domain.model.remote.weather.WeatherResponse
 import com.shcl.smarthealth.domain.usecase.dashboard.DashBoardUseCase
@@ -51,16 +52,20 @@ class DashBoardViewModel @Inject constructor(
     private val _userInfoPicture = MutableStateFlow<String?>("")
     val userInfoPicture : StateFlow<String?> = _userInfoPicture
 
+    private val _dashboardData = MutableStateFlow<OverallResponse?>(null)
+    val dashboardData : StateFlow<OverallResponse?> = _dashboardData
+
 
     init {
 
-        getNutrionAdvice()
-        getLastedBloodPressure()
-        getLastedWeight()
-        getLastedGlucose()
+        //getNutrionAdvice()
+        //getLastedBloodPressure()
+        //getLastedWeight()
+        //getLastedGlucose()
         //getUserInfo()
         getUserInfoServer()
         getUserPicture()
+        getDashBoardData()
        //getCurrentWeather()
     }
 
@@ -73,6 +78,19 @@ class DashBoardViewModel @Inject constructor(
                 .collect{
                 _nutritionAdvice.value = it
             }
+        }
+    }
+
+    fun getDashBoardData(){
+        viewModelScope.launch{
+            dashBoardUseCase.getAllDataUseCase.invoke()
+                .onStart {   }
+                .onCompletion {  }
+                .catch {  }
+                .collect{
+                    Log.d("smarthealth" , it.toString())
+                    _dashboardData.value = it
+                }
         }
     }
 

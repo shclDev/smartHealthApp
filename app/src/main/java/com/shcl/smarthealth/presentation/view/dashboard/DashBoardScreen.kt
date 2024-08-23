@@ -57,6 +57,7 @@ import com.shcl.smarthealth.presentation.view.dashboard.component.GlucoseCompone
 import com.shcl.smarthealth.presentation.view.dashboard.component.NutritionComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.PursePressureComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.UserInfo
+import com.shcl.smarthealth.presentation.view.dashboard.component.WatchComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.WeatherComponent
 import com.shcl.smarthealth.presentation.view.dashboard.component.WeightComponent
 import com.shcl.smarthealth.presentation.view.device.DeviceViewModel
@@ -137,6 +138,8 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
 
     //viewModel.getUserPicture()
     val userPicture by viewModel.userInfoPicture.collectAsStateWithLifecycle()
+
+    val dashboardData by viewModel.dashboardData.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier
@@ -241,10 +244,16 @@ fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hil
             Row(
                 horizontalArrangement = Arrangement.spacedBy(20f.pxToDp())
             ) {
-                BloodPressureComponent(bloodPressure, deviceViewModel)
-                PursePressureComponent(bloodPressure)
-                GlucoseComponent(glucose)
-                WeightComponent(bodyCompositionRoom = weight)
+                BloodPressureComponent(dashboardData)
+                Column(verticalArrangement = Arrangement.spacedBy(20f.pxToDp())) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(20f.pxToDp())) {
+                        GlucoseComponent(dashboardData)
+                        PursePressureComponent(dashboardData)
+                        WeightComponent(dashboardData)
+                    }
+                    WatchComponent(data = dashboardData)
+                }
+
             }
 
             /*

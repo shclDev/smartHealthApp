@@ -1,5 +1,6 @@
 package com.shcl.smarthealth.domain.utils
 
+import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -240,10 +241,18 @@ object Utils {
         return localTime
     }
 
-    fun timeStrConvertLocalTimeJson(time : String) : String{
-        val localTime =  LocalTime.parse(time , DateTimeFormatter.ofPattern("HH:mm"))
-        val gson = Gson()
-        return gson.toJson(localTime.toString())
+    fun loadBitmapFromUri(contentResolver: ContentResolver , uri : Uri) : Bitmap? {
+        return try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val source = ImageDecoder.createSource(contentResolver, uri)
+                ImageDecoder.decodeBitmap(source)
+            } else {
+                MediaStore.Images.Media.getBitmap(contentResolver, uri)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
 

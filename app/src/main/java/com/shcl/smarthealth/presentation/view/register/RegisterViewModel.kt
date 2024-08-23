@@ -6,6 +6,7 @@ import android.provider.ContactsContract.CommonDataKinds.Nickname
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shcl.smarthealth.common.GlobalVariables
 import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
 import com.shcl.smarthealth.domain.model.db.UserRoom
 import com.shcl.smarthealth.domain.model.remote.user.SignUpRequest
@@ -20,6 +21,8 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import java.io.File
+import java.util.Date
 import javax.inject.Inject
 
 
@@ -83,6 +86,14 @@ class RegisterViewModel @Inject constructor(
                             PreferencesManager.saveData("accessToken" , it.token)
                             PreferencesManager.saveData("userId" , it.id)
 
+                            val filePath = Utils.uriFromFilePath(picture)
+                            val f = File(filePath)
+                            val tempName : String = Date().time.toString()
+                            var saveFile = File("${GlobalVariables.context.cacheDir}","${tempName}.jpeg")
+
+                            f.copyTo(saveFile , true)
+
+
                             userUseCase.userRoomUpdateUseCase.invoke(
                                 UserRoom(
                                     userId = it.id,
@@ -96,7 +107,7 @@ class RegisterViewModel @Inject constructor(
                                     age = Utils.calcAge(birthDate),
                                     authCode = it.authCode,
                                     isFirst = true,
-                                    profileUri = picture.toString(),
+                                    profileUri = saveFile.path,
                                     registerTime = Utils.getCurrentDateTime()
                                 )
                             )

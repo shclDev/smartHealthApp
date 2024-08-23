@@ -25,8 +25,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
+import com.shcl.smarthealth.domain.model.remote.dashboard.OverallResponse
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
+import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.ColorF1F4F9
 import com.shcl.smarthealth.ui.theme.Typography
@@ -80,5 +82,68 @@ fun WeightComponent(bodyCompositionRoom: BodyCompositionRoom?){
     }
 
 
+
+}
+
+
+@Composable
+fun WeightComponent(data : OverallResponse?) {
+
+    Box(
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(18f.pxToDp()))
+            .background(color = ColorF1F4F9)
+            .defaultMinSize(minWidth = 325f.pxToDp(), minHeight = 220f.pxToDp())
+            .padding(30.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .align(Alignment.Center), verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            data?.weightInfo?.let {
+                Column() {
+                    Row(horizontalArrangement = Arrangement.spacedBy(20f.pxToDp())) {
+                        Text(
+                            "${it.measureTypeName}",
+                            style = Typography.bodyLarge,
+                            fontSize = 20f.sp,
+                            color = Color1E1E1E
+                        )
+
+                        Image(
+                            modifier = Modifier
+                                .size(71f.pxToDp(), 30f.pxToDp())
+                                .align(Alignment.CenterVertically),
+                            painter = painterResource(id = R.drawable.normal),
+                            contentDescription = null
+                        )
+                    }
+                    //Spacer(modifier = Modifier.height(43f.pxToDp()))
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        Text(
+                            "${it.currentValue ?: 0}",
+                            style = Typography.bodyLarge,
+                            fontSize = 45f.sp,
+                            color = Color1E1E1E,
+                            textAlign = TextAlign.Center
+                        )
+
+                        Text(
+                            text = "${it.dataUnitName ?: "kg"}",
+                            style = Typography.bodyLarge,
+                            fontSize = 20f.sp,
+                            color = Color757575,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+
+            }
+        }
+    }
 
 }

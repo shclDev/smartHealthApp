@@ -6,12 +6,14 @@ import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -51,66 +53,66 @@ fun UserInfo(user : ProfileResponse? , userPicture : String? = null ) {
 
     Box(
         modifier = Modifier
-            .background(Color.White),
-        contentAlignment = Alignment.Center
+            .background(Color.White)
+            .fillMaxWidth(),
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 370f.pxToDp()),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically){
+            user?.let {
+                Text("${user.name.substring(1,user.name.length)}님, 안녕하세요." , style = Typography.headlineLarge , color = Color1E1E1E , fontSize = 25f.pxToSp())
+                /*
+               Spacer(modifier = Modifier.width(40.pxToDp()))
+               Column {
+                   Row(verticalAlignment = Alignment.CenterVertically){
+                       Text("${user.name}님, 안녕하세요" , style = Typography.headlineLarge , color = Color1E1E1E , fontSize = 25f.pxToSp())
+                   }
+                   Spacer(modifier = Modifier.height(20.pxToDp()))
+                   Row(
+                       modifier = Modifier
+                           .defaultMinSize(minWidth = 530.pxToDp(), minHeight = 80.pxToDp())
+                           .align(Alignment.Start)
+                           .border(
+                               width = 1.dp,
+                               color = ColorD4D9E1,
+                               shape = RoundedCornerShape(18.pxToDp())
+                           )
+                           .padding(horizontal = 40.pxToDp(), vertical = 28.pxToDp())){
+                       Text("성별 " , style = Typography.bodySmall)
+                       Spacer(modifier = Modifier.width(30.pxToDp()))
+                       Text(user.gender, style = Typography.bodySmall , fontWeight = FontWeight.W700)
 
+                       Spacer(modifier = Modifier.width(80f.pxToDp()))
+                       /*
+                       VerticalDivider(
+                           modifier = Modifier.padding(horizontal = 2f.pxToDp()),
+                           thickness = 2f.pxToDp(),
+                           color = ColorD4D9E1
+                       )*/
 
-            Row(verticalAlignment = Alignment.CenterVertically){
-                userPicture?.let {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current).data(userPicture).build(),
-                        //model =ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).placeholder(R.drawable.reg_picture).build(),
-                        //painter = painterResource(id = R.drawable.top_profile_img),
-                        contentScale = ContentScale.Crop,
-                        error = painterResource(id = R.drawable.dummy_profile),
-                        contentDescription = "User",
-                        modifier = Modifier
-                            .size(120.pxToDp())
-                            .clip(CircleShape)
-                    )
-                }
-             user?.let {
-                Spacer(modifier = Modifier.width(40.pxToDp()))
-                Column {
-                    Row(verticalAlignment = Alignment.CenterVertically){
-                        Text("${user.name}님, 안녕하세요" , style = Typography.headlineLarge , color = Color1E1E1E , fontSize = 25f.pxToSp())
-                        /*
-                        Image(
-                            modifier = Modifier.size(63.pxToDp() , 63.pxToDp()),
-                            painter = painterResource(id = R.drawable.ani_hand),
-                            contentDescription = null
-                        )*/
-                    }
-                    Spacer(modifier = Modifier.height(20.pxToDp()))
-                    Row(
-                        modifier = Modifier
-                            .defaultMinSize(minWidth = 530.pxToDp(), minHeight = 80.pxToDp())
-                            .align(Alignment.Start)
-                            .border(
-                                width = 1.dp,
-                                color = ColorD4D9E1,
-                                shape = RoundedCornerShape(18.pxToDp())
-                            )
-                            .padding(horizontal = 40.pxToDp(), vertical = 28.pxToDp())){
-                        Text("성별 " , style = Typography.bodySmall)
-                        Spacer(modifier = Modifier.width(30.pxToDp()))
-                        Text(user.gender, style = Typography.bodySmall , fontWeight = FontWeight.W700)
-
-                        Spacer(modifier = Modifier.width(80f.pxToDp()))
-                        /*
-                        VerticalDivider(
-                            modifier = Modifier.padding(horizontal = 2f.pxToDp()),
-                            thickness = 2f.pxToDp(),
-                            color = ColorD4D9E1
-                        )*/
-
-                        Text("나이 " , style = Typography.bodySmall)
-                        Spacer(modifier = Modifier.width(30.pxToDp()))
-                        Text("${Utils.calcProfileAge(user.birthDate)}세 " , style = Typography.bodySmall, fontWeight = FontWeight.W700)
-                    }
-                }
+                       Text("나이 " , style = Typography.bodySmall)
+                       Spacer(modifier = Modifier.width(30.pxToDp()))
+                       Text("${Utils.calcProfileAge(user.birthDate)}세 " , style = Typography.bodySmall, fontWeight = FontWeight.W700)
+                   }
+               }*/
             }
+            userPicture?.let {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current).data(userPicture).build(),
+                    //model =ImageRequest.Builder(LocalContext.current).data(Uri.parse(user.profileUri)).placeholder(R.drawable.reg_picture).build(),
+                    //painter = painterResource(id = R.drawable.top_profile_img),
+                    contentScale = ContentScale.Crop,
+                    error = painterResource(id = R.drawable.dummy_profile),
+                    contentDescription = "User",
+                    modifier = Modifier
+                        .size(80f.pxToDp())
+                        .clip(CircleShape)
+                )
+            }
+
         }?:run{
 
         }

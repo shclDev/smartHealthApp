@@ -8,6 +8,7 @@ import com.shcl.smarthealth.domain.repository.OmronRepository
 import com.shcl.smarthealth.domain.repository.SurveyRepository
 import com.shcl.smarthealth.domain.repository.UserRepository
 import com.shcl.smarthealth.domain.usecase.dashboard.DashBoardUseCase
+import com.shcl.smarthealth.domain.usecase.dashboard.GetAllDataUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetBloodPressureDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetBodyCompositionDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.GetGlucoseDBUseCase
@@ -70,7 +71,8 @@ object UseCaseModule {
         getWeatherUseCase = GetWeatherUseCase(repository = dashBoardRepository),
         userInfoDBUseCase = UserInfoDBUseCase(repository = dashBoardRepository),
         userInfoServerUseCase = UserInfoServerUseCase(repository = userRepository),
-        userImageUseCase = UserImageUseCase(repository = userRepository)
+        userImageUseCase = UserImageUseCase(repository = userRepository),
+        getAllDataUseCase = GetAllDataUseCase(repository = dashBoardRepository)
     )
 
     @Provides

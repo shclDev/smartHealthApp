@@ -341,6 +341,16 @@ fun surveyAct(viewModel: SurveyViewModel){
         NumberButton("7")
         Text("지난 7일간, 주중에 앉아서 보낸 시간이 보통 얼마나 됩니까?",style = Typography.headlineMedium , fontSize = 30f.pxToSp() , fontWeight = FontWeight.W700)
 
+        Spacer(modifier = Modifier.height(48f.pxToDp()))
+        Box( modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(18f.pxToDp()))
+            .background(ColorECF0F8)
+            .padding(40f.pxToDp())){
+            Text("직장과 집에서 학업이나 여가시간에 앉아서 보낸 시간이 포함됩니다.\n" +
+                    "또한 책상에 앉아 있거나, 친구를 만나거나, 독서할 때 앉거나, 텔레비전을 앉아서 또는 누워서 시청한 시간이 포함됩니다." , color = Color757575 , fontSize = 20f.pxToSp())
+        }
+
         CustomTwoComboBox(
             subject = "하루에",
             firstList =  Arrays.asList("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"),

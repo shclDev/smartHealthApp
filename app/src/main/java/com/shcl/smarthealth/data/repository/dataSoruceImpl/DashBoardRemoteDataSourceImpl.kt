@@ -6,10 +6,10 @@ import com.shcl.smarthealth.data.api.DashBoardApi
 import com.shcl.smarthealth.data.api.WeatherApi
 import com.shcl.smarthealth.data.repository.dataSource.DashBoardRemoteDataSource
 import com.shcl.smarthealth.di.NetworkModule
+import com.shcl.smarthealth.domain.model.remote.dashboard.OverallResponse
 import com.shcl.smarthealth.domain.model.remote.weather.WeatherResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.Response
 
 class DashBoardRemoteDataSourceImpl(
     @NetworkModule.shcl private val dashBoardApi : DashBoardApi,
@@ -52,6 +52,24 @@ class DashBoardRemoteDataSourceImpl(
             return flow{
                 emit(null)
             }
+        }
+    }
+
+    override suspend fun getAllData(): Flow<OverallResponse?> {
+        try{
+            val response = dashBoardApi.getDashboardAllData()
+
+            if(response.success){
+                return flow{
+                    emit(response.data)
+                }
+            }
+        }catch(e:Exception){
+            Log.e("smarthealth" , e.message.toString())
+        }
+
+        return flow{
+            emit(null)
         }
     }
 

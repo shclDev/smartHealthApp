@@ -3,6 +3,7 @@ package com.shcl.smarthealth.presentation.view.dashboard.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,18 +15,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.model.omron.RequestType
+import com.shcl.smarthealth.domain.model.remote.dashboard.OverallResponse
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.presentation.view.device.DeviceViewModel
@@ -33,6 +37,7 @@ import com.shcl.smarthealth.ui.theme.Color1E1E1E
 import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.ColorF1F4F9
+import com.shcl.smarthealth.ui.theme.ColorF5F6F9
 import com.shcl.smarthealth.ui.theme.Typography
 import jp.co.ohq.ble.enumerate.OHQDeviceCategory
 import kotlin.math.roundToInt
@@ -48,7 +53,7 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom? , deviceViewModel:
         modifier = Modifier
             .clip(shape = RoundedCornerShape(18f.pxToDp()))
             .background(color = ColorF1F4F9)
-            .border(width = 1.dp, color = ColorD4D9E1 , shape = RoundedCornerShape(18f.pxToDp()))
+            .border(width = 1.dp, color = ColorD4D9E1, shape = RoundedCornerShape(18f.pxToDp()))
             .defaultMinSize(minWidth = 496f.pxToDp(), minHeight = 360f.pxToDp())
             .height(415f.pxToDp())
             .padding(30.dp)
@@ -119,4 +124,99 @@ fun BloodPressureComponent(bloodPressure : BloodPressureRoom? , deviceViewModel:
         }
     }
 
+}
+
+@Composable
+fun BloodPressureComponent(data : OverallResponse?) {
+
+    //viewModel.getLastedBloodPressure()
+    //val bloodPressure by viewModel.bloodPressure.collectAsState()
+
+    Box(
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(18f.pxToDp()))
+            .background(color = ColorF5F6F9)
+            .defaultMinSize(minWidth = 325f.pxToDp(), minHeight = 480f.pxToDp())
+            .padding(horizontal = 40f.pxToDp(), vertical = 51f.pxToDp())
+    ) {
+        Column(verticalArrangement = Arrangement.SpaceBetween) {
+            data?.bloodPressureSystolicInfo?.let {
+                Column() {
+                    Row(horizontalArrangement = Arrangement.spacedBy(20f.pxToDp())) {
+                        Text(
+                            "${it.measureTypeName}",
+                            style = Typography.bodyLarge,
+                            fontSize = 20f.sp,
+                            color = Color1E1E1E
+                        )
+                        Image(
+                            modifier = Modifier
+                                .size(71f.pxToDp(), 30f.pxToDp())
+                                .align(Alignment.CenterVertically),
+                            painter = painterResource(id = R.drawable.normal),
+                            contentDescription = null
+                        )
+                    }
+                    //Spacer(modifier = Modifier.height(43f.pxToDp()))
+                    Row(horizontalArrangement = Arrangement.SpaceBetween , verticalAlignment = Alignment.Bottom) {
+                        Text(
+                            "${it.currentValue ?: 0}",
+                            style = Typography.bodyLarge,
+                            fontSize = 45f.sp,
+                            color = Color1E1E1E,
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            "${it.dataUnitName ?: "mmHg"}",
+                            style = Typography.bodyLarge,
+                            fontSize = 18f.sp,
+                            color = Color757575,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(30f.pxToDp()))
+            HorizontalDivider(modifier = Modifier.size(width = 280f.pxToDp() , height = 1f.pxToDp()))
+            Spacer(modifier = Modifier.height(30f.pxToDp()))
+            data?.bloodPressureDiastolicInfo?.let {
+                Column() {
+                    Row(horizontalArrangement = Arrangement.spacedBy(20f.pxToDp()))  {
+                        Text(
+                            "${it.measureTypeName}",
+                            style = Typography.bodyLarge,
+                            fontSize = 20f.sp,
+                            color = Color1E1E1E
+                        )
+
+                        Image(
+                            modifier = Modifier
+                                .size(71f.pxToDp(), 30f.pxToDp())
+                                .align(Alignment.CenterVertically),
+                            painter = painterResource(id = R.drawable.normal),
+                            contentDescription = null
+                        )
+                    }
+                    //Spacer(modifier = Modifier.height(43f.pxToDp()))
+                    Row(horizontalArrangement = Arrangement.SpaceBetween,verticalAlignment = Alignment.Bottom) {
+                        Text(
+                            "${it.currentValue ?: 0}",
+                            style = Typography.bodyLarge,
+                            fontSize = 45f.sp,
+                            color = Color1E1E1E,
+                            textAlign = TextAlign.Center
+                        )
+
+                        Text(
+                            text = "${it.dataUnitName ?: "mmHg"}",
+                            style = Typography.bodyLarge,
+                            fontSize = 20f.sp,
+                            color = Color757575,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

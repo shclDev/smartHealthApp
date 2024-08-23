@@ -12,6 +12,7 @@
     <string name="reservation_screen">reservation</string>
 
     <string name="device_scan">device</string>
+    <string name="dummy_info">추가 설명을 입력해주세요.\n 추가 설명을 입력해주세요.\n추가 설명을 입력해주세요.\n추가 설명을 입력해주세요.추가 설명을 입력해주세요.</string>
 
     <string name="show_less">show less</string>
     <string name="show_more">show more</string>
