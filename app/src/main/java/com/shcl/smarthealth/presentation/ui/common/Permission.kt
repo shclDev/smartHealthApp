@@ -42,7 +42,8 @@ fun featureThatRequiresPermission(
         android.Manifest.permission.BLUETOOTH_ADVERTISE,
         android.Manifest.permission.BLUETOOTH_CONNECT,
         android.Manifest.permission.ACCESS_FINE_LOCATION,
-        android.Manifest.permission.READ_MEDIA_IMAGES
+        android.Manifest.permission.READ_MEDIA_IMAGES,
+        android.Manifest.permission.RECORD_AUDIO
     )
 
     var openAlertDialog by remember{ mutableStateOf(false) }

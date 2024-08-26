@@ -50,6 +50,7 @@ import com.shcl.smarthealth.domain.usecase.user.UserSignInUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserSignUpUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserUseCase
 import com.shcl.smarthealth.domain.usecase.voice.VoicePlayUseCase
+import com.shcl.smarthealth.domain.usecase.voice.VoiceSTTUseCase
 import com.shcl.smarthealth.domain.usecase.voice.VoiceTTSUseCase
 import com.shcl.smarthealth.domain.usecase.voice.VoiceUseCase
 import dagger.Module
@@ -112,14 +113,18 @@ object UseCaseModule {
         getSurveysInfoUseCase = GetSurveyInfoUseCase(repository = surveyRepository),
         getCategoryQuestionUseCase = GetCategoryQuestionUseCase(repository = surveyRepository),
         setCategoryAnswerUseCase = SetCategoryAnswerUseCase(repository =    surveyRepository),
-        voiceUseCase = VoiceUseCase(voicePlayUseCase = VoicePlayUseCase.INSTANCE, voiceTTSUseCase = VoiceTTSUseCase(nCloudRepository))
+        voiceUseCase = VoiceUseCase(voicePlayUseCase = VoicePlayUseCase.INSTANCE,
+            voiceTTSUseCase = VoiceTTSUseCase(nCloudRepository),
+            voiceSTTUseCase = VoiceSTTUseCase(nCloudRepository)
+        )
     )
 
 
     @Provides
     fun provideVoiceUseCase(nCloudRepository: NCloudRepository) = VoiceUseCase(
             voiceTTSUseCase = VoiceTTSUseCase(repositroy = nCloudRepository),
-            voicePlayUseCase = VoicePlayUseCase.INSTANCE
+            voicePlayUseCase = VoicePlayUseCase.INSTANCE,
+            voiceSTTUseCase = VoiceSTTUseCase(repositroy = nCloudRepository)
     )
 
     @Provides

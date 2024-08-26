@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.shcl.smarthealth.presentation.view.home.DismissibleNavigationDrawer
 import com.shcl.smarthealth.presentation.view.intro.IntroScreen
+import com.shcl.smarthealth.presentation.view.introduce.IntroduceScreen
 import com.shcl.smarthealth.presentation.view.login.LoginScreen
 import com.shcl.smarthealth.presentation.view.measurement.MeasurementScreen
 import com.shcl.smarthealth.presentation.view.register.RegisterCompleteScreen
@@ -50,6 +51,10 @@ fun OuterNavGraph(navCtrl : NavHostController) {
 
         composable(route = OuterScreen.measurement.route){
             MeasurementScreen(nav =  navCtrl)
+        }
+
+        composable(route = OuterScreen.introduce.route){
+            IntroduceScreen(nav = navCtrl)
         }
 
     }

@@ -138,6 +138,9 @@ dependencies {
     implementation("commons-io:commons-io:2.7")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    //clova stt
+    //implementation("com.naver.speech.clientapi:naverspeech-ncp-sdk-android:1.1.6")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

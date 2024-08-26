@@ -42,6 +42,7 @@ import com.shcl.smarthealth.presentation.view.analysis.AnalysisScreen
 import com.shcl.smarthealth.presentation.view.challenge.ChallengeScreen
 import com.shcl.smarthealth.presentation.view.dashboard.DashBoardScreen
 import com.shcl.smarthealth.presentation.view.device.ScanDeviceScreen
+import com.shcl.smarthealth.presentation.view.introduce.IntroduceScreen
 import com.shcl.smarthealth.presentation.view.measurement.MeasurementScreen
 import com.shcl.smarthealth.presentation.view.reservation.ReservationScreen
 import com.shcl.smarthealth.presentation.view.survey.SurveyScreen
@@ -71,7 +72,7 @@ fun DismissibleNavigationDrawer(){
             contentDesc = "분석결과",
             image =painterResource(id = R.drawable.icon_side_02_off),
             selectedImage = painterResource(id = R.drawable.icon_side_02_on),
-            route = InnerScreen.analysis.route
+            route = OuterScreen.introduce.route
         ),
         MenuItem(
             id ="reservation",
@@ -105,7 +106,7 @@ fun DismissibleNavigationDrawer(){
     DismissibleNavigationDrawer(
         modifier = Modifier
             .background(Color.White)
-            .border(1f.pxToDp() , color = ColorD4D9E1),
+            .border(1f.pxToDp(), color = ColorD4D9E1),
         drawerState = drawerState,
         drawerContent = {
             DismissibleDrawerSheet(
@@ -115,7 +116,7 @@ fun DismissibleNavigationDrawer(){
                     .background(Color.White)
                     .width(340f.pxToDp())
                     .fillMaxHeight()
-                    .border(1f.pxToDp() , color = ColorD4D9E1)
+                    .border(1f.pxToDp(), color = ColorD4D9E1)
             )
             {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
@@ -187,6 +188,9 @@ fun DismissibleNavigationDrawer(){
 
                composable(route = OuterScreen.survery.route){
                    SurveyScreen(nav = nav)
+               }
+                composable(route = OuterScreen.introduce.route){
+                   IntroduceScreen(nav = nav)
                }
                 /*
                 composable(route = InnerScreen.reservation.route){

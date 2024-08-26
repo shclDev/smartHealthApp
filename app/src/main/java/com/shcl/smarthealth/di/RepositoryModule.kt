@@ -13,6 +13,7 @@ import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
 import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordRemoteDataSource
 import com.shcl.smarthealth.data.repository.dataSource.NCloudRemoteDataSource
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
+import com.shcl.smarthealth.data.repository.dataSource.SpeechRecognizerSource
 import com.shcl.smarthealth.data.repository.dataSource.SurveyRemoteDataSource
 import com.shcl.smarthealth.data.repository.dataSource.UserRemoteDataSource
 import com.shcl.smarthealth.domain.repository.DashBoardRepository
@@ -69,8 +70,9 @@ object RepositoryModule {
     @Provides
     fun provideNCloudRepository(
         nCloudRemoteDataSource: NCloudRemoteDataSource,
-        measureRecordDataSource: MeasureRecordDataSource
-    ) : NCloudRepository = NCloudRepositoryImpl(  nCloudRemoteDataSource , measureRecordDataSource )
+        measureRecordDataSource: MeasureRecordDataSource,
+        recognizerSource: SpeechRecognizerSource
+    ) : NCloudRepository = NCloudRepositoryImpl(  nCloudRemoteDataSource , measureRecordDataSource , recognizerSource )
 
     @Provides
     fun provideMeasurementRepository(

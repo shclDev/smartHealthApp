@@ -5,10 +5,12 @@ import com.shcl.smarthealth.data.db.MeasurementRecordDao
 import com.shcl.smarthealth.data.repository.dataSoruceImpl.IsensDeviceDataSourceImpl
 import com.shcl.smarthealth.data.repository.dataSoruceImpl.MeasureRecordDataSourceImpl
 import com.shcl.smarthealth.data.repository.dataSoruceImpl.OmronDeviceDataSourceImpl
+import com.shcl.smarthealth.data.repository.dataSoruceImpl.SpeechRecognizerDataSourceImpl
 import com.shcl.smarthealth.data.repository.dataSoruceImpl.UserRemoteDataSourceImpl
 import com.shcl.smarthealth.data.repository.dataSource.IsensDeviceDataSource
 import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
+import com.shcl.smarthealth.data.repository.dataSource.SpeechRecognizerSource
 import com.shcl.smarthealth.data.repository.dataSource.UserRemoteDataSource
 import dagger.Module
 import dagger.Provides
@@ -38,5 +40,8 @@ class LocalDataModule {
     @Provides
     fun provideLocalDbDataSource(measurementRecordDao: MeasurementRecordDao ) : MeasureRecordDataSource =
         MeasureRecordDataSourceImpl(measurementRecordDao = measurementRecordDao)
+
+    @Provides
+    fun provideSpeechRecognizerSource() : SpeechRecognizerSource = SpeechRecognizerDataSourceImpl()
 
 }

@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -25,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.remote.dashboard.OverallResponse
 import com.shcl.smarthealth.domain.utils.pxToDp
+import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
 import com.shcl.smarthealth.ui.theme.Color333333
 import com.shcl.smarthealth.ui.theme.Color757575
@@ -38,12 +41,14 @@ fun WatchComponent(data : OverallResponse?){
         modifier = Modifier
             .clip(shape = RoundedCornerShape(18f.pxToDp()))
             .background(color = ColorF1F4F9)
-            .defaultMinSize(minWidth = 700f.pxToDp(), minHeight = 220f.pxToDp())
+            .size(width = 1020f.pxToDp(), height = 220f.pxToDp())
             .padding(20.dp)
     ) {
         Row {
             data?.stepsInfo?.let {
-                Column() {
+                Column(modifier = Modifier
+                    .weight(0.5f)
+                    .verticalScroll(rememberScrollState())) {
                     Row(horizontalArrangement = Arrangement.spacedBy(20f.pxToDp())) {
                         Text(
                             "${it.measureTypeName}",
@@ -77,17 +82,21 @@ fun WatchComponent(data : OverallResponse?){
                     Text(
                         text = stringResource(id = R.string.dummy_info),
                         style = Typography.bodyLarge,
-                        fontSize = 16f.sp,
+                        fontSize = 14f.sp,
+                        maxLines = 3,
                         color = Color333333,
                         textAlign = TextAlign.Start
                     )
                     //Spacer(modifier = Modifier.height(43f.pxToDp()))
                 }
+            }?: run{
+                Text(modifier = Modifier
+                    .weight(0.5f)
+                    .align(Alignment.CenterVertically) ,text = "데이터를 불러오지 못했습니다.", fontSize = 14f.pxToSp())
             }
            VerticalDivider()
-
             data?.heartRateVariabilityInfo?.let {
-                Column() {
+                Column(modifier = Modifier.weight(0.5f).verticalScroll(rememberScrollState())) {
                     Row(horizontalArrangement = Arrangement.spacedBy(20f.pxToDp())) {
                         Text(
                             "${it.measureTypeName}",
@@ -99,14 +108,14 @@ fun WatchComponent(data : OverallResponse?){
                         Text(
                             "${it.currentValue ?: 0}",
                             style = Typography.bodyLarge,
-                            fontSize = 45f.sp,
+                            fontSize = 25f.sp,
                             color = Color1E1E1E,
                             textAlign = TextAlign.Center
                         )
                         Text(
                             "${it.dataUnitName ?: "ms"}",
                             style = Typography.bodyLarge,
-                            fontSize = 30f.sp,
+                            fontSize = 20f.sp,
                             color = Color757575,
                             textAlign = TextAlign.Center
                         )
@@ -115,12 +124,18 @@ fun WatchComponent(data : OverallResponse?){
                         "측정된 심박변이도는 높은 편이에요. 이는 우리 몸이 안정\n" +
                                 " 상태에 있다고 볼 수 있어요. 하지만 이는 ~~~~",
                         style = Typography.bodyLarge,
-                        fontSize = 16f.sp,
+                        fontSize = 14f.sp,
+                        maxLines = 3,
                         color = Color333333,
                         textAlign = TextAlign.Center
                     )
                     //Spacer(modifier = Modifier.height(43f.pxToDp()))
                 }
+            } ?: run{
+                Text(
+                    modifier = Modifier
+                        .weight(0.5f)
+                        .align(Alignment.CenterVertically) , text = "데이터를 불러오지 못했습니다." , fontSize = 14f.pxToSp())
             }
         }
 
