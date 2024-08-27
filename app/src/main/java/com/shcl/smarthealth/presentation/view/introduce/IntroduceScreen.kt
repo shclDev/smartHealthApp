@@ -10,8 +10,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -53,8 +55,8 @@ fun IntroduceScreen(nav : NavHostController , viewModel: IntroduceViewModel = hi
     val recognizerMessage by viewModel.recognizeMessage.collectAsStateWithLifecycle()
     val allDone by viewModel.allDone.collectAsStateWithLifecycle()
 
-    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.voice_recognizer))
-    val progress by animateLottieCompositionAsState(composition = composition , iterations = LottieConstants.IterateForever)
+    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.agent_recognizer))
+    val progress by animateLottieCompositionAsState(composition = composition , iterations = LottieConstants.IterateForever , speed = 2.0f)
 
     Box(
         modifier = Modifier
@@ -89,8 +91,6 @@ fun IntroduceScreen(nav : NavHostController , viewModel: IntroduceViewModel = hi
                 enter = fadeIn(animationSpec = tween(durationMillis = 500)),
                 exit = fadeOut(animationSpec = tween(durationMillis = 500))
             ){
-                Box {
-
                     Image(
                         modifier = Modifier
                             .size(382f.pxToDp())
@@ -100,17 +100,19 @@ fun IntroduceScreen(nav : NavHostController , viewModel: IntroduceViewModel = hi
                         painter = painterResource(id = R.drawable.mic),
                         contentDescription = null
                     )
-
-                    if(recognizerVisible){
-                        LottieAnimation(
-                            modifier = Modifier
-                                .size(450f.pxToDp()),
-                            composition = composition,
-                            progress = { progress },
-                        )
-                    }
-                }
             }
+
+            Spacer(modifier = Modifier.height(15f.pxToDp()))
+
+            if(recognizerVisible){
+                LottieAnimation(
+                    modifier = Modifier
+                        .size(width = 480f.pxToDp() , height = 96f.pxToDp() ),
+                    composition = composition,
+                    progress = { progress },
+                )
+            }
+
             Text(
                 modifier = Modifier.weight(0.3f),
                 text = recognizerMessage,

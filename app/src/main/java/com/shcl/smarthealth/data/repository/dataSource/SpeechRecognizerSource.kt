@@ -8,7 +8,6 @@ import com.shcl.smarthealth.presentation.view.device.MeasurementRecordState
 import kotlinx.coroutines.flow.Flow
 
 interface SpeechRecognizerSource {
-    fun speech()
     fun speechRecognizer(recognizerState: RecognizerState?) : Flow<RecognizerState>
     fun ready() : Flow<RecognizerState>
     fun audioRecording(speech : Array<Short> )

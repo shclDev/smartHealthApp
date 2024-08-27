@@ -55,7 +55,7 @@ class IntroduceViewModel @Inject constructor(
     fun recognizerAfterNextPage(){
         _timer = object : CountDownTimer(1000 , 1000){
             override fun onTick(millisUntilFinished: Long) {
-                TODO("Not yet implemented")
+
             }
             override fun onFinish() {
                 assistant()
@@ -75,7 +75,7 @@ class IntroduceViewModel @Inject constructor(
                     Log.d("speech" , "${it.status}")
                     when(it.status){
                         RecognizerStatus.RESULT->{
-                            //_recognizerVisible.value = false
+                            _recognizerVisible.value = false
                             _micVisible.value = true
                             _recognizeMessage.value = it.message
                             _questionId += 1
@@ -87,14 +87,15 @@ class IntroduceViewModel @Inject constructor(
                             //띠링 소리 삽입
                             val media = MediaPlayer.create(GlobalVariables.context , R.raw.dding)
                             media.start()
-
+                            //_recognizerVisible.value = true
                             _micVisible.value = true
                         }
                         RecognizerStatus.BEGINNING_SPEECH->{
-                            //_recognizerVisible.value = true
+                            _recognizerVisible.value = true
                         }
                         RecognizerStatus.INIT->{}
                         RecognizerStatus.ERROR->{
+                            _recognizerVisible.value = false
                             //_voiceMessage.value = it.message
                         }
                     }
@@ -104,22 +105,26 @@ class IntroduceViewModel @Inject constructor(
 
     fun assistant(){
 
+        if(_questionId > MAX_QUESTION_ID){
+            _allDone.value = true
+            return
+        }
+
         _assistant = IntrouduceAssistant.getQuestionIdByAssistant(_questionId)
 
         _assistant?.let {
-            if(it.questionId > MAX_QUESTION_ID){
-                _allDone.value = true
-                return
-            }
-
             if(it.autoNextPlay){
-                _micVisible.value = false
+                if(it.questionId == 3){
+                    _micVisible.value = true
+                }else{
+                    _micVisible.value = false
+                }
             }else{
+                recognizer()
                 _micVisible.value = true
             }
             playVoice(it.title , it.autoNextPlay)
         }
-
     }
 
     fun playVoice(voice : String? , nextPlay : Boolean){

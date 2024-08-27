@@ -97,7 +97,7 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
         }
 
         if(complete && level == viewModel.MAX_LEVEL){
-             nav.navigate(route = OuterScreen.measurement.route)
+             nav.navigate(route = OuterScreen.introduce.route)
         }
 
 

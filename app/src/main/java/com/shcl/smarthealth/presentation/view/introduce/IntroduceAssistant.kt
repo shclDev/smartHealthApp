@@ -10,11 +10,11 @@ enum class IntrouduceAssistant(val num : Int , val questionId : Int ,  val title
     QUESTION_5(5,5, "'은하야 안녕' 이라고 말해보세요!" , false),
     QUESTION_6(6,6,"오늘은 무슨 요일인가요?",false),
     QUESTION_7(7,7,"좋아요! 그럼 이제 오늘의 건강을 체크하러 가볼까요?",true),
-    QUESTION_11(8,8, "오늘의 건강 정보를 측정할게요.",true),
-    QUESTION_12(9,9, "어젯밤 잠은 잘 주무셨나요?",false),
-    QUESTION_13(10,10, "잠은 몇 시간 주무셨나요?",false),
-    QUESTION_14(11,11, "오늘의 컨디션은 어떠신지 여쭤볼게요",true),
-    QUESTION_15(12,12, "아주 컨디션이 좋은면 1\n아주 피곤하면 10\n오늘 얼마나 피곤하신지 1부터 10까지 숫자로 말씀해주세요.",false);
+    QUESTION_8(8,8, "오늘의 건강 정보를 측정할게요.",true),
+    QUESTION_9(9,9, "어젯밤 잠은 잘 주무셨나요?",false),
+    QUESTION_10(10,10, "잠은 몇 시간 주무셨나요?",false),
+    QUESTION_11(11,11, "오늘의 컨디션은 어떠신지 여쭤볼게요",true),
+    QUESTION_12(12,12, "아주 컨디션이 좋은면 1\n아주 피곤하면 10\n오늘 얼마나 피곤하신지 1부터 10까지 숫자로 말씀해주세요.",false);
 
 
     companion object{
