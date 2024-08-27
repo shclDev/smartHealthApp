@@ -385,9 +385,9 @@ class MeasurementViewModel @Inject constructor(
                                     updateBloodPressure(
                                         BloodPressureRoom(
                                             diastolic = bloodPressure.diastolic,
-                                            diastolicUnit = bloodPressure.diastolicUnit,
+                                            diastolicUnit = bloodPressure.diastolicUnit.uppercase(),
                                             systolic = bloodPressure.systolic,
-                                            systolicUnit = bloodPressure.systolicUnit,
+                                            systolicUnit = bloodPressure.systolicUnit.uppercase(),
                                             pulseRate = bloodPressure.pulseRate,
                                             timeStamp = bloodPressure.timeStamp,
                                             userId = userId
@@ -423,7 +423,7 @@ class MeasurementViewModel @Inject constructor(
                                             userIndex = userIndexKey,
                                             sequenceNumber = sequenceNumber,
                                             weight = weight,
-                                            weightUnit = weightUnit,
+                                            weightUnit = weightUnit.uppercase(),
                                             bodyAge = bodyAge,
                                             bmi = bmi,
                                             musclePercentage =0.0f,
@@ -439,7 +439,7 @@ class MeasurementViewModel @Inject constructor(
                                             userIndex = bodyComposition.userIndex,
                                             sequenceNumber = bodyComposition.sequenceNumber,
                                             weight = bodyComposition.weight,
-                                            weightUnit = bodyComposition.weightUnit,
+                                            weightUnit = bodyComposition.weightUnit.uppercase(),
                                             fatPercentage = bodyComposition.bodyFatPercentage,
                                             bodyAge = bodyComposition.bodyAge,
                                             bmi = bodyComposition.bmi,
@@ -518,7 +518,9 @@ class MeasurementViewModel @Inject constructor(
                 .catch {   Log.d("smarthealth" , "")}
                 .collect{
                     it?.let {
-                        voiceUseCase.voicePlayUseCase.invoke(it)
+                        voiceUseCase.voicePlayUseCase.invoke(it).collect{
+
+                        }
                     }
                 }
         }

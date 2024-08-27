@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 
 enum class RecognizerStatus{
-    INIT , READY_FOR_SPEECH , BEGINNING_SPEECH , RESULT
+    INIT , READY_FOR_SPEECH , BEGINNING_SPEECH , RESULT , ERROR
 }
 
 class SpeechRecognizerDataSourceImpl  @Inject constructor(
@@ -183,28 +183,39 @@ class SpeechRecognizerDataSourceImpl  @Inject constructor(
                 SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "말하는 시간초과"
                 else -> "알 수 없는 오류임"
             }
+
+            trySend(RecognizerState(
+                status = RecognizerStatus.ERROR,
+                code = "",
+                message = message
+            ))
+
             //binding.tvState.text = "에러 발생: $message"
         }
         // 인식 결과가 준비되면 호출
         override fun onResults(results: Bundle) {
             // 말을 하면 ArrayList에 단어를 넣고 textView에 단어를 이어줌
-            val matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+            var matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
 
             Log.d("speech" , "onResults")
             Log.d("speech" , matches.toString())
+
             trySend(RecognizerState(
                 status = RecognizerStatus.RESULT,
                 code = "",
                 message = matches.toString()
             ))
             /*
-            speechRecognizer(RecognizerState(
-                status = RecognizerStatus.RESULT,
-                code = "",
-                message = matches.toString()
-            ))*/
-            //finalResult(matches)
-            //for (i in matches!!.indices) binding.textView.text = matches[i]
+            matches?.let {
+                it.removeFirst()
+                it.removeLast()
+
+                trySend(RecognizerState(
+                    status = RecognizerStatus.RESULT,
+                    code = "",
+                    message = matches.toString()
+                ))
+            }*/
         }
         // 부분 인식 결과를 사용할 수 있을 때 호출
         override fun onPartialResults(partialResults: Bundle) {}

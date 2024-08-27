@@ -47,7 +47,7 @@ fun WatchComponent(data : OverallResponse?){
         Row {
             data?.stepsInfo?.let {
                 Column(modifier = Modifier
-                    .weight(0.5f)
+                    .weight(0.45f)
                     .verticalScroll(rememberScrollState())) {
                     Row(horizontalArrangement = Arrangement.spacedBy(20f.pxToDp())) {
                         Text(
@@ -91,12 +91,14 @@ fun WatchComponent(data : OverallResponse?){
                 }
             }?: run{
                 Text(modifier = Modifier
-                    .weight(0.5f)
+                    .weight(0.45f)
                     .align(Alignment.CenterVertically) ,text = "데이터를 불러오지 못했습니다.", fontSize = 14f.pxToSp())
             }
-           VerticalDivider()
+           VerticalDivider(modifier = Modifier.weight(0.05f))
             data?.heartRateVariabilityInfo?.let {
-                Column(modifier = Modifier.weight(0.5f).verticalScroll(rememberScrollState())) {
+                Column(modifier = Modifier
+                    .weight(0.45f)
+                    .verticalScroll(rememberScrollState())) {
                     Row(horizontalArrangement = Arrangement.spacedBy(20f.pxToDp())) {
                         Text(
                             "${it.measureTypeName}",
@@ -134,7 +136,7 @@ fun WatchComponent(data : OverallResponse?){
             } ?: run{
                 Text(
                     modifier = Modifier
-                        .weight(0.5f)
+                        .weight(0.45f)
                         .align(Alignment.CenterVertically) , text = "데이터를 불러오지 못했습니다." , fontSize = 14f.pxToSp())
             }
         }

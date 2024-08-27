@@ -27,9 +27,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.transition.Visibility
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.domain.utils.pxToSp
+import com.shcl.smarthealth.presentation.navigation.OuterScreen
 import com.shcl.smarthealth.presentation.view.survey.SurveyViewModel
 import com.shcl.smarthealth.ui.theme.BackGroundColor
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
@@ -42,11 +48,15 @@ import com.shcl.smarthealth.ui.theme.Typography
 fun IntroduceScreen(nav : NavHostController , viewModel: IntroduceViewModel = hiltViewModel()){
 
     val micVisible by viewModel.micVisible.collectAsStateWithLifecycle()
+    val recognizerVisible by viewModel.recognizerVisible.collectAsStateWithLifecycle()
     val voiceMessage by viewModel.voiceMessage.collectAsStateWithLifecycle()
     val recognizerMessage by viewModel.recognizeMessage.collectAsStateWithLifecycle()
+    val allDone by viewModel.allDone.collectAsStateWithLifecycle()
+
+    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.voice_recognizer))
+    val progress by animateLottieCompositionAsState(composition = composition , iterations = LottieConstants.IterateForever)
 
     Box(
-        contentAlignment = Alignment.Center,
         modifier = Modifier
             .background(brush = Brush.verticalGradient(BackGroundColor))
             .fillMaxSize()
@@ -55,9 +65,17 @@ fun IntroduceScreen(nav : NavHostController , viewModel: IntroduceViewModel = hi
                 start = 80f.pxToDp(),
                 end = 80f.pxToDp(),
                 bottom = 120f.pxToDp()
-            )
+            ),
+        contentAlignment = Alignment.Center
     ){
-        Column(modifier = Modifier.fillMaxSize() , verticalArrangement = Arrangement.SpaceAround) {
+
+        if(allDone){
+            nav.navigate(route = OuterScreen.measurement.route)
+        }
+
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .align(Alignment.Center) , verticalArrangement = Arrangement.SpaceAround , horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 modifier = Modifier.weight(0.3f),
                 text = voiceMessage,
@@ -71,13 +89,27 @@ fun IntroduceScreen(nav : NavHostController , viewModel: IntroduceViewModel = hi
                 enter = fadeIn(animationSpec = tween(durationMillis = 500)),
                 exit = fadeOut(animationSpec = tween(durationMillis = 500))
             ){
-                Image(
-                    modifier = Modifier.size(382f.pxToDp()).clickable {
-                        viewModel.speech()
-                    },
-                    painter = painterResource(id = R.drawable.mic),
-                    contentDescription = null
-                )
+                Box {
+
+                    Image(
+                        modifier = Modifier
+                            .size(382f.pxToDp())
+                            .clickable {
+                                viewModel.recognizer()
+                            },
+                        painter = painterResource(id = R.drawable.mic),
+                        contentDescription = null
+                    )
+
+                    if(recognizerVisible){
+                        LottieAnimation(
+                            modifier = Modifier
+                                .size(450f.pxToDp()),
+                            composition = composition,
+                            progress = { progress },
+                        )
+                    }
+                }
             }
             Text(
                 modifier = Modifier.weight(0.3f),

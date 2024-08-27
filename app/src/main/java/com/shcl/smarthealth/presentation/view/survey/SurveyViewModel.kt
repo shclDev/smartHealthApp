@@ -360,7 +360,9 @@ class SurveyViewModel @Inject constructor(
                         text = it)
                         .collect{
                             it?.let {
-                                voiceUseCase.voicePlayUseCase.invoke(it)
+                                voiceUseCase.voicePlayUseCase.invoke(it).collect{
+
+                                }
                             }
                         }
                 }
