@@ -8,6 +8,5 @@ import kotlinx.coroutines.flow.Flow
 interface NCloudRepository {
 
     suspend fun clovaVoice(speaker : String , text:String) : Flow<String?>
-    fun speech()
     suspend fun voiceToText() : Flow<RecognizerState>
 }

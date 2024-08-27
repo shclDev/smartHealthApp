@@ -138,6 +138,9 @@ dependencies {
     implementation("commons-io:commons-io:2.7")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    // video player
+    implementation("androidx.media3:media3-exoplayer:1.2.0")
+    implementation("androidx.media3:media3-ui:1.2.0")
     //clova stt
     //implementation("com.naver.speech.clientapi:naverspeech-ncp-sdk-android:1.1.6")
 

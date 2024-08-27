@@ -23,9 +23,7 @@ class NCloudRepositoryImpl(
         return speechRecognizerSource.speechRecognizer(null)
     }
 
-    override fun speech() {
-        speechRecognizerSource.speech()
-    }
+
 
 
 }
