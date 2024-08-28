@@ -360,6 +360,7 @@ fun surveySmoking(viewModel : SurveyViewModel){
         ) {
             Column {
                 NumberButton("2-1")
+                Spacer(modifier = Modifier.height(15f.pxToDp()))
                 Text(
                     "처음 술을 드시기 시작한 연령은 몇 세입니까?",
                     style = Typography.headlineMedium,

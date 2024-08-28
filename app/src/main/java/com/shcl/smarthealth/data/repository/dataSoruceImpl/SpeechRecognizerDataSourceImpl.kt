@@ -102,16 +102,16 @@ class SpeechRecognizerDataSourceImpl  @Inject constructor(
         // 오류 발생했을 때 호출
         override fun onError(error: Int) {
             val message = when (error) {
-                SpeechRecognizer.ERROR_AUDIO -> "오디오 에러"
-                SpeechRecognizer.ERROR_CLIENT -> "클라이언트 에러"
-                SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "퍼미션 없음"
-                SpeechRecognizer.ERROR_NETWORK -> "네트워크 에러"
-                SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "네트웍 타임아웃"
-                SpeechRecognizer.ERROR_NO_MATCH -> "찾을 수 없음"
-                SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "RECOGNIZER 가 바쁨"
-                SpeechRecognizer.ERROR_SERVER -> "서버가 이상함"
-                SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "말하는 시간초과"
-                else -> "알 수 없는 오류임"
+                SpeechRecognizer.ERROR_AUDIO -> "다시 말씀해주시겠어요?"
+                SpeechRecognizer.ERROR_CLIENT -> "다시 말씀해주시겠어요?"
+                SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "다시 말씀해주시겠어요?"
+                SpeechRecognizer.ERROR_NETWORK -> "다시 말씀해주시겠어요?"
+                SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "다시 말씀해주시겠어요?"
+                SpeechRecognizer.ERROR_NO_MATCH -> "다시 말씀해주시겠어요?"
+                SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "다시 말씀해주시겠어요?"
+                SpeechRecognizer.ERROR_SERVER -> "다시 말씀해주시겠어요?"
+                SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "말하는 시간초과을 초과하였습니다.다시 말씀해주시겠어요?"
+                else -> "알 수 없는 오류입니다."
             }
 
             trySend(RecognizerState(
@@ -130,8 +130,8 @@ class SpeechRecognizerDataSourceImpl  @Inject constructor(
             Log.d("speech" , "onResults")
             Log.d("speech" , matches.toString())
 
-            var message = matches.toString().replace("[" ,"")
-            message = message.replace("]","")
+            var message = matches.toString().replace("[" ,"'")
+            message = message.replace("]","'")
 
             trySend(RecognizerState(
                 status = RecognizerStatus.RESULT,

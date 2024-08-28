@@ -66,7 +66,7 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
     var mobile by remember { mutableStateOf("") }
     var birthDate by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("M") }
+    var gender by remember { mutableStateOf("") }
     var nickName by remember { mutableStateOf("") }
     var uri by remember { mutableStateOf<Uri?>(null) }
 
@@ -76,6 +76,7 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
     var failMessage by remember { mutableStateOf("") }
 
 
+    val validation by viewModel.validation.collectAsStateWithLifecycle()
     val signUpStatus by viewModel.signUpState.collectAsStateWithLifecycle()
 
     Box(
@@ -87,7 +88,7 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
         } else if(signUpStatus == SignUpStatus.SIGNUP_FAILED) {
             Log.d("signUp" , "signUp failed" )
             showDialogState = true
-            failMessage = "이미 등록된 사용자입니다.\n로그인 진행해주세요."
+            failMessage = "회원가입에 실패하였습니다.."
             viewModel.signUpStateChange(SignUpStatus.NONE)
         }
 
@@ -141,6 +142,15 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                             MyImageArea(
                                 onSetUri = {
                                     uri = it
+
+                                    viewModel.validationUserInfo(
+                                        name = name,
+                                        nickName = nickName,
+                                        birthDate = birthDate,
+                                        gender = gender,
+                                        mobile = mobile,
+                                        picture = uri)
+
                                     Log.d("register" , it.toString())
                             })
                             Spacer(modifier = Modifier.height(25f.pxToDp()))
@@ -177,6 +187,14 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                     placeHolder = "예 : 01012345678",
                                     valueChanged = {
                                         mobile = it
+
+                                        viewModel.validationUserInfo(
+                                            name = name,
+                                            nickName = nickName,
+                                            birthDate = birthDate,
+                                            gender = gender,
+                                            mobile = mobile,
+                                            picture = uri)
                                         Log.d("register", "phoneNumber : ${mobile}")
                                     })
                             }
@@ -188,13 +206,22 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                 Spacer(modifier = Modifier.height(25f.pxToDp()))
                                 CustomTextField(
                                     keyOption = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
-                                    isHiddenText = true,
+                                    isHiddenText = false,
                                     modifier = Modifier.defaultMinSize(minWidth = 620f.pxToDp(), minHeight = 86f.pxToDp()),
                                     focusedBoardColor = Color143F91,
                                     unfocusedBoardColor = ColorD4D9E1,
                                     placeHolder = "주민번호 앞 여섯자리",
                                     valueChanged = {
                                         birthDate = it
+
+                                        viewModel.validationUserInfo(
+                                            name = name,
+                                            nickName = nickName,
+                                            birthDate = birthDate,
+                                            gender = gender,
+                                            mobile = mobile,
+                                            picture = uri)
+
                                         Log.d("register" , "birthDate : ${birthDate}")
                                     })
                             }
@@ -219,6 +246,15 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                     placeHolder = "홍길동",
                                     valueChanged = {
                                         name = it
+
+                                        viewModel.validationUserInfo(
+                                            name = name,
+                                            nickName = nickName,
+                                            birthDate = birthDate,
+                                            gender = gender,
+                                            mobile = mobile,
+                                            picture = uri)
+
                                         Log.d("register", "name : $name")
                                     })
 
@@ -241,24 +277,44 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                     selectedColor = Color143F91,
                                     selectionChanged = { it->
                                         gender = it as String
+                                        viewModel.validationUserInfo(
+                                            name = name,
+                                            nickName = nickName,
+                                            birthDate = birthDate,
+                                            gender = gender,
+                                            mobile = mobile,
+                                            picture = uri
+                                        )
                                         Log.d("register" , it)
                                     }
                                 )
 
                                 Spacer(modifier = Modifier.height(80f.pxToDp()))
                                     Button(
+                                        enabled = validation,
                                         onClick = {
 
                                             //nav.navigate(route = OuterScreen.terms.route)
 
+                                            /*
                                                 val validation =  viewModel.validationUserInfo(
                                                     name = name,
                                                     nickName = nickName,
                                                     birthDate = birthDate,
                                                     gender = gender,
                                                     mobile = mobile,
-                                                    picture = uri)
+                                                    picture = uri)*/
 
+                                            viewModel.signUpUser(
+                                                name = name,
+                                                nickName = nickName,
+                                                birthDate = birthDate,
+                                                gender = gender,
+                                                mobile = mobile,
+                                                picture = uri!!
+                                            )
+
+                                            /*
                                                 if(validation){
                                                     (uri?.let { uri } ?: run { null })?.let {
                                                         viewModel.signUpUser(
@@ -273,7 +329,7 @@ fun RegisterScreen(nav: NavHostController , viewModel: RegisterViewModel  = hilt
                                                 }else{
                                                     failMessage = "입력하지 않은 정보가 있는지 다시 확인해 주세요"
                                                     showDialogState = true
-                                                }
+                                                }*/
 
                                         },
                                         shape = RoundedCornerShape(18.pxToDp()),

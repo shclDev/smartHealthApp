@@ -7,6 +7,24 @@ enum class FamilyDiseaseType(val korName : String,
                              val value : Any,
 ) : SurveyEnumType {
 
+
+    NONE("해당 없음" , ""){
+        override fun getKorName(surveyByLevel: SurveyByLevel): String {
+            when(surveyByLevel){
+                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL3,
+                SurveyByLevel.LEVEL4,
+                SurveyByLevel.LEVEL5->
+
+                    return "해당 없음"
+            }
+        }
+
+        override fun getValue(value: Any): Any {
+            return ""
+        }
+    },
+
     HIGH_BLOOD_PRESSURE("고혈압" , "HIGH_BLOOD_PRESSURE"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){

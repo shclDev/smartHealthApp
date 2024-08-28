@@ -96,7 +96,7 @@ class IntroduceViewModel @Inject constructor(
                         RecognizerStatus.INIT->{}
                         RecognizerStatus.ERROR->{
                             _recognizerVisible.value = false
-                            //_voiceMessage.value = it.message
+                            _voiceMessage.value = it.message
                         }
                     }
                 }

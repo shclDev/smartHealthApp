@@ -18,8 +18,7 @@ enum class NowType (  val korName : String,
                 SurveyByLevel.LEVEL2,
                 SurveyByLevel.LEVEL3,
                 SurveyByLevel.LEVEL5-> return "없었음"
-                SurveyByLevel.LEVEL4 ->  return "전혀 피운 적이 없다(평생 10개 미만)"
-
+                SurveyByLevel.LEVEL4->  return "전혀 피운 적이 없다(평생 10개 미만)"
             }
         }
     },

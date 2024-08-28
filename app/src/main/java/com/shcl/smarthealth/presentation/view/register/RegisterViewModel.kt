@@ -38,6 +38,9 @@ class RegisterViewModel @Inject constructor(
     private var _signUpState = MutableStateFlow(SignUpStatus.NONE)
     var signUpState = _signUpState.asStateFlow()
 
+    private var _validation = MutableStateFlow(false)
+    var validation = _validation.asStateFlow()
+
 
     fun validationUserInfo(name : String?,
                             nickName: String?,
@@ -45,12 +48,14 @@ class RegisterViewModel @Inject constructor(
                             gender : String?,
                             mobile : String?,
                             picture : Uri?) : Boolean{
-        // 이름 , 휴대폰 번호 , 생년월일, 성별 비었는지 검사
-        if(name.isNullOrEmpty() && birthDate.isNullOrEmpty() && gender.isNullOrEmpty() && mobile.isNullOrEmpty() && picture.toString().isNullOrEmpty()){
-            return false
+        // 이름 , 휴대폰 번호 , 생년월일, 성별 , 이미지 비었는지 검사
+        if(!name.isNullOrEmpty() && !birthDate.isNullOrEmpty() && !gender.isNullOrEmpty() && !mobile.isNullOrEmpty() && !picture.toString().isEmpty()){
+            _validation.value = true
+            return true
         }
 
-        return true
+        _validation.value = false
+        return false
     }
 
     fun signUpStateChange(status: SignUpStatus){

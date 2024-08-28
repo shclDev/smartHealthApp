@@ -415,11 +415,18 @@ fun surveyAct(viewModel: SurveyViewModel){
             containerColor = Color.White,
             icon = checkImageIcon,
             selectionChanged = { it->
+
                 cacner = it
 
-
                 if(cacner.isNotEmpty()){
-                    cancerDetailVisible = true
+                    var reallyNotEmpty = false
+
+                    cacner.forEach{ element->
+                        if(!element.isBlank() || !element.isEmpty() ){
+                            reallyNotEmpty = true
+                        }
+                    }
+                    cancerDetailVisible = reallyNotEmpty
                 }else{
                     cancerDetailVisible = false
                 }
@@ -443,19 +450,21 @@ fun surveyAct(viewModel: SurveyViewModel){
 
             Column {
                 cacner.forEach{ cacner->
-                    CancerDetail(
-                        selectChange = { data->
+                    if(cacner.isNotEmpty() || cacner.isNotBlank()){
+                        CancerDetail(
+                            selectChange = { data->
 
-                            //var answer = Utils.getAnswer(60, questions)
-                            var answer = Utils.getHistoryAnswer(questions , diseaseName = cacner , answerType = "CANCER_HISTORY")
+                                //var answer = Utils.getAnswer(60, questions)
+                                var answer = Utils.getHistoryAnswer(questions , diseaseName = cacner , answerType = "CANCER_HISTORY")
 
-                            answer?.let {
-                                answer.answer = data
-                                viewModel.addLevel5Answer(answer)
-                            }
+                                answer?.let {
+                                    answer.answer = data
+                                    viewModel.addLevel5Answer(answer)
+                                }
 
-                            Log.d("smarthealth" , "${data}")
-                        }, cancerType = "$cacner" )
+                                Log.d("smarthealth" , "${data}")
+                            }, cancerType = "$cacner" )
+                    }
                     Spacer(modifier = Modifier.height(30f.pxToDp()))
                     HorizontalDivider()
                     Spacer(modifier = Modifier.height(30f.pxToDp()))
@@ -475,7 +484,14 @@ fun surveyAct(viewModel: SurveyViewModel){
                 disease = it
 
                 if(disease.isNotEmpty()){
-                    diseaseDetailVisible = true
+                    var reallyNotEmpty = false
+
+                    disease.forEach{ element->
+                        if(!element.isBlank() || !element.isEmpty() ){
+                            reallyNotEmpty = true
+                        }
+                    }
+                    diseaseDetailVisible = reallyNotEmpty
                 }else{
                     diseaseDetailVisible = false
                 }
@@ -498,24 +514,31 @@ fun surveyAct(viewModel: SurveyViewModel){
         ) {
 
             Column {
-                disease.forEach { disease->
-                    DiseaseDetail(
-                        selectChange = { data ->
+                disease.forEach { disease ->
 
-                            var answer = Utils.getHistoryAnswer(questions , diseaseName = DiseaseType.getKorName(disease)!! , answerType = "DISEASE_HISTORY")
-                            //var answer = Utils.getAnswer(68, questions)
+                    if (disease.isNotEmpty() || disease.isNotBlank()) {
+                        DiseaseDetail(
+                            selectChange = { data ->
 
-                            answer?.let {
-                                answer.answer = data
-                                viewModel.addLevel5Answer(answer)
-                            }
+                                var answer = Utils.getHistoryAnswer(
+                                    questions,
+                                    diseaseName = DiseaseType.getKorName(disease)!!,
+                                    answerType = "DISEASE_HISTORY"
+                                )
+                                //var answer = Utils.getAnswer(68, questions)
 
-                            Log.d("smarthealth", "${data}")
-                        }, diseaseType = "$disease"
-                    )
-                    Spacer(modifier = Modifier.height(30f.pxToDp()))
-                    HorizontalDivider()
-                    Spacer(modifier = Modifier.height(30f.pxToDp()))
+                                answer?.let {
+                                    answer.answer = data
+                                    viewModel.addLevel5Answer(answer)
+                                }
+
+                                Log.d("smarthealth", "${data}")
+                            }, diseaseType = "$disease"
+                        )
+                        Spacer(modifier = Modifier.height(30f.pxToDp()))
+                        HorizontalDivider()
+                        Spacer(modifier = Modifier.height(30f.pxToDp()))
+                    }
                 }
             }
 
@@ -534,7 +557,14 @@ fun surveyAct(viewModel: SurveyViewModel){
                 familyDisease = it
 
                 if(familyDisease.isNotEmpty()){
-                    familyDiseaseVisible = true
+                    var reallyNotEmpty = false
+
+                    familyDisease.forEach{ element->
+                        if(!element.isBlank() || !element.isEmpty() ){
+                            reallyNotEmpty = true
+                        }
+                    }
+                    familyDiseaseVisible = reallyNotEmpty
                 }else{
                     familyDiseaseVisible = false
                 }
@@ -558,44 +588,59 @@ fun surveyAct(viewModel: SurveyViewModel){
         ) {
             Column {
                 familyDisease.forEach{ familyDisease->
-                    Row(modifier = Modifier.background(Color.White),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = FamilyDiseaseType.getKorName(familyDisease)!!, style = Typography.bodyMedium, fontSize = 20f.pxToSp() , color = Color143F91 , textAlign = TextAlign.Center)
 
-                        VerticalLine(2)
+                    if (familyDisease.isNotEmpty() || familyDisease.isNotBlank()) {
 
-                        VerticalDivider(
-                            modifier = Modifier.padding(
-                                vertical = 12f.pxToDp(),
-                                horizontal = 8f.pxToDp()
-                            ),
-                            thickness = 2f.pxToDp(),
-                        )
-                        CustomMultipleGroupButtons(
-                            options = FamilyMemberType.convertHashMap(SurveyByLevel.LEVEL5),
-                            unSelectedColor = ColorD4D9E1,
-                            selectedColor = Color143F91,
-                            containerColor = Color.White,
-                            selectionChanged = { it ->
+                        Row(
+                            modifier = Modifier.background(Color.White),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = FamilyDiseaseType.getKorName(familyDisease)!!,
+                                style = Typography.bodyMedium,
+                                fontSize = 20f.pxToSp(),
+                                color = Color143F91,
+                                textAlign = TextAlign.Center
+                            )
 
-                                var familyDiseaseHistoryDto = FamilyDiseaseHistoryDto(
-                                    familyDisease, it
-                                )
+                            VerticalLine(2)
 
-                                Log.d("survey" , familyDiseaseHistoryDto.toString())
-                                var answer = Utils.getHistoryAnswer(questions , diseaseName = FamilyDiseaseType.getKorName(familyDisease)!! , answerType = "FAMILY_DISEASE_HISTORY" )
+                            VerticalDivider(
+                                modifier = Modifier.padding(
+                                    vertical = 12f.pxToDp(),
+                                    horizontal = 8f.pxToDp()
+                                ),
+                                thickness = 2f.pxToDp(),
+                            )
+                            CustomMultipleGroupButtons(
+                                options = FamilyMemberType.convertHashMap(SurveyByLevel.LEVEL5),
+                                unSelectedColor = ColorD4D9E1,
+                                selectedColor = Color143F91,
+                                containerColor = Color.White,
+                                selectionChanged = { it ->
 
-                                //var answer = Utils.getAnswer(68, questions)
+                                    var familyDiseaseHistoryDto = FamilyDiseaseHistoryDto(
+                                        familyDisease, it
+                                    )
 
-                                answer?.let {
-                                    Log.d("survey" , answer.toString())
-                                    answer.answer = familyDiseaseHistoryDto
-                                    viewModel.addLevel5Answer(answer)
+                                    Log.d("survey", familyDiseaseHistoryDto.toString())
+                                    var answer = Utils.getHistoryAnswer(
+                                        questions,
+                                        diseaseName = FamilyDiseaseType.getKorName(familyDisease)!!,
+                                        answerType = "FAMILY_DISEASE_HISTORY"
+                                    )
+
+                                    //var answer = Utils.getAnswer(68, questions)
+
+                                    answer?.let {
+                                        Log.d("survey", answer.toString())
+                                        answer.answer = familyDiseaseHistoryDto
+                                        viewModel.addLevel5Answer(answer)
+                                    }
+
                                 }
-
-                            }
-                        )
+                            )
+                        }
                     }
                 }
 

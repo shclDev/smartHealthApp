@@ -6,6 +6,25 @@ import com.shcl.smarthealth.presentation.view.survey.SurveyByLevel
 enum class CancerType( val korName : String,
                        val value : Any,
 ) : SurveyEnumType {
+
+
+    NONE("해당 없음" , ""){
+        override fun getKorName(surveyByLevel: SurveyByLevel): String {
+            when(surveyByLevel){
+                SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
+                SurveyByLevel.LEVEL3,
+                SurveyByLevel.LEVEL4,
+                SurveyByLevel.LEVEL5->
+
+                    return "해당 없음"
+            }
+        }
+
+        override fun getValue(value: Any): Any {
+            return ""
+        }
+    },
+
     LUNG_CANCER("폐암" , "LUNG_CANCER"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){

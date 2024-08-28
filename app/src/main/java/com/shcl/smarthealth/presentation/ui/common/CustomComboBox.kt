@@ -56,13 +56,14 @@ fun CustomComboBox(
         Box(
             modifier = Modifier
                 .clickable { expanded = true }
-                .defaultMinSize(minWidth = 300f.pxToDp(), minHeight = 85f.pxToDp())
                 .background(Color.White)
                 .clip(RoundedCornerShape(18f.pxToDp()))
+                .defaultMinSize(minWidth = 300f.pxToDp(), minHeight = 85f.pxToDp())
                 .border(
                     width = 2f.pxToDp(),
                     color = Color757575
                 )
+
                 .padding(25f.pxToDp())
 
         ) {

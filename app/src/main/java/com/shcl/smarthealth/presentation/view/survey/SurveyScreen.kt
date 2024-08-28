@@ -69,6 +69,8 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
     val uploadSuccess by viewModel.uploadSuccess.collectAsStateWithLifecycle()
     val complete by viewModel.surveyComplete.collectAsStateWithLifecycle()
 
+    val validation by viewModel.validation.collectAsStateWithLifecycle()
+
     var showDialogState by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier
@@ -147,6 +149,7 @@ fun SurveyScreen(nav: NavHostController, viewModel: SurveyViewModel = hiltViewMo
                         contentColor = Color143F91, containerColor = Color.White , withBoard = true, text = "이전" , leftIcon = painterResource(id = R.drawable.left_arrow)
                     )
                     CustomButton(
+                        enabled = true ,
                         btnClick =  {
                             if(viewModel.levelState.value == viewModel.MAX_LEVEL){
                                 showDialogState = true

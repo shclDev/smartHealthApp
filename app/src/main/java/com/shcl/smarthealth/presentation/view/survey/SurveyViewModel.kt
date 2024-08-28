@@ -56,21 +56,8 @@ class SurveyViewModel @Inject constructor(
     private val _levelTitleState = MutableStateFlow(SurveyByLevel.LEVEL1)
     val levelTitleState = _levelTitleState.asStateFlow()
 
-    private val _level1Validation = MutableStateFlow(false)
-    val level1Validation = _level1Validation.asStateFlow()
-
-    private val _level2Validation = MutableStateFlow(false)
-    val level2Validation = _level2Validation.asStateFlow()
-
-    private val _level3Validation = MutableStateFlow(false)
-    val level3Validation = _level3Validation.asStateFlow()
-
-    private val _level4Validation = MutableStateFlow(false)
-    val level4Validation = _level4Validation.asStateFlow()
-
-    private val _level5Validation = MutableStateFlow(false)
-    val level5Validation = _level5Validation.asStateFlow()
-
+    private val _validation = MutableStateFlow(false)
+    val validation = _validation.asStateFlow()
 
     private var _level1HashMap : HashMap<Int,Answer> = HashMap<Int,Answer>()
     private var _level1Answers = MutableStateFlow(_level1HashMap)
@@ -87,12 +74,6 @@ class SurveyViewModel @Inject constructor(
     private var _level5HashMap : HashMap<Int,Answer> = HashMap<Int,Answer>()
     private var _level5Answers = MutableStateFlow(_level5HashMap)
 
-
-    private val LEVEL1_QUESTION_CNT = 11
-    private val LEVEL3_QUESTION_CNT = 12
-    private val LEVEL4_QUESTION_CNT = 11
-    private val LEVEL5_QUESTION_CNT = 14
-
     private var surveyId : Int = 1
     private var answerId : Int = 0
 
@@ -102,6 +83,8 @@ class SurveyViewModel @Inject constructor(
 
     private var _uploadSuccess : Boolean = false
     var uploadSuccess = MutableStateFlow(_uploadSuccess)
+
+    private var essentialMap = HashMap<Int , Boolean>()
 
 
     private val _surveyComplete = MutableStateFlow(false)
@@ -141,45 +124,103 @@ class SurveyViewModel @Inject constructor(
         }else{
             _levelState.value = _levelState.value + 1;
         }
-        levelTitle(_levelState.value)
+        levelChange(_levelState.value)
     }
 
     fun addLevel1Answer(answer : Answer){
         _level1Answers.value.put(answer.questionId , answer)
+        _validation.value = validationAnswer(_level1Answers.value)
         voiceAssistant(questionId = answer.questionId + 1)
     }
 
     fun addLevel2Answer(answer : Answer){
         _level2Answers.value.put(answer.questionId , answer)
+        _validation.value = validationAnswer(_level2Answers.value)
         voiceAssistant(questionId = answer.questionId , answer)
     }
 
     fun addLevel3Answer(answer : Answer){
         _level3Answers.value.put(answer.questionId , answer)
+        _validation.value = validationAnswer(_level3Answers.value)
         voiceAssistant(questionId = answer.questionId + 1)
     }
 
     fun addLevel4Answer(answer : Answer){
         _level4Answers.value.put(answer.questionId , answer)
+        _validation.value = validationAnswer(_level4Answers.value)
         voiceAssistant(questionId = answer.questionId , answer)
     }
 
     fun addLevel5Answer(answer : Answer){
         _level5Answers.value.put(answer.questionId , answer)
+        _validation.value = validationAnswer(_level5Answers.value)
         voiceAssistant(questionId = answer.questionId + 1)
     }
 
 
-    fun levelTitle(level : Int){
+    fun levelChange(level : Int){
+
+        essentialMap.clear()
+        _validation.value = false
+
         when(level){
-            1-> _levelTitleState.value = SurveyByLevel.LEVEL1
-            2-> _levelTitleState.value = SurveyByLevel.LEVEL2
-            3-> _levelTitleState.value = SurveyByLevel.LEVEL3
-            4-> _levelTitleState.value = SurveyByLevel.LEVEL4
-            5-> _levelTitleState.value = SurveyByLevel.LEVEL5
+            1-> {
+                _levelTitleState.value = SurveyByLevel.LEVEL1
+
+                val list = Level1Assistant.getEssentialQuestionsList()
+
+                list.forEach{ assistant->
+                    essentialMap.put(assistant.questionId , false)
+                }
+            }
+            2->{
+                _levelTitleState.value = SurveyByLevel.LEVEL2
+
+                val list = Level2Assistant.getEssentialQuestionsList()
+
+                list.forEach{ assistant->
+                    essentialMap.put(assistant.questionId , false)
+                }
+            }
+            3-> {
+                _levelTitleState.value = SurveyByLevel.LEVEL3
+
+                val list = Level3Assistant.getEssentialQuestionsList()
+
+                list.forEach{ assistant->
+                    essentialMap.put(assistant.questionId , false)
+                }
+            }
+            4-> {
+                _levelTitleState.value = SurveyByLevel.LEVEL4
+
+                val list = Level4Assistant.getEssentialQuestionsList()
+
+                list.forEach{ assistant->
+                    essentialMap.put(assistant.questionId , false)
+                }
+            }
+            5-> {
+                _levelTitleState.value = SurveyByLevel.LEVEL5
+
+                val list = Level5Assistant.getEssentialQuestionsList()
+
+                list.forEach{ assistant->
+                    essentialMap.put(assistant.questionId , false)
+                }
+            }
         }
 
         getCategoryQuestion(_levelTitleState.value.category)
+    }
+
+    fun validationAnswer(answer : HashMap<Int , Answer>) : Boolean{
+
+        answer.values.forEach { answer->
+            essentialMap.replace(answer.questionId , true)
+        }
+
+        return !essentialMap.containsValue(false)
     }
 
     fun prev(){
@@ -188,7 +229,7 @@ class SurveyViewModel @Inject constructor(
         }else{
             _levelState.value = _levelState.value - 1
         }
-        levelTitle(_levelState.value)
+        levelChange(_levelState.value)
     }
 
     fun surveyStart(){
@@ -243,7 +284,8 @@ class SurveyViewModel @Inject constructor(
 
                         if(it.success){
                             surveyId = it.data?.id ?: 0
-                            getCategoryQuestion(SurveyByLevel.LEVEL1.category)
+                            levelChange(1)
+                           // getCategoryQuestion(SurveyByLevel.LEVEL1.category)
                             surveyStart()
                         }
                         Log.d("smarthealth" , "survey : ${it}")
