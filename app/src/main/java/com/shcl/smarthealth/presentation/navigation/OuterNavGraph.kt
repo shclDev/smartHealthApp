@@ -12,6 +12,7 @@ import com.shcl.smarthealth.presentation.view.measurement.MeasurementScreen
 import com.shcl.smarthealth.presentation.view.register.RegisterCompleteScreen
 import com.shcl.smarthealth.presentation.view.register.RegisterScreen
 import com.shcl.smarthealth.presentation.view.register.TermsOfUseScreen
+import com.shcl.smarthealth.presentation.view.serviceIntroduce.ServiceIntroduceScreen
 import com.shcl.smarthealth.presentation.view.survey.SurveyScreen
 
 @Composable
@@ -55,6 +56,10 @@ fun OuterNavGraph(navCtrl : NavHostController) {
 
         composable(route = OuterScreen.introduce.route){
             IntroduceScreen(nav = navCtrl)
+        }
+        
+        composable(route = OuterScreen.serviceIntroduce.route){
+            ServiceIntroduceScreen(nav = navCtrl)
         }
 
     }

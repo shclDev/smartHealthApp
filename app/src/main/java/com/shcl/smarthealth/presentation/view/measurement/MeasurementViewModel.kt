@@ -526,5 +526,9 @@ class MeasurementViewModel @Inject constructor(
         }
     }
 
+    fun stopPlay(){
+        voiceUseCase.voicePlayUseCase.stopPlay()
+    }
+
 
 }

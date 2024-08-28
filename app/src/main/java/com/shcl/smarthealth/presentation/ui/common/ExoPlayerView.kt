@@ -105,7 +105,7 @@ fun ExoPlayerView(
                     modifier = Modifier
                         .clip(shape = RoundedCornerShape(18f.pxToDp()))
                         .background(Color.White)
-                        .defaultMinSize(minWidth = 1074f.pxToDp(), minHeight = 707f.pxToDp())
+                        .defaultMinSize(minWidth = 1800f.pxToDp(), minHeight = 707f.pxToDp())
                         .padding(
                             start = 40f.pxToDp(),
                             end = 40f.pxToDp(),
@@ -118,7 +118,7 @@ fun ExoPlayerView(
                             modifier = Modifier
                                 .clip(shape = RoundedCornerShape(18f.pxToDp()))
                                 .background(Color.White)
-                                .defaultMinSize(minWidth = 1074f.pxToDp(), minHeight = 707f.pxToDp())
+                                .defaultMinSize(minWidth = 1800f.pxToDp(), minHeight = 707f.pxToDp())
                                 .padding(
                                     start = 40f.pxToDp(),
                                     end = 40f.pxToDp(),
@@ -131,8 +131,8 @@ fun ExoPlayerView(
                                 }
                             },
                         )
+                    }
                 }
-            }
             }
         }
 }

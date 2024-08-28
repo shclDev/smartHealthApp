@@ -64,7 +64,7 @@ fun RegisterCompleteScreen(nav: NavHostController) {
                 Text(stringResource(id = R.string.register_complete_desc) , style = Typography.headlineLarge , fontSize = 15f.pxToSp() , color = Color757575, textAlign = TextAlign.Center)
                 Spacer(modifier = Modifier.height(161f.pxToDp()))
                 CustomButton(buttonWidth = 720f, contentColor = Color.White, containerColor = Color143F91, text ="등록완료", rightIcon = painterResource(id = R.drawable.arrow) , btnClick = {
-                    nav.navigate(route = OuterScreen.survery.route)
+                    nav.navigate(route = OuterScreen.serviceIntroduce.route)
                 } )
             }
         }

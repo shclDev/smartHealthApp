@@ -1,6 +1,7 @@
 package com.shcl.smarthealth.presentation.view.dashboard.component
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -30,15 +31,20 @@ fun NutritionComponent(){
 
     var playerShow by remember { mutableStateOf(false) }
 
-    if(playerShow){
-        ExoPlayerView(
-            onClickCancel = { playerShow = false},
-            onShowDialog = playerShow,
-            title = "영양 권고",
-            uri = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"  )
-    }
-
     Box {
+
+        when{
+            playerShow->{
+                ExoPlayerView(
+                    onClickCancel = {
+                        Log.d("player" , "onClickCancel")
+                        playerShow = false},
+                    onShowDialog = playerShow,
+                    title = "영양 권고",
+                    uri = "https://cdn.pixabay.com/video/2017/12/20/13497-248644899_large.mp4"  )
+            }
+        }
+
         Column {
             Row {
                 Text("영양 권고", style = Typography.headlineLarge, fontSize = 25f.sp)
@@ -57,7 +63,8 @@ fun NutritionComponent(){
             Image(
                 modifier = Modifier
                     .size(680f.pxToDp(), 214f.pxToDp())
-                    .clickable { playerShow = true },
+                    .clickable {
+                        if(!playerShow) playerShow = true },
                 painter = painterResource(id = R.drawable.dashboard_nutrion),
                 contentDescription = null
             )

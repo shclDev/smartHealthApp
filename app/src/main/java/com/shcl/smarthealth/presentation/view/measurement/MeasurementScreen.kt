@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +41,13 @@ import com.shcl.smarthealth.ui.theme.Typography
 fun MeasurementScreen(nav : NavHostController, viewModel: MeasurementViewModel = hiltViewModel()){
 
     val step by viewModel.measurementStep.collectAsStateWithLifecycle()
+
+
+    DisposableEffect(Unit) {
+        onDispose {
+            viewModel.stopPlay()
+        }
+    }
 
     Box(
 

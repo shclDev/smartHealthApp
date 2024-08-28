@@ -157,6 +157,10 @@ class SurveyViewModel @Inject constructor(
         voiceAssistant(questionId = answer.questionId + 1)
     }
 
+    fun stopPlay(){
+        voiceUseCase.voicePlayUseCase.stopPlay()
+    }
+
 
     fun levelChange(level : Int){
 

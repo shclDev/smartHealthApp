@@ -19,7 +19,7 @@ class VoicePlayUseCase private constructor(){
         return callbackFlow {
             try {
 
-                if (mediaPlayer.isPlaying) {
+                if (mediaPlayer != null && mediaPlayer.isPlaying) {
                     mediaPlayer.stop()
                     mediaPlayer.release()
                 }
@@ -44,5 +44,12 @@ class VoicePlayUseCase private constructor(){
                 mediaPlayer.release()
             }
         }
+    }
+
+     fun stopPlay(){
+         if (mediaPlayer != null && mediaPlayer.isPlaying) {
+             mediaPlayer.stop()
+             //mediaPlayer.release()
+         }
     }
 }
