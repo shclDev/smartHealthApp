@@ -52,16 +52,16 @@ enum class MeasurementStep(val num : Int , val title : String, val displayTime:I
     HELLO(1,"안녕하세요,사용자님!" , 7 ),
     WATCH_LOADING(2,"새로운 건강 기록을 불러오는 중입니다.",7 ),
     WATCH_LOAD_SUCCESS(3,"새로운 건강 기록을 불러오는데 성공했습니다.",5),
-    BLOOD_PRESSURE_INIT(4,"혈압을 측정하겠습니다.\n연동된 기기를 꺼내어 혈압을 측정해주세요.",50),
+    BLOOD_PRESSURE_INIT(4,"혈압을 측정하겠습니다.\n연동된 기기를 꺼내어 혈압을 측정해주세요.",5),
     BLOOD_PRESSURE_WAIT(5,"측정값을 불러오는 중입니다." , 100),
     BLOOD_PRESSURE_FAIL(6,"재측정이 필요합니다.\n[다시 측정하기] 버튼을 눌러주세요." , 100),
     BLOOD_PRESSURE_SUCCESS(7,"",100),
 
-    BLOOD_SUGAR_INIT(8,"혈당을 측정하겠습니다.\n연동된 기기를 꺼내어 혈당을 측정해주세요.",15),
+    BLOOD_SUGAR_INIT(8,"혈당을 측정하겠습니다.\n연동된 기기를 꺼내어 혈당을 측정해주세요.",5),
     BLOOD_SUGAR_WAIT(9,"측정값을 불러오는 중입니다." , 100),
     BLOOD_SUGAR_SUCCESS(10,"",100),
 
-    WEIGHT_INIT(11,"몸무게를 측정하겠습니다.\n연동된 기기를 꺼내어 몸무게를 측정해주세요.",20),
+    WEIGHT_INIT(11,"몸무게를 측정하겠습니다.\n연동된 기기를 꺼내어 몸무게를 측정해주세요.",5),
     WEIGHT_WAIT(12,"측정값을 불러오는 중입니다." , 100),
     WEIGHT_SUCCESS(13,"",100),
 

@@ -74,7 +74,7 @@ class SpeechRecognizerDataSourceImpl  @Inject constructor(
         }
         // 말하기 시작했을 때 호출
         override fun onBeginningOfSpeech() {
-            Toast.makeText(GlobalVariables.context, "음성 인식 중.", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(GlobalVariables.context, "음성 인식 중.", Toast.LENGTH_SHORT).show()
 
             trySend(RecognizerState(
                 status = RecognizerStatus.BEGINNING_SPEECH,
