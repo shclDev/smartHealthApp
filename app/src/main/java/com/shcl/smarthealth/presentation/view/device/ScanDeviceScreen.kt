@@ -315,6 +315,7 @@ fun deviceItem(viewModel:DeviceViewModel, device : DiscoveredDevice){
                 onDismiss = {showRegisterDialogState = false},
                 onConfirm = {
                     Log.d("omron","register device")
+                    viewModel.setCurrentDevice(device)
                     viewModel.getOmronMeasurementRecord(device , RequestType.Paring)
                     showRegisterDialogState = false
                 },

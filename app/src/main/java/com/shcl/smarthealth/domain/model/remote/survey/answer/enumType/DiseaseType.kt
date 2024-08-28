@@ -7,7 +7,7 @@ enum class DiseaseType( val korName : String,
                         val value : Any,
 ) : SurveyEnumType {
 
-    NONE("해당 없음" , ""){
+    NONE("해당 없음" , "NONE"){
         override fun getKorName(surveyByLevel: SurveyByLevel): String {
             when(surveyByLevel){
                 SurveyByLevel.LEVEL1, SurveyByLevel.LEVEL2,
@@ -20,7 +20,7 @@ enum class DiseaseType( val korName : String,
         }
 
         override fun getValue(value: Any): Any {
-            return ""
+            return "NONE"
         }
     },
 

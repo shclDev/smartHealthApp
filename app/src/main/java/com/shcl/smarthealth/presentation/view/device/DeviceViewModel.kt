@@ -48,7 +48,7 @@ class DeviceViewModel @Inject constructor(
     private val _iSensMeasurementState = MutableStateFlow(IsensGlucoseRecordState(status = MeasurementStatus.Unknown, records = null))
     val isensMeasurementState = _iSensMeasurementState.asStateFlow()
 
-
+    var omronDevice : DiscoveredDevice? = null
 
     //private val _testState = MutableStateFlow(0)
     //val testState = _testState.asStateFlow()
@@ -124,16 +124,29 @@ class DeviceViewModel @Inject constructor(
         }
     }
 
+    fun setCurrentDevice(device : DiscoveredDevice){
+        omronDevice = device
+    }
+
 
     // omron - data transfer
     fun getOmronMeasurementRecord(device : DiscoveredDevice , type : RequestType){
+
+        /*
+        var selectDevice : DiscoveredDevice?
+        // 예외처리
+        if(RequestType.Paring == type){
+            selectDevice = omronDevice
+        }else{
+            selectDevice = device
+        }*/
 
         viewModelScope.launch {
             omronDeviceUseCase.getDataTransferUseCase.getDataTransfer(device , type).collect{
                 Log.d("omron" , it.toString())
 
                 if(it.status == MeasurementStatus.ParingSuccess){
-                    registerToDBDevice(device)
+                    registerToDBDevice(omronDevice!!)
                 }else if(it.status == MeasurementStatus.ParingFail){
                     Log.e("omron","paring error")
                 }
