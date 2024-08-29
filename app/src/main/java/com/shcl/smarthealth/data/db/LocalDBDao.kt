@@ -4,16 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
+import com.shcl.smarthealth.domain.model.db.TutorialRoom
 import com.shcl.smarthealth.domain.model.db.UserRoom
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MeasurementRecordDao {
+interface LocalDBDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addBloodPressure(bloodPressure:BloodPressureRoom )
@@ -75,5 +77,13 @@ interface MeasurementRecordDao {
     @Query("SELECT * FROM lasted_login_user_tb ORDER BY loginTime DESC LIMIT 1 ")
     fun getLastedLoginUserByUserID() : Flow<LastedLoginUserRoom>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addTutorial(tutorialRoom: TutorialRoom)
+
+    @Query("UPDATE tutorial_tb set complete = :completed WHERE userId = :userId")
+    fun updateTutorial(userId : Int , completed : Boolean)
+
+    @Query("SELECT * FROM tutorial_tb WHERE userId = :userId")
+    fun getTutorialByUserID(userId : Int) : Flow<TutorialRoom?>
 
 }

@@ -7,13 +7,17 @@ import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
+import com.shcl.smarthealth.domain.model.db.TutorialRoom
 import com.shcl.smarthealth.domain.model.db.UserRoom
 
 @Database(
-    entities = [BloodPressureRoom::class , FoundDeviceRoom::class , BodyCompositionRoom::class , GlucoseRecordRoom::class , UserRoom::class, LastedLoginUserRoom::class ],
+    entities = [BloodPressureRoom::class , FoundDeviceRoom::class ,
+        BodyCompositionRoom::class , GlucoseRecordRoom::class , UserRoom::class,
+        LastedLoginUserRoom::class ,
+        TutorialRoom::class],
     version = 1,
     exportSchema = false
 )
-abstract class MeasurementRecordDB : RoomDatabase() {
-    abstract fun measurementRecordDao() : MeasurementRecordDao
+abstract class LocalDB : RoomDatabase() {
+    abstract fun localDBDao() : LocalDBDao
 }

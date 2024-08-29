@@ -1,7 +1,7 @@
 package com.shcl.smarthealth.data.repository
 
 import com.shcl.smarthealth.data.repository.dataSource.DashBoardRemoteDataSource
-import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
+import com.shcl.smarthealth.data.repository.dataSource.LocalDBDataSource
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
@@ -14,7 +14,7 @@ import retrofit2.Response
 
 class DashBoardRepositoryImpl(
     private val dashBoardRemoteDataSource: DashBoardRemoteDataSource,
-    private val measureRecordDataSource: MeasureRecordDataSource
+    private val localDBDataSource: LocalDBDataSource
 )  : DashBoardRepository{
 
     override fun getNutritionAdvice(): Flow<String> {
@@ -22,15 +22,15 @@ class DashBoardRepositoryImpl(
     }
 
     override fun getLastedBloodPressure(): Flow<BloodPressureRoom> {
-        return measureRecordDataSource.getBloodPressureFromDB(userId = 1)
+        return localDBDataSource.getBloodPressureFromDB(userId = 1)
     }
 
     override fun getLastedBodyComposition(): Flow<BodyCompositionRoom> {
-        return measureRecordDataSource.getBodyCompositionFromDB(userId = 1)
+        return localDBDataSource.getBodyCompositionFromDB(userId = 1)
     }
 
     override fun getLastedGlucose(): Flow<GlucoseRecordRoom> {
-       return measureRecordDataSource.getGlucoseFromDB(userId = 1)
+       return localDBDataSource.getGlucoseFromDB(userId = 1)
     }
 
     override suspend fun getCurrentWeather(): Flow<WeatherResponse?> {
@@ -38,7 +38,7 @@ class DashBoardRepositoryImpl(
     }
 
     override fun getLastedLoginUser(): Flow<LastedLoginUserRoom> {
-       return measureRecordDataSource.getLastedLoginUser()
+       return localDBDataSource.getLastedLoginUser()
     }
 
     override suspend fun getAllData(): Flow<OverallResponse?> {

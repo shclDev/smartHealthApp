@@ -1,6 +1,6 @@
 package com.shcl.smarthealth.data.repository
 
-import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
+import com.shcl.smarthealth.data.repository.dataSource.LocalDBDataSource
 import com.shcl.smarthealth.data.repository.dataSource.NCloudRemoteDataSource
 import com.shcl.smarthealth.data.repository.dataSource.SpeechRecognizerSource
 import com.shcl.smarthealth.data.repository.dataSource.UserRemoteDataSource
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 
 class NCloudRepositoryImpl(
     private val nCloudRemoteDataSource: NCloudRemoteDataSource,
-    private val measureRecordDataSource: MeasureRecordDataSource,
+    private val localDBDataSource: LocalDBDataSource,
     private val speechRecognizerSource: SpeechRecognizerSource
 ) : NCloudRepository {
 

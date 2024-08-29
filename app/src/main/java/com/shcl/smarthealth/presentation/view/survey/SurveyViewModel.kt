@@ -5,12 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.shcl.smarthealth.data.db.LocalDBDao
 import com.shcl.smarthealth.domain.model.remote.survey.CategoryQuestionResponse
 import com.shcl.smarthealth.domain.model.remote.survey.Question
 import com.shcl.smarthealth.domain.model.remote.survey.answer.Answer
 import com.shcl.smarthealth.domain.model.remote.survey.answer.CategoryQuestionRequest
 import com.shcl.smarthealth.domain.usecase.survey.SurveyUseCase
 import com.shcl.smarthealth.domain.usecase.voice.VoiceUseCase
+import com.shcl.smarthealth.domain.utils.PreferencesManager
 import com.shcl.smarthealth.presentation.view.survey.content.Level1Assistant
 import com.shcl.smarthealth.presentation.view.survey.content.Level2Assistant
 import com.shcl.smarthealth.presentation.view.survey.content.Level3Assistant
@@ -45,6 +47,7 @@ enum class SurveyByLevel(val title : String, val desc:String , val category:Stri
 class SurveyViewModel @Inject constructor(
     private val surveyUseCase: SurveyUseCase,
     private val voiceUseCase: VoiceUseCase,
+    private val localDBDao: LocalDBDao
 ) : ViewModel() {
 
     val MAX_LEVEL = 5
@@ -93,25 +96,6 @@ class SurveyViewModel @Inject constructor(
     init {
 
         surveyInfo()
-
-        /*
-        for(key in 1..LEVEL1_QUESTION_CNT){
-            _level1HashMap.put(key , null)
-        }
-
-        for(key in 1..LEVEL3_QUESTION_CNT){
-            _level3HashMap.put(key , null)
-        }
-
-        for(key in 1..LEVEL4_QUESTION_CNT){
-            _level4HashMap.put(key , null)
-        }
-
-        for(key in 1..LEVEL5_QUESTION_CNT){
-            _level5HashMap.put(key , null)
-        }
-
-         */
 
     }
 
@@ -170,6 +154,7 @@ class SurveyViewModel @Inject constructor(
         when(level){
             1-> {
                 _levelTitleState.value = SurveyByLevel.LEVEL1
+                getCategoryQuestion(SurveyByLevel.LEVEL1.category)
 
                 val list = Level1Assistant.getEssentialQuestionsList()
 
@@ -179,7 +164,7 @@ class SurveyViewModel @Inject constructor(
             }
             2->{
                 _levelTitleState.value = SurveyByLevel.LEVEL2
-
+                getCategoryQuestion(SurveyByLevel.LEVEL2.category)
                 val list = Level2Assistant.getEssentialQuestionsList()
 
                 list.forEach{ assistant->
@@ -188,7 +173,7 @@ class SurveyViewModel @Inject constructor(
             }
             3-> {
                 _levelTitleState.value = SurveyByLevel.LEVEL3
-
+                getCategoryQuestion(SurveyByLevel.LEVEL3.category)
                 val list = Level3Assistant.getEssentialQuestionsList()
 
                 list.forEach{ assistant->
@@ -197,7 +182,7 @@ class SurveyViewModel @Inject constructor(
             }
             4-> {
                 _levelTitleState.value = SurveyByLevel.LEVEL4
-
+                getCategoryQuestion(SurveyByLevel.LEVEL4.category)
                 val list = Level4Assistant.getEssentialQuestionsList()
 
                 list.forEach{ assistant->
@@ -206,7 +191,7 @@ class SurveyViewModel @Inject constructor(
             }
             5-> {
                 _levelTitleState.value = SurveyByLevel.LEVEL5
-
+                getCategoryQuestion(SurveyByLevel.LEVEL5.category)
                 val list = Level5Assistant.getEssentialQuestionsList()
 
                 list.forEach{ assistant->
@@ -215,7 +200,7 @@ class SurveyViewModel @Inject constructor(
             }
         }
 
-        getCategoryQuestion(_levelTitleState.value.category)
+        //getCategoryQuestion(_levelTitleState.value.category)
     }
 
     fun validationAnswer(answer : HashMap<Int , Answer>) : Boolean{
@@ -249,6 +234,19 @@ class SurveyViewModel @Inject constructor(
                         if(it.success){
                             it.data?.let { data->
                                 answerId = data.id
+
+                                if(data.answerStatus.compareTo("PROGRESS") == 0){
+                                    when(data.lastCompletedCategory){
+                                        SurveyByLevel.LEVEL1.category->{levelChange(1)}
+                                        SurveyByLevel.LEVEL2.category->{levelChange(2)}
+                                        SurveyByLevel.LEVEL3.category->{levelChange(3)}
+                                        SurveyByLevel.LEVEL4.category->{levelChange(4)}
+                                        SurveyByLevel.LEVEL5.category->{levelChange(5)}
+                                        else->{levelChange(1)}
+                                    }
+                                }else{
+                                    levelChange(1)
+                                }
                             }
                         }
 
@@ -288,7 +286,7 @@ class SurveyViewModel @Inject constructor(
 
                         if(it.success){
                             surveyId = it.data?.id ?: 0
-                            levelChange(1)
+
                            // getCategoryQuestion(SurveyByLevel.LEVEL1.category)
                             surveyStart()
                         }
@@ -310,6 +308,9 @@ class SurveyViewModel @Inject constructor(
 
                         if(it.success){
                             _surveyComplete.value = true
+
+                            val userId = PreferencesManager.getUserId("userId" , 0)
+                            localDBDao.updateTutorial(userId , _surveyComplete.value)
                         }
 
                         Log.d("smarthealth" , "survey : ${it}")

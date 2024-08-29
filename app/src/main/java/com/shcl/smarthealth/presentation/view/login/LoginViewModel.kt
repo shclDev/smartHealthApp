@@ -3,6 +3,7 @@ package com.shcl.smarthealth.presentation.view.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shcl.smarthealth.data.db.LocalDBDao
 import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
 import com.shcl.smarthealth.domain.model.db.UserRoom
 import com.shcl.smarthealth.domain.model.remote.user.SignInRequest
@@ -22,14 +23,16 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 enum class LoginStatus{
-    NONE , LOGIN_SUCCESS , LOGIN_FAILED
+    NONE , LOGIN_SUCCESS , LOGIN_SUCCESS_AFTER_TUTORIAL , LOGIN_FAILED
 }
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userUseCase: UserUseCase
+    private val userUseCase: UserUseCase,
+    private val localDBDao: LocalDBDao
 ) : ViewModel(){
 
     private val _loginState = MutableStateFlow(LoginStatus.NONE)
@@ -38,9 +41,35 @@ class LoginViewModel @Inject constructor(
     private val _loggedUserState = MutableStateFlow(mutableListOf<UserRoom>())
     val loggedUserState = _loggedUserState.asStateFlow()
 
+    var loggedInUserId = 0
+
 
     init {
         loggedUserCheck()
+    }
+
+    fun isTutorialCompleted(userId : Int?){
+
+        var isCompleted = true
+
+        var id = userId ?: loggedInUserId
+
+        viewModelScope.launch(Dispatchers.IO) {
+            localDBDao.getTutorialByUserID(id).collect{
+                it?.let {
+                    if(it.complete){
+                        _loginState.value = LoginStatus.LOGIN_SUCCESS
+                    }else{
+                        _loginState.value = LoginStatus.LOGIN_SUCCESS_AFTER_TUTORIAL
+                    }
+                }?:run{
+                    _loginState.value = LoginStatus.LOGIN_SUCCESS
+                }
+
+            }
+        }
+
+        //return isCompleted
     }
 
     fun signCheck() {
@@ -71,6 +100,8 @@ class LoginViewModel @Inject constructor(
                     if (response.success) {
                         response.data?.let {
                             Log.d("smarthealth" , "signIn ${response.data}")
+
+                            loggedInUserId = it.id
                             PreferencesManager.saveData("userId" , it.id)
                             PreferencesManager.saveData("accessToken", it.token)
 
@@ -91,7 +122,8 @@ class LoginViewModel @Inject constructor(
                                     registerTime = Utils.getCurrentDateTime()
                                 )
                             )
-                            _loginState.value = LoginStatus.LOGIN_SUCCESS
+                            isTutorialCompleted(it.id)
+                            //_loginState.value = LoginStatus.LOGIN_SUCCESS
                         }?:run{
                             _loginState.value = LoginStatus.LOGIN_FAILED
                         }

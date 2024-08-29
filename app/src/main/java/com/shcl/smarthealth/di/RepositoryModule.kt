@@ -9,7 +9,7 @@ import com.shcl.smarthealth.data.repository.SurveyRepositoryImpl
 import com.shcl.smarthealth.data.repository.UserRepositoryImpl
 import com.shcl.smarthealth.data.repository.dataSource.DashBoardRemoteDataSource
 import com.shcl.smarthealth.data.repository.dataSource.IsensDeviceDataSource
-import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
+import com.shcl.smarthealth.data.repository.dataSource.LocalDBDataSource
 import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordRemoteDataSource
 import com.shcl.smarthealth.data.repository.dataSource.NCloudRemoteDataSource
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
@@ -38,41 +38,41 @@ object RepositoryModule {
     @Provides
     fun provideDashBoardRepository(
         dashBoardRemoteDataSource: DashBoardRemoteDataSource,
-        measureRecordDataSource: MeasureRecordDataSource
+        localDBDataSource: LocalDBDataSource,
     ): DashBoardRepository =
-        DashBoardRepositoryImpl(dashBoardRemoteDataSource , measureRecordDataSource)
+        DashBoardRepositoryImpl(dashBoardRemoteDataSource , localDBDataSource)
 
     @Provides
     fun provideOmronRepository(
         omronDeviceDataSource: OmronDeviceDataSource,
-        measureRecordDataSource: MeasureRecordDataSource
-    ) : OmronRepository = OmronRepositoryImpl(omronDeviceDataSource , measureRecordDataSource)
+        localDBDataSource: LocalDBDataSource,
+    ) : OmronRepository = OmronRepositoryImpl(omronDeviceDataSource , localDBDataSource)
 
     @Provides
     fun provideIsensRepository(
         isensDeviceDataSource: IsensDeviceDataSource,
-        measureRecordDataSource: MeasureRecordDataSource
-    ) : IsensRepository = IsensRepositoryImpl(isensDeviceDataSource , measureRecordDataSource )
+        localDBDataSource: LocalDBDataSource,
+    ) : IsensRepository = IsensRepositoryImpl(isensDeviceDataSource , localDBDataSource )
 
     @Provides
     fun provideUserRepository(
         userRemoteDataSource: UserRemoteDataSource,
-        measureRecordDataSource: MeasureRecordDataSource
-    ) : UserRepository = UserRepositoryImpl(  userRemoteDataSource , measureRecordDataSource )
+        localDBDataSource: LocalDBDataSource,
+    ) : UserRepository = UserRepositoryImpl(  userRemoteDataSource , localDBDataSource )
 
 
     @Provides
     fun provideSurveyRepository(
         surveyRemoteDataSource: SurveyRemoteDataSource,
-        measureRecordDataSource: MeasureRecordDataSource
+        localDBDataSource: LocalDBDataSource,
     ) : SurveyRepository = SurveyRepositoryImpl(  surveyRemoteDataSource )
 
     @Provides
     fun provideNCloudRepository(
         nCloudRemoteDataSource: NCloudRemoteDataSource,
-        measureRecordDataSource: MeasureRecordDataSource,
+        localDBDataSource: LocalDBDataSource,
         recognizerSource: SpeechRecognizerSource
-    ) : NCloudRepository = NCloudRepositoryImpl(  nCloudRemoteDataSource , measureRecordDataSource , recognizerSource )
+    ) : NCloudRepository = NCloudRepositoryImpl(  nCloudRemoteDataSource , localDBDataSource , recognizerSource )
 
     @Provides
     fun provideMeasurementRepository(

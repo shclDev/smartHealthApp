@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothDevice
 import android.util.SparseArray
 import com.isens.standard.ble.IBLE_GlucoseRecord
 import com.shcl.smarthealth.data.repository.dataSource.IsensDeviceDataSource
-import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
+import com.shcl.smarthealth.data.repository.dataSource.LocalDBDataSource
 import com.shcl.smarthealth.domain.model.db.FoundDeviceRoom
 import com.shcl.smarthealth.domain.model.db.GlucoseRecordRoom
 import com.shcl.smarthealth.domain.repository.IsensRepository
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 
 class IsensRepositoryImpl(
     private val isensDeviceDataSource: IsensDeviceDataSource,
-    private val measureRecordDataSource: MeasureRecordDataSource
+    private val localDBDataSource: LocalDBDataSource
 ) : IsensRepository {
 
     override fun requestTimeSync() {
@@ -61,15 +61,15 @@ class IsensRepositoryImpl(
     }
 
     override suspend fun updateGlucoseRecordToDB(glucoseRecordRoom: GlucoseRecordRoom) {
-        measureRecordDataSource.updateGlucoseToDB(glucoseRecordRoom)
+        localDBDataSource.updateGlucoseToDB(glucoseRecordRoom)
     }
 
     override fun getGlucoseRecordFromDB(userID: Int) {
-        measureRecordDataSource.getGlucoseFromDB(userID)
+        localDBDataSource.getGlucoseFromDB(userID)
     }
 
     override fun getDeviceByCategory(category: String): Flow<FoundDeviceRoom> {
-        return measureRecordDataSource.getDeviceByCategory(category)
+        return localDBDataSource.getDeviceByCategory(category)
     }
 
 }

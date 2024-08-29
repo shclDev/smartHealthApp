@@ -77,6 +77,7 @@ import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
 import com.shcl.smarthealth.ui.theme.PrimaryButtonColor
 import com.shcl.smarthealth.ui.theme.Typography
+import kotlin.math.log
 
 
 @Composable
@@ -94,11 +95,15 @@ fun LoginScreen(nav: NavHostController , viewModel: LoginViewModel = hiltViewMod
 
     Box {
         if (loginStatus == LoginStatus.LOGIN_SUCCESS) {
+
+            //LOGIN 성공 시,
             nav.navigate(route = OuterScreen.home.route)
         } else if (loginStatus == LoginStatus.LOGIN_FAILED) {
             Log.d("login", "login failed")
             showDialogState = true
             viewModel.loginUpStateChange(LoginStatus.NONE)
+        }else if(loginStatus == LoginStatus.LOGIN_SUCCESS_AFTER_TUTORIAL){
+            nav.navigate(route = OuterScreen.serviceIntroduce.route)
         }
 
         when{
@@ -300,7 +305,6 @@ fun autoLoginSide(nav: NavHostController , viewModel : LoginViewModel , users : 
 
     Box(
         modifier = Modifier
-
             .fillMaxHeight()
             .fillMaxWidth()
             .padding(start = 123.pxToDp(), top = 123.pxToDp(), end = 123.pxToDp()),
@@ -350,8 +354,9 @@ fun autoLoginSide(nav: NavHostController , viewModel : LoginViewModel , users : 
                                 onClick = {
                                     PreferencesManager.saveData("accessToken", user.token)
                                     PreferencesManager.saveData("userId", user.userId)
+
+                                    viewModel.isTutorialCompleted(user.userId)
                                     //viewModel.lastedUserLoginUpdate(user)
-                                    nav.navigate(route = OuterScreen.home.route)
                                     //viewModel.signCheck()
                                 })
                         }

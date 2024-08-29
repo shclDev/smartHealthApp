@@ -1,7 +1,6 @@
 package com.shcl.smarthealth.data.remote
 
 import android.util.Log
-import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
 import com.shcl.smarthealth.domain.utils.PreferencesManager
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor

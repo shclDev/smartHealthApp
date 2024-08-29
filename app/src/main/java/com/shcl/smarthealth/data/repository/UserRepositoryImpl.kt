@@ -1,7 +1,7 @@
 package com.shcl.smarthealth.data.repository
 
 import android.util.Log
-import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
+import com.shcl.smarthealth.data.repository.dataSource.LocalDBDataSource
 import com.shcl.smarthealth.data.repository.dataSource.UserRemoteDataSource
 import com.shcl.smarthealth.domain.model.db.LastedLoginUserRoom
 import com.shcl.smarthealth.domain.model.db.UserRoom
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.flow
 
 class UserRepositoryImpl(
     private val userRemoteDataSource: UserRemoteDataSource,
-    private val measureRecordDataSource: MeasureRecordDataSource
+    private val localDBDataSource: LocalDBDataSource
 ) : UserRepository{
 
     override suspend fun signCheck(): Flow<ApiResponse<String>> {
@@ -53,7 +53,7 @@ class UserRepositoryImpl(
     override suspend fun userRoomUpdate(userRoom: UserRoom) {
 
         try{
-            measureRecordDataSource.updateUser(userRoom)
+            localDBDataSource.updateUser(userRoom)
 
         }catch (e : Exception){
             Log.e("register" , e.message.toString())
@@ -63,7 +63,7 @@ class UserRepositoryImpl(
     override suspend fun lastedLoginUserRoomUpdate(lastedLoginUserRoom: LastedLoginUserRoom) {
         try{
 
-            measureRecordDataSource.updateLastedLoginUser(lastedLoginUserRoom)
+            localDBDataSource.updateLastedLoginUser(lastedLoginUserRoom)
 
         }catch(e : Exception){
             Log.e("register" , e.message.toString())
@@ -71,11 +71,11 @@ class UserRepositoryImpl(
     }
 
     override suspend fun getLastedLoginUserFromRoom(): Flow<LastedLoginUserRoom> {
-        return measureRecordDataSource.getLastedLoginUser()
+        return localDBDataSource.getLastedLoginUser()
     }
 
     override suspend fun getAllUser(): Flow<List<UserRoom>> = flow{
-            measureRecordDataSource.getAllUser().collect{
+        localDBDataSource.getAllUser().collect{
                 Log.d("smarthealth" , it.toString())
                 emit(it)
             }

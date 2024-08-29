@@ -1,7 +1,7 @@
 package com.shcl.smarthealth.data.repository
 
 import android.util.Log
-import com.shcl.smarthealth.data.repository.dataSource.MeasureRecordDataSource
+import com.shcl.smarthealth.data.repository.dataSource.LocalDBDataSource
 import com.shcl.smarthealth.data.repository.dataSource.OmronDeviceDataSource
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.db.BodyCompositionRoom
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
 
 class OmronRepositoryImpl (
     private val omronDeviceDataSource : OmronDeviceDataSource,
-    private val measureRecordDataSource: MeasureRecordDataSource
+    private val localDBDataSource: LocalDBDataSource
 ) : OmronRepository {
 
 
@@ -53,7 +53,7 @@ class OmronRepositoryImpl (
     }
 
     override suspend fun updateBloodPressureDataToDB(bloodPressureRoom: BloodPressureRoom) {
-        measureRecordDataSource.updateBloodPressureToDB(bloodPressureRoom = bloodPressureRoom)
+        localDBDataSource.updateBloodPressureToDB(bloodPressureRoom = bloodPressureRoom)
     }
 
     override fun getDataTransferFromDB(userID: Int) {
@@ -63,7 +63,7 @@ class OmronRepositoryImpl (
     override suspend fun updateBodyCompositionDataToDB(bodyCompositionRoom: BodyCompositionRoom) {
 
         try{
-            measureRecordDataSource.updateBodyCompositionToDB(bodyCompositionRoom)
+            localDBDataSource.updateBodyCompositionToDB(bodyCompositionRoom)
         }catch(e : Exception){
             Log.e("error" , "${e.message}")
         }
@@ -75,7 +75,7 @@ class OmronRepositoryImpl (
 
     override suspend fun registerDeviceDataToDB(discoveredDevice: DiscoveredDevice) {
         try{
-            measureRecordDataSource.registerDeviceToDB(FoundDeviceRoom(
+            localDBDataSource.registerDeviceToDB(FoundDeviceRoom(
                 userId = 1,
                 address = discoveredDevice.address,
                 deviceCategory = discoveredDevice.deviceCategory.toString(),
@@ -94,7 +94,7 @@ class OmronRepositoryImpl (
     }
 
     override fun getDeviceByCategory(category: String): Flow<FoundDeviceRoom> {
-        return measureRecordDataSource.getDeviceByCategory(category)
+        return localDBDataSource.getDeviceByCategory(category)
     }
 
 

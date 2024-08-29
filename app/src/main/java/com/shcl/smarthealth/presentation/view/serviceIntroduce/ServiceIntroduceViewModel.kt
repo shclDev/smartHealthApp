@@ -7,21 +7,28 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shcl.smarthealth.R
 import com.shcl.smarthealth.common.GlobalVariables
+import com.shcl.smarthealth.data.db.LocalDBDao
 import com.shcl.smarthealth.data.repository.dataSoruceImpl.RecognizerStatus
+import com.shcl.smarthealth.domain.model.db.TutorialRoom
 import com.shcl.smarthealth.domain.usecase.voice.VoiceUseCase
+import com.shcl.smarthealth.domain.utils.PreferencesManager
+import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.presentation.view.introduce.IntrouduceAssistant
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
 @HiltViewModel
 class ServiceIntroduceViewModel @Inject constructor(
     private val voiceUseCase: VoiceUseCase,
+    private val localDBDao: LocalDBDao
 ) : ViewModel()
 {
 
@@ -49,6 +56,7 @@ class ServiceIntroduceViewModel @Inject constructor(
 
     init {
          assistant()
+         addTutorialHistory()
     }
 
     fun recognizerAfterNextPage(){
@@ -61,6 +69,24 @@ class ServiceIntroduceViewModel @Inject constructor(
             }
         }
         _timer.start()
+    }
+
+    fun addTutorialHistory(){
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try{
+                val userId = PreferencesManager.getUserId("userId" , 0)
+
+                localDBDao.addTutorial(TutorialRoom(
+                    userId = userId,
+                    complete = false,
+                    registerTime = Utils.getCurrentDateTime()
+                ))
+            }catch(e : Exception){
+                Log.e("smarthealth" , e.toString())
+            }
+        }
+
     }
 
     fun recognizer(){
