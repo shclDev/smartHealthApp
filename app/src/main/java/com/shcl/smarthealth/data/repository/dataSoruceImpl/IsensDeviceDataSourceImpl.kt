@@ -306,6 +306,14 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
         IBLE_Manager.getInstance().RequestAllRecords()
     }
 
+    override fun disconnected() {
+       IBLE_Manager.getInstance().DisconnectDevice()
+    }
+
+    override fun destoryDevice() {
+        IBLE_Manager.getInstance().DestroySDK()
+    }
+
     override fun CallbackInitSDK(version: Int) {
         Log.d("isens" ,"callbackInitSDK Version : $version")
     }
@@ -333,9 +341,6 @@ class IsensDeviceDataSourceImpl  @Inject constructor(
         onDataTransfer(records)
 
     }
-
-
-
 
     override fun CallbackReadDeviceInfo(device: IBLE_Device?) {
         Log.d("isens","CallbackReadDeviceInfo")

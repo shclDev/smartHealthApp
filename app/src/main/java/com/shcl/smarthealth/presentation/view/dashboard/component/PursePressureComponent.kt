@@ -27,6 +27,7 @@ import com.shcl.smarthealth.R
 import com.shcl.smarthealth.domain.model.db.BloodPressureRoom
 import com.shcl.smarthealth.domain.model.remote.dashboard.OverallResponse
 import com.shcl.smarthealth.domain.utils.pxToDp
+import com.shcl.smarthealth.domain.utils.pxToSp
 import com.shcl.smarthealth.ui.theme.Color1E1E1E
 import com.shcl.smarthealth.ui.theme.Color757575
 import com.shcl.smarthealth.ui.theme.ColorD4D9E1
@@ -142,6 +143,11 @@ fun PursePressureComponent(data : OverallResponse?) {
                     }
                 }
 
+            }?:run{
+                Column(verticalArrangement = Arrangement.Center){
+                    Text(modifier = Modifier
+                        .align(Alignment.Start) ,text = "분석 중..", fontSize = 14f.pxToSp())
+                }
             }
         }
     }

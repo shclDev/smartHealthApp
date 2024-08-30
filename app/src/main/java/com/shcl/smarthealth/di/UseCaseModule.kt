@@ -17,6 +17,7 @@ import com.shcl.smarthealth.domain.usecase.dashboard.GetWeatherUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.UserImageUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.UserInfoDBUseCase
 import com.shcl.smarthealth.domain.usecase.dashboard.UserInfoServerUseCase
+import com.shcl.smarthealth.domain.usecase.isens.DestoryDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.GetGlucoseRecordUseCase
 import com.shcl.smarthealth.domain.usecase.isens.GetISensDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.isens.IsensDeviceUseCase
@@ -91,7 +92,8 @@ object UseCaseModule {
         isensScanDeviceUseCase = IsensScanDeviceUseCase(repository = isensRepository),
         getGlucoseRecordUseCase = GetGlucoseRecordUseCase(repository = isensRepository),
         setGlucoseRecordUserCase = SetGlucoseRecordUserCase(repository = isensRepository),
-        getIsensDeviceUseCase = GetISensDeviceUseCase(repository = isensRepository)
+        getIsensDeviceUseCase = GetISensDeviceUseCase(repository = isensRepository),
+        destoryDeviceUseCase = DestoryDeviceUseCase(repository = isensRepository)
     )
 
     @Provides

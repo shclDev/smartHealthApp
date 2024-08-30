@@ -92,7 +92,7 @@ fun WatchComponent(data : OverallResponse?){
             }?: run{
                 Text(modifier = Modifier
                     .weight(0.45f)
-                    .align(Alignment.CenterVertically) ,text = "데이터를 불러오지 못했습니다.", fontSize = 14f.pxToSp())
+                    .align(Alignment.CenterVertically) ,text = "분석 중..", fontSize = 14f.pxToSp())
             }
            VerticalDivider(modifier = Modifier.weight(0.05f))
             data?.heartRateVariabilityInfo?.let {
@@ -137,11 +137,9 @@ fun WatchComponent(data : OverallResponse?){
                 Text(
                     modifier = Modifier
                         .weight(0.45f)
-                        .align(Alignment.CenterVertically) , text = "데이터를 불러오지 못했습니다." , fontSize = 14f.pxToSp())
+                        .align(Alignment.CenterVertically) , text = "분석 중.." , fontSize = 14f.pxToSp())
             }
         }
-
-
     }
 
 

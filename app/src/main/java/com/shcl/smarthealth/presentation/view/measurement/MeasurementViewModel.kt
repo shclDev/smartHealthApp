@@ -28,6 +28,7 @@ import com.shcl.smarthealth.domain.usecase.omron.OmronDeviceUseCase
 import com.shcl.smarthealth.domain.usecase.user.UserUseCase
 import com.shcl.smarthealth.domain.usecase.voice.VoiceUseCase
 import com.shcl.smarthealth.domain.utils.PreferencesManager
+import com.shcl.smarthealth.domain.utils.Utils
 import com.shcl.smarthealth.presentation.view.device.IsensGlucoseRecordState
 import com.shcl.smarthealth.presentation.view.device.MeasurementStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -216,9 +217,8 @@ class MeasurementViewModel @Inject constructor(
                 flagKetone = data.flagKetone,
                 flagNomark = data.flagNomark,
                 timeoffset = data.timeOffset,
-                time = data.time
-            ))
-                ?.collect{
+                time = Utils.getCurrentTimeStamp()
+            ))?.collect{
                     it?.let {
 
                     }

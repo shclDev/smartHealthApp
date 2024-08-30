@@ -72,7 +72,7 @@ fun DismissibleNavigationDrawer(){
             contentDesc = "분석결과",
             image =painterResource(id = R.drawable.icon_side_02_off),
             selectedImage = painterResource(id = R.drawable.icon_side_02_on),
-            route = OuterScreen.introduce.route
+            route = InnerScreen.analysis.route
         ),
         MenuItem(
             id ="reservation",

@@ -67,7 +67,7 @@ import kotlinx.coroutines.flow.collect
 
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
-fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hiltViewModel() , deviceViewModel: DeviceViewModel = hiltViewModel()){
+fun DashBoardScreen(nav : NavHostController, viewModel: DashBoardViewModel = hiltViewModel()){
 
     /*
     var timer1Progress by remember{ mutableStateOf(false) }

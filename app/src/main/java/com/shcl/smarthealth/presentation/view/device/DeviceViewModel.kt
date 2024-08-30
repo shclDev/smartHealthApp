@@ -14,8 +14,13 @@ import com.shcl.smarthealth.domain.model.omron.BloodPressure
 import com.shcl.smarthealth.domain.model.omron.BodyComposition
 import com.shcl.smarthealth.domain.model.omron.DiscoveredDevice
 import com.shcl.smarthealth.domain.model.omron.RequestType
+import com.shcl.smarthealth.domain.model.remote.measurement.BloodGlucoseRequest
+import com.shcl.smarthealth.domain.model.remote.measurement.BloodPressureRequest
+import com.shcl.smarthealth.domain.model.remote.measurement.BodyCompositionRequest
 import com.shcl.smarthealth.domain.usecase.isens.IsensDeviceUseCase
+import com.shcl.smarthealth.domain.usecase.measurement.MeasurementUseCase
 import com.shcl.smarthealth.domain.usecase.omron.OmronDeviceUseCase
+import com.shcl.smarthealth.domain.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jp.co.ohq.ble.enumerate.OHQDeviceCategory
 import jp.co.ohq.ble.enumerate.OHQMeasurementRecordKey
@@ -33,6 +38,7 @@ import javax.inject.Inject
 class DeviceViewModel @Inject constructor(
     private val omronDeviceUseCase: OmronDeviceUseCase,
     private val isensDeviceUseCase: IsensDeviceUseCase,
+    private val measurementUseCase : MeasurementUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel(){
 
@@ -304,6 +310,28 @@ class DeviceViewModel @Inject constructor(
                     ))
             }
 
+            viewModelScope.launch {
+                measurementUseCase.updateBloodGlucoseUseCase.invoke(
+                    BloodGlucoseRequest(
+                        glucoseData = glucoseRecord.glucoseData,
+                        flagCs =  glucoseRecord.flag_cs,
+                        flagHilow = glucoseRecord.flag_hilow,
+                        flagContext = glucoseRecord.flag_context,
+                        flagMeal = glucoseRecord.flag_meal,
+                        flagFasting = glucoseRecord.flag_fasting,
+                        flagKetone = glucoseRecord.flag_ketone,
+                        flagNomark = glucoseRecord.flag_nomark,
+                        timeoffset = glucoseRecord.timeoffset,
+                        time = Utils.getCurrentTimeStamp()
+                    )
+                )
+                    ?.collect{
+                        it?.let {
+
+                        }
+                    }
+             }
+
         }catch(e : Exception){
             Log.e("isens" , e.toString())
         }
@@ -327,10 +355,29 @@ class DeviceViewModel @Inject constructor(
                     ))
             }
 
+
+            GlobalScope.launch{
+                measurementUseCase.updateBloodPressureUseCase.invoke(BloodPressureRequest(
+                    diastolic = bloodPressure.diastolic,
+                    diastolicUnit = bloodPressure.diastolicUnit.uppercase(),
+                    systolic = bloodPressure.systolic,
+                    systolicUnit = bloodPressure.systolicUnit.uppercase(),
+                    pulseRate = bloodPressure.pulseRate,
+                    timeStamp = bloodPressure.timeStamp
+                ))
+                    ?.collect{
+                        it?.let {
+
+                        }
+                    }
+            }
+
+
         }catch(e : Exception){
             Log.d("omron" , "${e.message}")
         }
     }
+
 
     fun _updateBodyComposition(bodyComposition: BodyComposition){
         Log.d("omron", "update bodyComposition")
@@ -354,6 +401,29 @@ class DeviceViewModel @Inject constructor(
                     )
                 )
             }
+
+
+            viewModelScope.launch {
+                measurementUseCase.updateBodyCompostionUseCase.invoke(
+                    BodyCompositionRequest(
+                        userIndex = bodyComposition.userIndex,
+                        sequenceNumber = bodyComposition.sequenceNumber,
+                        weight = bodyComposition.weight,
+                        weightUnit = bodyComposition.weightUnit.uppercase(),
+                        bodyAge = bodyComposition.bodyAge,
+                        bmi = bodyComposition.bmi,
+                        musclePercentage = bodyComposition.musclePercentage,
+                        bodyFatPercentage = bodyComposition.bodyFatPercentage,
+                        skeletalMusclePercentage = bodyComposition.skeletalMusclePercentage,
+                        timeStamp = bodyComposition.timeStamp
+                    )
+                )?.collect {
+                    it?.let {
+
+                    }
+                }
+            }
+
         }catch(e : Exception){
             Log.d("omron" , "${e.message}")
         }

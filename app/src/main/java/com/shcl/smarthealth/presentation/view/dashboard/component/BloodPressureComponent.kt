@@ -141,7 +141,7 @@ fun BloodPressureComponent(data : OverallResponse?) {
     ) {
         Column(verticalArrangement = Arrangement.SpaceBetween) {
             data?.bloodPressureSystolicInfo?.let {
-                Column() {
+                Column(modifier = Modifier.weight(0.4f)) {
                     Row(horizontalArrangement = Arrangement.spacedBy(20f.pxToDp())) {
                         Text(
                             "${it.measureTypeName}",
@@ -175,12 +175,16 @@ fun BloodPressureComponent(data : OverallResponse?) {
                         )
                     }
                 }
+            }?:run{
+                Column(modifier = Modifier.weight(0.4f) , verticalArrangement = Arrangement.Center){
+                    Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = "분석 중..", fontSize = 14f.pxToSp())
+                }
             }
             Spacer(modifier = Modifier.height(30f.pxToDp()))
             HorizontalDivider(modifier = Modifier.size(width = 280f.pxToDp() , height = 1f.pxToDp()))
             Spacer(modifier = Modifier.height(30f.pxToDp()))
             data?.bloodPressureDiastolicInfo?.let {
-                Column() {
+                Column(modifier = Modifier.weight(0.4f)) {
                     Row(horizontalArrangement = Arrangement.spacedBy(20f.pxToDp()))  {
                         Text(
                             "${it.measureTypeName}",
@@ -216,7 +220,11 @@ fun BloodPressureComponent(data : OverallResponse?) {
                         )
                     }
                 }
+            }?:run{
+                Column(modifier = Modifier.weight(0.4f) , verticalArrangement = Arrangement.Center) {
+                    Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = "분석 중..", fontSize = 14f.pxToSp() , textAlign = TextAlign.Center)
+                    }
+                }
             }
         }
-    }
 }

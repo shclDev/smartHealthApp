@@ -44,6 +44,7 @@ android {
 
     buildTypes {
         release {
+            //isShrinkResources = true
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -143,6 +144,9 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.2.0")
     //clova stt
     //implementation("com.naver.speech.clientapi:naverspeech-ncp-sdk-android:1.1.6")
+    //tab layout
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.34.0")
+    implementation("com.google.accompanist:accompanist-pager:0.34.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

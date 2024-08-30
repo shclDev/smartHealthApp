@@ -26,6 +26,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,6 +60,13 @@ fun ScanDeviceScreen(
     val isensMeausurementStatus by viewModel.isensMeasurementState.collectAsStateWithLifecycle()
 
     var sessionStatus = ""
+
+
+     DisposableEffect(Unit) {
+         onDispose {
+             //viewModel.stopPlay()
+         }
+     }
 
     //val deviceTestStateFlow by viewModel.deviceState.collectAsState()
     Box(modifier = Modifier.fillMaxSize()){

@@ -19,5 +19,7 @@ interface IsensDeviceDataSource {
     fun connectDevice(address : String)
 
     fun requestAllRecord()
+    fun disconnected()
+    fun destoryDevice()
 
 }

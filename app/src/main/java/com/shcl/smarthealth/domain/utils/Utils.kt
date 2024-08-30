@@ -140,6 +140,10 @@ object Utils {
         return TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
     }
 
+    fun getCurrentTimeStampStr() : String{
+        return TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()).toString()
+    }
+
     fun getCurrentTime() : String{
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("a hh:mm")

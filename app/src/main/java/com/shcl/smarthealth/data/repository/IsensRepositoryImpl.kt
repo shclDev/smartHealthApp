@@ -33,7 +33,7 @@ class IsensRepositoryImpl(
     }
 
     override fun disconnectDevice() {
-        TODO("Not yet implemented")
+        isensDeviceDataSource.disconnected()
     }
 
     override fun unPairDevice(address: String) {
@@ -41,7 +41,7 @@ class IsensRepositoryImpl(
     }
 
     override fun destorySDK() {
-        TODO("Not yet implemented")
+        isensDeviceDataSource.destoryDevice()
     }
 
     override fun onScan(): Flow<MutableList<BluetoothDevice?>> {
