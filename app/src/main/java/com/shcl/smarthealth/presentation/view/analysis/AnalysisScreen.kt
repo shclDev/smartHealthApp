@@ -35,7 +35,6 @@ import com.shcl.smarthealth.domain.utils.pxToDp
 import com.shcl.smarthealth.presentation.ui.common.CustomGroupButtons
 import com.shcl.smarthealth.presentation.view.analysis.component.DetailGuidePager
 import com.shcl.smarthealth.presentation.view.analysis.component.HealthAgePager
-import com.shcl.smarthealth.presentation.view.analysis.component.Page
 import com.shcl.smarthealth.presentation.view.analysis.component.RiskInfoPager
 import com.shcl.smarthealth.presentation.view.analysis.component.TotalGuidePager
 import com.shcl.smarthealth.ui.theme.Color143F91
